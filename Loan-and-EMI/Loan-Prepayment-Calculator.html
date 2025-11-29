@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Prepayment Calculator - Calculate EMI Savings from Prepayment</title>
+    <meta name="description" content="Calculate savings from loan prepayment. See how lump sum payment reduces EMI, tenure, and total interest. Compare before-after scenarios.">
+    <meta name="keywords" content="loan prepayment calculator, prepayment savings, reduce EMI, loan foreclosure, part payment">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#11998e">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Loan-Prepayment-Calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Loan Prepayment Calculator - See Savings Impact">
+    <meta property="og:description" content="Calculate savings from loan prepayment with before/after comparison.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 1000px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus, select:focus { outline: none; border-color: #38ef7d; box-shadow: 0 0 0 4px rgba(56, 239, 125, 0.1); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .scenario { background: var(--bg-primary); padding: 25px; border-radius: 12px; border-top: 4px solid #38ef7d; }
+        .scenario h3 { color: var(--text-primary); margin-bottom: 15px; font-size: 1.2rem; }
+        .scenario-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+        .scenario-item:last-child { border-bottom: none; }
+        .savings-card { background: var(--accent-gradient); padding: 30px; border-radius: 12px; text-align: center; color: white; }
+        .savings-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .savings-value { font-size: 3rem; font-weight: bold; margin: 10px 0; }
+        .benefit { font-size: 1rem; opacity: 0.9; margin-top: 10px; }
+        .back-link { 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.4);
+        }
+        .back-link i {
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+        .faq-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        .faq-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 4px solid #38ef7d;
+        }
+        .faq-question {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .comparison { grid-template-columns: 1fr; } .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+        
+        <div class="header">
+            <h1><i class="fas fa-hand-holding-usd"></i> Loan Prepayment</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">See how prepayment reduces your EMI burden & saves interest</p>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-rupee-sign"></i> Current Loan Amount (₹)</label><input type="number" id="loanAmt" value="2000000" min="0" step="50000"></div>
+            <div class="input-group"><label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label><input type="number" id="rate" value="9" min="0" max="30" step="0.1"></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-calendar"></i> Remaining Tenure (Years)</label><input type="number" id="tenure" value="15" min="1" max="30" step="1"></div>
+            <div class="input-group"><label><i class="fas fa-hand-holding-usd"></i> Prepayment Amount (₹)</label><input type="number" id="prepayment" value="500000" min="0" step="50000"></div>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-sliders-h"></i> Prepayment Impact</label>
+            <select id="impact">
+                <option value="tenure">Reduce Tenure (Keep same EMI)</option>
+                <option value="emi">Reduce EMI (Keep same tenure)</option>
+            </select>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Prepayment Impact</button>
+
+        <div class="result" id="result">
+            <div class="savings-card">
+                <h2><i class="fas fa-piggy-bank"></i> Total Interest Saved</h2>
+                <div class="savings-value" id="savingsValue">₹0</div>
+                <p class="benefit" id="benefitText">You save money by prepaying!</p>
+            </div>
+
+            <div class="comparison">
+                <div class="scenario">
+                    <h3><i class="fas fa-times-circle" style="color: #ff6b6b;"></i> Without Prepayment</h3>
+                    <div class="scenario-item"><span>Monthly EMI:</span><span id="oldEmi">₹0</span></div>
+                    <div class="scenario-item"><span>Remaining Tenure:</span><span id="oldTenure">0 months</span></div>
+                    <div class="scenario-item"><span>Total Interest:</span><span id="oldInterest">₹0</span></div>
+                    <div class="scenario-item"><span>Total Payment:</span><span id="oldTotal">₹0</span></div>
+                </div>
+
+                <div class="scenario">
+                    <h3><i class="fas fa-check-circle" style="color: #38ef7d;"></i> With Prepayment</h3>
+                    <div class="scenario-item"><span>Monthly EMI:</span><span id="newEmi">₹0</span></div>
+                    <div class="scenario-item"><span>Remaining Tenure:</span><span id="newTenure">0 months</span></div>
+                    <div class="scenario-item"><span>Total Interest:</span><span id="newInterest">₹0</span></div>
+                    <div class="scenario-item"><span>Total Payment:</span><span id="newTotal">₹0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> What is loan prepayment and how does it work?</div>
+                <div class="faq-answer">Loan prepayment means paying off part or all of your loan before the scheduled tenure ends. When you make a lump sum payment toward your principal, it directly reduces the outstanding balance, which in turn decreases your interest burden since interest is calculated on the reducing balance. You have two options: reduce EMI while keeping the tenure same, or keep EMI same and reduce tenure. The latter saves more interest. For example, prepaying ₹2 lakhs on a ₹20 lakh home loan after 2 years can save ₹6-8 lakhs in interest over a 20-year tenure.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> When is the best time to prepay a loan?</div>
+                <div class="faq-answer">The earlier you prepay, the more you save. Prepaying in the first 5 years of a long-term loan (15-20 years) yields maximum savings because most of your initial EMIs go toward interest rather than principal. For instance, on a 20-year loan, if you prepay ₹5 lakhs in year 2, you could save ₹15-18 lakhs in interest. Prepaying in year 15 saves only ₹2-3 lakhs. Ideal times include receiving bonuses, maturity of fixed deposits, sale of assets, or income tax refunds. Even small annual prepayments of ₹50,000-1 lakh significantly reduce long-term interest costs.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> Are there penalties for loan prepayment?</div>
+                <div class="faq-answer">Prepayment penalty rules vary by loan type and lender. For home loans, RBI prohibits banks from charging prepayment penalties on floating rate loans. Fixed rate home loans may have 2-5% foreclosure charges. Personal loans typically have 2-5% prepayment penalties if foreclosed within first 12-24 months. Vehicle loans from NBFCs might charge 3-6% on early closure. Business loans vary widely. Always check your loan agreement for the prepayment clause. Many lenders waive penalties after 1-2 years. Public sector banks generally have more borrower-friendly prepayment policies than private lenders and NBFCs.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> Should I reduce EMI or reduce tenure when prepaying?</div>
+                <div class="faq-answer">Reducing tenure while keeping EMI constant saves significantly more interest than reducing EMI. For example, on a ₹30 lakh loan at 9% for 20 years (EMI ₹26,992), prepaying ₹5 lakhs after 2 years saves ₹10.2 lakhs if tenure is reduced to 14.5 years versus saving only ₹5.8 lakhs if EMI is reduced to ₹23,500. Choose EMI reduction only if you need immediate cash flow relief or have financial constraints. If you can afford current EMI, always opt for tenure reduction to maximize interest savings and become debt-free faster.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> How much should I prepay if I have extra funds?</div>
+                <div class="faq-answer">The optimal prepayment amount depends on your loan interest rate versus alternative investment returns. If your loan interest is 9-12%, but you can earn only 5-7% from fixed deposits, prepaying saves more money. However, if you can invest in equity mutual funds or PPF with potential 10-15% returns, investing might be better than prepaying a 7-8% home loan. General rule: prepay high-interest debts first (credit cards 36-48%, personal loans 14-24%, vehicle loans 10-15%) before low-interest secured loans. Maintain an emergency fund of 6 months' expenses before aggressive prepayment.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> Can I get tax benefits on loan prepayment?</div>
+                <div class="faq-answer">Prepaying home loans affects tax benefits under Section 80C (principal repayment up to ₹1.5 lakhs) and Section 24(b) (interest payment up to ₹2 lakhs). When you prepay, your annual interest component reduces, decreasing your Section 24(b) deduction. However, the net savings from reduced interest typically outweigh the lost tax benefit. For example, if prepayment saves ₹3 lakhs in interest but you lose ₹50,000 in tax deductions (₹15,000 actual tax at 30% slab), you still save ₹2.85 lakhs. Plan prepayments after March to maximize current year's deductions while benefiting from reduced interest next financial year.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #38ef7d;"></i> What is the process to prepay a loan?</div>
+                <div class="faq-answer">To prepay your loan: 1) Submit prepayment request to your lender (online or at branch) at least 15-30 days before making payment. 2) Obtain prepayment approval letter mentioning outstanding principal, penalty charges if any, and payment deadline. 3) Make payment via cheque, demand draft, or NEFT/RTGS to the loan account. 4) Request revised loan schedule showing reduced tenure or EMI. 5) Obtain acknowledgment and updated NOC if you're foreclosing fully. For partial prepayments, ensure the amount is credited to principal, not interest. Most banks allow prepayments on any EMI due date. Keep prepayment receipts for tax purposes and future reference.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schema Markup for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is loan prepayment and how does it work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Loan prepayment means paying off part or all of your loan before scheduled tenure ends. It reduces outstanding balance and interest burden."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When is the best time to prepay a loan?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Prepaying in the first 5 years of a long-term loan yields maximum savings because initial EMIs mostly go toward interest."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script>
+        function calc() {
+            const P = parseFloat(document.getElementById('loanAmt').value);
+            const r = parseFloat(document.getElementById('rate').value) / 100 / 12;
+            const n = parseFloat(document.getElementById('tenure').value) * 12;
+            const prepayment = parseFloat(document.getElementById('prepayment').value);
+            const impact = document.getElementById('impact').value;
+            
+            const oldEmi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const oldTotal = oldEmi * n;
+            const oldInterest = oldTotal - P;
+            
+            const newPrincipal = P - prepayment;
+            let newEmi, newTenure, newTotal, newInterest;
+            
+            if (impact === 'tenure') {
+                newEmi = oldEmi;
+                newTenure = Math.log(newEmi / (newEmi - newPrincipal * r)) / Math.log(1 + r);
+                newTotal = newEmi * newTenure;
+                newInterest = newTotal - newPrincipal;
+            } else {
+                newTenure = n;
+                newEmi = (newPrincipal * r * Math.pow(1 + r, newTenure)) / (Math.pow(1 + r, newTenure) - 1);
+                newTotal = newEmi * newTenure;
+                newInterest = newTotal - newPrincipal;
+            }
+            
+            const savings = oldInterest - newInterest;
+            const tenureReduction = n - newTenure;
+            
+            document.getElementById('savingsValue').textContent = '₹' + Math.round(savings).toLocaleString('en-IN');
+            
+            if (impact === 'tenure') {
+                document.getElementById('benefitText').textContent = `Close loan ${Math.round(tenureReduction)} months earlier!`;
+            } else {
+                document.getElementById('benefitText').textContent = `Save ₹${Math.round(oldEmi - newEmi).toLocaleString('en-IN')}/month on EMI!`;
+            }
+            
+            document.getElementById('oldEmi').textContent = '₹' + Math.round(oldEmi).toLocaleString('en-IN');
+            document.getElementById('oldTenure').textContent = n + ' months';
+            document.getElementById('oldInterest').textContent = '₹' + Math.round(oldInterest).toLocaleString('en-IN');
+            document.getElementById('oldTotal').textContent = '₹' + Math.round(oldTotal).toLocaleString('en-IN');
+            
+            document.getElementById('newEmi').textContent = '₹' + Math.round(newEmi).toLocaleString('en-IN');
+            document.getElementById('newTenure').textContent = Math.round(newTenure) + ' months';
+            document.getElementById('newInterest').textContent = '₹' + Math.round(newInterest).toLocaleString('en-IN');
+            document.getElementById('newTotal').textContent = '₹' + Math.round(newTotal).toLocaleString('en-IN');
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💎 Customer Lifetime Value Calculator 2025 - CLV</title>
+    <meta name="description" content="Free Customer Lifetime Value Calculator - Calculate CLV, customer value, and retention metrics. Perfect for business growth and marketing analysis.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Business-and-Profitability/Customer-Lifetime-Value-Calculator.html">
+    <meta name="keywords" content="CLV calculator, customer lifetime value, customer value, retention rate, business metrics">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Customer Lifetime Value Calculator",
+      "description": "Calculate customer lifetime value and retention metrics for business growth",
+      "url": "https://calculatorloop.com/Financial/Business-and-Profitability/Customer-Lifetime-Value-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "5100"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ec4899;
+            --primary-dark: #db2777;
+            --primary-light: #fce7f3;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus { outline: none; border-color: var(--primary-color); }
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .result-card { background: linear-gradient(135deg, var(--primary-light), white); padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--primary-color); }
+        .result-card.highlight { background: linear-gradient(135deg, #fbcfe8, white); border-width: 3px; }
+        [data-theme="dark"] .result-card { background: linear-gradient(135deg, var(--surface), var(--background)); }
+        .result-label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .result-value { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); }
+        .result-card.highlight .result-value { font-size: 2.5rem; }
+        .chart-container { background: var(--background); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .info-box { background: var(--background); padding: 20px; border-radius: 15px; border-left: 4px solid var(--primary-color); margin-top: 20px; }
+        .info-title { font-weight: 700; margin-bottom: 10px; color: var(--primary-color); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .input-row { grid-template-columns: 1fr; }
+            .result-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-users"></i> Customer Lifetime Value</h1>
+            <p class="subtitle">Calculate CLV and customer value metrics</p>
+        </div>
+        <div class="calculator-section">
+            <div class="input-row">
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Average Purchase Value (₹)</label>
+                    <input type="number" id="purchaseValue" value="2000" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-shopping-cart"></i> Purchase Frequency (per year)</label>
+                    <input type="number" id="frequency" value="4" min="0" step="0.5">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Customer Retention Rate (%)</label>
+                    <input type="number" id="retention" value="80" min="0" max="100" step="1">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-chart-line"></i> Profit Margin (%)</label>
+                    <input type="number" id="margin" value="30" min="0" max="100" step="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label><i class="fas fa-clock"></i> Customer Lifespan (years)</label>
+                    <input type="number" id="lifespan" value="5" min="0.1" step="0.5">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-money-bill-wave"></i> Acquisition Cost (₹)</label>
+                    <input type="number" id="acquisition" value="500" min="0" step="50">
+                </div>
+            </div>
+            <div class="result-grid">
+                <div class="result-card highlight">
+                    <div class="result-label">Customer Lifetime Value</div>
+                    <div class="result-value" id="clv">₹10,500</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Annual Customer Value</div>
+                    <div class="result-value" id="annualValue">₹2,400</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Total Revenue</div>
+                    <div class="result-value" id="totalRevenue">₹40,000</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Net CLV (After CAC)</div>
+                    <div class="result-value" id="netClv">₹10,000</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">CLV:CAC Ratio</div>
+                    <div class="result-value" id="clvCacRatio">21:1</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Payback Period</div>
+                    <div class="result-value" id="payback">0.6 months</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="clvChart"></canvas>
+            </div>
+            <div class="info-box">
+                <div class="info-title">💡 CLV Insights</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.8;">
+                    <li><strong>Formula:</strong> CLV = (Avg Purchase × Frequency × Profit Margin) × Lifespan</li>
+                    <li><strong>Good Ratio:</strong> CLV:CAC should be 3:1 or higher</li>
+                    <li><strong>Retention:</strong> 5% increase in retention can boost profits by 25-95%</li>
+                    <li><strong>Focus:</strong> Increase purchase frequency and retention for higher CLV</li>
+                    <li><strong>Payback:</strong> Faster payback means healthier business model</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        let chart = null;
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            if(chart) updateChartTheme();
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        function calculate() {
+            const purchaseValue = parseFloat(document.getElementById('purchaseValue').value) || 0;
+            const frequency = parseFloat(document.getElementById('frequency').value) || 0;
+            const retention = parseFloat(document.getElementById('retention').value) || 0;
+            const margin = parseFloat(document.getElementById('margin').value) || 0;
+            const lifespan = parseFloat(document.getElementById('lifespan').value) || 0;
+            const acquisition = parseFloat(document.getElementById('acquisition').value) || 0;
+            
+            const annualValue = purchaseValue * frequency;
+            const profitPerYear = annualValue * (margin / 100);
+            const clv = profitPerYear * lifespan;
+            const totalRevenue = annualValue * lifespan;
+            const netClv = clv - acquisition;
+            const clvCacRatio = acquisition > 0 ? clv / acquisition : 0;
+            const payback = profitPerYear > 0 ? (acquisition / profitPerYear) * 12 : 0;
+            
+            document.getElementById('clv').textContent = '₹' + Math.round(clv).toLocaleString('en-IN');
+            document.getElementById('annualValue').textContent = '₹' + Math.round(annualValue).toLocaleString('en-IN');
+            document.getElementById('totalRevenue').textContent = '₹' + Math.round(totalRevenue).toLocaleString('en-IN');
+            document.getElementById('netClv').textContent = '₹' + Math.round(netClv).toLocaleString('en-IN');
+            document.getElementById('clvCacRatio').textContent = clvCacRatio.toFixed(1) + ':1';
+            document.getElementById('payback').textContent = payback.toFixed(1) + ' months';
+            
+            createChart(annualValue, lifespan, margin, acquisition);
+        }
+        
+        function createChart(annualValue, lifespan, margin, acquisition) {
+            const ctx = document.getElementById('clvChart').getContext('2d');
+            if(chart) chart.destroy();
+            
+            const years = [];
+            const cumulativeRevenue = [];
+            const cumulativeProfit = [];
+            
+            for(let i = 0; i <= lifespan; i++) {
+                years.push('Year ' + i);
+                cumulativeRevenue.push(annualValue * i);
+                cumulativeProfit.push((annualValue * i * margin / 100) - acquisition);
+            }
+            
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Cumulative Revenue',
+                        data: cumulativeRevenue,
+                        borderColor: '#ec4899',
+                        backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Cumulative Profit',
+                        data: cumulativeProfit,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: isDark ? '#f9fafb' : '#111827',
+                                font: {size: 14, weight: 'bold'},
+                                padding: 15
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Customer Value Over Time',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: {size: 18, weight: 'bold'}
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN')
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                color: isDark ? '#d1d5db' : '#6b7280',
+                                callback: val => '₹' + (val/1000).toFixed(0) + 'k'
+                            },
+                            grid: { color: isDark ? '#4b5563' : '#e5e7eb' }
+                        },
+                        x: {
+                            ticks: { color: isDark ? '#d1d5db' : '#6b7280' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateChartTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#f9fafb' : '#111827';
+            const gridColor = isDark ? '#4b5563' : '#e5e7eb';
+            const tickColor = isDark ? '#d1d5db' : '#6b7280';
+            chart.options.plugins.title.color = color;
+            chart.options.plugins.legend.labels.color = color;
+            chart.options.scales.y.ticks.color = tickColor;
+            chart.options.scales.x.ticks.color = tickColor;
+            chart.options.scales.y.grid.color = gridColor;
+            chart.update();
+        }
+        
+        const inputs = ['purchaseValue', 'frequency', 'retention', 'margin', 'lifespan', 'acquisition'];
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+        
+        calculate();
+    </script>
+</body>
+</html>

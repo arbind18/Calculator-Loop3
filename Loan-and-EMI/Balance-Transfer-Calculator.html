@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Balance Transfer Calculator - Compare Transfer vs Continue</title>
+    <meta name="description" content="Calculate savings from loan balance transfer. Compare old vs new loan with lower interest rate and transfer charges.">
+    <meta name="keywords" content="balance transfer calculator, loan transfer, refinance loan, transfer savings, lower interest rate">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#f093fb">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Balance-Transfer-Calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Balance Transfer Calculator - Check Savings">
+    <meta property="og:description" content="Calculate savings from loan balance transfer to lower interest rate.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 1000px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus { outline: none; border-color: #f5576c; box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .section { background: var(--bg-secondary); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .section h3 { color: var(--text-primary); margin-bottom: 15px; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4); }
+        .result { margin-top: 30px; display: none; }
+        .savings-card { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); padding: 30px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .savings-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .savings-value { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .recommendation { font-size: 1.1rem; opacity: 0.9; margin-top: 10px; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 8px; display: inline-block; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .comparison-card { background: var(--bg-secondary); padding: 25px; border-radius: 12px; }
+        .comparison-card h3 { color: var(--text-primary); margin-bottom: 15px; text-align: center; }
+        .metric { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+        .metric:last-child { border-bottom: none; }
+        .back-link { display: inline-block; margin-top: 20px; color: #f5576c; text-decoration: none; font-weight: 600; }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .savings-value { font-size: 2.5rem; } .row, .comparison { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link" style="margin-bottom: 20px;"><i class="fas fa-arrow-left"></i> Back to Calculators</a>
+        
+        <div class="header">
+            <h1><i class="fas fa-exchange-alt"></i> Balance Transfer</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Check if transferring your loan saves money</p>
+
+        <div class="section">
+            <h3><i class="fas fa-university"></i> Current Loan Details</h3>
+            <div class="row">
+                <div class="input-group"><label>Outstanding Amount (₹)</label><input type="number" id="outstanding" value="1500000" min="0" step="50000"></div>
+                <div class="input-group"><label>Current Interest Rate (% p.a.)</label><input type="number" id="currentRate" value="10" min="0" max="30" step="0.1"></div>
+            </div>
+            <div class="input-group"><label>Remaining Tenure (Years)</label><input type="number" id="remainingTenure" value="12" min="1" max="30" step="1"></div>
+        </div>
+
+        <div class="section">
+            <h3><i class="fas fa-university"></i> New Loan Offer</h3>
+            <div class="row">
+                <div class="input-group"><label>New Interest Rate (% p.a.)</label><input type="number" id="newRate" value="8.5" min="0" max="30" step="0.1"></div>
+                <div class="input-group"><label>Transfer Charges (₹)</label><input type="number" id="transferCharges" value="25000" min="0" step="5000"></div>
+            </div>
+            <div class="row">
+                <div class="input-group"><label>Processing Fee (%)</label><input type="number" id="processingFee" value="0.5" min="0" max="3" step="0.1"></div>
+                <div class="input-group"><label>New Tenure (Years)</label><input type="number" id="newTenure" value="12" min="1" max="30" step="1"></div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Transfer Benefits</button>
+
+        <div class="result" id="result">
+            <div class="savings-card">
+                <h2><i class="fas fa-piggy-bank"></i> Net Savings from Transfer</h2>
+                <div class="savings-value" id="savingsValue">₹0</div>
+                <div class="recommendation" id="recommendation">Worth Transferring!</div>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-card">
+                    <h3><i class="fas fa-times-circle" style="color: #ef4444;"></i> Continue with Current Loan</h3>
+                    <div class="metric"><span>Monthly EMI:</span><span id="oldEmi">₹0</span></div>
+                    <div class="metric"><span>Total Interest:</span><span id="oldInterest">₹0</span></div>
+                    <div class="metric"><span>Total Payment:</span><span id="oldTotal">₹0</span></div>
+                    <div class="metric"><span>Extra Charges:</span><span>₹0</span></div>
+                </div>
+
+                <div class="comparison-card" style="border: 2px solid #43e97b;">
+                    <h3><i class="fas fa-check-circle" style="color: #43e97b;"></i> Transfer to New Loan</h3>
+                    <div class="metric"><span>Monthly EMI:</span><span id="newEmi">₹0</span></div>
+                    <div class="metric"><span>Total Interest:</span><span id="newInterest">₹0</span></div>
+                    <div class="metric"><span>Total Payment:</span><span id="newTotal">₹0</span></div>
+                    <div class="metric"><span>Transfer Charges:</span><span id="totalCharges">₹0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const outstanding = parseFloat(document.getElementById('outstanding').value);
+            const currentRate = parseFloat(document.getElementById('currentRate').value) / 100 / 12;
+            const remainingTenure = parseFloat(document.getElementById('remainingTenure').value) * 12;
+            const newRate = parseFloat(document.getElementById('newRate').value) / 100 / 12;
+            const newTenure = parseFloat(document.getElementById('newTenure').value) * 12;
+            const transferCharges = parseFloat(document.getElementById('transferCharges').value);
+            const processingFeePercent = parseFloat(document.getElementById('processingFee').value);
+            const processingFee = (outstanding * processingFeePercent) / 100;
+            const totalTransferCost = transferCharges + processingFee;
+            
+            const oldEmi = (outstanding * currentRate * Math.pow(1 + currentRate, remainingTenure)) / (Math.pow(1 + currentRate, remainingTenure) - 1);
+            const oldTotalPayment = oldEmi * remainingTenure;
+            const oldTotalInterest = oldTotalPayment - outstanding;
+            
+            const newEmi = (outstanding * newRate * Math.pow(1 + newRate, newTenure)) / (Math.pow(1 + newRate, newTenure) - 1);
+            const newTotalPayment = newEmi * newTenure + totalTransferCost;
+            const newTotalInterest = (newEmi * newTenure) - outstanding;
+            
+            const netSavings = oldTotalPayment - newTotalPayment;
+            const isWorthwhile = netSavings > 0;
+            
+            document.getElementById('savingsValue').textContent = '₹' + Math.round(netSavings).toLocaleString('en-IN');
+            document.getElementById('recommendation').textContent = isWorthwhile ? 
+                '✓ Transfer is beneficial!' : '✗ Continue with current loan';
+            document.getElementById('recommendation').style.background = isWorthwhile ? 
+                'rgba(67, 233, 123, 0.3)' : 'rgba(239, 68, 68, 0.3)';
+            
+            document.getElementById('oldEmi').textContent = '₹' + Math.round(oldEmi).toLocaleString('en-IN');
+            document.getElementById('oldInterest').textContent = '₹' + Math.round(oldTotalInterest).toLocaleString('en-IN');
+            document.getElementById('oldTotal').textContent = '₹' + Math.round(oldTotalPayment).toLocaleString('en-IN');
+            
+            document.getElementById('newEmi').textContent = '₹' + Math.round(newEmi).toLocaleString('en-IN');
+            document.getElementById('newInterest').textContent = '₹' + Math.round(newTotalInterest).toLocaleString('en-IN');
+            document.getElementById('newTotal').textContent = '₹' + Math.round(newTotalPayment).toLocaleString('en-IN');
+            document.getElementById('totalCharges').textContent = '₹' + Math.round(totalTransferCost).toLocaleString('en-IN');
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏷️ Product Pricing Calculator 2025 - Set Product Price</title>
+    <meta name="description" content="Free Product Pricing Calculator - Calculate optimal product price with markup, margin, and profit analysis. Perfect for retailers and sellers.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Business-and-Profitability/Product-Pricing-Calculator.html">
+    <meta name="keywords" content="product pricing calculator, price calculator, markup calculator, retail pricing, profit calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Product Pricing Calculator",
+      "description": "Calculate optimal product pricing with markup and margin analysis",
+      "url": "https://calculatorloop.com/Financial/Business-and-Profitability/Product-Pricing-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.6", "ratingCount": "3500"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ec4899;
+            --primary-dark: #db2777;
+            --primary-light: #fce7f3;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus { outline: none; border-color: var(--primary-color); }
+        .quick-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .quick-btn { padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .quick-btn:hover { transform: scale(1.05); background: var(--primary-dark); }
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .result-card { background: linear-gradient(135deg, var(--primary-light), white); padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--primary-color); }
+        [data-theme="dark"] .result-card { background: linear-gradient(135deg, var(--surface), var(--background)); }
+        .result-label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .result-value { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); }
+        .chart-container { background: var(--background); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .input-row { grid-template-columns: 1fr; }
+            .result-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-tags"></i> Product Pricing</h1>
+            <p class="subtitle">Calculate optimal selling price</p>
+        </div>
+        <div class="calculator-section">
+            <div class="input-row">
+                <div class="input-group">
+                    <label><i class="fas fa-tag"></i> Product Cost (₹)</label>
+                    <input type="number" id="cost" value="500" min="0" step="10">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Desired Markup (%)</label>
+                    <input type="number" id="markup" value="50" min="0" max="1000" step="5">
+                    <div class="quick-buttons">
+                        <button class="quick-btn" onclick="setMarkup(20)">20%</button>
+                        <button class="quick-btn" onclick="setMarkup(50)">50%</button>
+                        <button class="quick-btn" onclick="setMarkup(100)">100%</button>
+                        <button class="quick-btn" onclick="setMarkup(150)">150%</button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label><i class="fas fa-shipping-fast"></i> Shipping Cost (₹)</label>
+                    <input type="number" id="shipping" value="50" min="0" step="10">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-coins"></i> Other Costs (₹)</label>
+                    <input type="number" id="other" value="30" min="0" step="10">
+                </div>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-file-invoice"></i> Tax/GST Rate (%)</label>
+                <input type="number" id="tax" value="18" min="0" max="100" step="1">
+                <div class="quick-buttons">
+                    <button class="quick-btn" onclick="setTax(0)">0%</button>
+                    <button class="quick-btn" onclick="setTax(5)">5%</button>
+                    <button class="quick-btn" onclick="setTax(12)">12%</button>
+                    <button class="quick-btn" onclick="setTax(18)">18%</button>
+                    <button class="quick-btn" onclick="setTax(28)">28%</button>
+                </div>
+            </div>
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-label">Selling Price (Before Tax)</div>
+                    <div class="result-value" id="sellingPrice">₹870</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Final Price (With Tax)</div>
+                    <div class="result-value" id="finalPrice">₹1,027</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Profit per Unit</div>
+                    <div class="result-value" id="profit">₹290</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Profit Margin</div>
+                    <div class="result-value" id="margin">33.33%</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Total Cost</div>
+                    <div class="result-value" id="totalCost">₹580</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Tax Amount</div>
+                    <div class="result-value" id="taxAmount">₹157</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="pricingChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        let chart = null;
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            if(chart) updateChartTheme();
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        function setMarkup(value) {
+            document.getElementById('markup').value = value;
+            calculate();
+        }
+        
+        function setTax(value) {
+            document.getElementById('tax').value = value;
+            calculate();
+        }
+        
+        function calculate() {
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const markup = parseFloat(document.getElementById('markup').value) || 0;
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const other = parseFloat(document.getElementById('other').value) || 0;
+            const taxRate = parseFloat(document.getElementById('tax').value) || 0;
+            
+            const totalCost = cost + shipping + other;
+            const sellingPrice = totalCost * (1 + markup / 100);
+            const taxAmount = sellingPrice * (taxRate / 100);
+            const finalPrice = sellingPrice + taxAmount;
+            const profit = sellingPrice - totalCost;
+            const margin = sellingPrice > 0 ? (profit / sellingPrice) * 100 : 0;
+            
+            document.getElementById('sellingPrice').textContent = '₹' + Math.round(sellingPrice).toLocaleString('en-IN');
+            document.getElementById('finalPrice').textContent = '₹' + Math.round(finalPrice).toLocaleString('en-IN');
+            document.getElementById('profit').textContent = '₹' + Math.round(profit).toLocaleString('en-IN');
+            document.getElementById('margin').textContent = margin.toFixed(2) + '%';
+            document.getElementById('totalCost').textContent = '₹' + totalCost.toLocaleString('en-IN');
+            document.getElementById('taxAmount').textContent = '₹' + Math.round(taxAmount).toLocaleString('en-IN');
+            
+            createChart(cost, shipping, other, profit, taxAmount);
+        }
+        
+        function createChart(cost, shipping, other, profit, tax) {
+            const ctx = document.getElementById('pricingChart').getContext('2d');
+            if(chart) chart.destroy();
+            
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Product Cost', 'Shipping', 'Other Costs', 'Profit', 'Tax'],
+                    datasets: [{
+                        data: [cost, shipping, other, profit, tax],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(59, 130, 246, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: isDark ? '#374151' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: isDark ? '#f9fafb' : '#111827',
+                                font: {size: 14, weight: 'bold'},
+                                padding: 15
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Price Breakdown',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: {size: 18, weight: 'bold'}
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const label = ctx.label || '';
+                                    const value = ctx.parsed || 0;
+                                    const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percent = ((value / total) * 100).toFixed(1);
+                                    return label + ': ₹' + value.toLocaleString('en-IN') + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateChartTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#f9fafb' : '#111827';
+            const borderColor = isDark ? '#374151' : '#ffffff';
+            chart.options.plugins.title.color = color;
+            chart.options.plugins.legend.labels.color = color;
+            chart.data.datasets[0].borderColor = borderColor;
+            chart.update();
+        }
+        
+        const inputs = ['cost', 'markup', 'shipping', 'other', 'tax'];
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+        
+        calculate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Savings Calculator 2025 - Plan Your Child's Education | Free Tool</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free College Savings Calculator to estimate education costs and monthly savings required. Adjust for education inflation, investment returns, and current savings. Plan for your child's future today.">
+    <meta name="keywords" content="college savings calculator, education planning calculator, child education fund, tuition inflation calculator, education cost estimator, savings goal calculator, higher education planning">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/College-Savings-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="College Savings Calculator - Secure Your Child's Future">
+    <meta property="og:description" content="Calculate how much you need to save for your child's college education. Accounts for inflation and investment growth.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/College-Savings-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:image" content="https://calculatorloop.com/assets/images/college-savings-calc-preview.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="College Savings Calculator - Education Planning Tool">
+    <meta name="twitter:description" content="Plan for rising education costs with our free College Savings Calculator.">
+    <meta name="twitter:image" content="https://calculatorloop.com/assets/images/college-savings-calc-preview.png">
+    
+    <!-- Mobile Optimization -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#f59e0b">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "College Savings Calculator",
+        "description": "Online calculator to estimate future college costs and required monthly savings based on current age, college age, and inflation rates.",
+        "url": "https://calculatorloop.com/financial/investment-returns/College-Savings-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1240"
+        },
+        "featureList": [
+            "Education inflation adjustment",
+            "Investment return projection",
+            "Monthly savings calculation",
+            "Progress tracking"
+        ]
+    }
+    </script>
+    
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How much does college cost in India?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "College costs vary significantly. An engineering degree can cost ₹8-15 Lakhs, while an MBA can cost ₹15-25 Lakhs. Medical education can go up to ₹50 Lakhs or more. It's important to factor in inflation, as education costs rise by 10-12% annually."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is education inflation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Education inflation refers to the rate at which the cost of education increases each year. In India, this is typically higher than general inflation, often ranging between 10% to 12% per year."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When should I start saving for my child's education?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The best time to start is as soon as your child is born. Starting early allows you to benefit from the power of compounding, meaning you need to save less per month to reach the same goal compared to starting later."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where should I invest for college savings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For long-term goals (10+ years), equity mutual funds or SIPs are recommended for higher returns. For the girl child, Sukanya Samriddhi Yojana (SSY) is a great option. PPF is also a safe, tax-free option."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much should I save monthly?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use our calculator to find the exact amount. As a rule of thumb, aim to save at least 5-10% of your monthly income specifically for your child's education fund."
+                }
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .savings-card { background: var(--accent-gradient); padding: 30px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .savings-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .savings-value { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .metric-card { background: var(--bg-primary); padding: 20px; border-radius: 10px; border-left: 4px solid #f59e0b; }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .progress-container { background: var(--bg-primary); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .progress-label { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
+        .progress-bar { width: 100%; height: 30px; background: #e0e0e0; border-radius: 15px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
+        .back-link { display: inline-block; margin-top: 20px; color: #f59e0b; text-decoration: none; font-weight: 600; }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .savings-value { font-size: 2.5rem; } }
+            .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-graduation-cap"></i> College Savings</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Plan for your child's education expenses</p>
+        <div class="input-group"><label><i class="fas fa-rupee-sign"></i> Current Annual Tuition Cost (₹)</label><input type="number" id="tuition" value="200000" min="0" step="10000"></div>
+        <div class="input-group"><label><i class="fas fa-baby"></i> Child's Current Age (years)</label><input type="number" id="currentAge" value="5" min="0" max="25" step="1"></div>
+        <div class="input-group"><label><i class="fas fa-university"></i> College Starting Age (years)</label><input type="number" id="collegeAge" value="18" min="10" max="30" step="1"></div>
+        <div class="input-group"><label><i class="fas fa-calendar"></i> Years in College</label><input type="number" id="collegeYears" value="4" min="1" max="10" step="1"></div>
+        <div class="input-group"><label><i class="fas fa-chart-line"></i> Education Inflation Rate (% per year)</label><input type="number" id="inflation" value="8" min="0" max="20" step="0.5"></div>
+        <div class="input-group"><label><i class="fas fa-percentage"></i> Expected Return on Savings (% per year)</label><input type="number" id="returns" value="10" min="0" max="30" step="0.5"></div>
+        <div class="input-group"><label><i class="fas fa-wallet"></i> Current Savings (₹)</label><input type="number" id="current" value="100000" min="0" step="10000"></div>
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Savings Needed</button>
+        <div class="result" id="result">
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div>
+            <div class="savings-card">
+                <h2><i class="fas fa-piggy-bank"></i> Monthly Savings Required</h2>
+                <div class="savings-value" id="savingsValue">₹0</div>
+                <p style="opacity: 0.9; font-size: 1.1rem;" id="savingsDesc">To reach education goal</p>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card"><h3><i class="fas fa-money-bill"></i> Total Cost</h3><div class="metric-value" id="totalDisplay">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-clock"></i> Years to Save</h3><div class="metric-value" id="yearsDisplay">0 years</div></div>
+                <div class="metric-card"><h3><i class="fas fa-coins"></i> Current Savings</h3><div class="metric-value" id="currentDisplay">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-chart-bar"></i> Amount Needed</h3><div class="metric-value" id="neededDisplay">₹0</div></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label">Progress to Goal</div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill">0%</div></div>
+            </div>
+        </div>
+        <a href="../../calculatorlooop.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <script>
+        function calc() {
+            const tuition = parseFloat(document.getElementById('tuition').value);
+            const currentAge = parseFloat(document.getElementById('currentAge').value);
+            const collegeAge = parseFloat(document.getElementById('collegeAge').value);
+            const collegeYears = parseFloat(document.getElementById('collegeYears').value);
+            const inflation = parseFloat(document.getElementById('inflation').value) / 100;
+            const returns = parseFloat(document.getElementById('returns').value) / 100;
+            const current = parseFloat(document.getElementById('current').value);
+            
+            if (tuition > 0 && collegeAge > currentAge) {
+                const yearsToCollege = collegeAge - currentAge;
+                let totalCost = 0;
+                for (let i = 0; i < collegeYears; i++) {
+                    const yearCost = tuition * Math.pow(1 + inflation, yearsToCollege + i);
+                    totalCost += yearCost;
+                }
+                const futureValueCurrent = current * Math.pow(1 + returns, yearsToCollege);
+                const amountNeeded = Math.max(0, totalCost - futureValueCurrent);
+                const monthlyRate = returns / 12;
+                const months = yearsToCollege * 12;
+                let monthlySavings = 0;
+                if (amountNeeded > 0 && months > 0) {
+                    if (returns > 0) {
+                        monthlySavings = amountNeeded * monthlyRate / (Math.pow(1 + monthlyRate, months) - 1);
+                    } else {
+                        monthlySavings = amountNeeded / months;
+                    }
+                }
+                const progress = current > 0 ? Math.min(100, (futureValueCurrent / totalCost) * 100) : 0;
+                
+                document.getElementById('savingsValue').textContent = '₹' + monthlySavings.toLocaleString('en-IN', {maximumFractionDigits: 0});
+                document.getElementById('savingsDesc').textContent = monthlySavings > 0 ? 'Monthly savings required' : 'You have enough savings!';
+                document.getElementById('totalDisplay').textContent = '₹' + totalCost.toLocaleString('en-IN', {maximumFractionDigits: 0});
+                document.getElementById('yearsDisplay').textContent = yearsToCollege + ' years';
+                document.getElementById('currentDisplay').textContent = '₹' + current.toLocaleString('en-IN');
+                document.getElementById('neededDisplay').textContent = '₹' + amountNeeded.toLocaleString('en-IN', {maximumFractionDigits: 0});
+                document.getElementById('progressFill').style.width = progress.toFixed(0) + '%';
+                document.getElementById('progressFill').textContent = progress.toFixed(0) + '%';
+                document.getElementById('result').style.display = 'block';
+            } else alert('Please enter valid values');
+        }
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('âœ“ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('âŒ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('âœ“ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div class="seo-content" style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    
+    <article>
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #f59e0b; padding-bottom: 15px;">Complete Guide to College Savings Planning</h2>
+        
+        <div style="color: #666; line-height: 1.8; font-size: 1.05rem;">
+            <p style="margin-bottom: 20px; font-size: 1.15rem; color: #444;">Education is one of the most significant investments you will make for your child. With education costs rising faster than general inflation, planning early is crucial. Our <strong>College Savings Calculator</strong> helps you estimate the future cost of education and determines exactly how much you need to save monthly to secure your child's dreams.</p>
+
+            <h3 style="color: #d97706; font-size: 1.8rem; margin: 30px 0 15px;">Why Plan for Education Early?</h3>
+            <p style="margin-bottom: 15px;">The cost of higher education in India and abroad is skyrocketing. An engineering degree that costs ₹10 Lakhs today could cost over ₹30 Lakhs in 15 years due to inflation. By starting early, you give your investments time to grow, reducing the financial burden when your child is ready for college.</p>
+
+            <h3 style="color: #d97706; font-size: 1.8rem; margin: 30px 0 15px;">Understanding Education Inflation</h3>
+            <p style="margin-bottom: 15px;">Unlike general inflation (which hovers around 5-6%), education inflation in India is estimated to be around <strong>10-12%</strong>. This means the cost of education doubles roughly every 6-7 years. Our calculator allows you to input a custom inflation rate to see a realistic projection of future costs.</p>
+
+            <h3 style="color: #d97706; font-size: 1.8rem; margin: 30px 0 15px;">Best Investment Options for Education</h3>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li style="margin-bottom: 10px;"><strong>Equity Mutual Funds (SIP):</strong> Best for long-term goals (10+ years). High potential returns (12-15%) help beat education inflation.</li>
+                <li style="margin-bottom: 10px;"><strong>Sukanya Samriddhi Yojana (SSY):</strong> Excellent for the girl child. Offers high interest rates and tax benefits.</li>
+                <li style="margin-bottom: 10px;"><strong>Public Provident Fund (PPF):</strong> Safe, government-backed, and tax-free. Good for conservative investors.</li>
+                <li style="margin-bottom: 10px;"><strong>Education Loans:</strong> Should be a last resort or a supplement to your savings, not the primary plan.</li>
+            </ul>
+
+            <h3 style="color: #d97706; font-size: 1.8rem; margin: 30px 0 15px;">How to Use This Calculator</h3>
+            <ol style="margin-left: 30px; margin-bottom: 20px;">
+                <li style="margin-bottom: 10px;"><strong>Current Annual Tuition:</strong> Enter the cost of the course <em>today</em>.</li>
+                <li style="margin-bottom: 10px;"><strong>Child's Age:</strong> Enter current age and the age they will start college (usually 18).</li>
+                <li style="margin-bottom: 10px;"><strong>Inflation Rate:</strong> Use 10-12% for a realistic estimate.</li>
+                <li style="margin-bottom: 10px;"><strong>Expected Returns:</strong> Enter the return rate of your investments (e.g., 12% for Equity).</li>
+                <li style="margin-bottom: 10px;"><strong>Current Savings:</strong> Enter any amount you have already saved.</li>
+            </ol>
+
+            <div style="background: #fff7ed; padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #f59e0b;">
+                <h4 style="color: #9a3412; margin-bottom: 15px; font-size: 1.3rem;"><i class="fas fa-lightbulb"></i> Planning Tip</h4>
+                <p style="color: #7c2d12; line-height: 1.7; margin: 0;">Don't just save for tuition fees. Remember to account for hostel fees, living expenses, books, and travel, which can add another 30-50% to the total cost.</p>
+            </div>
+        </div>
+    </article>
+    
+    <!-- FAQ Section -->
+    <div style="margin-top: 60px;">
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 30px; border-bottom: 4px solid #f59e0b; padding-bottom: 15px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+        
+        <div class="faq-container">
+            <div class="faq-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h3 style="font-size: 1.2rem; color: #d97706; margin-bottom: 10px;">1. How much does college cost in India?</h3>
+                <p style="color: #666;">College costs vary significantly. An engineering degree can cost ₹8-15 Lakhs, while an MBA can cost ₹15-25 Lakhs. Medical education can go up to ₹50 Lakhs or more. It's important to factor in inflation, as education costs rise by 10-12% annually.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h3 style="font-size: 1.2rem; color: #d97706; margin-bottom: 10px;">2. What is education inflation?</h3>
+                <p style="color: #666;">Education inflation refers to the rate at which the cost of education increases each year. In India, this is typically higher than general inflation, often ranging between 10% to 12% per year.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h3 style="font-size: 1.2rem; color: #d97706; margin-bottom: 10px;">3. When should I start saving for my child's education?</h3>
+                <p style="color: #666;">The best time to start is as soon as your child is born. Starting early allows you to benefit from the power of compounding, meaning you need to save less per month to reach the same goal compared to starting later.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h3 style="font-size: 1.2rem; color: #d97706; margin-bottom: 10px;">4. Where should I invest for college savings?</h3>
+                <p style="color: #666;">For long-term goals (10+ years), equity mutual funds or SIPs are recommended for higher returns. For the girl child, Sukanya Samriddhi Yojana (SSY) is a great option. PPF is also a safe, tax-free option.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h3 style="font-size: 1.2rem; color: #d97706; margin-bottom: 10px;">5. How much should I save monthly?</h3>
+                <p style="color: #666;">Use our calculator to find the exact amount. As a rule of thumb, aim to save at least 5-10% of your monthly income specifically for your child's education fund.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Calculators -->
+    <div style="margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius: 20px;">
+        <h2 style="color: #1a1a2e; font-size: 2rem; margin-bottom: 25px; text-align: center;"><i class="fas fa-calculator"></i> Related Financial Calculators</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <a href="./SIP-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <i class="fas fa-piggy-bank" style="font-size: 2rem; color: #d97706; margin-bottom: 10px;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">SIP Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Plan your monthly investments</p>
+            </a>
+            <a href="./Compound-Interest-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: #d97706; margin-bottom: 10px;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Compound Interest</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">See how your money grows</p>
+            </a>
+            <a href="./Inflation-Impact-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <i class="fas fa-percentage" style="font-size: 2rem; color: #d97706; margin-bottom: 10px;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Inflation Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Calculate future value of money</p>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

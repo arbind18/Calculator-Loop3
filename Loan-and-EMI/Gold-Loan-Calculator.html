@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Loan Calculator - Calculate EMI Against Gold Jewelry</title>
+    <meta name="description" content="Calculate gold loan EMI with LTV ratio. Get instant loan against gold jewelry, coins, bars. Check eligibility based on gold weight and purity.">
+    <meta name="keywords" content="gold loan calculator, loan against gold, gold loan EMI, LTV ratio, gold loan eligibility">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#f6d365">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Gold-Loan-Calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gold Loan Calculator - LTV Ratio & Purity">
+    <meta property="og:description" content="Calculate loan against gold with purity converter and LTV ratio.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus, select:focus { outline: none; border-color: #fda085; box-shadow: 0 0 0 4px rgba(253, 160, 133, 0.1); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .info-box { background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%); padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #fda085; }
+        [data-theme="dark"] .info-box { background: linear-gradient(135deg, #2d2416 0%, #3d2f1f 100%); }
+        .info-box p { color: var(--text-secondary); font-size: 0.9rem; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(253, 160, 133, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .emi-card { background: var(--accent-gradient); padding: 30px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .emi-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .emi-value { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .metric-card { background: var(--bg-primary); padding: 20px; border-radius: 10px; border-left: 4px solid #fda085; }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .back-link { 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(253, 160, 133, 0.3);
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(253, 160, 133, 0.4);
+        }
+        .back-link i {
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+        .faq-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        .faq-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 4px solid #fda085;
+        }
+        .faq-question {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .emi-value { font-size: 2.5rem; } .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+        
+        <div class="header">
+            <h1><i class="fas fa-coins"></i> Gold Loan</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Calculate loan against gold with LTV ratio</p>
+
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> <strong>LTV Ratio:</strong> Loan-to-Value ratio determines how much you can borrow against your gold (typically 75% of gold value)</p>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-balance-scale"></i> Gold Weight (grams)</label><input type="number" id="goldWeight" value="100" min="1" step="1"></div>
+            <div class="input-group"><label><i class="fas fa-gem"></i> Gold Purity</label><select id="purity"><option value="24">24 Karat (99.9% pure)</option><option value="22" selected>22 Karat (91.6% pure)</option><option value="20">20 Karat (83.3% pure)</option><option value="18">18 Karat (75% pure)</option></select></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-rupee-sign"></i> Gold Rate per gram (₹)</label><input type="number" id="goldRate" value="6000" min="0" step="100"></div>
+            <div class="input-group"><label><i class="fas fa-percentage"></i> LTV Ratio (%)</label><input type="number" id="ltv" value="75" min="50" max="90" step="5"></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-chart-line"></i> Interest Rate (% p.a.)</label><input type="number" id="rate" value="10" min="0" max="30" step="0.25"></div>
+            <div class="input-group"><label><i class="fas fa-calendar"></i> Loan Tenure (Months)</label><input type="number" id="tenure" value="12" min="1" max="36" step="1"></div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Gold Loan</button>
+
+        <div class="result" id="result">
+            <div class="emi-card">
+                <h2><i class="fas fa-money-check-alt"></i> Monthly EMI</h2>
+                <div class="emi-value" id="emiValue">₹0</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><h3><i class="fas fa-coins"></i> Gold Value</h3><div class="metric-value" id="goldValue">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-hand-holding-usd"></i> Max Loan Amount</h3><div class="metric-value" id="maxLoan">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-chart-line"></i> Total Interest</h3><div class="metric-value" id="interestDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-wallet"></i> Total Repayment</h3><div class="metric-value" id="totalDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-weight"></i> Pure Gold Weight</h3><div class="metric-value" id="pureWeight">0g</div></div>
+                <div class="metric-card"><h3><i class="fas fa-percentage"></i> LTV Applied</h3><div class="metric-value" id="ltvDisp">75%</div></div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> What is LTV ratio in gold loans?</div>
+                <div class="faq-answer">LTV (Loan-to-Value) ratio determines how much you can borrow against your gold. In India, RBI allows banks to offer up to 75% LTV for gold loans (90% for some categories). For example, if your gold is valued at ₹1 lakh at current market rates, you can get a maximum loan of ₹75,000. Higher purity gold (22-24 karat) gets better valuations. Some lenders offer 80-90% LTV but usually at higher interest rates. The LTV percentage directly impacts your borrowing capacity while keeping your gold as collateral.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> How is gold loan eligibility calculated?</div>
+                <div class="faq-answer">Gold loan eligibility depends primarily on the weight, purity, and current market price of your gold. Lenders assess the purity of your gold jewelry (18K, 22K, or 24K) and calculate the pure gold content. For instance, 10 grams of 22K gold contains approximately 9.16 grams of pure gold. At ₹6,000 per gram, this equals ₹54,960. With 75% LTV, you can borrow around ₹41,220. Most lenders don't check credit scores or income proof for gold loans since the gold itself serves as collateral, making it accessible even for those with lower credit ratings.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> What types of gold are accepted for loans?</div>
+                <div class="faq-answer">Most banks and NBFCs accept gold jewelry, coins, and bars with purity ranging from 18 karat to 24 karat. Acceptable gold items include necklaces, bangles, chains, rings, earrings, gold coins with bank or government hallmarks, and gold bars. However, studded jewelry (with diamonds or precious stones) is typically not accepted or valuated only for gold content after removing stones. Antique jewelry may require additional appraisal. The gold must be hallmarked or will undergo purity testing at the lender's authorized center. Maximum accepted weight varies by lender but typically ranges from 5 grams to several kilograms.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> What is the repayment tenure for gold loans?</div>
+                <div class="faq-answer">Gold loan repayment tenure typically ranges from 3 months to 36 months (3 years), though some lenders offer extended tenures up to 48 months for higher loan amounts. You have multiple repayment options: regular EMI (monthly installments of principal plus interest), bullet repayment (pay interest monthly and principal at the end), overdraft facility (pay interest only on amount utilized), or lump sum payment (pay entire amount including interest at maturity). Shorter tenures have higher EMIs but lower total interest costs. Many lenders allow prepayment without penalties, enabling you to close the loan early and retrieve your gold.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> Are there any processing fees or hidden charges?</div>
+                <div class="faq-answer">Most gold loans have minimal processing fees ranging from 0.25% to 2% of the loan amount, significantly lower than other loan types. Some lenders waive processing fees during festive offers. Other potential charges include valuation fees (₹100-500 per application), pledge storage fees (usually included in interest), prepayment/foreclosure charges (typically nil for gold loans), and late payment penalties (1-2% per month on overdue amount). Always read the loan agreement carefully. Total charges should be clearly mentioned in the sanction letter. Many public sector banks and cooperative societies offer zero processing fee gold loans for amounts up to ₹1 lakh.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> What happens if I cannot repay the gold loan?</div>
+                <div class="faq-answer">If you default on your gold loan repayment, the lender will send multiple reminders and notices over 1-3 months grace period. After exhausting recovery efforts, lenders have the right to auction your pledged gold to recover the outstanding amount. As per RBI guidelines, banks must give at least one month's notice before auctioning. The gold is sold at prevailing market rates through authorized auctions. If the auction proceeds exceed your debt, the surplus is returned to you. Conversely, if proceeds are insufficient (rare with 75% LTV), you must pay the difference. To avoid auction, contact your lender for loan extension, partial payment arrangements, or tenure restructuring options.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #fda085;"></i> How do gold loan interest rates compare to other loans?</div>
+                <div class="faq-answer">Gold loans typically have lower interest rates (7-15% per annum) compared to personal loans (10-24%), credit cards (36-48%), or other unsecured loans, because your gold serves as collateral reducing lender risk. Public sector banks offer rates around 7-10%, private banks charge 9-14%, and NBFCs range from 10-18%. Agricultural gold loans have even lower rates (6-7%) with interest subvention schemes. Rates vary based on loan amount, tenure, lender type, and your relationship with the institution. Gold loan interest is calculated on reducing balance (EMI method) or simple interest (bullet repayment). The effective rate including processing fees typically increases by 0.5-1% annually.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schema Markup for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is LTV ratio in gold loans?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "LTV (Loan-to-Value) ratio determines how much you can borrow against your gold. In India, RBI allows banks to offer up to 75% LTV for gold loans."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is gold loan eligibility calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Gold loan eligibility depends primarily on the weight, purity, and current market price of your gold. Lenders assess purity and calculate pure gold content."
+                }
+            }
+        ]
+    }
+    </script>
+    </div>
+
+    <script>
+        function calc() {
+            const weight = parseFloat(document.getElementById('goldWeight').value);
+            const purity = parseFloat(document.getElementById('purity').value);
+            const rate = parseFloat(document.getElementById('goldRate').value);
+            const ltv = parseFloat(document.getElementById('ltv').value) / 100;
+            const interestRate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+            const n = parseFloat(document.getElementById('tenure').value);
+            
+            const purityFactor = purity / 24;
+            const pureWeight = weight * purityFactor;
+            const goldValue = pureWeight * rate;
+            const loanAmount = goldValue * ltv;
+            
+            const emi = (loanAmount * interestRate * Math.pow(1 + interestRate, n)) / (Math.pow(1 + interestRate, n) - 1);
+            const totalPayment = emi * n;
+            const totalInterest = totalPayment - loanAmount;
+            
+            document.getElementById('emiValue').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+            document.getElementById('goldValue').textContent = '₹' + Math.round(goldValue).toLocaleString('en-IN');
+            document.getElementById('maxLoan').textContent = '₹' + Math.round(loanAmount).toLocaleString('en-IN');
+            document.getElementById('interestDisp').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+            document.getElementById('totalDisp').textContent = '₹' + Math.round(totalPayment).toLocaleString('en-IN');
+            document.getElementById('pureWeight').textContent = pureWeight.toFixed(2) + 'g';
+            document.getElementById('ltvDisp').textContent = (ltv * 100) + '%';
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

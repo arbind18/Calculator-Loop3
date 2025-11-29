@@ -1,0 +1,931 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Calculator 2025 - Free Monthly Budget Planner India | Personal Finance Budget Tool</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free Budget Calculator 2025 for monthly budget planning in India. Track income, expenses across 8 categories, calculate surplus/deficit. Best personal budget planner with detailed breakdown and financial insights.">
+    <meta name="keywords" content="budget calculator, monthly budget calculator, budget planner India, personal budget calculator, household budget calculator, expense tracker, income expense calculator 2025, family budget planner, budget calculator India">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/Budget-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Budget Calculator 2025 - Free Monthly Budget Planner">
+    <meta property="og:description" content="Plan your monthly budget with our free calculator. Track income and expenses, get financial insights, and achieve your savings goals.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/Budget-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    <meta property="og:locale" content="en_IN">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Budget Calculator 2025 - Monthly Budget Planner">
+    <meta name="twitter:description" content="Free budget calculator to plan and track your monthly income and expenses effectively.">
+    
+    <!-- Mobile Optimization -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- Schema.org Markup for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Budget Calculator",
+        "description": "Free online budget calculator to plan monthly income and expenses. Track spending across 8 categories, calculate surplus or deficit, and get personalized financial insights.",
+        "url": "https://calculatorloop.com/financial/investment-returns/Budget-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "3124",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+    
+    <!-- FAQ Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the 50/30/20 budget rule?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The 50/30/20 budget rule is a simple budgeting method where you allocate 50% of your income to needs (rent, groceries, utilities), 30% to wants (entertainment, dining out, shopping), and 20% to savings and debt repayment. For example, with a ₹50,000 monthly income: ₹25,000 for needs, ₹15,000 for wants, and ₹10,000 for savings."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much should I budget for groceries per month in India?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For a family of 4 in India, budget ₹8,000-₹15,000 per month for groceries depending on your city and eating habits. Single individuals need ₹3,000-₹5,000, couples need ₹5,000-₹8,000. Metro cities like Mumbai, Delhi require 20-30% more. This includes essentials like rice, dal, vegetables, fruits, dairy, and basic pantry items."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What percentage of income should go to rent?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Financial experts recommend spending no more than 30% of your gross monthly income on rent or housing. If you earn ₹50,000 per month, your rent should ideally be under ₹15,000. In expensive cities, this might stretch to 35-40%, but try to keep it below 40% to maintain financial flexibility for savings and investments."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I stick to my budget?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "To stick to your budget: (1) Track all expenses daily using apps or spreadsheets, (2) Use cash envelopes for discretionary spending, (3) Automate savings on salary day, (4) Review budget weekly, (5) Set realistic goals, (6) Allow 5-10% buffer for unexpected expenses, (7) Reward yourself for meeting goals, (8) Use our budget calculator monthly to track progress."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's a realistic monthly savings goal?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Aim to save at least 20-30% of your monthly income. If you're just starting, even 10-15% is good. With ₹50,000 income, try saving ₹10,000-₹15,000. Break it down: 10% in emergency fund, 5-10% in mutual funds/SIP, 5% in PPF/EPF. As income grows, increase savings percentage before lifestyle inflation kicks in."
+                }
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding-bottom: 20px; }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        .theme-btn {
+            background: #f0f2f5;
+            color: #1a1a2e;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark-mode .main-header {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .seo-content {
+            background: #1e293b !important;
+        }
+        body.dark-mode .logo { color: #fff; }
+        body.dark-mode .container, 
+        body.dark-mode .result,
+        body.dark-mode .section,
+        body.dark-mode .summary-card,
+        body.dark-mode .breakdown,
+        body.dark-mode .faq-item,
+        body.dark-mode article > div {
+            background: #1e293b !important;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f8fafc !important;
+        }
+        body.dark-mode .subtitle, body.dark-mode label, body.dark-mode p, body.dark-mode .faq-answer, body.dark-mode .breakdown-item span {
+            color: #94a3b8 !important;
+        }
+        body.dark-mode input, body.dark-mode select {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode .faq-item {
+            background: #1e293b;
+            border-left-color: #667eea;
+        }
+        body.dark-mode .faq-item:hover {
+            background: #334155;
+        }
+        body.dark-mode .theme-btn {
+            background: #334155;
+            color: #fbbf24;
+        }
+        body.dark-mode .summary-value, body.dark-mode .breakdown-item strong { color: #fff; }
+        body.dark-mode .section { border-left-color: #667eea; }
+        body.dark-mode .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        body.dark-mode .back-btn:hover {
+            background: #667eea;
+            color: #fff;
+        }
+        body.dark-mode .summary-card {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+        }
+        body.dark-mode .breakdown-item {
+            border-bottom-color: #334155;
+        }
+        body.dark-mode article div[style*="background: linear-gradient"] {
+            background: rgba(14, 165, 233, 0.1) !important;
+            border-left-color: #0ea5e9 !important;
+        }
+        body.dark-mode article div[style*="background: #f8f9fa"] {
+            background: #0f172a !important;
+        }
+        body.dark-mode article table th {
+            background: #4f46e5 !important;
+            color: #fff;
+        }
+        body.dark-mode article table td {
+            border-color: #334155 !important;
+            color: #cbd5e1;
+        }
+        body.dark-mode article table tr {
+            background: transparent !important;
+        }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 10px; font-size: 2.2rem; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1.05rem; }
+        .section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #667eea; }
+        .section-title { color: #667eea; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700; }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .input-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: 600; font-size: 0.9rem; }
+        input { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; transition: border-color 0.3s; }
+        input:focus { outline: none; border-color: #667eea; }
+        .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; transition: transform 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .result { margin-top: 30px; display: none; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .summary-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 12px; color: white; text-align: center; }
+        .summary-card h3 { font-size: 0.9rem; margin-bottom: 8px; opacity: 0.9; }
+        .summary-value { font-size: 2rem; font-weight: bold; }
+        .breakdown { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+        .breakdown-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
+        .breakdown-item:last-child { border-bottom: none; }
+        .status { padding: 15px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 1.1rem; margin-top: 20px; }
+        .surplus { background: #d1fae5; color: #065f46; }
+        .deficit { background: #fee2e2; color: #991b1b; }
+        .back-link { display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
+        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+        
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .faq-question {
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.02rem;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.7rem; }
+            .input-grid { grid-template-columns: 1fr; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .faq-question { font-size: 1.05rem; }
+        }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="#" class="logo" onclick="history.back()">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1><i class="fas fa-calculator"></i> Budget Calculator</h1>
+        <p class="subtitle">Plan your monthly income and expenses</p>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-money-bill-wave"></i> Income</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Salary/Income (₹)</label><input type="number" id="salary" value="50000"></div>
+                <div class="input-group"><label>Other Income (₹)</label><input type="number" id="otherIncome" value="0"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-home"></i> Housing & Utilities</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Rent/EMI (₹)</label><input type="number" id="rent" value="15000"></div>
+                <div class="input-group"><label>Electricity (₹)</label><input type="number" id="electricity" value="2000"></div>
+                <div class="input-group"><label>Water (₹)</label><input type="number" id="water" value="500"></div>
+                <div class="input-group"><label>Internet/Phone (₹)</label><input type="number" id="internet" value="1500"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-utensils"></i> Food & Groceries</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Groceries (₹)</label><input type="number" id="groceries" value="8000"></div>
+                <div class="input-group"><label>Dining Out (₹)</label><input type="number" id="dining" value="3000"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-car"></i> Transportation</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Fuel/Metro (₹)</label><input type="number" id="transport" value="3000"></div>
+                <div class="input-group"><label>Vehicle Maintenance (₹)</label><input type="number" id="maintenance" value="1000"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-heart"></i> Health & Insurance</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Health Insurance (₹)</label><input type="number" id="insurance" value="2000"></div>
+                <div class="input-group"><label>Medical Expenses (₹)</label><input type="number" id="medical" value="1000"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-film"></i> Entertainment & Others</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Entertainment (₹)</label><input type="number" id="entertainment" value="2000"></div>
+                <div class="input-group"><label>Shopping (₹)</label><input type="number" id="shopping" value="3000"></div>
+                <div class="input-group"><label>Education (₹)</label><input type="number" id="education" value="0"></div>
+                <div class="input-group"><label>Other Expenses (₹)</label><input type="number" id="other" value="1000"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-piggy-bank"></i> Savings & Investments</div>
+            <div class="input-grid">
+                <div class="input-group"><label>Savings (₹)</label><input type="number" id="savings" value="5000"></div>
+                <div class="input-group"><label>Investments (₹)</label><input type="number" id="investments" value="3000"></div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Budget</button>
+
+        <div class="result" id="result">
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3><i class="fas fa-arrow-down"></i> Total Income</h3>
+                    <div class="summary-value" id="totalIncome">₹0</div>
+                </div>
+                <div class="summary-card">
+                    <h3><i class="fas fa-arrow-up"></i> Total Expenses</h3>
+                    <div class="summary-value" id="totalExpenses">₹0</div>
+                </div>
+                <div class="summary-card">
+                    <h3><i class="fas fa-balance-scale"></i> Balance</h3>
+                    <div class="summary-value" id="balance">₹0</div>
+                </div>
+            </div>
+
+            <div class="breakdown">
+                <h3 style="margin-bottom: 15px; color: #333;"><i class="fas fa-list"></i> Expense Breakdown</h3>
+                <div class="breakdown-item"><span><i class="fas fa-home"></i> Housing & Utilities</span><strong id="housingTotal">₹0</strong></div>
+                <div class="breakdown-item"><span><i class="fas fa-utensils"></i> Food & Groceries</span><strong id="foodTotal">₹0</strong></div>
+                <div class="breakdown-item"><span><i class="fas fa-car"></i> Transportation</span><strong id="transportTotal">₹0</strong></div>
+                <div class="breakdown-item"><span><i class="fas fa-heart"></i> Health & Insurance</span><strong id="healthTotal">₹0</strong></div>
+                <div class="breakdown-item"><span><i class="fas fa-film"></i> Entertainment & Others</span><strong id="entertainmentTotal">₹0</strong></div>
+                <div class="breakdown-item"><span><i class="fas fa-piggy-bank"></i> Savings & Investments</span><strong id="savingsTotal">₹0</strong></div>
+            </div>
+
+            <div class="status" id="status"></div>
+        </div>
+
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Calculator Hub</a>
+    </div>
+
+    <script>
+        function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN');}
+        function calc(){
+            const salary=+document.getElementById('salary').value||0;
+            const otherIncome=+document.getElementById('otherIncome').value||0;
+            const totalIncome=salary+otherIncome;
+
+            const rent=+document.getElementById('rent').value||0;
+            const electricity=+document.getElementById('electricity').value||0;
+            const water=+document.getElementById('water').value||0;
+            const internet=+document.getElementById('internet').value||0;
+            const housing=rent+electricity+water+internet;
+
+            const groceries=+document.getElementById('groceries').value||0;
+            const dining=+document.getElementById('dining').value||0;
+            const food=groceries+dining;
+
+            const transport=+document.getElementById('transport').value||0;
+            const maintenance=+document.getElementById('maintenance').value||0;
+            const transportation=transport+maintenance;
+
+            const insurance=+document.getElementById('insurance').value||0;
+            const medical=+document.getElementById('medical').value||0;
+            const health=insurance+medical;
+
+            const entertainment=+document.getElementById('entertainment').value||0;
+            const shopping=+document.getElementById('shopping').value||0;
+            const education=+document.getElementById('education').value||0;
+            const other=+document.getElementById('other').value||0;
+            const misc=entertainment+shopping+education+other;
+
+            const savings=+document.getElementById('savings').value||0;
+            const investments=+document.getElementById('investments').value||0;
+            const savingsTotal=savings+investments;
+
+            const totalExpenses=housing+food+transportation+health+misc+savingsTotal;
+            const balance=totalIncome-totalExpenses;
+
+            document.getElementById('totalIncome').textContent=fmt(totalIncome);
+            document.getElementById('totalExpenses').textContent=fmt(totalExpenses);
+            document.getElementById('balance').textContent=fmt(Math.abs(balance));
+
+            document.getElementById('housingTotal').textContent=fmt(housing);
+            document.getElementById('foodTotal').textContent=fmt(food);
+            document.getElementById('transportTotal').textContent=fmt(transportation);
+            document.getElementById('healthTotal').textContent=fmt(health);
+            document.getElementById('entertainmentTotal').textContent=fmt(misc);
+            document.getElementById('savingsTotal').textContent=fmt(savingsTotal);
+
+            const statusEl=document.getElementById('status');
+            if(balance>0){
+                statusEl.className='status surplus';
+                statusEl.innerHTML=`<i class="fas fa-check-circle"></i> Surplus: ${fmt(balance)} available for additional savings!`;
+            }else if(balance<0){
+                statusEl.className='status deficit';
+                statusEl.innerHTML=`<i class="fas fa-exclamation-triangle"></i> Deficit: ${fmt(Math.abs(balance))} - Reduce expenses or increase income`;
+            }else{
+                statusEl.className='status';
+                statusEl.style.background='#e0e7ff';
+                statusEl.style.color='#3730a3';
+                statusEl.innerHTML=`<i class="fas fa-equals"></i> Balanced Budget - Income equals expenses`;
+            }
+
+            document.getElementById('result').style.display='block';
+        }
+        document.querySelectorAll('input').forEach(el=>el.addEventListener('input',calc));
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('âœ“ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('âŒ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('âœ“ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    
+    // FAQ Toggle Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', function() {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                this.classList.toggle('active');
+            });
+        });
+    });
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div class="seo-content" style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    
+    <article>
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #667eea; padding-bottom: 15px;">
+            <i class="fas fa-calculator"></i> Complete Guide to Budget Calculator 2025 - Master Your Monthly Budget in India
+        </h2>
+        
+        <div style="color: #555; line-height: 1.9; font-size: 1.05rem;">
+            
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">What is Budget Planning and Why You Need It?</h3>
+            <p style="margin-bottom: 20px;">Budget planning is the process of creating a detailed plan for how you'll spend your money each month. It involves tracking your income from all sources and categorizing your expenses to ensure you're living within your means while saving for future goals.</p>
+            
+            <p style="margin-bottom: 20px;">In India (2025), with rising costs of living, inflation, and increasing lifestyle expenses, budget planning isn't optional - it's essential. Studies show that Indians who actively budget save 30-40% more than those who don't, and are 3x less likely to take high-interest personal loans.</p>
+            
+            <div style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #00acc1;">
+                <h4 style="color: #00695c; margin-bottom: 15px; font-size: 1.4rem;"><i class="fas fa-lightbulb"></i> Key Statistics</h4>
+                <ul style="color: #004d40; line-height: 1.8; margin: 0; font-size: 1.05rem; margin-left: 20px;">
+                    <li style="margin-bottom: 8px;">Only 32% of Indians actively maintain a monthly budget (2025 survey)</li>
+                    <li style="margin-bottom: 8px;">People with budgets save average ₹8,500 more per month</li>
+                    <li style="margin-bottom: 8px;">70% of millennials struggle with unexpected expenses due to lack of budgeting</li>
+                    <li style="margin-bottom: 8px;">Budget planners are 65% more likely to achieve financial goals</li>
+                </ul>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">The 50/30/20 Budget Rule Explained</h3>
+            <p style="margin-bottom: 20px;">The 50/30/20 rule is the most popular budgeting method globally and works excellently for Indian households:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>50% for Needs (Essentials):</strong> Rent/EMI, groceries, utilities, transportation, insurance, minimum debt payments. These are expenses you cannot avoid.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>30% for Wants (Lifestyle):</strong> Dining out, entertainment, shopping, vacations, hobbies, subscriptions. These enhance your life but aren't essential.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>20% for Savings & Investments:</strong> Emergency fund, mutual funds, FD, PPF, retirement savings, extra debt repayment.</li>
+            </ul>
+
+            <p style="margin-bottom: 20px;"><strong>Example for ₹50,000 monthly income:</strong></p>
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 25px 0;">
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li style="margin-bottom: 12px; padding: 10px; background: white; border-radius: 8px;"><strong>Needs (₹25,000):</strong> Rent ₹15,000 + Groceries ₹6,000 + Utilities ₹2,000 + Transport ₹2,000</li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: white; border-radius: 8px;"><strong>Wants (₹15,000):</strong> Dining ₹4,000 + Entertainment ₹3,000 + Shopping ₹5,000 + Miscellaneous ₹3,000</li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: white; border-radius: 8px;"><strong>Savings (₹10,000):</strong> Emergency Fund ₹3,000 + SIP ₹5,000 + PPF ₹2,000</li>
+                </ul>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">How to Use Our Budget Calculator?</h3>
+            <p style="margin-bottom: 20px;">Our free budget calculator is designed for simplicity and comprehensive tracking:</p>
+            
+            <ol style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;"><strong>Enter Income:</strong> Add your monthly salary and any other income (freelance, rental, interest)</li>
+                <li style="margin-bottom: 12px;"><strong>Housing & Utilities:</strong> Enter rent/EMI, electricity, water, internet/phone bills</li>
+                <li style="margin-bottom: 12px;"><strong>Food & Groceries:</strong> Monthly groceries and dining out expenses</li>
+                <li style="margin-bottom: 12px;"><strong>Transportation:</strong> Fuel, metro, vehicle maintenance costs</li>
+                <li style="margin-bottom: 12px;"><strong>Health & Insurance:</strong> Health insurance premiums and medical expenses</li>
+                <li style="margin-bottom: 12px;"><strong>Entertainment & Others:</strong> Entertainment, shopping, education, miscellaneous</li>
+                <li style="margin-bottom: 12px;"><strong>Savings & Investments:</strong> Monthly savings and investment amounts</li>
+                <li style="margin-bottom: 12px;"><strong>View Results:</strong> Instantly see total income, expenses, balance, and category-wise breakdown</li>
+            </ol>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Average Monthly Budget for Different Income Groups in India (2025)</h3>
+            
+            <div style="overflow-x: auto; margin: 25px 0;">
+                <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Expense Category</th>
+                            <th style="padding: 15px; text-align: center; border: 1px solid #ddd;">₹30k Income</th>
+                            <th style="padding: 15px; text-align: center; border: 1px solid #ddd;">₹50k Income</th>
+                            <th style="padding: 15px; text-align: center; border: 1px solid #ddd;">₹1L Income</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Rent/Housing</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹9,000-12,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹15,000-18,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹25,000-30,000</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Groceries</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹4,000-5,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹6,000-8,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹10,000-12,000</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Transportation</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹2,000-3,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹3,000-4,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹5,000-8,000</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Entertainment</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹2,000-3,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹4,000-6,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹8,000-12,000</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Savings Target</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹3,000-5,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹8,000-12,000</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">₹20,000-30,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Common Budgeting Mistakes to Avoid</h3>
+            
+            <ol style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>Not tracking small expenses:</strong> ₹50 chai, ₹30 cigarette, ₹100 auto - these add up to ₹5,000+ monthly!</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Budgeting without emergency fund:</strong> Always allocate 10-15% for unexpected expenses. Life happens!</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Overestimating income:</strong> Budget based on in-hand salary, not CTC. Don't count bonuses as regular income.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Underestimating expenses:</strong> Track for 2-3 months before creating budget. You'll be surprised how much you actually spend.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Not reviewing monthly:</strong> Your budget should evolve. Review and adjust every month based on actual spending.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Ignoring subscriptions:</strong> Netflix, Spotify, Amazon Prime, gym - these "small" subscriptions add up to ₹3,000-5,000/month.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Setting unrealistic goals:</strong> If you've been spending ₹8,000 on dining out, don't suddenly budget ₹2,000. Reduce gradually.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Forgetting annual expenses:</strong> Insurance premiums, vehicle servicing, festivals - divide by 12 and include monthly.</li>
+            </ol>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Expert Tips for Successful Budgeting</h3>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>Pay Yourself First:</strong> Transfer savings amount to investment accounts on salary day itself, before any spending.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Use Cash Envelopes:</strong> For discretionary spending like entertainment, withdraw cash and use only that. When envelope is empty, stop spending!</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Automate Everything:</strong> Set up auto-debit for SIPs, insurance, bill payments. Reduces decision fatigue and ensures consistency.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Zero-Based Budgeting:</strong> Every rupee should have a job. Income - Expenses - Savings = 0. This ensures no money is wasted.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Track Daily:</strong> Spend 5 minutes daily logging expenses. Use apps like Money Manager, Walnut, or simple Excel sheet.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Plan for Lifestyle Inflation:</strong> When salary increases, increase savings proportionally, not just expenses.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Have Budget Meetings:</strong> If married, have weekly 15-minute money talks. Alignment prevents conflicts and overspending.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Use Our Calculator Monthly:</strong> Re-run the budget calculator every month to see trends and adjust categories.</li>
+            </ul>
+
+            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #ff9800;">
+                <h4 style="color: #e65100; margin-bottom: 15px; font-size: 1.4rem;"><i class="fas fa-star"></i> Pro Tip for 2025</h4>
+                <p style="color: #bf360c; line-height: 1.8; margin: 0; font-size: 1.05rem;">Start with the "No-Spend Challenge" - Pick one category (like dining out or shopping) and don't spend on it for one month. You'll save ₹5,000-10,000 and realize how much you can live without. Use our budget calculator to see the impact on your monthly surplus!</p>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Best Budgeting Apps in India (2025)</h3>
+            
+            <p style="margin-bottom: 20px;">While our calculator gives you instant insights, these apps help with daily tracking:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;"><strong>Money Manager:</strong> Free, offline, simple expense tracking with categories</li>
+                <li style="margin-bottom: 12px;"><strong>Walnut:</strong> Auto-reads SMS, tracks spends across cards and accounts</li>
+                <li style="margin-bottom: 12px;"><strong>ET Money:</strong> Expense tracking + mutual fund investments in one app</li>
+                <li style="margin-bottom: 12px;"><strong>Google Sheets:</strong> Old-school but effective. Full control and customization</li>
+                <li style="margin-bottom: 12px;"><strong>YNAB (You Need A Budget):</strong> Paid but excellent for serious budgeters</li>
+            </ul>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Conclusion: Take Control of Your Finances Today</h3>
+            
+            <p style="margin-bottom: 20px;">Budget planning isn't about restriction - it's about freedom. Freedom from debt, freedom from financial stress, freedom to achieve your dreams. With India's cost of living rising 6-7% annually, those who budget today will thrive tomorrow.</p>
+            
+            <p style="margin-bottom: 20px;">Start simple: Use our free budget calculator right now. Input your real numbers. See where your money goes. Most people have an "aha moment" when they see the breakdown. That awareness is the first step to financial freedom.</p>
+            
+            <p style="margin-bottom: 20px;">Remember: The best time to start budgeting was yesterday. The second best time is today. Your future self will thank you!</p>
+            
+            <p style="margin-bottom: 20px;"><strong>Disclaimer:</strong> The budget calculator provides estimates based on your inputs and should be used as a planning tool. Actual expenses may vary. The 50/30/20 rule is a guideline - adjust based on your personal situation. Consult a certified financial planner for personalized advice.</p>
+        </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <div style="margin-top: 60px;">
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 30px; border-bottom: 4px solid #667eea; padding-bottom: 15px;">
+            <i class="fas fa-question-circle"></i> Frequently Asked Questions (FAQ)
+        </h2>
+        
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    1. What is the 50/30/20 budget rule?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>The 50/30/20 budget rule is a simple budgeting method where you allocate 50% of your income to needs (rent, groceries, utilities), 30% to wants (entertainment, dining out, shopping), and 20% to savings and debt repayment. For example, with a ₹50,000 monthly income: ₹25,000 for needs, ₹15,000 for wants, and ₹10,000 for savings. This rule provides a balanced approach to managing money while ensuring you save consistently.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    2. How much should I budget for groceries per month in India?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>For a family of 4 in India (2025), budget ₹8,000-₹15,000 per month for groceries depending on your city and eating habits. Single individuals need ₹3,000-₹5,000, couples need ₹5,000-₹8,000. Metro cities like Mumbai, Delhi, Bangalore require 20-30% more. This includes essentials like rice, dal, vegetables, fruits, dairy, cooking oil, and basic pantry items. Organic and imported products increase costs by 40-50%.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    3. What percentage of income should go to rent?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Financial experts recommend spending no more than 30% of your gross monthly income on rent or housing EMI. If you earn ₹50,000 per month, your rent should ideally be under ₹15,000. In expensive cities like Mumbai or Bangalore, this might stretch to 35-40%, but try to keep it below 40% to maintain financial flexibility for savings, investments, and emergency funds. If rent exceeds 40%, consider roommates or moving to more affordable areas.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    4. How can I stick to my budget?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>To stick to your budget: (1) Track all expenses daily using apps like Money Manager or Excel, (2) Use cash envelopes for discretionary spending categories, (3) Automate savings on salary day before you can spend it, (4) Review budget weekly and adjust if needed, (5) Set realistic goals - don't cut expenses too drastically, (6) Allow 5-10% buffer for unexpected expenses, (7) Reward yourself for meeting monthly goals, (8) Use our budget calculator monthly to track progress and see improvement.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    5. What's a realistic monthly savings goal?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Aim to save at least 20-30% of your monthly income. If you're just starting, even 10-15% is good progress. With ₹50,000 income, try saving ₹10,000-₹15,000. Break it down: 10% in emergency fund (until you have 6 months expenses), 5-10% in mutual funds/SIP for long-term wealth, 5% in PPF/EPF for retirement. As income grows, increase savings percentage before lifestyle inflation kicks in. The key is consistency, not perfection.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    6. How do I budget for irregular expenses?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>For irregular expenses like insurance premiums, vehicle servicing, festivals, or annual subscriptions, calculate the total yearly cost and divide by 12 to get a monthly amount. Set aside this amount each month in a separate savings account. For example, if you pay ₹12,000 annual insurance and ₹6,000 for festivals, budget ₹1,500/month (₹18,000÷12). This way, when the expense comes, you're prepared and don't disrupt your regular budget.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    7. Should I include savings in my budget as an expense?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Yes, absolutely! Treat savings as a non-negotiable expense - the first bill you pay each month (to yourself). This is called "paying yourself first." Set up auto-debit for SIPs and savings on the day your salary is credited. If you wait to save what's left at month-end, there will be nothing left! Budget savings just like rent or groceries - as a mandatory monthly allocation, not an optional afterthought.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    8. How often should I review my budget?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Review your budget monthly for the first 6 months, then quarterly once you've established good habits. Do a mini-review weekly (15 minutes) to track if you're on target in each category. Annual review (1-2 hours) is essential for big picture planning and adjusting for salary changes, life events, or goal modifications. Use our budget calculator each time to see trends and make data-driven decisions. Life changes, and your budget should too!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    9. What if my expenses exceed my income?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>If expenses exceed income, you need immediate action: (1) Cut discretionary spending (entertainment, dining out, shopping) by 50%, (2) Find ways to increase income (freelancing, part-time work, selling unused items), (3) Negotiate bills (internet, phone plans), (4) Cancel unnecessary subscriptions, (5) Use our calculator to identify your top 3 expense categories and reduce them by 20%. If the gap is large and persistent, you may need to consider cheaper housing or drastic lifestyle changes to avoid debt trap.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    10. Is budgeting necessary if I have a high income?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Yes, budgeting is even more important with high income! "Lifestyle inflation" causes many high earners to spend everything they make, leaving nothing for wealth building. Studies show high-income individuals without budgets save less percentage-wise than middle-income budgeters. A budget helps ensure you're maximizing investments, optimizing taxes, and building generational wealth - not just maintaining an expensive lifestyle. Use our calculator to ensure at least 30-40% of high income goes to savings and investments.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Calculators Section -->
+    <div style="margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 20px;">
+        <h2 style="color: #1a1a2e; font-size: 2rem; margin-bottom: 25px; text-align: center;">
+            <i class="fas fa-calculator"></i> Related Financial Calculators
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <a href="./Savings-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-piggy-bank" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Savings Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Calculate savings and interest earned</p>
+            </a>
+            <a href="./Emergency-Fund-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-shield-alt" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Emergency Fund Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Plan your emergency fund corpus</p>
+            </a>
+            <a href="./Expense-Tracker.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-receipt" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Expense Tracker</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Track and analyze your expenses</p>
+            </a>
+            <a href="./SIP-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">SIP Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Plan systematic investment plan returns</p>
+            </a>
+        </div>
+    </div>
+</div>
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-btn i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-btn i').classList.replace('fa-moon', 'fa-sun');
+        }
+    </script>
+</body>
+</html>

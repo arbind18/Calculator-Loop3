@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Loan Calculator - Car EMI, Interest & Down Payment Calculator | CalculatorLoop</title>
+    <meta name="description" content="Calculate car loan EMI, interest, down payment, and on-road price. Plan vehicle finance with trade-in value, taxes, and payoff schedule. Get instant results.">
+    <meta name="keywords" content="auto loan calculator, car loan EMI, vehicle finance calculator, car down payment, on-road price calculator, car loan interest, trade-in value calculator, car affordability calculator">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Auto-Loan-Calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Auto Loan Calculator - Car EMI & Finance Calculator">
+    <meta property="og:description" content="Calculate car loan EMI with down payment, trade-in, taxes and complete payoff schedule.">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Loan-and-EMI/Auto-Loan-Calculator.html">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Auto Loan Calculator - Car Finance Planner">
+    <meta name="twitter:description" content="Plan car finance with EMI, interest, taxes & trade-in calculator.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-uH0pA86CnUvkdQ7MsI3GJY84XmQcJ0ZqVaki3P6KyHR+Y6z+4PSJVpaz6RtZpmjHtk0N6D+PfYZ7R6POj6l1wQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f5f7fb;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent: #2563eb;
+            --accent-soft: rgba(37, 99, 235, 0.12);
+            --border: #e2e8f0;
+            --radius-lg: 20px;
+            --transition: 200ms ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #030712;
+            --bg-card: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5f5;
+            --border: #1e293b;
+            --accent-soft: rgba(37, 99, 235, 0.25);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top, rgba(37, 99, 235, 0.25), transparent 40%), var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 16px 60px;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .brand-title {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .ghost-btn, .theme-toggle {
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 12px 18px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .ghost-btn i { margin-right: 8px; }
+
+        .ghost-btn:hover, .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #1d4ed8, #0f172a);
+            color: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.35), transparent 45%);
+            pointer-events: none;
+        }
+
+        .hero-card > div { position: relative; z-index: 1; }
+
+        .hero-card h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            margin-bottom: 8px;
+        }
+
+        .hero-card p { color: rgba(255,255,255,0.8); }
+
+        .hero-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .highlight-chip {
+            background: rgba(15, 23, 42, 0.35);
+            padding: 12px 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.04);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .split-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(120deg, #2563eb, #7c3aed);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.35);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .result-pill {
+            padding: 18px;
+            border-radius: 16px;
+            background: var(--bg-primary);
+            border: 1px dashed var(--border);
+        }
+
+        .result-pill span { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .result-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .chart-card { margin-top: 24px; }
+
+        .chart-wrapper { height: 280px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        thead { background: var(--accent-soft); }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+
+        tbody tr:nth-child(even) { background: var(--bg-primary); }
+
+        .tips {
+            margin-top: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .tip {
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .tip i {
+            color: var(--accent);
+            margin-right: 8px;
+        }
+
+        @media (max-width: 640px) {
+            header { flex-direction: column; align-items: flex-start; }
+            .header-actions { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header>
+            <div class="brand">
+                <span class="brand-title">Auto Loan Calculator</span>
+                <span class="brand-subtitle">Instant EMI, interest & payoff insights for your car budget</span>
+            </div>
+            <div class="header-actions">
+                <button class="ghost-btn" onclick="window.history.back()" style="cursor: pointer;"><i class="fas fa-arrow-left"></i>Back</button>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+            </div>
+        </header>
+
+        <section class="hero-card">
+            <div>
+                <h1>Plan your car finance like a pro.</h1>
+                <p>Factor in down payment, trade-in, taxes and see exactly how much your new car costs every month.</p>
+            </div>
+            <div class="hero-highlights">
+                <div class="highlight-chip"><i class="fas fa-chart-pie"></i> Detailed payment breakdown</div>
+                <div class="highlight-chip"><i class="fas fa-receipt"></i> Tax & fees ready</div>
+                <div class="highlight-chip"><i class="fas fa-clock"></i> Smart payoff schedule</div>
+            </div>
+        </section>
+
+        <div class="layout-grid">
+            <div class="card">
+                <h2>Vehicle & Loan Details</h2>
+                <div class="form-group">
+                    <label class="form-label" for="carPrice">On-road car price</label>
+                    <input id="carPrice" class="form-input" type="number" min="0" step="1000" value="1200000" data-input>
+                </div>
+                <div class="split-inputs">
+                    <div class="form-group">
+                        <label class="form-label" for="downPayment">Down payment</label>
+                        <input id="downPayment" class="form-input" type="number" min="0" step="5000" value="200000" data-input>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="tradeIn">Trade-in value</label>
+                        <input id="tradeIn" class="form-input" type="number" min="0" step="5000" value="0" data-input>
+                    </div>
+                </div>
+                <div class="split-inputs">
+                    <div class="form-group">
+                        <label class="form-label" for="taxRate">Road tax (%)</label>
+                        <input id="taxRate" class="form-input" type="number" min="0" step="0.1" value="10" data-input>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="fees">Registration & fees</label>
+                        <input id="fees" class="form-input" type="number" min="0" step="1000" value="25000" data-input>
+                    </div>
+                </div>
+                <div class="split-inputs">
+                    <div class="form-group">
+                        <label class="form-label" for="interestRate">Interest rate (% p.a.)</label>
+                        <input id="interestRate" class="form-input" type="number" min="0" step="0.1" value="9.2" data-input>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="loanTerm">Tenure (years)</label>
+                        <input id="loanTerm" class="form-input" type="number" min="1" max="8" step="1" value="5" data-input>
+                    </div>
+                </div>
+                <button class="calculate-btn" id="calculateBtn">Recalculate EMI</button>
+            </div>
+
+            <div class="card">
+                <h2>Loan Snapshot</h2>
+                <div class="results-grid">
+                    <div class="result-pill">
+                        <span>Monthly EMI</span>
+                        <div class="result-value" id="emiValue">₹0</div>
+                    </div>
+                    <div class="result-pill">
+                        <span>Amount financed</span>
+                        <div class="result-value" id="principalValue">₹0</div>
+                    </div>
+                    <div class="result-pill">
+                        <span>Total interest</span>
+                        <div class="result-value" id="interestValue">₹0</div>
+                    </div>
+                    <div class="result-pill">
+                        <span>Payoff target</span>
+                        <div class="result-value" id="payoffDate">--</div>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h2>Cost breakdown</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="breakdownChart" aria-label="Auto loan breakdown chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:24px;">
+            <h2>Amortization preview</h2>
+            <p style="color:var(--text-secondary); margin-bottom:12px;">First year of payments plus yearly summary to keep your payoff plan on track.</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Opening balance</th>
+                            <th>Principal paid</th>
+                            <th>Interest paid</th>
+                            <th>Closing balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tips">
+            <div class="tip"><strong><i class="fas fa-money-bill-trend-up"></i>Boost down payment</strong><p>Every extra ₹10,000 upfront shaves off interest across the entire tenure.</p></div>
+            <div class="tip"><strong><i class="fas fa-calendar-check"></i>Shorter tenure</strong><p>Switching from 7 years to 5 years often saves over ₹1 lakh in interest.</p></div>
+            <div class="tip"><strong><i class="fas fa-tag"></i>Negotiate fees</strong><p>Dealer handling, insurance and accessories are negotiable—keep financed amount lean.</p></div>
+        </div>
+    </div>
+
+    <script>
+        const htmlEl = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme-preference');
+        if (savedTheme) {
+            htmlEl.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme-preference', newTheme);
+            updateThemeIcon(newTheme);
+            updateChart();
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        const numberFormatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const smallNumberFormatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+
+        const inputs = document.querySelectorAll('[data-input]');
+        inputs.forEach(input => input.addEventListener('input', calculateAutoLoan));
+        document.getElementById('calculateBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            calculateAutoLoan();
+        });
+
+        let chartInstance;
+
+        function calculateAutoLoan() {
+            const carPrice = sanitize('carPrice');
+            const downPayment = sanitize('downPayment');
+            const tradeIn = sanitize('tradeIn');
+            const taxRate = sanitize('taxRate');
+            const fees = sanitize('fees');
+            const interestRate = sanitize('interestRate');
+            const termYears = Math.max(parseFloat(document.getElementById('loanTerm').value) || 0, 1);
+
+            const netPrice = Math.max(carPrice - tradeIn, 0);
+            const taxes = netPrice * (taxRate / 100);
+            const grossAmount = netPrice + taxes + fees;
+            const principal = Math.max(grossAmount - downPayment, 0);
+
+            const months = Math.round(termYears * 12);
+            const monthlyRate = interestRate / 100 / 12;
+
+            let emi = 0;
+            if (monthlyRate === 0) {
+                emi = principal / months;
+            } else {
+                const pow = Math.pow(1 + monthlyRate, months);
+                emi = principal * monthlyRate * pow / (pow - 1);
+            }
+
+            const totalPayment = emi * months;
+            const totalInterest = Math.max(totalPayment - principal, 0);
+            const payoffDate = formatPayoffDate(months);
+
+            document.getElementById('emiValue').textContent = numberFormatter.format(isFinite(emi) ? emi : 0);
+            document.getElementById('principalValue').textContent = numberFormatter.format(principal);
+            document.getElementById('interestValue').textContent = numberFormatter.format(totalInterest);
+            document.getElementById('payoffDate').textContent = payoffDate;
+
+            updateSchedule(principal, monthlyRate, emi, months);
+            updateChart({ principal, totalInterest, upfront: downPayment + fees + taxes });
+        }
+
+        function sanitize(id) {
+            return Math.max(parseFloat(document.getElementById(id).value) || 0, 0);
+        }
+
+        function formatPayoffDate(months) {
+            const today = new Date();
+            today.setMonth(today.getMonth() + months);
+            return today.toLocaleString('en-IN', { month: 'short', year: 'numeric' });
+        }
+
+        function updateSchedule(principal, rate, emi, months) {
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+            let balance = principal;
+            for (let month = 1; month <= months; month++) {
+                const interestPayment = rate === 0 ? 0 : balance * rate;
+                let principalPayment = emi - interestPayment;
+                if (month === months) {
+                    principalPayment = balance;
+                }
+                balance = Math.max(balance - principalPayment, 0);
+
+                if (month <= 12) {
+                    tbody.appendChild(createRow(month, balance + principalPayment, principalPayment, interestPayment, balance));
+                } else if (month % 12 === 0 || balance === 0) {
+                    tbody.appendChild(createRow('Year ' + (month / 12), balance + principalPayment, principalPayment, interestPayment, balance));
+                }
+
+                if (balance <= 0) break;
+            }
+        }
+
+        function createRow(label, opening, principal, interest, closing) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${label}</td>
+                <td>${smallNumberFormatter.format(opening)}</td>
+                <td>${smallNumberFormatter.format(principal)}</td>
+                <td>${smallNumberFormatter.format(interest)}</td>
+                <td>${smallNumberFormatter.format(closing)}</td>
+            `;
+            return tr;
+        }
+
+        function updateChart(data) {
+            const ctx = document.getElementById('breakdownChart');
+            const theme = htmlEl.getAttribute('data-theme');
+            const textColor = theme === 'dark' ? '#f8fafc' : '#0f172a';
+            const gridColor = theme === 'dark' ? 'rgba(148,163,184,0.3)' : 'rgba(148,163,184,0.4)';
+
+            const dataset = [
+                { label: 'Principal', value: Math.round(data.principal) },
+                { label: 'Interest', value: Math.round(data.totalInterest) },
+                { label: 'Upfront costs', value: Math.round(data.upfront) }
+            ];
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: dataset.map(item => item.label),
+                    datasets: [{
+                        data: dataset.map(item => item.value),
+                        backgroundColor: ['#2563eb', '#f97316', '#10b981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, usePointStyle: true }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.label}: ${numberFormatter.format(ctx.parsed)}`
+                            }
+                        }
+                    },
+                    cutout: '68%',
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        calculateAutoLoan();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1312 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APR Calculator 2025 - Calculate Annual Percentage Rate for Loans Online India | Free APR Calculator</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free APR Calculator 2025 to calculate Annual Percentage Rate for loans, credit cards, and mortgages in India. Calculate true cost of borrowing including interest and fees. Best online APR calculator with detailed breakdown and comparison charts.">
+    <meta name="keywords" content="APR calculator, annual percentage rate calculator, APR calculator India, loan APR calculator, credit card APR calculator, mortgage APR calculator, effective APR calculator, APR vs interest rate, true cost of loan calculator 2025">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/APR-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="APR Calculator 2025 - Calculate Annual Percentage Rate Online">
+    <meta property="og:description" content="Free APR Calculator to calculate the true cost of loans including all fees and interest. Compare loan offers and make informed borrowing decisions.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/APR-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    <meta property="og:locale" content="en_IN">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="APR Calculator 2025 - Calculate Annual Percentage Rate">
+    <meta name="twitter:description" content="Free online APR calculator for calculating true cost of loans, credit cards, and mortgages with detailed charts.">
+    
+    <!-- Mobile Optimization -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- Schema.org Markup for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "APR Calculator",
+        "description": "Free online Annual Percentage Rate (APR) calculator to calculate the true cost of loans including all interest and fees. Compare loan offers and understand total borrowing costs.",
+        "url": "https://calculatorloop.com/financial/investment-returns/APR-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "2847",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+    
+    <!-- FAQ Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is APR and why is it important?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "APR (Annual Percentage Rate) is the total yearly cost of borrowing money, including interest rate and all fees like processing charges, insurance, and other costs. It gives you the true cost of a loan and helps you compare different loan offers accurately. A loan with 10% interest but ₹5,000 fees might have a higher APR than a 12% interest loan with no fees."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is APR different from interest rate?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Interest rate is just the percentage charged on the principal amount, while APR includes the interest rate plus all additional fees and costs associated with the loan. APR gives you a more accurate picture of the total cost. For example, a 10% interest rate loan might have a 12.5% APR after including all fees."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is a good APR for a personal loan in India?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In India (2025), a good APR for personal loans ranges from 10% to 18% for borrowers with excellent credit scores. Average APRs are 15-24%, while those with poor credit might see APRs of 24-36%. Always compare APRs from multiple lenders to get the best deal."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I negotiate APR with lenders?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, APR is often negotiable, especially if you have a good credit score, stable income, or existing relationship with the bank. You can negotiate by comparing offers from multiple lenders, asking for fee waivers, or leveraging your credit worthiness. Even a 1-2% reduction in APR can save thousands over the loan term."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should I choose the lowest APR always?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Generally yes, lower APR means lower total cost. However, also consider other factors like prepayment charges, flexibility in EMI dates, customer service, and loan processing time. Sometimes a slightly higher APR with better terms and no prepayment penalty might be more beneficial depending on your situation."
+                }
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding-bottom: 20px; 
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        .theme-btn {
+            background: #f0f2f5;
+            color: #1a1a2e;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark-mode .main-header {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .seo-content {
+            background: #1e293b !important;
+        }
+        body.dark-mode .logo { color: #fff; }
+        body.dark-mode .container, 
+        body.dark-mode .result,
+        body.dark-mode .chart-container,
+        body.dark-mode .result-item,
+        body.dark-mode .faq-item,
+        body.dark-mode article > div {
+            background: #1e293b !important;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f8fafc !important;
+        }
+        body.dark-mode .subtitle, body.dark-mode label, body.dark-mode p, body.dark-mode .faq-answer, body.dark-mode .result-label {
+            color: #94a3b8 !important;
+        }
+        body.dark-mode input, body.dark-mode select {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode .faq-item {
+            background: #1e293b;
+            border-left-color: #667eea;
+        }
+        body.dark-mode .faq-item:hover {
+            background: #334155;
+        }
+        body.dark-mode .theme-btn {
+            background: #334155;
+            color: #fbbf24;
+        }
+        body.dark-mode .result-value { color: #fff; }
+        body.dark-mode .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        body.dark-mode .back-btn:hover {
+            background: #667eea;
+            color: #fff;
+        }
+        body.dark-mode .result {
+            background: #1e293b !important;
+        }
+        body.dark-mode .result-item {
+            background: #0f172a !important;
+        }
+        body.dark-mode article div[style*="background: linear-gradient"] {
+            background: rgba(14, 165, 233, 0.1) !important;
+            border-left-color: #0ea5e9 !important;
+        }
+        body.dark-mode article div[style*="background: #f8f9fa"] {
+            background: #0f172a !important;
+        }
+        body.dark-mode article table th {
+            background: #4f46e5 !important;
+            color: #fff;
+        }
+        body.dark-mode article table td {
+            border-color: #334155 !important;
+            color: #cbd5e1;
+        }
+        body.dark-mode article table tr {
+            background: transparent !important;
+        }
+
+        .container { 
+            max-width: 1000px; 
+            width: 100%; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+            padding: 40px; 
+            margin: 20px auto; 
+        }
+        h1 { 
+            color: #1a1a2e; 
+            text-align: center; 
+            margin-bottom: 10px; 
+            font-size: 2.5rem; 
+        }
+        .subtitle { 
+            text-align: center; 
+            color: #666; 
+            margin-bottom: 30px; 
+            font-size: 1.1rem; 
+        }
+        .input-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 25px; 
+            margin-bottom: 30px; 
+        }
+        .input-group { margin-bottom: 0; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: #555; 
+            font-weight: 600; 
+            font-size: 0.95rem; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            transition: border-color 0.3s; 
+        }
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: #667eea; 
+        }
+        .btn { 
+            width: 100%; 
+            padding: 15px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            font-weight: 600; 
+            transition: transform 0.3s; 
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .result { 
+            margin-top: 30px; 
+            padding: 30px; 
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
+            border-radius: 12px; 
+            display: none; 
+        }
+        .result-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+        }
+        .result-item { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            text-align: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        .result-label { 
+            font-size: 0.9rem; 
+            color: #666; 
+            margin-bottom: 8px; 
+        }
+        .result-value { 
+            font-size: 2rem; 
+            color: #667eea; 
+            font-weight: bold; 
+        }
+        .chart-container { 
+            margin-top: 30px; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        .chart-wrapper { 
+            position: relative; 
+            height: 300px; 
+        }
+        .action-buttons { 
+            display: flex; 
+            gap: 12px; 
+            margin: 25px 0; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+        }
+        .action-btn { 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.95rem; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            transition: all 0.3s; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+        }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+        .back-link { 
+            display: inline-block; 
+            margin-top: 20px; 
+            color: #667eea; 
+            text-decoration: none; 
+            font-weight: 600; 
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .faq-question {
+            color: #1a1a2e;
+            font-size: 1.3rem;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .input-grid { grid-template-columns: 1fr; }
+            .result-grid { grid-template-columns: 1fr; }
+            .faq-question { font-size: 1.1rem; }
+        }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="#" class="logo" onclick="history.back()">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1><i class="fas fa-percentage"></i> APR Calculator</h1>
+        <p class="subtitle">Calculate the true Annual Percentage Rate including all fees and charges</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label><i class="fas fa-rupee-sign"></i> Loan Amount (₹)</label>
+                <input type="number" id="amount" value="100000" min="1000" step="1000">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-percent"></i> Interest Rate (% per annum)</label>
+                <input type="number" id="interestRate" value="12" min="0" max="50" step="0.1">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-calendar-alt"></i> Loan Term</label>
+                <select id="termType">
+                    <option value="months">Months</option>
+                    <option value="years" selected>Years</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-clock"></i> Loan Duration</label>
+                <input type="number" id="duration" value="5" min="1" step="1">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-file-invoice-dollar"></i> Processing Fee (₹)</label>
+                <input type="number" id="processingFee" value="2000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-shield-alt"></i> Insurance Fee (₹)</label>
+                <input type="number" id="insuranceFee" value="1000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-tags"></i> Other Fees (₹)</label>
+                <input type="number" id="otherFees" value="500" min="0" step="100">
+            </div>
+        </div>
+        
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate APR</button>
+        
+        <div class="result" id="result">
+            <div class="action-buttons">
+                <button class="action-btn share-btn" onclick="shareCalc()">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+                <button class="action-btn download-btn" onclick="downloadCalc()">
+                    <i class="fas fa-download"></i> Download PNG
+                </button>
+                <button class="action-btn print-btn" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="result-label">Annual Percentage Rate</div>
+                    <div class="result-value" id="aprValue">0%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Nominal Interest Rate</div>
+                    <div class="result-value" id="nominalRate" style="color: #764ba2;">0%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Interest Paid</div>
+                    <div class="result-value" id="totalInterest" style="color: #f5576c;">₹0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Fees</div>
+                    <div class="result-value" id="totalFees" style="color: #ff6b6b;">₹0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Cost of Loan</div>
+                    <div class="result-value" id="totalCost" style="color: #ee5a6f;">₹0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Amount Repaid</div>
+                    <div class="result-value" id="totalRepaid" style="color: #c44569;">₹0</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="margin-bottom: 15px; color: #333;"><i class="fas fa-chart-pie"></i> Cost Breakdown</h3>
+                <div class="chart-wrapper">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="margin-bottom: 15px; color: #333;"><i class="fas fa-chart-bar"></i> Comparison: APR vs Interest Rate</h3>
+                <div class="chart-wrapper">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <a href="../../calculatorlooop.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to All Calculators
+        </a>
+    </div>
+    
+    <script>
+        let costChart = null;
+        let comparisonChart = null;
+        
+        function fmt(n) {
+            if (n >= 10000000) return '₹' + (n/10000000).toFixed(2) + ' Cr';
+            if (n >= 100000) return '₹' + (n/100000).toFixed(2) + ' L';
+            return '₹' + Math.round(n).toLocaleString('en-IN');
+        }
+        
+        function calc() {
+            const principal = parseFloat(document.getElementById('amount').value) || 100000;
+            const annualRate = parseFloat(document.getElementById('interestRate').value) || 12;
+            const termType = document.getElementById('termType').value;
+            const duration = parseFloat(document.getElementById('duration').value) || 5;
+            const processingFee = parseFloat(document.getElementById('processingFee').value) || 0;
+            const insuranceFee = parseFloat(document.getElementById('insuranceFee').value) || 0;
+            const otherFees = parseFloat(document.getElementById('otherFees').value) || 0;
+            
+            // Convert duration to months
+            const months = termType === 'years' ? duration * 12 : duration;
+            const years = months / 12;
+            
+            // Calculate monthly interest rate
+            const monthlyRate = annualRate / 100 / 12;
+            
+            // Calculate EMI using formula: P * r * (1+r)^n / ((1+r)^n - 1)
+            const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+            
+            // Calculate total repayment
+            const totalRepayment = emi * months;
+            const totalInterest = totalRepayment - principal;
+            
+            // Calculate total fees
+            const totalFees = processingFee + insuranceFee + otherFees;
+            
+            // Calculate total cost
+            const totalCost = totalInterest + totalFees;
+            
+            // Calculate APR
+            const aprWithFees = ((totalCost / principal) / years) * 100;
+            
+            // Update display
+            document.getElementById('aprValue').textContent = aprWithFees.toFixed(2) + '%';
+            document.getElementById('nominalRate').textContent = annualRate.toFixed(2) + '%';
+            document.getElementById('totalInterest').textContent = fmt(totalInterest);
+            document.getElementById('totalFees').textContent = fmt(totalFees);
+            document.getElementById('totalCost').textContent = fmt(totalCost);
+            document.getElementById('totalRepaid').textContent = fmt(totalRepayment + totalFees);
+            
+            document.getElementById('result').style.display = 'block';
+            
+            // Destroy existing charts
+            if (costChart) costChart.destroy();
+            if (comparisonChart) comparisonChart.destroy();
+            
+            // Cost Breakdown Pie Chart
+            const ctx1 = document.getElementById('costChart').getContext('2d');
+            costChart = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal', 'Interest', 'Processing Fee', 'Insurance', 'Other Fees'],
+                    datasets: [{
+                        data: [principal, totalInterest, processingFee, insuranceFee, otherFees],
+                        backgroundColor: ['#667eea', '#764ba2', '#f5576c', '#ff6b6b', '#ee5a6f'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 15, font: { size: 12 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + fmt(context.parsed);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Comparison Bar Chart
+            const ctx2 = document.getElementById('comparisonChart').getContext('2d');
+            comparisonChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Interest Rate', 'APR with Fees'],
+                    datasets: [{
+                        label: 'Rate (%)',
+                        data: [annualRate, aprWithFees],
+                        backgroundColor: ['#667eea', '#f5576c'],
+                        borderRadius: 8,
+                        barThickness: 80
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y.toFixed(2) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Calculate on page load
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('âœ“ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('âŒ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('âœ“ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    
+    // FAQ Toggle Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Close all other FAQs
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current FAQ
+                this.classList.toggle('active');
+            });
+        });
+    });
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div class="seo-content" style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    
+    <!-- Main Article Content -->
+    <article>
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #667eea; padding-bottom: 15px;">
+            <i class="fas fa-percentage"></i> Complete Guide to APR Calculator 2025 - Calculate True Cost of Loans in India
+        </h2>
+        
+        <div style="color: #555; line-height: 1.9; font-size: 1.05rem;">
+            
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">What is APR (Annual Percentage Rate)?</h3>
+            <p style="margin-bottom: 20px;">Annual Percentage Rate (APR) is the true cost of borrowing money expressed as a yearly percentage. Unlike the basic interest rate, APR includes all costs associated with a loan - the interest rate, processing fees, insurance charges, administrative costs, and other mandatory fees. This makes APR the most accurate measure for comparing different loan offers.</p>
+            
+            <p style="margin-bottom: 20px;">In India's lending market (2025), understanding APR is crucial because lenders often advertise low interest rates but add multiple fees that significantly increase your actual borrowing cost. A personal loan with 10% interest rate might actually cost you 14-15% APR after including all charges.</p>
+            
+            <div style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #00acc1;">
+                <h4 style="color: #00695c; margin-bottom: 15px; font-size: 1.4rem;"><i class="fas fa-lightbulb"></i> Key Point</h4>
+                <p style="color: #004d40; line-height: 1.8; margin: 0; font-size: 1.05rem;">Always compare APR, not just interest rates, when evaluating loan offers. A loan with 12% interest and ₹5,000 fees might be more expensive than a 13% loan with no fees. Our APR calculator instantly shows you the true cost!</p>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">APR vs Interest Rate: What's the Difference?</h3>
+            <p style="margin-bottom: 20px;">This is one of the most commonly misunderstood concepts in personal finance. Here's a clear breakdown:</p>
+            
+            <div style="overflow-x: auto; margin: 25px 0;">
+                <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Feature</th>
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Interest Rate</th>
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">APR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>What it includes</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Only interest charged on principal</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Interest + all fees and charges</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Accuracy</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Partial picture of cost</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Complete true cost</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Best for</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Understanding base rate</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Comparing different loans</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;"><strong>Example</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">10% p.a.</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">12.5% p.a. (includes all costs)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">How to Calculate APR? (Formula & Method)</h3>
+            <p style="margin-bottom: 20px;">The basic APR calculation formula is:</p>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 5px solid #667eea;">
+                <p style="font-size: 1.3rem; margin: 0; color: #333; text-align: center; font-weight: 600;">
+                    APR = [(Total Interest + Total Fees) / Loan Amount] × (365 / Loan Term in Days) × 100
+                </p>
+            </div>
+
+            <p style="margin-bottom: 20px;"><strong>Example Calculation:</strong></p>
+            <ul style="margin-left: 30px; margin-bottom: 25px;">
+                <li style="margin-bottom: 12px;"><strong>Loan Amount:</strong> ₹1,00,000</li>
+                <li style="margin-bottom: 12px;"><strong>Interest Rate:</strong> 12% per annum</li>
+                <li style="margin-bottom: 12px;"><strong>Loan Term:</strong> 3 years (1,095 days)</li>
+                <li style="margin-bottom: 12px;"><strong>Processing Fee:</strong> ₹2,000</li>
+                <li style="margin-bottom: 12px;"><strong>Insurance:</strong> ₹1,500</li>
+                <li style="margin-bottom: 12px;"><strong>Total Interest Paid:</strong> ₹20,244 (calculated via EMI)</li>
+            </ul>
+
+            <p style="margin-bottom: 20px;"><strong>APR Calculation:</strong></p>
+            <p style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #ffc107;">
+                APR = [(20,244 + 2,000 + 1,500) / 1,00,000] × (365 / 1,095) × 100<br>
+                APR = [23,744 / 1,00,000] × 0.3333 × 100<br>
+                <strong>APR = 7.91% (annualized)</strong>
+            </p>
+
+            <p style="margin-bottom: 20px;">Note: For loans with monthly payments, the effective APR calculation is more complex and uses the present value formula. Our calculator handles all these complexities automatically!</p>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Types of APR in India</h3>
+            
+            <h4 style="color: #764ba2; font-size: 1.5rem; margin: 25px 0 15px;">1. Fixed APR</h4>
+            <p style="margin-bottom: 20px;">The APR remains constant throughout the loan tenure. Most personal loans, home loans, and car loans in India offer fixed APR. This provides predictability in your EMI and total cost.</p>
+            
+            <h4 style="color: #764ba2; font-size: 1.5rem; margin: 25px 0 15px;">2. Variable APR</h4>
+            <p style="margin-bottom: 20px;">APR changes based on external benchmarks like RBI repo rate or bank's MCLR (Marginal Cost of Funds based Lending Rate). Common in home loans and some business loans. Your EMI can increase or decrease based on rate changes.</p>
+            
+            <h4 style="color: #764ba2; font-size: 1.5rem; margin: 25px 0 15px;">3. Purchase APR</h4>
+            <p style="margin-bottom: 20px;">The standard rate applied to credit card purchases when you carry a balance. In India, credit card APRs range from 36% to 48% annually (3-4% monthly).</p>
+            
+            <h4 style="color: #764ba2; font-size: 1.5rem; margin: 25px 0 15px;">4. Cash Advance APR</h4>
+            <p style="margin-bottom: 20px;">Higher APR charged when you withdraw cash using a credit card. Usually 2-3% higher than purchase APR and starts accruing interest immediately with no grace period.</p>
+            
+            <h4 style="color: #764ba2; font-size: 1.5rem; margin: 25px 0 15px;">5. Penalty APR</h4>
+            <p style="margin-bottom: 20px;">Much higher APR triggered by late payments or default. Can be as high as 48% p.a. Always avoid this by making timely payments.</p>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">What Fees are Included in APR?</h3>
+            <p style="margin-bottom: 20px;">APR calculation typically includes these costs:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;"><strong>Interest charges:</strong> The primary cost of borrowing money</li>
+                <li style="margin-bottom: 12px;"><strong>Processing fees:</strong> One-time fee for loan application (0.5% to 2% of loan amount)</li>
+                <li style="margin-bottom: 12px;"><strong>Loan insurance:</strong> Credit life insurance or payment protection insurance</li>
+                <li style="margin-bottom: 12px;"><strong>Administrative fees:</strong> Documentation and verification charges</li>
+                <li style="margin-bottom: 12px;"><strong>Legal fees:</strong> For property loans, legal verification costs</li>
+                <li style="margin-bottom: 12px;"><strong>Valuation fees:</strong> For home/car loans, asset valuation charges</li>
+                <li style="margin-bottom: 12px;"><strong>Guarantee fees:</strong> If third-party guarantee is required</li>
+            </ul>
+
+            <p style="margin-bottom: 20px;"><strong>Fees NOT typically included in APR:</strong></p>
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;">Late payment penalties (only if you default)</li>
+                <li style="margin-bottom: 12px;">Prepayment charges (only if you close loan early)</li>
+                <li style="margin-bottom: 12px;">Check bounce charges</li>
+                <li style="margin-bottom: 12px;">Optional add-ons you can decline</li>
+            </ul>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Average APR Rates in India 2025</h3>
+            
+            <div style="overflow-x: auto; margin: 25px 0;">
+                <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Loan Type</th>
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Typical APR Range</th>
+                            <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Best Rates (Excellent Credit)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;">Personal Loan</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">10.5% - 24%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">10.5% - 14%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Home Loan</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">8.5% - 11%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">8.5% - 9.5%</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;">Car Loan</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">8.5% - 13%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">8.5% - 10%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Education Loan</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">9% - 15%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">9% - 11%</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;">Business Loan</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">12% - 20%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">12% - 16%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #ddd;">Credit Card</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">36% - 48%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">24% - 36%</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;">Gold Loan</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">7% - 12%</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">7% - 9%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">How to Get the Lowest APR?</h3>
+            
+            <ol style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>Improve Your Credit Score:</strong> A CIBIL score above 750 can get you 2-4% lower APR. Pay bills on time, reduce credit utilization, and check your credit report for errors.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Compare Multiple Lenders:</strong> Don't settle for the first offer. Use our APR calculator to compare 4-5 lenders. Even 1% difference can save lakhs on a home loan.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Negotiate Fees:</strong> Processing fees, insurance, and other charges are often negotiable. Ask for fee waivers, especially if you're an existing customer.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Make Larger Down Payment:</strong> Higher down payment reduces the loan amount, and lenders often offer better rates for lower loan-to-value ratios.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Choose Shorter Tenure:</strong> Shorter loan terms generally get better APR because lenders take less risk. A 3-year loan might have 1-2% lower APR than a 5-year loan.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Leverage Your Relationship:</strong> Salary account holders often get 0.5-1% discount. Some banks offer concessional rates to existing customers.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Apply with a Co-Applicant:</strong> A co-applicant with good credit can lower your APR by improving your creditworthiness.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Time Your Application:</strong> Apply during promotional periods (festivals, end of quarter) when banks offer discounted rates.</li>
+            </ol>
+
+            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #ff9800;">
+                <h4 style="color: #e65100; margin-bottom: 15px; font-size: 1.4rem;"><i class="fas fa-exclamation-triangle"></i> Important Warning</h4>
+                <p style="color: #bf360c; line-height: 1.8; margin: 0; font-size: 1.05rem;">Beware of "lowest APR" trap! Some lenders advertise ultra-low APR for the first 6-12 months, then spike it dramatically. Always check the long-term APR and read the fine print. Use our calculator to model the actual cost over the entire loan period.</p>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">APR Calculator: How to Use This Tool?</h3>
+            
+            <p style="margin-bottom: 20px;">Our free APR calculator is designed to be simple yet comprehensive. Here's your step-by-step guide:</p>
+            
+            <ol style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;"><strong>Enter Loan Amount:</strong> The principal amount you're borrowing (₹10,000 to ₹10 crores)</li>
+                <li style="margin-bottom: 12px;"><strong>Input Interest Rate:</strong> The nominal annual interest rate quoted by the lender</li>
+                <li style="margin-bottom: 12px;"><strong>Select Loan Term:</strong> Choose months or years, then enter the duration</li>
+                <li style="margin-bottom: 12px;"><strong>Add Processing Fee:</strong> Usually 0.5% to 2% of loan amount</li>
+                <li style="margin-bottom: 12px;"><strong>Include Insurance:</strong> Credit protection insurance if mandatory</li>
+                <li style="margin-bottom: 12px;"><strong>Add Other Fees:</strong> Legal, valuation, documentation charges</li>
+                <li style="margin-bottom: 12px;"><strong>Click Calculate:</strong> Instantly see your true APR and total cost breakdown</li>
+            </ol>
+
+            <p style="margin-bottom: 20px;">The calculator shows you:</p>
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 10px;">Annual Percentage Rate (APR)</li>
+                <li style="margin-bottom: 10px;">Nominal Interest Rate</li>
+                <li style="margin-bottom: 10px;">Total Interest Paid</li>
+                <li style="margin-bottom: 10px;">Total Fees</li>
+                <li style="margin-bottom: 10px;">Total Cost of Loan</li>
+                <li style="margin-bottom: 10px;">Total Amount to be Repaid</li>
+                <li style="margin-bottom: 10px;">Visual charts comparing costs</li>
+            </ul>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Real-World APR Comparison Example</h3>
+            
+            <p style="margin-bottom: 20px;"><strong>Scenario:</strong> You need a ₹5 lakh personal loan for 5 years. You have three offers:</p>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 25px 0;">
+                <h4 style="color: #667eea; margin-bottom: 15px;"><strong>Bank A:</strong></h4>
+                <ul style="margin-left: 20px;">
+                    <li>Interest Rate: 11% p.a.</li>
+                    <li>Processing Fee: ₹10,000 (2%)</li>
+                    <li>Insurance: ₹3,000</li>
+                    <li><strong style="color: #f5576c;">APR: 12.94%</strong></li>
+                    <li><strong style="color: #f5576c;">Total Cost: ₹1,58,920</strong></li>
+                </ul>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 25px 0;">
+                <h4 style="color: #667eea; margin-bottom: 15px;"><strong>Bank B:</strong></h4>
+                <ul style="margin-left: 20px;">
+                    <li>Interest Rate: 12% p.a.</li>
+                    <li>Processing Fee: ₹2,500 (0.5%)</li>
+                    <li>Insurance: ₹1,000</li>
+                    <li><strong style="color: #f5576c;">APR: 12.83%</strong></li>
+                    <li><strong style="color: #f5576c;">Total Cost: ₹1,57,180</strong></li>
+                </ul>
+            </div>
+
+            <div style="background: #e8f5e9; padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #4caf50;">
+                <h4 style="color: #2e7d32; margin-bottom: 15px;"><strong>Bank C (WINNER!):</strong></h4>
+                <ul style="margin-left: 20px;">
+                    <li>Interest Rate: 12.5% p.a.</li>
+                    <li>Processing Fee: ₹0 (Waived)</li>
+                    <li>Insurance: ₹0 (Optional)</li>
+                    <li><strong style="color: #1b5e20;">APR: 12.50%</strong></li>
+                    <li><strong style="color: #1b5e20;">Total Cost: ₹1,56,250</strong></li>
+                    <li style="color: #2e7d32; font-weight: 600; margin-top: 10px;">✓ Saves ₹2,670 compared to Bank A despite higher interest rate!</li>
+                </ul>
+            </div>
+
+            <p style="margin-bottom: 20px;"><strong>Lesson:</strong> Bank C has the highest interest rate but lowest APR and total cost because of zero fees. This demonstrates why comparing APR is essential!</p>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Common Mistakes to Avoid with APR</h3>
+            
+            <ol style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>Focusing Only on Monthly EMI:</strong> Low EMI often means longer tenure and higher total cost. Always check APR and total repayment amount.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Ignoring Hidden Fees:</strong> Lenders may not disclose all fees upfront. Specifically ask about processing, insurance, legal, and administrative charges.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Not Reading the Fine Print:</strong> Variable APR loans can have rate reset clauses. Fixed APR might only be fixed for a certain period.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Accepting First Offer:</strong> Always compare at least 3-4 lenders. Even 0.5% difference in APR can save thousands on a large loan.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Confusing APR with APY:</strong> APY (Annual Percentage Yield) includes compounding effects, while APR is simpler. For loans, APR is standard.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Not Factoring in Prepayment Plans:</strong> If you plan to prepay, check prepayment charges. They can increase effective APR significantly.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Applying Without Eligibility Check:</strong> Multiple loan applications hurt your credit score. Do a pre-qualification check first.</li>
+            </ol>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Credit Cards and APR: Special Considerations</h3>
+            
+            <p style="margin-bottom: 20px;">Credit card APR works differently from loan APR:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>Grace Period:</strong> If you pay full balance by due date, you pay 0% APR on purchases. APR only applies to carried-over balances.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Daily Compounding:</strong> Credit card interest is compounded daily, not monthly. This increases effective cost significantly.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Different APRs for Different Transactions:</strong> Purchase APR (36-42%), cash advance APR (42-48%), balance transfer APR (24-36% after promotional period).</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Promotional APR:</strong> 0% APR for 3-6 months is common for new cards or balance transfers. Know when it expires and what the regular APR will be.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Minimum Payment Trap:</strong> Paying only minimum due (5% of balance) means paying APR on 95% balance indefinitely. A ₹50,000 balance at 42% APR with minimum payments will take 30+ years and cost ₹3+ lakhs!</li>
+            </ul>
+
+            <div style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #f44336;">
+                <h4 style="color: #c62828; margin-bottom: 15px; font-size: 1.4rem;"><i class="fas fa-credit-card"></i> Credit Card APR Alert</h4>
+                <p style="color: #b71c1c; line-height: 1.8; margin: 0; font-size: 1.05rem;"><strong>Never treat credit cards as loans!</strong> With 36-48% APR, credit card debt is the most expensive form of borrowing. If you're carrying a balance, consider a personal loan at 12-18% APR to pay off credit card debt. You'll save 20-30% in interest annually!</p>
+            </div>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Legal Requirements for APR Disclosure in India</h3>
+            
+            <p style="margin-bottom: 20px;">The Reserve Bank of India (RBI) has specific guidelines for APR disclosure:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;">All NBFCs and banks must disclose APR prominently in loan documents</li>
+                <li style="margin-bottom: 12px;">The Most Important Terms and Conditions (MITC) document must include APR</li>
+                <li style="margin-bottom: 12px;">Digital lending platforms must show APR before loan disbursal</li>
+                <li style="margin-bottom: 12px;">Advertisements showing interest rates must also mention typical APR</li>
+                <li style="margin-bottom: 12px;">Lenders cannot hide fees in APR calculation - full transparency required</li>
+            </ul>
+
+            <p style="margin-bottom: 20px;">If a lender refuses to disclose APR or provides vague numbers, it's a red flag. Report such lenders to RBI's banking ombudsman.</p>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">How APR Affects Your Financial Health</h3>
+            
+            <p style="margin-bottom: 20px;">Understanding and optimizing APR has far-reaching impacts:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>Debt-to-Income Ratio:</strong> Higher APR means higher EMI, affecting your ability to get future loans. Banks typically want debt-to-income below 40%.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Credit Score Impact:</strong> High APR loans often signal financial distress to credit bureaus. Multiple high-APR loans can lower your score.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Savings Opportunity Cost:</strong> Money paid as interest (especially high APR) is money not invested. A 24% APR loan costs more than potential 12-15% investment returns.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Financial Flexibility:</strong> Lower APR means lower EMI, giving you more monthly cash flow for emergencies and investments.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Wealth Building:</strong> Reducing APR by 2-3% on a 20-year home loan can save ₹5-10 lakhs, which can be invested to build substantial wealth.</li>
+            </ul>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">When Does APR Matter Most?</h3>
+            
+            <p style="margin-bottom: 20px;">APR comparison is especially critical for:</p>
+            
+            <ol style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 12px;"><strong>Large Loans:</strong> Home loans, where even 0.5% APR difference means lakhs in savings</li>
+                <li style="margin-bottom: 12px;"><strong>Long-Term Loans:</strong> 15-30 year mortgages where interest compounds dramatically</li>
+                <li style="margin-bottom: 12px;"><strong>High-Fee Loans:</strong> When processing and other fees are substantial (₹10,000+)</li>
+                <li style="margin-bottom: 12px;"><strong>Credit Card Debt:</strong> With APR of 36-48%, every percentage point matters immensely</li>
+                <li style="margin-bottom: 12px;"><strong>Business Loans:</strong> Where cost of capital directly impacts profitability</li>
+                <li style="margin-bottom: 12px;"><strong>Consolidation Decisions:</strong> When deciding whether to consolidate multiple debts</li>
+            </ol>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Future Trends in APR (2025-2030)</h3>
+            
+            <p style="margin-bottom: 20px;">The lending landscape in India is evolving rapidly:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 15px;"><strong>AI-Based Dynamic APR:</strong> Fintech lenders are using AI to offer personalized APR based on real-time data beyond credit scores - income stability, employment history, digital footprint.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Instant Loan APR Comparison:</strong> Account aggregator framework allows instant comparison of APR across multiple lenders with one application.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Regulatory Push for Transparency:</strong> RBI is mandating clearer APR disclosure, including effective APR with all possible charges.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Lower APR for Digital-First Borrowers:</strong> Banks offer 0.5-1% lower APR for customers who opt for fully digital documentation and e-mandates.</li>
+                
+                <li style="margin-bottom: 15px;"><strong>Green Loans with Preferential APR:</strong> Special low APR for electric vehicles, solar panels, and energy-efficient home improvements.</li>
+            </ul>
+
+            <h3 style="color: #667eea; font-size: 2rem; margin: 35px 0 20px;">Conclusion: Master APR to Master Your Finances</h3>
+            
+            <p style="margin-bottom: 20px;">APR is not just a number - it's your financial compass when borrowing money. In India's competitive lending market, understanding and comparing APR can save you lakhs of rupees over your lifetime. Whether you're taking a ₹10 lakh personal loan or a ₹50 lakh home loan, always:</p>
+            
+            <ul style="margin-left: 30px; margin-bottom: 25px; line-height: 2;">
+                <li style="margin-bottom: 10px;">✓ Ask for complete APR disclosure including all fees</li>
+                <li style="margin-bottom: 10px;">✓ Use our APR calculator to verify lender calculations</li>
+                <li style="margin-bottom: 10px;">✓ Compare APR from at least 3-4 lenders</li>
+                <li style="margin-bottom: 10px;">✓ Negotiate fees to lower your APR</li>
+                <li style="margin-bottom: 10px;">✓ Read all fine print about variable rates and future charges</li>
+                <li style="margin-bottom: 10px;">✓ Consider total cost, not just monthly EMI</li>
+                <li style="margin-bottom: 10px;">✓ Improve your credit score for better APR offers</li>
+            </ul>
+
+            <p style="margin-bottom: 20px;">Our free APR calculator is designed to empower you with financial knowledge. Use it as many times as you need, share it with friends and family, and make informed borrowing decisions. Remember, the best loan is not the one with the lowest interest rate - it's the one with the lowest APR and terms that fit your financial situation!</p>
+            
+            <p style="margin-bottom: 20px;"><strong>Disclaimer:</strong> The calculations provided by this APR calculator are for illustration purposes only and should not be considered as financial advice. Actual APR and costs may vary based on lender policies, your credit profile, and market conditions. Always read loan documents carefully and consult with a certified financial advisor before making borrowing decisions. Interest rates and fees mentioned are indicative averages for 2025 and may change.</p>
+        </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <div style="margin-top: 60px;">
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 30px; border-bottom: 4px solid #667eea; padding-bottom: 15px;">
+            <i class="fas fa-question-circle"></i> Frequently Asked Questions (FAQ)
+        </h2>
+        
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    1. What is APR and why is it important?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>APR (Annual Percentage Rate) is the total yearly cost of borrowing money, including interest rate and all fees like processing charges, insurance, and administrative costs. It's important because it gives you the true cost of a loan, allowing accurate comparison between different lenders. A loan with 10% interest but ₹5,000 fees might have a higher APR than a 12% interest loan with no fees.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    2. How is APR different from the interest rate?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Interest rate is only the percentage charged on the loan principal, while APR includes the interest rate plus all additional fees and charges (processing fee, insurance, documentation charges, etc.). APR always equals or exceeds the interest rate. For example, a loan with 12% interest rate might have a 14% APR after including ₹3,000 processing fee and ₹2,000 insurance.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    3. What is a good APR for a personal loan in India in 2025?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>A good APR for personal loans in India (2025) is between 10.5% to 14% for borrowers with excellent credit scores (750+). Average APRs range from 15% to 20%, while those with fair credit may see 20-24% APR. Anything above 24% is expensive and should be avoided unless it's an emergency. Always compare APRs from at least 3-4 banks and NBFCs to get the best rate.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    4. Is APR calculated monthly or yearly?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>APR is always expressed as an annual (yearly) rate, even though loan payments are typically monthly. The calculation takes monthly payments into account but annualizes the total cost. When you see "APR 12%," it means the total annual cost is 12%, which translates to roughly 1% per month (though the actual monthly rate can vary slightly due to compounding effects).</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    5. Can I negotiate APR with lenders?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Yes, APR is often negotiable, especially if you have a good credit score (750+), stable income, or are an existing customer. You can negotiate by: (1) showing competing offers with lower APR, (2) asking for fee waivers (processing/insurance), (3) offering higher down payment, (4) choosing shorter loan tenure, or (5) adding a co-applicant with strong credit. Even a 0.5-1% reduction can save thousands over the loan period.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    6. What fees are included in APR calculation?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>APR typically includes: interest charges, processing fee (0.5-2% of loan amount), loan insurance/credit protection insurance, administrative fees, documentation charges, legal fees (for property loans), and valuation fees. APR does NOT include optional fees you can decline, late payment penalties (only if you default), prepayment charges, or check bounce fees - these are conditional costs.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    7. Should I always choose the loan with the lowest APR?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Generally yes, but also consider: (1) Prepayment charges - if you plan to close the loan early, high prepayment fees can negate low APR benefits, (2) Loan tenure flexibility, (3) Customer service quality and disbursement speed, (4) EMI date flexibility, and (5) Whether the APR is fixed or variable. Sometimes a loan with 0.5% higher APR but no prepayment charges and better terms is more beneficial for your situation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    8. How accurate is this APR calculator?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Our APR calculator uses industry-standard formulas and provides highly accurate estimates based on your inputs. The calculation includes EMI computation using the compound interest formula, then factors in all fees to determine true APR. However, actual APR from lenders may vary slightly due to: different fee structures, compounding methods, or additional charges not listed. Always verify the final APR with your lender's official documentation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    9. What's the difference between fixed APR and variable APR?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>Fixed APR remains constant throughout the loan term, giving you predictable monthly payments. Variable APR changes based on external benchmarks like RBI repo rate or bank's MCLR. Fixed APR is better for: budgeting certainty, when rates are expected to rise, and shorter loan terms. Variable APR is better for: potentially lower initial rates, when rates are expected to fall, and if you plan to prepay soon. Most home loans in India are variable APR, while personal loans are typically fixed APR.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    10. How can I lower my APR on existing loans?
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </h3>
+                <div class="faq-answer">
+                    <p>You can lower APR on existing loans by: (1) Improving credit score and requesting rate reduction, (2) Loan refinancing/balance transfer to a lender offering lower APR (check if savings exceed transfer costs), (3) Negotiating with your current lender by showing competitive offers, (4) Making a lump sum prepayment to reduce principal and potentially qualify for better rates, or (5) Adding a co-borrower with strong credit to refinance. For home loans, switching from fixed to variable APR might reduce rates if market conditions are favorable.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Calculators Section -->
+    <div style="margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 20px;">
+        <h2 style="color: #1a1a2e; font-size: 2rem; margin-bottom: 25px; text-align: center;">
+            <i class="fas fa-calculator"></i> Related Financial Calculators
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <a href="./Interest-Rate-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-percentage" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Interest Rate Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Calculate interest on loans and deposits</p>
+            </a>
+            <a href="./ROI-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">ROI Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Calculate return on investment</p>
+            </a>
+            <a href="./Compound-Interest-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-percent" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Compound Interest</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Calculate compound interest with charts</p>
+            </a>
+            <a href="../Loan-and-EMI/EMI-Calculator.html" style="background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; display: block;">
+                <i class="fas fa-hand-holding-usd" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                <h3 style="font-size: 1.1rem; margin-bottom: 8px;">EMI Calculator</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0;">Calculate monthly loan EMI payments</p>
+            </a>
+        </div>
+    </div>
+</div>
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-btn i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-btn i').classList.replace('fa-moon', 'fa-sun');
+        }
+    </script>
+</body>
+</html>

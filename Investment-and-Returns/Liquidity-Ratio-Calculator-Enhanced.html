@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquidity Ratio Calculator 2025 - Current & Quick Ratio Calculator India</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free Liquidity Ratio Calculator 2025 to calculate Current Ratio, Quick Ratio, and Cash Ratio. Analyze company's short-term financial health and solvency. Best online liquidity analysis tool for India.">
+    <meta name="keywords" content="liquidity ratio calculator, current ratio calculator, quick ratio calculator, acid test ratio, working capital ratio, financial ratios India 2025, solvency calculator">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/Liquidity-Ratio-Calculator.html">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Liquidity Ratio Calculator",
+        "description": "Free online liquidity ratio calculator to measure current ratio, quick ratio, and cash ratio for financial analysis.",
+        "url": "https://calculatorloop.com/financial/investment-returns/Liquidity-Ratio-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is a good current ratio?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A current ratio between 1.5 to 3 is generally considered good. A ratio above 1 indicates the company has more current assets than current liabilities. Below 1 suggests potential liquidity problems. However, ideal ratios vary by industry."
+            }
+        },{
+            "@type": "Question",
+            "name": "What is the difference between current ratio and quick ratio?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Current Ratio = Current Assets / Current Liabilities, while Quick Ratio = (Current Assets - Inventory) / Current Liabilities. Quick ratio excludes inventory as it's less liquid. It's a more conservative measure of immediate liquidity."
+            }
+        },{
+            "@type": "Question",
+            "name": "How do you calculate liquidity ratios?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Current Ratio = Current Assets ÷ Current Liabilities. Quick Ratio = (Current Assets - Inventory) ÷ Current Liabilities. Cash Ratio = Cash & Cash Equivalents ÷ Current Liabilities. These ratios measure a company's ability to pay short-term obligations."
+            }
+        }]
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); min-height: 100vh; padding-bottom: 20px; }
+        
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: #06b6d4;
+            color: white;
+        }
+        .theme-btn {
+            background: #f0f2f5;
+            color: #1a1a2e;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark-mode .main-header {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .seo-content {
+            background: #1e293b !important;
+        }
+        body.dark-mode .logo { color: #fff; }
+        body.dark-mode .container, 
+        body.dark-mode .seo-content,
+        body.dark-mode .metric-card,
+        body.dark-mode .chart-card,
+        body.dark-mode .input-section,
+        body.dark-mode .info-box,
+        body.dark-mode .faq-item,
+        body.dark-mode .hero-card,
+        body.dark-mode .ratio-card {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f8fafc !important;
+        }
+        body.dark-mode .subtitle, body.dark-mode label, body.dark-mode p, body.dark-mode .faq-answer {
+            color: #94a3b8 !important;
+        }
+        body.dark-mode input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode .input-section {
+            background: #1e293b;
+        }
+        body.dark-mode .faq-item {
+            background: #1e293b;
+            border-left-color: #06b6d4;
+        }
+        body.dark-mode .faq-item:hover {
+            background: #334155;
+        }
+        body.dark-mode .theme-btn {
+            background: #334155;
+            color: #fbbf24;
+        }
+        body.dark-mode .metric-value { color: #fff; }
+        body.dark-mode .ratio-card {
+            background: linear-gradient(135deg, #0e7490 0%, #155e75 100%) !important;
+        }
+        body.dark-mode .back-btn {
+            background: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+        }
+        body.dark-mode .back-btn:hover {
+            background: #06b6d4;
+            color: #0f172a;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #06b6d4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+        }
+        .faq-question {
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #06b6d4;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+
+        .container { max-width: 1400px; width: 100%; background: white; border-radius: 25px; box-shadow: 0 25px 70px rgba(0,0,0,0.3); padding: 50px; margin: 0 auto; }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 15px; font-size: 2.8rem; font-weight: 800; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 40px; font-size: 1.2rem; }
+        .layout { display: grid; grid-template-columns: 420px 1fr; gap: 40px; margin-top: 40px; }
+        .input-section { background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); padding: 35px; border-radius: 20px; height: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 28px; }
+        label { display: block; margin-bottom: 12px; color: #1a1a2e; font-weight: 700; font-size: 1rem; }
+        input { width: 100%; padding: 16px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.05rem; transition: all 0.3s; background: white; }
+        input:focus { outline: none; border-color: #06b6d4; box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15); }
+        .btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; border: none; border-radius: 15px; font-size: 1.2rem; cursor: pointer; margin-top: 25px; font-weight: 800; box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.5); }
+        .results-section { display: flex; flex-direction: column; gap: 30px; }
+        .ratios-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .ratio-card { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); padding: 40px; border-radius: 20px; color: white; text-align: center; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3); }
+        .ratio-card h2 { font-size: 1.3rem; opacity: 0.95; margin-bottom: 15px; }
+        .ratio-value { font-size: 3.5rem; font-weight: 900; margin: 15px 0; }
+        .ratio-desc { font-size: 1.1rem; opacity: 0.9; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .metric-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid #06b6d4; }
+        .metric-card h3 { font-size: 0.85rem; color: #666; margin-bottom: 12px; text-transform: uppercase; }
+        .metric-value { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
+        .chart-section { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .chart-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .chart-card h3 { color: #1a1a2e; margin-bottom: 20px; font-size: 1.3rem; font-weight: 700; }
+        .chart-wrapper { height: 350px; position: relative; }
+        .info-box { background: #cffafe; border-left: 5px solid #06b6d4; padding: 20px; margin-top: 25px; border-radius: 12px; }
+        .info-box h4 { color: #155e75; margin-bottom: 10px; font-weight: 700; }
+        .info-box p { color: #0e7490; font-size: 0.9rem; line-height: 1.7; }
+        @media (max-width: 1200px) { .layout { grid-template-columns: 1fr; } .metrics-grid { grid-template-columns: 1fr; } .chart-section { grid-template-columns: 1fr; } .ratios-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { 
+            h1 { font-size: 2rem; } 
+            .subtitle { font-size: 1rem; }
+            .seo-content { padding: 30px 20px !important; }
+            .seo-content h2 { font-size: 1.8rem !important; }
+            .seo-content h3 { font-size: 1.4rem !important; }
+        }
+        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(6, 182, 212, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="#" class="logo" onclick="history.back()">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1><i class="fas fa-water"></i> Liquidity Ratio Calculator</h1>
+        <p class="subtitle">Analyze company's ability to meet short-term obligations</p>
+        <div class="layout">
+            <div class="input-section">
+                <h2 style="margin-bottom: 30px; color: #1a1a2e;"><i class="fas fa-calculator"></i> Financial Data</h2>
+                <div class="input-group">
+                    <label for="currentAssets"><i class="fas fa-coins"></i> Current Assets (₹):</label>
+                    <input type="number" id="currentAssets" value="500000" min="0" step="10000">
+                </div>
+                <div class="input-group">
+                    <label for="inventory"><i class="fas fa-box"></i> Inventory (₹):</label>
+                    <input type="number" id="inventory" value="100000" min="0" step="10000">
+                </div>
+                <div class="input-group">
+                    <label for="currentLiabilities"><i class="fas fa-file-invoice"></i> Current Liabilities (₹):</label>
+                    <input type="number" id="currentLiabilities" value="200000" min="0" step="10000">
+                </div>
+                <button class="btn" onclick="calculate()"><i class="fas fa-calculator"></i> Calculate Ratios</button>
+                <div class="info-box">
+                    <h4><i class="fas fa-lightbulb"></i> About Liquidity Ratios</h4>
+                    <p><strong>Current Ratio:</strong> Measures ability to pay short-term debt<br>
+                    <strong>Quick Ratio:</strong> Excludes inventory for stricter measure<br>
+                    Ideal: Current Ratio > 1.5, Quick Ratio > 1.0</p>
+                </div>
+            </div>
+            <div class="results-section">
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareResults()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button class="action-btn download-btn" onclick="downloadResults()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="action-btn print-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+                <div class="ratios-grid">
+                    <div class="ratio-card">
+                        <h2><i class="fas fa-stream"></i> Current Ratio</h2>
+                        <div class="ratio-value"><span id="currentRatio">0.00</span>:1</div>
+                        <p class="ratio-desc" id="currentDesc">Assets vs Liabilities</p>
+                    </div>
+                    <div class="ratio-card" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                        <h2><i class="fas fa-bolt"></i> Quick Ratio</h2>
+                        <div class="ratio-value"><span id="quickRatio">0.00</span>:1</div>
+                        <p class="ratio-desc" id="quickDesc">Liquid Assets Only</p>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3><i class="fas fa-arrow-up"></i> Current Assets</h3>
+                        <div class="metric-value">₹<span id="assetsDisplay">0</span></div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-arrow-down"></i> Liabilities</h3>
+                        <div class="metric-value">₹<span id="liabilitiesDisplay">0</span></div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-box"></i> Inventory</h3>
+                        <div class="metric-value">₹<span id="inventoryDisplay">0</span></div>
+                    </div>
+                </div>
+                <div class="chart-section">
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-pie"></i> Asset Composition</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-bar"></i> Ratio Comparison</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <div class="seo-content" style="max-width: 1400px; margin: 50px auto; background: white; padding: 60px; border-radius: 25px; box-shadow: 0 25px 70px rgba(0,0,0,0.3);">
+        <h2 style="color: #1a1a2e; margin-bottom: 25px; font-size: 2.2rem; font-weight: 800;">Complete Guide to Liquidity Ratios 2025</h2>
+        
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">What are Liquidity Ratios?</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            Liquidity ratios are financial metrics that measure a company's ability to pay off its short-term debts and obligations. These ratios are crucial indicators of financial health, showing whether a business has enough liquid assets to cover immediate liabilities. Investors, creditors, and management use liquidity ratios to assess operational efficiency and financial stability.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            The three main liquidity ratios are Current Ratio, Quick Ratio (Acid-Test Ratio), and Cash Ratio. Each provides a different perspective on liquidity, from broadest to most conservative measure. Understanding these ratios is essential for financial analysis, investment decisions, and business management in India's dynamic market of 2025.
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Current Ratio Explained</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            The Current Ratio is calculated as <strong>Current Assets ÷ Current Liabilities</strong>. It shows how many rupees of current assets exist for each rupee of current liabilities. A ratio of 2.5:1 means the company has ₹2.50 in current assets for every ₹1.00 of current liabilities.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Interpretation Guidelines:</strong><br>
+            • <strong>Above 3.0:</strong> Excellent liquidity, but may indicate inefficient use of assets<br>
+            • <strong>2.0 - 3.0:</strong> Very good liquidity position<br>
+            • <strong>1.5 - 2.0:</strong> Good liquidity, generally acceptable<br>
+            • <strong>1.0 - 1.5:</strong> Adequate but requires monitoring<br>
+            • <strong>Below 1.0:</strong> Potential liquidity crisis, unable to cover short-term debts
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Quick Ratio (Acid-Test Ratio)</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            The Quick Ratio is calculated as <strong>(Current Assets - Inventory) ÷ Current Liabilities</strong>. It's called the "acid-test" because it tests if a company can meet obligations without relying on inventory sales, which may take time to convert to cash.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Why Exclude Inventory?</strong> Inventory is the least liquid current asset. It must be sold, possibly at a discount, and payment collected. For manufacturing or retail businesses with slow-moving inventory, the quick ratio provides a more realistic liquidity picture.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Ideal Quick Ratio:</strong> A ratio of 1.0 or higher is generally considered healthy, meaning the company can pay all current liabilities with quickly liquidatable assets. Service businesses typically have higher quick ratios than manufacturing companies due to lower inventory levels.
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">How to Use This Calculator</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            Our Liquidity Ratio Calculator requires three inputs from your balance sheet:
+        </p>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li><strong>Current Assets:</strong> Cash, bank balances, accounts receivable, inventory, marketable securities, and other assets convertible to cash within one year</li>
+            <li><strong>Inventory:</strong> The value of raw materials, work-in-progress, and finished goods (part of current assets)</li>
+            <li><strong>Current Liabilities:</strong> Accounts payable, short-term loans, current portion of long-term debt, accrued expenses, and other obligations due within one year</li>
+        </ul>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            Simply enter these values in rupees, and the calculator instantly displays both Current Ratio and Quick Ratio with visual charts showing asset composition and ratio comparisons. The tool also provides interpretation guidance based on industry standards.
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Industry-Wise Ideal Ratios</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            Ideal liquidity ratios vary significantly across industries. Here's what's considered normal:
+        </p>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li><strong>Retail:</strong> Current Ratio 1.5-2.0, Quick Ratio 0.5-1.0 (high inventory levels)</li>
+            <li><strong>Manufacturing:</strong> Current Ratio 1.5-2.5, Quick Ratio 0.8-1.2</li>
+            <li><strong>IT Services:</strong> Current Ratio 2.0-3.0, Quick Ratio 1.8-2.5 (minimal inventory)</li>
+            <li><strong>Pharmaceutical:</strong> Current Ratio 2.0-3.0, Quick Ratio 1.5-2.0</li>
+            <li><strong>Banking:</strong> Different metrics apply; liquidity coverage ratio used instead</li>
+            <li><strong>E-commerce:</strong> Current Ratio 1.5-2.5, Quick Ratio 1.0-1.5</li>
+            <li><strong>Construction:</strong> Current Ratio 1.2-1.8, Quick Ratio 0.8-1.2</li>
+        </ul>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Interpreting Your Results</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>High Ratios (Current > 3.0):</strong> While seemingly positive, very high ratios may indicate poor asset management. The company might be holding too much cash instead of investing in growth, or has slow-paying customers (high receivables). Shareholders may prefer the company to deploy excess liquidity productively.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Low Ratios (Current < 1.0):</strong> This is a red flag suggesting potential inability to meet short-term obligations. However, context matters. Some very successful companies (like Amazon in growth phase) operated with low current ratios by quickly converting inventory to cash. Fast inventory turnover can compensate for lower ratios.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Declining Trend:</strong> Even if ratios are acceptable, a declining trend over multiple quarters is concerning. It may signal deteriorating financial health, increasing liabilities, or difficulty collecting receivables.
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Working Capital Analysis</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            Working Capital = Current Assets - Current Liabilities. While liquidity ratios show relationships, working capital shows the absolute rupee amount available for operations. A company with ₹10 lakh current assets and ₹4 lakh current liabilities has:
+        </p>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li><strong>Current Ratio:</strong> 2.5:1 (₹10L ÷ ₹4L)</li>
+            <li><strong>Working Capital:</strong> ₹6 lakh (₹10L - ₹4L)</li>
+        </ul>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            Both metrics are important. A small company with ₹1 lakh assets and ₹40,000 liabilities has the same 2.5 ratio but only ₹60,000 working capital, which may be insufficient for daily operations.
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Common Mistakes in Liquidity Analysis</h3>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li><strong>Ignoring Asset Quality:</strong> Not all current assets are equal. Old inventory or doubtful receivables inflate ratios artificially</li>
+            <li><strong>One-Time Snapshot:</strong> Ratios fluctuate seasonally. Retail businesses show higher inventory before Diwali, agricultural firms before harvest season</li>
+            <li><strong>Industry Blind Comparison:</strong> Comparing IT company ratios to manufacturing firms is meaningless due to different business models</li>
+            <li><strong>Overlooking Cash Flow:</strong> A company can have good ratios but poor cash flow if receivables aren't collected timely</li>
+            <li><strong>Window Dressing:</strong> Some companies manipulate end-of-quarter figures by delaying payments or accelerating collections</li>
+            <li><strong>Ignoring Off-Balance Sheet Items:</strong> Contingent liabilities or lease obligations may affect actual liquidity</li>
+        </ul>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Improving Liquidity Ratios</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>To Increase Current Ratio:</strong>
+        </p>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li>Increase current assets through equity injection or long-term borrowing</li>
+            <li>Convert long-term assets to current (sell fixed assets for cash)</li>
+            <li>Pay off current liabilities using long-term funds</li>
+            <li>Improve collection efficiency to reduce receivables aging</li>
+            <li>Negotiate longer payment terms with suppliers</li>
+        </ul>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>To Improve Quick Ratio:</strong>
+        </p>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li>Reduce inventory levels through efficient inventory management (JIT - Just In Time)</li>
+            <li>Speed up inventory turnover with better sales strategies</li>
+            <li>Convert slow-moving inventory to cash, even at reduced prices</li>
+            <li>Focus on high-turnover products</li>
+            <li>Implement better demand forecasting to avoid overstocking</li>
+        </ul>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Liquidity Ratios in Indian Context 2025</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            In India's evolving business landscape of 2025, liquidity management has become more critical due to:
+        </p>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li><strong>GST Implementation:</strong> Working capital requirements increased as businesses need to maintain liquidity for monthly tax payments</li>
+            <li><strong>Digital Payments:</strong> Faster payment settlements improve liquidity for many businesses</li>
+            <li><strong>MSME Credit Crunch:</strong> Small businesses face tighter credit, making strong liquidity ratios essential for bank loans</li>
+            <li><strong>Supply Chain Disruptions:</strong> Post-pandemic supply chains require businesses to maintain higher safety stock, affecting quick ratios</li>
+            <li><strong>RBI Guidelines:</strong> Banks increasingly scrutinize liquidity ratios when evaluating loan applications</li>
+        </ul>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Liquidity vs Solvency</h3>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            It's crucial to distinguish between liquidity and solvency:
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Liquidity:</strong> Ability to meet short-term obligations (within 12 months). Measured by current ratio, quick ratio, cash ratio. A liquidity problem means the company struggles to pay immediate bills but may have valuable long-term assets.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            <strong>Solvency:</strong> Ability to meet long-term obligations and continue operations indefinitely. Measured by debt-to-equity ratio, debt ratio, interest coverage ratio. A solvency problem means total liabilities exceed total assets – the company is technically insolvent.
+        </p>
+        <p style="color: #555; line-height: 1.9; font-size: 1.1rem; margin-bottom: 20px;">
+            A company can be solvent but illiquid (asset-rich but cash-poor), or liquid but insolvent (enough cash for now but fundamentally unsustainable business model). Both aspects require monitoring.
+        </p>
+
+        <h3 style="color: #06b6d4; margin-top: 35px; margin-bottom: 15px; font-size: 1.6rem; font-weight: 700;">Benefits of Using Our Calculator</h3>
+        <ul style="color: #555; line-height: 2; font-size: 1.1rem; margin-bottom: 20px; margin-left: 30px;">
+            <li><strong>Instant Analysis:</strong> Calculate both current and quick ratios instantly with visual charts</li>
+            <li><strong>Interpretation Guidance:</strong> Automatic assessment whether ratios are excellent, good, adequate, or concerning</li>
+            <li><strong>Free & Unlimited:</strong> No registration, no limits, completely free to use</li>
+            <li><strong>Mobile Optimized:</strong> Works perfectly on smartphones for on-the-go analysis</li>
+            <li><strong>Dark Mode:</strong> Eye-friendly dark mode for comfortable viewing</li>
+            <li><strong>Share & Download:</strong> Share results with stakeholders or download as image</li>
+            <li><strong>Privacy Focused:</strong> All calculations happen in your browser, no data sent to servers</li>
+        </ul>
+
+        <!-- FAQ Section with Clickable Questions -->
+        <h3 style="color: #06b6d4; margin-top: 45px; margin-bottom: 25px; font-size: 1.8rem; font-weight: 800;">Frequently Asked Questions</h3>
+        
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                What is a good current ratio?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                A current ratio between 1.5 to 3 is generally considered good. A ratio above 1 indicates the company has more current assets than current liabilities. Below 1 suggests potential liquidity problems. However, ideal ratios vary by industry – retail companies typically have lower ratios (1.5-2.0) while IT services companies may have higher ratios (2.0-3.0).
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                What is the difference between current ratio and quick ratio?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                Current Ratio = Current Assets / Current Liabilities, while Quick Ratio = (Current Assets - Inventory) / Current Liabilities. Quick ratio excludes inventory as it's less liquid and may take time to convert to cash. It's a more conservative measure of immediate liquidity. For example, if you have ₹5L assets, ₹1L inventory, ₹2L liabilities: Current Ratio = 2.5, Quick Ratio = 2.0.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                How do you calculate liquidity ratios?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                Current Ratio = Current Assets ÷ Current Liabilities. Quick Ratio = (Current Assets - Inventory) ÷ Current Liabilities. Cash Ratio = Cash & Cash Equivalents ÷ Current Liabilities. These ratios measure a company's ability to pay short-term obligations. Use balance sheet values and express results as X:1 (e.g., 2.5:1 means ₹2.50 assets for every ₹1 liability).
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                What if my current ratio is below 1?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                A current ratio below 1.0 indicates current liabilities exceed current assets, signaling potential difficulty meeting short-term obligations. This requires immediate attention: negotiate extended payment terms with creditors, accelerate collections from customers, secure short-term financing, or convert long-term assets to cash. However, some successful companies with fast inventory turnover operate with ratios below 1.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                Can a high current ratio be bad?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                Yes, excessively high current ratios (above 3.0) may indicate inefficient use of resources. The company might be holding too much idle cash instead of investing in growth opportunities, or has slow-paying customers (high receivables) or slow-moving inventory. While financially secure, it suggests suboptimal asset management. Shareholders often prefer companies to deploy excess liquidity productively.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                What is working capital and how does it relate to liquidity ratios?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                Working Capital = Current Assets - Current Liabilities. It's the absolute rupee amount available for daily operations, while liquidity ratios show the relationship between assets and liabilities. For example, ₹10L assets and ₹4L liabilities gives: Current Ratio 2.5:1 and Working Capital ₹6L. Both metrics are important – ratios show financial efficiency, working capital shows actual funds available for operations.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                How often should I calculate liquidity ratios?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                Calculate liquidity ratios at least quarterly when preparing financial statements. Monthly calculation is recommended for businesses with tight cash flows or high seasonality. Real-time monitoring is ideal during growth phases or market volatility. Comparing ratios over time reveals trends more valuable than single snapshots. Banks and investors typically analyze ratios from last 3-5 quarters when evaluating financial health.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                What is a good quick ratio for Indian companies in 2025?
+                <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                For Indian companies in 2025, a quick ratio of 1.0 or higher is considered healthy, indicating ability to pay current liabilities without selling inventory. Service businesses typically maintain 1.5-2.0, manufacturing companies 0.8-1.2, and retail businesses 0.5-1.0. With GST and digital payment infrastructure, businesses can maintain slightly lower ratios than historically required. However, post-pandemic supply chain uncertainties suggest maintaining higher safety margins.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pieChart, barChart;
+
+        function calculate() {
+            const assets = parseFloat(document.getElementById('currentAssets').value);
+            const inventory = parseFloat(document.getElementById('inventory').value);
+            const liabilities = parseFloat(document.getElementById('currentLiabilities').value);
+
+            if (!assets || !liabilities || assets < 0 || inventory < 0 || liabilities <= 0) {
+                alert('Please enter valid positive values. Liabilities must be greater than 0.');
+                return;
+            }
+
+            if (inventory > assets) {
+                alert('Inventory cannot exceed Current Assets');
+                return;
+            }
+
+            // Calculate ratios
+            const currentRatio = assets / liabilities;
+            const quickRatio = (assets - inventory) / liabilities;
+
+            // Update displays
+            document.getElementById('currentRatio').textContent = currentRatio.toFixed(2);
+            document.getElementById('quickRatio').textContent = quickRatio.toFixed(2);
+            document.getElementById('assetsDisplay').textContent = assets.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('liabilitiesDisplay').textContent = liabilities.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('inventoryDisplay').textContent = inventory.toLocaleString('en-IN', {maximumFractionDigits: 0});
+
+            // Update descriptions
+            if (currentRatio >= 2) {
+                document.getElementById('currentDesc').textContent = 'Excellent Liquidity';
+            } else if (currentRatio >= 1.5) {
+                document.getElementById('currentDesc').textContent = 'Good Liquidity';
+            } else if (currentRatio >= 1) {
+                document.getElementById('currentDesc').textContent = 'Adequate Liquidity';
+            } else {
+                document.getElementById('currentDesc').textContent = 'Low Liquidity - Alert!';
+            }
+
+            if (quickRatio >= 1.5) {
+                document.getElementById('quickDesc').textContent = 'Excellent Quick Ratio';
+            } else if (quickRatio >= 1) {
+                document.getElementById('quickDesc').textContent = 'Strong Quick Ratio';
+            } else if (quickRatio >= 0.5) {
+                document.getElementById('quickDesc').textContent = 'Moderate Quick Ratio';
+            } else {
+                document.getElementById('quickDesc').textContent = 'Weak Quick Ratio';
+            }
+
+            // Create charts
+            createPieChart(assets, inventory, liabilities);
+            createBarChart(currentRatio, quickRatio);
+        }
+
+        function createPieChart(assets, inventory, liabilities) {
+            const ctx = document.getElementById('pieChart');
+            if (pieChart) pieChart.destroy();
+
+            const liquidAssets = assets - inventory;
+
+            pieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Liquid Assets', 'Inventory', 'Liabilities'],
+                    datasets: [{
+                        data: [liquidAssets, inventory, liabilities],
+                        backgroundColor: ['#06b6d4', '#8b5cf6', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { 
+                                padding: 15, 
+                                font: { size: 12, weight: 'bold' },
+                                color: document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#1a1a2e'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ₹' + context.parsed.toLocaleString('en-IN');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createBarChart(currentRatio, quickRatio) {
+            const ctx = document.getElementById('barChart');
+            if (barChart) barChart.destroy();
+
+            barChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Current Ratio', 'Quick Ratio', 'Ideal Threshold'],
+                    datasets: [{
+                        label: 'Ratio Value',
+                        data: [currentRatio, quickRatio, 1.5],
+                        backgroundColor: ['#06b6d4', '#8b5cf6', '#10b981'],
+                        borderWidth: 0,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y.toFixed(2) + ':1';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toFixed(1) + ':1';
+                                },
+                                color: document.body.classList.contains('dark-mode') ? '#94a3b8' : '#666'
+                            },
+                            grid: {
+                                color: document.body.classList.contains('dark-mode') ? '#334155' : '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: document.body.classList.contains('dark-mode') ? '#94a3b8' : '#666'
+                            },
+                            grid: {
+                                color: document.body.classList.contains('dark-mode') ? '#334155' : '#e5e7eb'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.querySelector('.theme-btn i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Redraw charts with updated colors
+            if (pieChart) {
+                pieChart.options.plugins.legend.labels.color = isDark ? '#e2e8f0' : '#1a1a2e';
+                pieChart.update();
+            }
+            if (barChart) {
+                barChart.options.scales.y.ticks.color = isDark ? '#94a3b8' : '#666';
+                barChart.options.scales.x.ticks.color = isDark ? '#94a3b8' : '#666';
+                barChart.options.scales.y.grid.color = isDark ? '#334155' : '#e5e7eb';
+                barChart.options.scales.x.grid.color = isDark ? '#334155' : '#e5e7eb';
+                barChart.update();
+            }
+        }
+
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+        }
+
+        function shareResults() {
+            const currentRatio = document.getElementById('currentRatio').textContent;
+            const quickRatio = document.getElementById('quickRatio').textContent;
+            const assets = document.getElementById('currentAssets').value;
+            const liabilities = document.getElementById('currentLiabilities').value;
+            
+            const text = `Liquidity Ratio Analysis:\nCurrent Ratio: ${currentRatio}:1\nQuick Ratio: ${quickRatio}:1\nCurrent Assets: ₹${assets}\nCurrent Liabilities: ₹${liabilities}`;
+            
+            if (navigator.share) {
+                navigator.share({ title: 'Liquidity Ratio Analysis', text: text });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('Results copied to clipboard!');
+            }
+        }
+
+        function downloadResults() {
+            html2canvas(document.querySelector('.container')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'liquidity-ratios-analysis.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        // Load theme preference
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-btn i').className = 'fas fa-sun';
+            }
+            calculate(); // Calculate with default values
+        });
+
+        // Auto-calculate on input change
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

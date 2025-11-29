@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Loan EMI Calculator - Working Capital & Term Loan</title>
+    <meta name="description" content="Calculate business loan EMI for working capital, term loan, MSME loans. Plan business expansion financing.">
+    <meta name="keywords" content="business loan calculator, working capital loan, MSME loan, term loan EMI, business financing">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#f093fb">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Business-Loan-Calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Business Loan EMI Calculator - MSME & Working Capital">
+    <meta property="og:description" content="Calculate business loan EMI with processing fees and cash flow analysis.">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Loan-and-EMI/Business-Loan-Calculator.html">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Business Loan EMI Calculator">
+    <meta name="twitter:description" content="Calculate MSME, working capital, term loan EMI with fees.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus, select:focus { outline: none; border-color: #f5576c; box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .emi-card { background: var(--accent-gradient); padding: 30px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .emi-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .emi-value { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .metric-card { background: var(--bg-primary); padding: 20px; border-radius: 10px; border-left: 4px solid #f5576c; }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .back-link { 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+        .back-link i {
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+        .faq-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        .faq-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 4px solid #f5576c;
+        }
+        .faq-question {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .emi-value { font-size: 2.5rem; } .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+        
+        <div class="header">
+            <h1><i class="fas fa-briefcase"></i> Business Loan</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Calculate business loan EMI for expansion & working capital</p>
+
+        <div class="input-group"><label><i class="fas fa-building"></i> Loan Type</label><select id="loanType" onchange="calc()"><option value="term">Term Loan (Fixed Tenure)</option><option value="working">Working Capital Loan</option><option value="msme">MSME/SME Loan</option></select></div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-rupee-sign"></i> Loan Amount (₹)</label><input type="number" id="loanAmt" value="2000000" min="0" step="50000"></div>
+            <div class="input-group"><label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label><input type="number" id="rate" value="12" min="0" max="30" step="0.25"></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-calendar"></i> Loan Tenure (Years)</label><input type="number" id="tenure" value="5" min="1" max="20" step="1"></div>
+            <div class="input-group"><label><i class="fas fa-file-invoice-dollar"></i> Processing Fee (%)</label><input type="number" id="processingFee" value="2" min="0" max="5" step="0.25"></div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Business Loan EMI</button>
+
+        <div class="result" id="result">
+            <div class="emi-card">
+                <h2><i class="fas fa-money-check-alt"></i> Monthly EMI</h2>
+                <div class="emi-value" id="emiValue">₹0</div>
+                <p style="opacity: 0.9; margin-top: 10px;">Business Cash Flow: <span id="cashFlow">₹0</span>/month after EMI</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><h3><i class="fas fa-coins"></i> Loan Amount</h3><div class="metric-value" id="principalDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-percentage"></i> Processing Fee</h3><div class="metric-value" id="feeDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-chart-line"></i> Total Interest</h3><div class="metric-value" id="interestDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-wallet"></i> Total Payment</h3><div class="metric-value" id="totalDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-hand-holding-usd"></i> Net Disbursed</h3><div class="metric-value" id="netDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-chart-pie"></i> Effective Rate</h3><div class="metric-value" id="effRate">0%</div></div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> What is the difference between term loan and working capital loan?</div>
+                <div class="faq-answer">A term loan is used for long-term business investments like machinery, equipment, expansion, or real estate, with repayment tenure ranging from 1-20 years. Working capital loans, on the other hand, are short-term loans (typically 1-3 years) meant to cover day-to-day operational expenses like inventory, salaries, raw materials, and supplier payments. Term loans usually have lower interest rates due to longer tenure and collateral requirements, while working capital loans offer faster disbursement with minimal documentation.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> How to calculate business loan eligibility?</div>
+                <div class="faq-answer">Business loan eligibility depends on multiple factors including your business vintage (typically 2-3 years minimum), annual turnover (usually minimum ₹15-25 lakhs), profitability, credit score of business and promoters (minimum 650-700), existing debt obligations, and collateral availability. Lenders assess your Debt Service Coverage Ratio (DSCR) - ideally above 1.5 times, meaning your business income should be at least 1.5 times your loan EMI. Most banks offer loans between 5-10 times your monthly revenue depending on business type and creditworthiness.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> What documents are required for MSME business loans?</div>
+                <div class="faq-answer">Essential documents include business registration certificates (GST, Shop Act, Udyam Registration), KYC documents of all promoters/directors (Aadhaar, PAN, address proof), business bank statements for last 12-24 months, income tax returns and audited financial statements for last 2-3 years, partnership deed or MOA/AOA, existing loan statements if any, collateral documents (property papers, valuation report), business plan and cash flow projections, trade licenses and permits specific to your industry, and proof of business address (rent agreement or ownership documents).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> Is collateral mandatory for business loans?</div>
+                <div class="faq-answer">Collateral requirements vary by loan amount and lender type. Under government schemes like CGTMSE (Credit Guarantee Fund Trust for Micro and Small Enterprises) and Mudra loans, businesses can get collateral-free loans up to ₹50 lakhs for MSMEs. For larger amounts (₹50 lakhs to ₹2 crores), most banks require primary or collateral security like property mortgage, machinery hypothecation, or liquid securities. Loans above ₹2 crores typically mandate immovable property as collateral. However, NBFCs and fintech lenders may offer unsecured loans up to ₹75 lakhs based on strong business performance and credit scores, albeit at higher interest rates.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> How does processing fee impact the effective loan cost?</div>
+                <div class="faq-answer">Processing fees typically range from 1-3% of the loan amount and significantly affect your effective borrowing cost. For instance, on a ₹20 lakh loan with 2% processing fee, you pay ₹40,000 upfront but receive only ₹19.6 lakhs net disbursement. Since you repay based on ₹20 lakhs but actually receive less, your effective interest rate increases. A loan at 12% annual interest with 2% processing fee has an effective rate closer to 12.6-12.8% depending on tenure. Additionally, GST of 18% applies on processing fees, further increasing upfront costs. Some lenders offer zero processing fee schemes during festive periods or for high-credit-score borrowers.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> Can I prepay my business loan before tenure ends?</div>
+                <div class="faq-answer">Yes, most business loans allow part-prepayment or full foreclosure, but terms vary by lender. Public sector banks generally don't charge prepayment penalties for floating rate loans, but may charge 2-4% for fixed rate loans. Private banks and NBFCs may charge foreclosure fees ranging from 0-5% depending on when you prepay (usually no charges after 1-2 years). Prepaying early in your loan tenure saves maximum interest. For example, prepaying ₹5 lakhs on a ₹20 lakh, 7-year loan in year 2 can save ₹3-4 lakhs in interest and reduce tenure by 2-3 years. Always check the prepayment clause in your loan agreement before borrowing.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #f5576c;"></i> What is the typical business loan interest rate in India?</div>
+                <div class="faq-answer">Business loan interest rates in India vary widely from 8.5% to 24% per annum based on multiple factors. Public sector banks offer the lowest rates (8.5-14%) for established businesses with strong financials and collateral. Private banks charge 11-18% depending on creditworthiness and loan amount. NBFCs and fintech lenders offer quick approvals but at higher rates of 14-24%, especially for unsecured loans or businesses with shorter operational history. MSME loans under government schemes may get interest subsidies of 3-5%. Your business credit score, industry type, loan tenure, collateral offered, and existing relationship with the lender significantly influence the final rate offered to you.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schema Markup for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the difference between term loan and working capital loan?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A term loan is used for long-term business investments with repayment tenure ranging from 1-20 years. Working capital loans are short-term loans meant to cover day-to-day operational expenses."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How to calculate business loan eligibility?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Business loan eligibility depends on business vintage, annual turnover, profitability, credit score, and Debt Service Coverage Ratio (DSCR) - ideally above 1.5 times."
+                }
+            }
+        ]
+    }
+    </script>
+    </div>
+
+    <script>
+        function calc() {
+            const P = parseFloat(document.getElementById('loanAmt').value);
+            const r = parseFloat(document.getElementById('rate').value) / 100 / 12;
+            const n = parseFloat(document.getElementById('tenure').value) * 12;
+            const feePercent = parseFloat(document.getElementById('processingFee').value);
+            const processingFee = (P * feePercent) / 100;
+            
+            const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const totalPayment = emi * n;
+            const totalInterest = totalPayment - P;
+            const netDisbursed = P - processingFee;
+            const effectiveRate = ((totalPayment + processingFee - P) / P / (n / 12)) * 100;
+            
+            const avgBusinessRevenue = P * 0.15;
+            const cashFlowAfterEMI = avgBusinessRevenue - emi;
+            
+            document.getElementById('emiValue').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+            document.getElementById('cashFlow').textContent = '₹' + Math.round(cashFlowAfterEMI).toLocaleString('en-IN');
+            document.getElementById('principalDisp').textContent = '₹' + P.toLocaleString('en-IN');
+            document.getElementById('feeDisp').textContent = '₹' + Math.round(processingFee).toLocaleString('en-IN');
+            document.getElementById('interestDisp').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+            document.getElementById('totalDisp').textContent = '₹' + Math.round(totalPayment).toLocaleString('en-IN');
+            document.getElementById('netDisp').textContent = '₹' + Math.round(netDisbursed).toLocaleString('en-IN');
+            document.getElementById('effRate').textContent = effectiveRate.toFixed(2) + '%';
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

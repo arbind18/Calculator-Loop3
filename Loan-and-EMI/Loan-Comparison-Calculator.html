@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Comparison Calculator - Compare 3 Loan Offers Side by Side</title>
+    <meta name="description" content="Compare multiple loan offers side by side. Compare EMI, total interest, processing fees to choose best loan option.">
+    <meta name="keywords" content="loan comparison, compare loans, best loan offer, loan comparison tool, EMI comparison">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#fa709a">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Loan-Comparison-Calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Loan Comparison Calculator - Find Best Deal">
+    <meta property="og:description" content="Compare multiple loan offers side-by-side to find best deal.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .loans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .loan-card { background: var(--bg-secondary); padding: 20px; border-radius: 12px; border-top: 4px solid #fa709a; }
+        .loan-card h3 { color: var(--text-primary); margin-bottom: 15px; text-align: center; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: var(--text-primary); font-weight: 600; font-size: 0.85rem; }
+        input { width: 100%; padding: 10px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus { outline: none; border-color: #fa709a; box-shadow: 0 0 0 3px rgba(250, 112, 154, 0.1); }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .best-loan { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); padding: 20px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .best-loan h2 { font-size: 1.3rem; margin-bottom: 10px; }
+        .comparison-table { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .comparison-col { background: var(--bg-primary); padding: 20px; border-radius: 10px; }
+        .comparison-col.winner { border: 3px solid #43e97b; box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3); }
+        .comparison-col h3 { color: var(--text-primary); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
+        .metric { padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .metric:last-child { border-bottom: none; }
+        .metric-label { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 5px; }
+        .metric-value { color: var(--text-primary); font-size: 1.2rem; font-weight: bold; }
+        .winner-badge { background: #43e97b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-bottom: 10px; }
+        .back-link { display: inline-block; margin-top: 20px; color: #fa709a; text-decoration: none; font-weight: 600; }
+        @media (max-width: 968px) { .loans-grid, .comparison-table { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link" style="margin-bottom: 20px;"><i class="fas fa-arrow-left"></i> Back to Calculators</a>
+        
+        <div class="header">
+            <h1><i class="fas fa-balance-scale"></i> Loan Comparison</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Compare 3 loan offers side-by-side</p>
+        <p class="subtitle">Compare 3 loan offers to find the best deal</p>
+
+        <div class="loans-grid">
+            <div class="loan-card">
+                <h3><i class="fas fa-university"></i> Loan Option 1</h3>
+                <div class="input-group"><label>Bank/Lender Name</label><input type="text" id="name1" value="HDFC Bank" placeholder="Bank Name"></div>
+                <div class="input-group"><label>Loan Amount (₹)</label><input type="number" id="loan1" value="2000000" step="50000"></div>
+                <div class="input-group"><label>Interest Rate (% p.a.)</label><input type="number" id="rate1" value="8.5" step="0.1"></div>
+                <div class="input-group"><label>Tenure (Years)</label><input type="number" id="tenure1" value="20" step="1"></div>
+                <div class="input-group"><label>Processing Fee (%)</label><input type="number" id="fee1" value="0.5" step="0.1"></div>
+            </div>
+
+            <div class="loan-card">
+                <h3><i class="fas fa-university"></i> Loan Option 2</h3>
+                <div class="input-group"><label>Bank/Lender Name</label><input type="text" id="name2" value="ICICI Bank" placeholder="Bank Name"></div>
+                <div class="input-group"><label>Loan Amount (₹)</label><input type="number" id="loan2" value="2000000" step="50000"></div>
+                <div class="input-group"><label>Interest Rate (% p.a.)</label><input type="number" id="rate2" value="8.75" step="0.1"></div>
+                <div class="input-group"><label>Tenure (Years)</label><input type="number" id="tenure2" value="20" step="1"></div>
+                <div class="input-group"><label>Processing Fee (%)</label><input type="number" id="fee2" value="0.25" step="0.1"></div>
+            </div>
+
+            <div class="loan-card">
+                <h3><i class="fas fa-university"></i> Loan Option 3</h3>
+                <div class="input-group"><label>Bank/Lender Name</label><input type="text" id="name3" value="SBI Bank" placeholder="Bank Name"></div>
+                <div class="input-group"><label>Loan Amount (₹)</label><input type="number" id="loan3" value="2000000" step="50000"></div>
+                <div class="input-group"><label>Interest Rate (% p.a.)</label><input type="number" id="rate3" value="8.35" step="0.1"></div>
+                <div class="input-group"><label>Tenure (Years)</label><input type="number" id="tenure3" value="20" step="1"></div>
+                <div class="input-group"><label>Processing Fee (%)</label><input type="number" id="fee3" value="0.75" step="0.1"></div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Compare Loans</button>
+
+        <div class="result" id="result">
+            <div class="best-loan">
+                <h2><i class="fas fa-trophy"></i> Best Loan Option</h2>
+                <div style="font-size: 2rem; font-weight: bold; margin: 10px 0;" id="bestLoan">-</div>
+                <p id="bestReason">Lowest total cost with competitive EMI</p>
+            </div>
+
+            <div class="comparison-table" id="comparisonTable"></div>
+        </div>
+    </div>
+
+    <script>
+        function calcLoan(principal, rate, tenure, feePercent) {
+            const r = rate / 100 / 12;
+            const n = tenure * 12;
+            const emi = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const totalPayment = emi * n;
+            const totalInterest = totalPayment - principal;
+            const processingFee = (principal * feePercent) / 100;
+            const totalCost = totalPayment + processingFee;
+            
+            return { emi, totalPayment, totalInterest, processingFee, totalCost };
+        }
+
+        function calc() {
+            const loans = [];
+            for (let i = 1; i <= 3; i++) {
+                const name = document.getElementById(`name${i}`).value || `Loan ${i}`;
+                const principal = parseFloat(document.getElementById(`loan${i}`).value);
+                const rate = parseFloat(document.getElementById(`rate${i}`).value);
+                const tenure = parseFloat(document.getElementById(`tenure${i}`).value);
+                const feePercent = parseFloat(document.getElementById(`fee${i}`).value);
+                
+                const result = calcLoan(principal, rate, tenure, feePercent);
+                loans.push({ name, ...result, rate, tenure });
+            }
+            
+            const bestLoan = loans.reduce((best, current) => 
+                current.totalCost < best.totalCost ? current : best
+            );
+            
+            document.getElementById('bestLoan').textContent = bestLoan.name;
+            document.getElementById('bestReason').textContent = 
+                `Saves ₹${Math.round(Math.max(...loans.map(l => l.totalCost)) - bestLoan.totalCost).toLocaleString('en-IN')} compared to highest cost option`;
+            
+            const table = document.getElementById('comparisonTable');
+            table.innerHTML = loans.map((loan, idx) => `
+                <div class="comparison-col ${loan === bestLoan ? 'winner' : ''}">
+                    ${loan === bestLoan ? '<div class="winner-badge">✓ Best Deal</div>' : ''}
+                    <h3>${loan.name}</h3>
+                    <div class="metric"><div class="metric-label">Monthly EMI</div><div class="metric-value">₹${Math.round(loan.emi).toLocaleString('en-IN')}</div></div>
+                    <div class="metric"><div class="metric-label">Interest Rate</div><div class="metric-value">${loan.rate}%</div></div>
+                    <div class="metric"><div class="metric-label">Tenure</div><div class="metric-value">${loan.tenure} years</div></div>
+                    <div class="metric"><div class="metric-label">Processing Fee</div><div class="metric-value">₹${Math.round(loan.processingFee).toLocaleString('en-IN')}</div></div>
+                    <div class="metric"><div class="metric-label">Total Interest</div><div class="metric-value">₹${Math.round(loan.totalInterest).toLocaleString('en-IN')}</div></div>
+                    <div class="metric"><div class="metric-label"><strong>Total Cost</strong></div><div class="metric-value" style="color: #fa709a;">₹${Math.round(loan.totalCost).toLocaleString('en-IN')}</div></div>
+                </div>
+            `).join('');
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

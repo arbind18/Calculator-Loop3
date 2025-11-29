@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Loan Calculator - EMI, Interest & Payoff Calculator | CalculatorLoop</title>
+    <meta name="description" content="Calculate personal loan EMI with processing fees, prepayment impact, and total interest. Plan debt payoff faster with extra payments. Get instant results with detailed breakdown.">
+    <meta name="keywords" content="personal loan calculator, personal loan EMI, loan interest calculator, debt payoff calculator, extra payment calculator, loan prepayment, unsecured loan calculator, instant personal loan EMI">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#7c3aed">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Personal-Loan-Calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Personal Loan Calculator - EMI & Interest Calculator">
+    <meta property="og:description" content="Calculate personal loan EMI, processing fees, prepayment impact, and total interest. Plan debt payoff strategy.">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Loan-and-EMI/Personal-Loan-Calculator.html">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Personal Loan Calculator - EMI & Debt Payoff">
+    <meta name="twitter:description" content="Calculate EMI, interest, processing fees & prepayment impact for personal loans.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-uH0pA86CnUvkdQ7MsI3GJY84XmQcJ0ZqVaki3P6KyHR+Y6z+4PSJVpaz6RtZpmjHtk0N6D+PfYZ7R6POj6l1wQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f5f3ff;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #6b6ea5;
+            --accent: #7c3aed;
+            --accent-soft: rgba(124, 58, 237, 0.15);
+            --border: #e4e4f7;
+            --radius-lg: 22px;
+            --transition: 220ms ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f0a1f;
+            --bg-card: #1b1535;
+            --text-primary: #f8f7ff;
+            --text-secondary: #c7c4ff;
+            --border: #2f2950;
+            --accent-soft: rgba(124, 58, 237, 0.35);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, rgba(124, 58, 237, 0.2), transparent 45%), var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 18px 64px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .title-block span {
+            display: block;
+        }
+
+        .title-block .eyebrow {
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .title-block .heading {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+        }
+
+        .title-block .subheading {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 6px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn, .theme-toggle {
+            padding: 12px 20px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .action-btn i { margin-right: 8px; }
+
+        .action-btn:hover, .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(124, 58, 237, 0.25);
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #7c3aed, #4b0082);
+            border-radius: var(--radius-lg);
+            color: #fff;
+            padding: 32px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .feature-card h1 { font-size: 1.8rem; margin-bottom: 12px; }
+
+        .feature-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .feature-chip {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 12px 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 28px;
+            box-shadow: 0 25px 60px rgba(15, 10, 31, 0.12);
+        }
+
+        .card h2 { font-size: 1.2rem; margin-bottom: 18px; }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 14px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(120deg, #a855f7, #7c3aed);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.35);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .metric {
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px dashed var(--border);
+            background: var(--bg-primary);
+        }
+
+        .metric span { font-size: 0.85rem; color: var(--text-secondary); }
+        .metric-value { font-size: 1.6rem; font-weight: 700; margin-top: 4px; }
+
+        .chart-wrapper { height: 260px; margin-top: 20px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        thead { background: var(--accent-soft); }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        tbody tr:nth-child(even) { background: var(--bg-primary); }
+
+        .insights {
+            margin-top: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .insight {
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 18px;
+            background: var(--bg-card);
+        }
+
+        .insight strong { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+
+        @media (max-width: 640px) {
+            header { flex-direction: column; align-items: flex-start; }
+            .header-actions { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div class="title-block">
+                <span class="eyebrow">Debt payoff coach</span>
+                <span class="heading">Personal Loan Calculator</span>
+                <span class="subheading">Plan EMI, fees and interest savings with extra payments.</span>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn" onclick="window.history.back()" style="cursor: pointer;"><i class="fas fa-arrow-left"></i>Back</button>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+            </div>
+        </header>
+
+        <section class="feature-card">
+            <div>
+                <h1>Borrow smart, repay faster.</h1>
+                <p>See EMI, interest, payoff date and how much faster you finish when you add extra rupees every month.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-chip"><i class="fas fa-gauge"></i>Instant EMI calculator</div>
+                <div class="feature-chip"><i class="fas fa-bolt"></i>Extra payment impact</div>
+                <div class="feature-chip"><i class="fas fa-calendar-day"></i>Dynamic payoff timeline</div>
+            </div>
+        </section>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Loan inputs</h2>
+                <div class="form-group">
+                    <label class="form-label" for="loanAmount">Loan amount</label>
+                    <input id="loanAmount" class="form-input" type="number" min="1000" step="1000" value="500000" data-input>
+                </div>
+                <div class="split">
+                    <div class="form-group">
+                        <label class="form-label" for="interestRate">Interest rate (% p.a.)</label>
+                        <input id="interestRate" class="form-input" type="number" min="0" step="0.1" value="12.5" data-input>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="loanTerm">Tenure (years)</label>
+                        <input id="loanTerm" class="form-input" type="number" min="1" max="7" step="1" value="4" data-input>
+                    </div>
+                </div>
+                <div class="split">
+                    <div class="form-group">
+                        <label class="form-label" for="extraPayment">Extra monthly payment</label>
+                        <input id="extraPayment" class="form-input" type="number" min="0" step="500" value="2000" data-input>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="processingFee">Processing fee (%)</label>
+                        <input id="processingFee" class="form-input" type="number" min="0" step="0.1" value="1.5" data-input>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="oneTimeFee">Other upfront fees</label>
+                    <input id="oneTimeFee" class="form-input" type="number" min="0" step="500" value="1500" data-input>
+                </div>
+                <button class="calculate-btn" id="calculateBtn">Update results</button>
+            </div>
+
+            <div class="card">
+                <h2>Summary</h2>
+                <div class="results-grid">
+                    <div class="metric">
+                        <span>Base EMI</span>
+                        <div class="metric-value" id="emiValue">₹0</div>
+                    </div>
+                    <div class="metric">
+                        <span>Monthly outflow</span>
+                        <div class="metric-value" id="monthlyOutflow">₹0</div>
+                    </div>
+                    <div class="metric">
+                        <span>Total interest</span>
+                        <div class="metric-value" id="interestValue">₹0</div>
+                    </div>
+                    <div class="metric">
+                        <span>Payoff target</span>
+                        <div class="metric-value" id="payoffTarget">--</div>
+                    </div>
+                    <div class="metric">
+                        <span>Interest saved</span>
+                        <div class="metric-value" id="interestSaved">₹0</div>
+                    </div>
+                    <div class="metric">
+                        <span>Time saved</span>
+                        <div class="metric-value" id="timeSaved">--</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="loanChart" aria-label="Personal loan cost chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:24px;">
+            <h2>Amortization schedule</h2>
+            <p style="color:var(--text-secondary); margin-bottom:12px;">First 12 months plus yearly summary with extra payment effect.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Period</th>
+                        <th>Opening</th>
+                        <th>Principal</th>
+                        <th>Interest</th>
+                        <th>Closing</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+        </div>
+
+        <div class="insights">
+            <div class="insight">
+                <strong><i class="fas fa-circle-plus"></i>Stack bonuses</strong>
+                <p>Send every bonus or tax refund as a lump-sum. Even ₹25k once a year can remove 6+ EMIs.</p>
+            </div>
+            <div class="insight">
+                <strong><i class="fas fa-percent"></i>Negotiate APR</strong>
+                <p>Improving credit score by 50 points can drop rates by 1–1.5%, saving thousands.</p>
+            </div>
+            <div class="insight">
+                <strong><i class="fas fa-diagram-project"></i>Debt snowball</strong>
+                <p>Once this loan closes, redirect the same EMI to your next debt for compounding wins.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const root = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('personal-loan-theme');
+        if (savedTheme) {
+            root.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('personal-loan-theme', nextTheme);
+            updateThemeIcon(nextTheme);
+            updateChart();
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        const currency = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const inputs = document.querySelectorAll('[data-input]');
+        inputs.forEach(el => el.addEventListener('input', calculateLoan));
+        document.getElementById('calculateBtn').addEventListener('click', (e) => { e.preventDefault(); calculateLoan(); });
+
+        let loanChart;
+
+        function calculateLoan() {
+            const principal = getValue('loanAmount');
+            const rate = getValue('interestRate');
+            const termYears = Math.max(parseFloat(document.getElementById('loanTerm').value) || 0, 1);
+            const extraPayment = getValue('extraPayment');
+            const processingFeeRate = getValue('processingFee');
+            const oneTimeFee = getValue('oneTimeFee');
+
+            const months = Math.round(termYears * 12);
+            const monthlyRate = rate / 100 / 12;
+            let emi;
+            if (monthlyRate === 0) {
+                emi = principal / months;
+            } else {
+                const pow = Math.pow(1 + monthlyRate, months);
+                emi = principal * monthlyRate * pow / (pow - 1);
+            }
+
+            const baseInterest = emi * months - principal;
+            const { totalInterest, monthsNeeded, schedule } = buildSchedule(principal, monthlyRate, emi, extraPayment, months);
+            const payoffDate = getPayoffDate(monthsNeeded);
+            const timeSavedMonths = Math.max(months - monthsNeeded, 0);
+            const interestSaved = Math.max(baseInterest - totalInterest, 0);
+            const monthlyOutflow = Math.max(emi + extraPayment, 0);
+
+            document.getElementById('emiValue').textContent = currency.format(emi);
+            document.getElementById('monthlyOutflow').textContent = currency.format(monthlyOutflow);
+            document.getElementById('interestValue').textContent = currency.format(totalInterest);
+            document.getElementById('payoffTarget').textContent = payoffDate;
+            document.getElementById('interestSaved').textContent = currency.format(interestSaved);
+            document.getElementById('timeSaved').textContent = formatDuration(timeSavedMonths);
+
+            renderSchedule(schedule);
+
+            const processingFeeAmount = principal * (processingFeeRate / 100);
+            updateChart({ principal, interest: totalInterest, fees: processingFeeAmount + oneTimeFee });
+        }
+
+        function getValue(id) {
+            return Math.max(parseFloat(document.getElementById(id).value) || 0, 0);
+        }
+
+        function buildSchedule(principal, rate, emi, extra, maxMonths) {
+            let balance = principal;
+            let month = 0;
+            let totalInterest = 0;
+            const schedule = [];
+
+            while (balance > 0 && month < maxMonths + 600) {
+                const interestPayment = rate === 0 ? 0 : balance * rate;
+                let principalPayment = emi - interestPayment + extra;
+                if (rate === 0) {
+                    principalPayment = emi + extra;
+                }
+                if (principalPayment <= 0) {
+                    principalPayment = 0;
+                }
+                if (principalPayment > balance) {
+                    principalPayment = balance;
+                }
+                balance = Math.max(balance - principalPayment, 0);
+                totalInterest += interestPayment;
+                month++;
+
+                if (month <= 12 || month % 12 === 0 || balance === 0) {
+                    schedule.push({
+                        label: month <= 12 ? `Month ${month}` : `Year ${Math.ceil(month / 12)}`,
+                        opening: balance + principalPayment,
+                        principal: principalPayment,
+                        interest: interestPayment,
+                        closing: balance
+                    });
+                }
+
+                if (balance === 0) break;
+            }
+
+            return { totalInterest, monthsNeeded: month, schedule };
+        }
+
+        function renderSchedule(rows) {
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+            rows.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.label}</td>
+                    <td>${currency.format(row.opening)}</td>
+                    <td>${currency.format(row.principal)}</td>
+                    <td>${currency.format(row.interest)}</td>
+                    <td>${currency.format(row.closing)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function getPayoffDate(months) {
+            const today = new Date();
+            today.setMonth(today.getMonth() + months);
+            return today.toLocaleString('en-IN', { month: 'short', year: 'numeric' });
+        }
+
+        function formatDuration(months) {
+            if (months <= 0) return '0 mo';
+            const years = Math.floor(months / 12);
+            const remMonths = months % 12;
+            if (years === 0) return `${remMonths} mo`;
+            if (remMonths === 0) return `${years} yr`;
+            return `${years} yr ${remMonths} mo`;
+        }
+
+        function updateChart(data) {
+            const ctx = document.getElementById('loanChart');
+            const theme = root.getAttribute('data-theme');
+            const textColor = theme === 'dark' ? '#f8f7ff' : '#1e1b4b';
+
+            if (loanChart) loanChart.destroy();
+
+            loanChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal', 'Interest', 'Fees'],
+                    datasets: [{
+                        data: [Math.round(data.principal), Math.round(data.interest), Math.round(data.fees)],
+                        backgroundColor: ['#7c3aed', '#ec4899', '#38bdf8'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, usePointStyle: true }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `${ctx.label}: ${currency.format(ctx.parsed)}`
+                            }
+                        }
+                    },
+                    cutout: '68%',
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        calculateLoan();
+    </script>
+
+    <!-- FAQ Section -->
+    <div class="page" style="padding-top: 0;">
+        <div class="card" style="margin-top: 32px;">
+            <h2 style="margin-bottom: 24px; font-size: 1.8rem;"><i class="fas fa-question-circle" style="color: var(--accent); margin-right: 12px;"></i>Frequently Asked Questions</h2>
+            
+            <div style="display: grid; gap: 20px;">
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        What is the typical interest rate for personal loans in India?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Personal loan interest rates in India range from 10.5% to 24% per annum depending on your credit score, income, employment type, and lender. Banks offer 10.5-16% for high credit score (750+) borrowers with stable income. NBFCs charge 12-20% with faster approval but higher rates. Fintech lenders range 14-24%, especially for lower credit scores or first-time borrowers. Key factors: CIBIL score above 750 gets best rates (2-4% lower), salaried employees get 1-2% better rates than self-employed, existing bank customers may get 0.5-1% discount, and loan amount impacts rate (higher amounts often get lower rates). Always compare 3-4 lenders before applying.
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        How much personal loan can I get based on my salary?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Personal loan eligibility is typically 10-20 times your monthly salary, subject to maximum limits. For salaried: ₹25,000 salary = ₹2.5-5 lakh loan, ₹50,000 salary = ₹5-10 lakh, ₹1 lakh salary = ₹10-20 lakh. Banks use FOIR (Fixed Obligation to Income Ratio) - your total EMIs shouldn't exceed 50-60% of monthly income. Example: If monthly income is ₹75,000 and existing EMIs are ₹15,000, available FOIR is ₹30,000 (40% of income), allowing ₹5-7 lakh new loan at 14% for 5 years. Higher credit score, longer job tenure (2+ years), working with reputed companies, and no existing loans significantly increase eligibility. Self-employed need minimum ₹4-5 lakh annual income and 2+ years business vintage.
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        What are the processing fees and hidden charges in personal loans?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Processing fees range 1-3% of loan amount (₹2,000-5,000 minimum). On ₹5 lakh loan: expect ₹5,000-15,000 processing fee plus 18% GST. Additional charges: prepayment penalty 2-5% (if foreclosed before 6-12 months), late payment charges ₹500-750 per missed EMI, bounce charges ₹400-600 for failed auto-debit, documentation charges ₹500-1,000, stamp duty 0.1-0.2% (state-specific), and some lenders charge loan cancellation fees ₹500-1,500. Hidden costs: insurance bundling (optional but pushed aggressively), higher rates for quick disbursal, and reducing rate calculation instead of flat rate can make effective interest 1.7-1.9x higher. Always check APR (Annual Percentage Rate) which includes all fees - it's 2-3% higher than quoted interest rate. Negotiate processing fee waiver during festive offers.
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        How does prepayment save interest on personal loans?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Prepaying personal loans saves massive interest because interest is calculated on reducing balance. Example: ₹5 lakh loan at 15% for 5 years has EMI ₹11,895 (total interest ₹2.14 lakh). If you prepay ₹1 lakh after 1 year, you save ₹88,000 in interest and finish 18 months early. Early prepayment saves most: prepaying ₹50,000 in year 1 saves ₹45,000 interest vs only ₹15,000 if prepaid in year 4. Strategy: Make annual lump sum payments from bonus/tax refunds, or add ₹2,000-5,000 extra to monthly EMI - on ₹5 lakh loan, extra ₹3,000/month reduces tenure from 60 to 42 months, saving ₹65,000. Check prepayment penalty: most banks allow free prepayment after 6-12 months. Zero prepayment penalty loans are best for aggressive repayment plans. Use EMI calculator to see exact savings before prepaying.
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        What documents are required for personal loan approval?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Essential documents for salaried: Identity proof (Aadhaar, PAN, passport), address proof (utility bills, rental agreement), last 3 months salary slips, 6 months bank statements showing salary credits, Form 16 or ITR for last 2 years, employment proof (offer letter, ID card, experience letter), and passport photos. For self-employed: Business registration documents (GST, shop act, incorporation certificate), ITR with computation for 2-3 years, audited financial statements (balance sheet, P&L), business bank statements 12 months, ownership proof of business premise, and TDS certificates if applicable. Additional: Existing loan statements, rent agreement if renting, and some banks require guarantor for loans above ₹10 lakh. Digital loans: Only Aadhaar, PAN, bank statements and selfie for amounts up to ₹2-3 lakh. Processing time: Digital approval in 2 hours to 2 days, traditional banks take 3-7 days. Incomplete documents are main reason for rejection.
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        How to improve credit score for better personal loan terms?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Credit score 750+ gets best rates and instant approval. To improve: Pay all EMIs, credit card bills on time (35% weight in score - even one 30-day delay drops score 50-80 points). Keep credit utilization below 30% (using ₹90,000 of ₹3 lakh limit is better than maxing out ₹50,000 limit). Maintain old credit accounts (15% weight - 5-year-old credit card helps more than new one). Mix of credit types helps: having credit card + loan shows better management than only cards. Check report quarterly for errors: 1 in 4 reports have mistakes - dispute them immediately. Limit loan applications: each enquiry drops score 5-10 points; apply to maximum 2-3 lenders within 15 days (counted as single enquiry). Build credit history: if no credit, get secured credit card against FD, use for 6 months. Timeframe: significant improvement takes 6-12 months of disciplined behavior. Score 650→750 can save ₹2-3 lakh on ₹10 lakh loan via 3-4% lower interest rate.
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-right" style="font-size: 0.8rem; color: var(--accent);"></i>
+                        When should I consider personal loan balance transfer?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+                        Balance transfer makes sense when new lender offers 2-3% lower interest rate and you have substantial tenure left (minimum 2+ years, ₹2+ lakh outstanding). Example: ₹4 lakh outstanding, 3 years left at 18%, transfer to 14% saves ₹48,000 (after ₹8,000 processing fee). Best time: After 12-18 months of good repayment history when credit score improves, or during festive offers when banks aggressively compete. Calculate break-even: Processing fee ÷ monthly interest saving = months to recover cost. Process: New lender pays off existing loan, issues fresh loan with better terms. Check: Current lender's foreclosure charges (usually 2-4%), new lender's processing fee (negotiate waiver), any lock-in period, and whether you can top-up (additional loan amount). Risks: Restarting tenure increases total interest, multiple transfers hurt credit score. Alternative: Negotiate with current lender first - show competing offer, they often match rates to retain you, saving transfer hassle.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the typical interest rate for personal loans in India?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Personal loan interest rates range from 10.5% to 24% per annum. Banks offer 10.5-16% for high credit score borrowers. CIBIL score above 750 gets best rates, typically 2-4% lower than average rates."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much personal loan can I get based on my salary?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Personal loan eligibility is typically 10-20 times your monthly salary. Banks use FOIR (Fixed Obligation to Income Ratio) - total EMIs shouldn't exceed 50-60% of monthly income."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does prepayment save interest on personal loans?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Prepaying early saves maximum interest since interest is calculated on reducing balance. Prepaying in year 1 can save 3-4x more interest than prepaying in final years. Most banks allow free prepayment after 6-12 months."
+                }
+            }
+        ]
+    }
+    </script>
+</body>
+</html>
