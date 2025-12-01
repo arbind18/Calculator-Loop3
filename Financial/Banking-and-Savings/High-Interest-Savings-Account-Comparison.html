@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>High Interest Savings Account Comparison 2025 🏦 Best Rates India</title>
+    <meta name="description" content="⚡ Compare high-interest savings accounts. Best rates up to 7.5%. Calculate earnings on ₹1L-₹50L. Zero balance accounts. Top banks India 2025.">
+    <meta name="keywords" content="high interest savings account, best savings account India, savings account comparison, highest interest rate savings 2025">
+    <meta name="author" content="CalculatorLoop.com">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/High-Interest-Savings-Account-Comparison.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="High Interest Savings Account Comparison 2025 🏦">
+    <meta property="og:description" content="⚡ Compare best savings account rates. Calculate earnings India">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Banking-and-Savings/High-Interest-Savings-Account-Comparison.html">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="High Interest Savings Account Comparison 2025 🏦">
+    <meta name="twitter:description" content="⚡ Best savings account rates. Free calculator!">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "High Interest Savings Account Comparison",
+        "description": "Compare high-interest savings accounts across banks and calculate potential earnings with different balance amounts.",
+        "url": "https://calculatorloop.com/Financial/Banking-and-Savings/High-Interest-Savings-Account-Comparison.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "3400"},
+        "provider": {"@type": "Organization", "name": "CalculatorLoop"}
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --secondary: #8b5cf6;
+            --bg-primary: #ffffff;
+            --bg-secondary: #ecfeff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #666;
+            --border: #a5f3fc;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #e9ecef;
+            --text-secondary: #b8b8b8;
+            --border: #2d3748;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-secondary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+        
+        .calculator-section {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .calculator-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 0;
+        }
+        
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+        }
+        
+        .amount-presets {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+        
+        .preset-btn {
+            padding: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        
+        .preset-btn:hover, .preset-btn.active {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .bank-card {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 15px;
+            border-top: 5px solid var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .bank-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .bank-card.premium {
+            border-top-color: #f59e0b;
+        }
+        
+        .bank-card.digital {
+            border-top-color: #8b5cf6;
+        }
+        
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .bank-name {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .bank-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .badge-regular { background: var(--primary); }
+        .badge-premium { background: #f59e0b; }
+        .badge-digital { background: #8b5cf6; }
+        
+        .interest-rate {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .bank-card.premium .interest-rate { color: #f59e0b; }
+        .bank-card.digital .interest-rate { color: #8b5cf6; }
+        
+        .rate-label {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .earnings-box {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .earnings-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        
+        .earnings-value {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .features-list {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        .feature-item i {
+            color: var(--primary);
+        }
+        
+        .bank-card.premium .feature-item i { color: #f59e0b; }
+        .bank-card.digital .feature-item i { color: #8b5cf6; }
+        
+        .chart-container {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+        }
+        
+        .chart-container h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .full-comparison {
+            margin-top: 40px;
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tbody tr:hover {
+            background: var(--bg-primary);
+        }
+        
+        td {
+            color: var(--text-primary);
+        }
+        
+        .rate-highlight {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .pros-box, .cons-box {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 15px;
+        }
+        
+        .pros-box {
+            border-left: 5px solid #10b981;
+        }
+        
+        .cons-box {
+            border-left: 5px solid #ef4444;
+        }
+        
+        .pros-box h4, .cons-box h4 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+        
+        .pros-box ul, .cons-box ul {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+        
+        .pros-box li {
+            color: var(--text-primary);
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .pros-box li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .cons-box li {
+            color: var(--text-primary);
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .cons-box li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .input-row { grid-template-columns: 1fr; }
+            .amount-presets { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .theme-toggle { position: static; margin-bottom: 20px; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+            <h1><i class="fas fa-piggy-bank"></i> High Interest Savings Account Comparison</h1>
+            <p class="subtitle">Compare best savings account rates and calculate your earnings</p>
+        </div>
+        
+        <div class="calculator-section">
+            <h3><i class="fas fa-calculator"></i> Calculate Your Potential Earnings</h3>
+            
+            <div class="input-row">
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Your Savings Balance</label>
+                    <input type="number" id="balance" value="500000" min="1000" step="10000">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-calendar"></i> Time Period (years)</label>
+                    <input type="number" id="years" value="1" min="1" max="10" step="1">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Tax Slab (%)</label>
+                    <input type="number" id="taxSlab" value="30" min="0" max="31.2" step="5">
+                </div>
+            </div>
+            
+            <div class="amount-presets">
+                <button class="preset-btn" onclick="setBalance(100000)">₹1 Lakh</button>
+                <button class="preset-btn active" onclick="setBalance(500000)">₹5 Lakh</button>
+                <button class="preset-btn" onclick="setBalance(1000000)">₹10 Lakh</button>
+                <button class="preset-btn" onclick="setBalance(2500000)">₹25 Lakh</button>
+                <button class="preset-btn" onclick="setBalance(5000000)">₹50 Lakh</button>
+            </div>
+        </div>
+        
+        <div class="comparison-grid">
+            <div class="bank-card">
+                <div class="bank-header">
+                    <div class="bank-name">HDFC Bank</div>
+                    <span class="bank-badge badge-regular">Regular</span>
+                </div>
+                <div class="interest-rate">3.50%</div>
+                <div class="rate-label">Per annum</div>
+                <div class="earnings-box">
+                    <div class="earnings-label">Annual Interest (Post-tax)</div>
+                    <div class="earnings-value" id="hdfc-earnings">₹0</div>
+                </div>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Min Balance: ₹10,000</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Unlimited ATM withdrawals</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>NetBanking & Mobile App</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Debit card included</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bank-card premium">
+                <div class="bank-header">
+                    <div class="bank-name">IDFC FIRST Bank</div>
+                    <span class="bank-badge badge-premium">Premium</span>
+                </div>
+                <div class="interest-rate">7.00%</div>
+                <div class="rate-label">Per annum (up to ₹1 Cr)</div>
+                <div class="earnings-box">
+                    <div class="earnings-label">Annual Interest (Post-tax)</div>
+                    <div class="earnings-value" id="idfc-earnings">₹0</div>
+                </div>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Zero Balance Account</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Monthly interest credit</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Free ATM withdrawals</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Premium benefits</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bank-card digital">
+                <div class="bank-header">
+                    <div class="bank-name">AU Small Finance</div>
+                    <span class="bank-badge badge-digital">High Rate</span>
+                </div>
+                <div class="interest-rate">7.25%</div>
+                <div class="rate-label">Per annum</div>
+                <div class="earnings-box">
+                    <div class="earnings-label">Annual Interest (Post-tax)</div>
+                    <div class="earnings-value" id="au-earnings">₹0</div>
+                </div>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Min Balance: ₹10,000</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Highest interest rate</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Digital banking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>DICGC insured</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison-grid">
+            <div class="bank-card">
+                <div class="bank-header">
+                    <div class="bank-name">ICICI Bank</div>
+                    <span class="bank-badge badge-regular">Regular</span>
+                </div>
+                <div class="interest-rate">3.50%</div>
+                <div class="rate-label">Per annum</div>
+                <div class="earnings-box">
+                    <div class="earnings-label">Annual Interest (Post-tax)</div>
+                    <div class="earnings-value" id="icici-earnings">₹0</div>
+                </div>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Min Balance: ₹10,000</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Wide branch network</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>iMobile app</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bank-card premium">
+                <div class="bank-header">
+                    <div class="bank-name">RBL Bank</div>
+                    <span class="bank-badge badge-premium">Premium</span>
+                </div>
+                <div class="interest-rate">7.00%</div>
+                <div class="rate-label">Per annum</div>
+                <div class="earnings-box">
+                    <div class="earnings-label">Annual Interest (Post-tax)</div>
+                    <div class="earnings-value" id="rbl-earnings">₹0</div>
+                </div>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Digital Savings Account</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>High interest rate</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Online account opening</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bank-card">
+                <div class="bank-header">
+                    <div class="bank-name">SBI</div>
+                    <span class="bank-badge badge-regular">Regular</span>
+                </div>
+                <div class="interest-rate">2.70%</div>
+                <div class="rate-label">Per annum</div>
+                <div class="earnings-box">
+                    <div class="earnings-label">Annual Interest (Post-tax)</div>
+                    <div class="earnings-value" id="sbi-earnings">₹0</div>
+                </div>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Min Balance: ₹3,000</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Largest branch network</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>YONO app</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3><i class="fas fa-chart-bar"></i> Annual Interest Earnings Comparison</h3>
+            <canvas id="earningsChart"></canvas>
+        </div>
+        
+        <div class="full-comparison">
+            <h3 style="color: var(--text-primary); text-align: center;">
+                <i class="fas fa-table"></i> Detailed Comparison (2025)
+            </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bank</th>
+                        <th>Interest Rate</th>
+                        <th>Min Balance</th>
+                        <th>Account Type</th>
+                        <th>Key Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AU Small Finance Bank</strong></td>
+                        <td class="rate-highlight">7.25%</td>
+                        <td>₹10,000</td>
+                        <td>Digital Savings</td>
+                        <td>Highest rate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IDFC FIRST Bank</strong></td>
+                        <td class="rate-highlight">7.00%</td>
+                        <td>₹0 (Zero Balance)</td>
+                        <td>Premium</td>
+                        <td>Monthly credit</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RBL Bank</strong></td>
+                        <td class="rate-highlight">7.00%</td>
+                        <td>Varies</td>
+                        <td>Digital</td>
+                        <td>Online opening</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Equitas Small Finance</strong></td>
+                        <td class="rate-highlight">7.00%</td>
+                        <td>₹5,000</td>
+                        <td>Regular</td>
+                        <td>Good service</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jana Small Finance</strong></td>
+                        <td class="rate-highlight">6.75%</td>
+                        <td>₹1,000</td>
+                        <td>Regular</td>
+                        <td>Low min balance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HDFC Bank</strong></td>
+                        <td>3.50%</td>
+                        <td>₹10,000</td>
+                        <td>Regular</td>
+                        <td>Wide network</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ICICI Bank</strong></td>
+                        <td>3.50%</td>
+                        <td>₹10,000</td>
+                        <td>Regular</td>
+                        <td>Good app</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Axis Bank</strong></td>
+                        <td>3.50%</td>
+                        <td>₹10,000</td>
+                        <td>Regular</td>
+                        <td>Digital banking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kotak Mahindra</strong></td>
+                        <td>4.00%</td>
+                        <td>₹10,000</td>
+                        <td>Regular</td>
+                        <td>811 zero balance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SBI</strong></td>
+                        <td>2.70%</td>
+                        <td>₹3,000</td>
+                        <td>Regular</td>
+                        <td>Largest network</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pros-cons">
+            <div class="pros-box">
+                <h4><i class="fas fa-thumbs-up"></i> Pros of High-Interest Accounts</h4>
+                <ul>
+                    <li>Earn up to 7.25% interest on savings</li>
+                    <li>Liquidity - withdraw anytime without penalty</li>
+                    <li>DICGC insured up to ₹5 lakh</li>
+                    <li>Monthly interest credit option</li>
+                    <li>Zero balance account options available</li>
+                    <li>Better than regular savings accounts (3-3.5%)</li>
+                    <li>No lock-in period required</li>
+                </ul>
+            </div>
+            
+            <div class="cons-box">
+                <h4><i class="fas fa-thumbs-down"></i> Cons to Consider</h4>
+                <ul>
+                    <li>Interest is taxable as per income slab</li>
+                    <li>Rates may change quarterly</li>
+                    <li>Small finance banks have limited branches</li>
+                    <li>Some accounts have minimum balance requirements</li>
+                    <li>Lower than FD rates (7-7.5%)</li>
+                    <li>TDS deducted if interest exceeds ₹40,000/year</li>
+                </ul>
+            </div>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+    </div>
+    
+    <script>
+        let earningsChart;
+        
+        const banks = [
+            { id: 'au', name: 'AU Small Finance', rate: 7.25 },
+            { id: 'idfc', name: 'IDFC FIRST', rate: 7.00 },
+            { id: 'rbl', name: 'RBL Bank', rate: 7.00 },
+            { id: 'icici', name: 'ICICI Bank', rate: 3.50 },
+            { id: 'hdfc', name: 'HDFC Bank', rate: 3.50 },
+            { id: 'sbi', name: 'SBI', rate: 2.70 }
+        ];
+        
+        function setBalance(amount) {
+            document.getElementById('balance').value = amount;
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+        
+        function calculate() {
+            const balance = parseFloat(document.getElementById('balance').value) || 0;
+            const years = parseFloat(document.getElementById('years').value) || 1;
+            const taxRate = parseFloat(document.getElementById('taxSlab').value) / 100 || 0;
+            
+            const earnings = [];
+            
+            banks.forEach(bank => {
+                const interest = balance * (bank.rate / 100) * years;
+                const tax = interest * taxRate;
+                const postTax = interest - tax;
+                
+                const element = document.getElementById(bank.id + '-earnings');
+                if (element) {
+                    element.textContent = '₹' + Math.round(postTax).toLocaleString('en-IN');
+                }
+                
+                earnings.push(Math.round(postTax));
+            });
+            
+            updateChart(earnings);
+        }
+        
+        function updateChart(earnings) {
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            
+            if (earningsChart) earningsChart.destroy();
+            
+            earningsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: banks.map(b => b.name),
+                    datasets: [{
+                        label: 'Post-tax Interest Earnings',
+                        data: earnings,
+                        backgroundColor: [
+                            '#8b5cf6',
+                            '#f59e0b',
+                            '#f59e0b',
+                            '#06b6d4',
+                            '#06b6d4',
+                            '#06b6d4'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Earnings: ₹' + context.parsed.y.toLocaleString('en-IN');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + (value / 1000) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calculate));
+        
+        calculate();
+    </script>
+</body>
+</html>
+

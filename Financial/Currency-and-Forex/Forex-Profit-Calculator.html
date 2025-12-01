@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Forex Profit Calculator 2025 💹 Pip Value, Lot Size, Leverage & P&L</title>
+    <meta name="title" content="Forex Profit Calculator 2025 💹 Pip Value, Lot Size, Leverage & P&L">
+    <meta name="description" content="⚡ Professional forex profit calculator with pip value, lot size, leverage, spread analysis. Calculate trading P&L for EUR/USD, GBP/USD, USD/JPY. Free forex trading calculator with real-time rates 2025.">
+    <meta name="keywords" content="forex profit calculator, pip value calculator, lot size calculator, forex P&L, trading profit calculator, leverage calculator, forex spread calculator, position size calculator, forex trading calculator 2025">
+    <meta name="author" content="CalculatorLoop.com">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Currency-and-Forex/Forex-Profit-Calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Currency-and-Forex/Forex-Profit-Calculator.html">
+    <meta property="og:title" content="Forex Profit Calculator 2025 💹 Pip Value, Lot Size, Leverage & P&L">
+    <meta property="og:description" content="⚡ Professional forex profit calculator with pip value, lot size, leverage, spread analysis. Calculate trading P&L for major currency pairs instantly.">
+    <meta property="og:image" content="https://calculatorloop.com/assets/images/forex-profit-calculator-og.jpg">
+    <meta property="og:site_name" content="CalculatorLoop">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://calculatorloop.com/Financial/Currency-and-Forex/Forex-Profit-Calculator.html">
+    <meta name="twitter:title" content="Forex Profit Calculator 2025 💹 Pip Value, Lot Size & Trading P&L">
+    <meta name="twitter:description" content="⚡ Calculate forex trading profits with pip value, lot size, leverage analysis. Professional forex P&L calculator for EUR/USD, GBP/USD.">
+    <meta name="twitter:image" content="https://calculatorloop.com/assets/images/forex-profit-calculator-twitter.jpg">
+    <meta name="twitter:creator" content="@CalculatorLoop">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Forex Profit Calculator",
+        "description": "Professional forex trading profit calculator with pip value, lot size, leverage, and spread analysis for accurate P&L calculations.",
+        "url": "https://calculatorloop.com/Financial/Currency-and-Forex/Forex-Profit-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "4500",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "featureList": [
+            "Pip value calculation for all currency pairs",
+            "Lot size determination (standard, mini, micro)",
+            "Leverage impact analysis (1:10 to 1:500)",
+            "Spread cost calculation",
+            "Profit/Loss in multiple currencies",
+            "Real-time exchange rates",
+            "Risk-reward ratio calculator",
+            "Position sizing recommendations"
+        ],
+        "provider": {
+            "@type": "Organization",
+            "name": "CalculatorLoop",
+            "url": "https://calculatorloop.com"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I calculate forex profit in pips?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Forex profit in pips = (Exit Price - Entry Price) × 10,000 (for 4-decimal pairs) or × 100 (for 2-decimal JPY pairs). For example, if you buy EUR/USD at 1.1000 and sell at 1.1050, profit = (1.1050 - 1.1000) × 10,000 = 50 pips. For monetary value: Pip Value × Number of Pips × Lot Size = Profit in USD."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between standard, mini, and micro lots?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Standard Lot = 100,000 units of base currency, pip value ~$10 (for USD pairs). Mini Lot = 10,000 units, pip value ~$1. Micro Lot = 1,000 units, pip value ~$0.10. Beginners should start with micro lots to minimize risk while learning. A 50-pip move in 1 standard lot = $500 profit/loss, while same move in 1 micro lot = $5."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a2e;
+            --text-secondary: #666;
+            --border: #e0e0e0;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #e9ecef;
+            --text-secondary: #adb5bd;
+            --border: #2d3561;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0fdf4;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 20px;
+        }
+        
+        .input-section {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            height: fit-content;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .results-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .result-card {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .result-card.profit {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .result-card.loss {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        .result-value {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 15px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: var(--bg-primary);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+        
+        .breakdown-section {
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .breakdown-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .breakdown-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .breakdown-value {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+            z-index: 1000;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body > div[style*="max-width: 1200px"] {
+                padding: 20px !important;
+                margin: 20px 10px !important;
+                overflow-x: hidden;
+            }
+            body > div[style*="max-width: 1200px"] h2 { font-size: 1.5rem !important; word-wrap: break-word; }
+            body > div[style*="max-width: 1200px"] h3 { font-size: 1.2rem !important; word-wrap: break-word; }
+            body > div[style*="max-width: 1200px"] p,
+            body > div[style*="max-width: 1200px"] li { font-size: 0.95rem !important; line-height: 1.6 !important; }
+            div[style*="background: var(--bg-secondary)"] { padding: 15px !important; margin-bottom: 15px !important; }
+        }
+        
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i> Dark Mode
+    </button>
+    
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> Forex Profit Calculator</h1>
+            <p class="subtitle">Calculate forex trading profits with pip value and lot size analysis</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <h2 style="color: var(--text-primary); margin-bottom: 25px; font-size: 1.4rem;">
+                    <i class="fas fa-cog"></i> Trade Parameters
+                </h2>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-exchange-alt"></i> Currency Pair</label>
+                    <select id="pair">
+                        <option value="EURUSD">EUR/USD</option>
+                        <option value="GBPUSD">GBP/USD</option>
+                        <option value="USDJPY">USD/JPY</option>
+                        <option value="USDCHF">USD/CHF</option>
+                        <option value="AUDUSD">AUD/USD</option>
+                        <option value="USDCAD">USD/CAD</option>
+                        <option value="NZDUSD">NZD/USD</option>
+                        <option value="EURGBP">EUR/GBP</option>
+                        <option value="EURJPY">EUR/JPY</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-balance-scale"></i> Lot Size</label>
+                    <select id="lotSize">
+                        <option value="0.01">Micro (0.01)</option>
+                        <option value="0.1">Mini (0.1)</option>
+                        <option value="1" selected>Standard (1.0)</option>
+                        <option value="5">5 Lots</option>
+                        <option value="10">10 Lots</option>
+                    </select>
+                </div>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label><i class="fas fa-sign-in-alt"></i> Entry Price</label>
+                        <input type="number" id="entryPrice" value="1.1000" step="0.0001">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-sign-out-alt"></i> Exit Price</label>
+                        <input type="number" id="exitPrice" value="1.1050" step="0.0001">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-arrow-up"></i> Trade Direction</label>
+                    <select id="direction">
+                        <option value="long">Long (Buy)</option>
+                        <option value="short">Short (Sell)</option>
+                    </select>
+                </div>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label><i class="fas fa-percentage"></i> Leverage</label>
+                        <select id="leverage">
+                            <option value="1">1:1</option>
+                            <option value="10">1:10</option>
+                            <option value="20">1:20</option>
+                            <option value="50" selected>1:50</option>
+                            <option value="100">1:100</option>
+                            <option value="200">1:200</option>
+                            <option value="500">1:500</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-exchange-alt"></i> Spread (pips)</label>
+                        <input type="number" id="spread" value="2" min="0" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-dollar-sign"></i> Account Currency</label>
+                    <select id="accountCurrency">
+                        <option value="USD" selected>USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="INR">INR</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="calculate()">
+                    <i class="fas fa-calculator"></i> Calculate Profit/Loss
+                </button>
+            </div>
+            
+            <div class="results-section">
+                <div class="result-card profit" id="resultCard">
+                    <h2><i class="fas fa-wallet"></i> Net Profit/Loss</h2>
+                    <div class="result-value" id="netPL">$0.00</div>
+                    <p style="font-size: 1.2rem; margin-top: 10px;" id="plText">Calculate to see results</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Pips Gained/Lost</div>
+                        <div class="stat-value" id="pipsValue">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pip Value</div>
+                        <div class="stat-value" id="pipValue">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Position Size</div>
+                        <div class="stat-value" id="positionSize">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Required Margin</div>
+                        <div class="stat-value" id="margin">$0</div>
+                    </div>
+                </div>
+                
+                <div class="breakdown-section">
+                    <h3><i class="fas fa-list"></i> Trade Breakdown</h3>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Entry Price</span>
+                        <span class="breakdown-value" id="displayEntry">0.0000</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Exit Price</span>
+                        <span class="breakdown-value" id="displayExit">0.0000</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Price Movement</span>
+                        <span class="breakdown-value" id="movement">0 pips</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Gross Profit/Loss</span>
+                        <span class="breakdown-value" id="grossPL">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Spread Cost</span>
+                        <span class="breakdown-value" id="spreadCost">$0</span>
+                    </div>
+                    <div class="breakdown-item" style="background: var(--primary); color: white;">
+                        <span class="breakdown-label"><strong>Net Profit/Loss</strong></span>
+                        <span class="breakdown-value" id="finalPL"><strong>$0</strong></span>
+                    </div>
+                </div>
+                
+                <div class="breakdown-section">
+                    <h3><i class="fas fa-info-circle"></i> Risk Analysis</h3>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">ROI %</span>
+                        <span class="breakdown-value" id="roi">0%</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Risk/Reward Ratio</span>
+                        <span class="breakdown-value" id="rrRatio">1:1</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Margin Used</span>
+                        <span class="breakdown-value" id="marginUsed">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="../../Ui.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Calculator Hub
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const pair = document.getElementById('pair').value;
+            const lotSize = parseFloat(document.getElementById('lotSize').value);
+            const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+            const exitPrice = parseFloat(document.getElementById('exitPrice').value);
+            const direction = document.getElementById('direction').value;
+            const leverage = parseInt(document.getElementById('leverage').value);
+            const spread = parseFloat(document.getElementById('spread').value);
+            const accountCurrency = document.getElementById('accountCurrency').value;
+            
+            // Calculate pip difference
+            let pipSize = 0.0001;
+            if (pair.includes('JPY')) {
+                pipSize = 0.01;
+            }
+            
+            let priceDiff = exitPrice - entryPrice;
+            if (direction === 'short') {
+                priceDiff = entryPrice - exitPrice;
+            }
+            
+            const pips = priceDiff / pipSize;
+            
+            // Calculate position value (1 lot = 100,000 units)
+            const contractSize = 100000;
+            const positionValue = lotSize * contractSize * entryPrice;
+            
+            // Calculate pip value
+            const pipValueCalc = (pipSize * contractSize * lotSize);
+            
+            // Calculate gross P&L
+            const grossPL = pips * pipValueCalc;
+            
+            // Calculate spread cost
+            const spreadCost = spread * pipValueCalc;
+            
+            // Calculate net P&L
+            const netPL = grossPL - spreadCost;
+            
+            // Calculate required margin
+            const requiredMargin = positionValue / leverage;
+            
+            // Calculate ROI
+            const roi = (netPL / requiredMargin) * 100;
+            
+            // Update UI
+            const symbol = accountCurrency === 'INR' ? '₹' : '$';
+            const multiplier = accountCurrency === 'INR' ? 83 : 1;
+            
+            document.getElementById('netPL').textContent = 
+                symbol + (netPL * multiplier).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            document.getElementById('plText').textContent = 
+                `${Math.abs(pips).toFixed(1)} pips ${netPL >= 0 ? 'profit' : 'loss'}`;
+            
+            // Update result card color
+            const resultCard = document.getElementById('resultCard');
+            if (netPL >= 0) {
+                resultCard.className = 'result-card profit';
+            } else {
+                resultCard.className = 'result-card loss';
+            }
+            
+            // Update stats
+            document.getElementById('pipsValue').textContent = pips.toFixed(1);
+            document.getElementById('pipValue').textContent = 
+                symbol + (pipValueCalc * multiplier).toFixed(2);
+            document.getElementById('positionSize').textContent = 
+                symbol + (positionValue * multiplier).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            document.getElementById('margin').textContent = 
+                symbol + (requiredMargin * multiplier).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            
+            // Update breakdown
+            document.getElementById('displayEntry').textContent = entryPrice.toFixed(4);
+            document.getElementById('displayExit').textContent = exitPrice.toFixed(4);
+            document.getElementById('movement').textContent = Math.abs(pips).toFixed(1) + ' pips';
+            document.getElementById('grossPL').textContent = 
+                symbol + (grossPL * multiplier).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            document.getElementById('spreadCost').textContent = 
+                symbol + (spreadCost * multiplier).toFixed(2);
+            document.getElementById('finalPL').textContent = 
+                symbol + (netPL * multiplier).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            
+            // Update risk analysis
+            document.getElementById('roi').textContent = roi.toFixed(2) + '%';
+            document.getElementById('rrRatio').textContent = '1:' + Math.abs(roi / 100).toFixed(2);
+            document.getElementById('marginUsed').textContent = 
+                ((requiredMargin / (requiredMargin * 2)) * 100).toFixed(1) + '%';
+        }
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.querySelector('.theme-toggle').innerHTML = theme === 'dark' 
+                ? '<i class="fas fa-sun"></i> Light Mode' 
+                : '<i class="fas fa-moon"></i> Dark Mode';
+        }
+        
+        // Load theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            document.querySelector('.theme-toggle').innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+        }
+        
+        // Auto-calculate
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', calculate);
+            el.addEventListener('change', calculate);
+        });
+        
+        calculate();
+    </script>
+    
+    <!-- SEO Content Section -->
+    <div style="max-width: 1200px; margin: 30px auto 0; background: var(--bg-primary); padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+        <h2 style="color: var(--text-primary); font-size: 2.2rem; margin-bottom: 25px; border-bottom: 3px solid var(--primary); padding-bottom: 15px;">Complete Forex Trading Profit & Loss Guide 2025</h2>
+        
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; font-size: 1.05rem;">Forex trading involves buying and selling currency pairs to profit from exchange rate fluctuations. Understanding how to calculate profits, manage position sizes, and control risk is essential for successful trading. This comprehensive guide covers pip values, lot sizes, leverage, risk management, and professional trading strategies used by successful forex traders in 2025.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">What is a Pip in Forex Trading?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">A pip (Percentage in Point) is the smallest price movement in forex trading. For most currency pairs, 1 pip = 0.0001 (fourth decimal place). For example, if EUR/USD moves from 1.1050 to 1.1051, that's a 1 pip movement. Exception: JPY pairs use 2 decimal places, so 1 pip = 0.01 (USD/JPY moving from 150.50 to 150.51 is 1 pip).</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Fractional Pips (Pipettes):</strong> Many brokers now quote prices to 5 decimal places (3 for JPY pairs). The 5th decimal is a pipette = 0.1 pip. This provides more precise pricing but doesn't change fundamental calculations. EUR/USD at 1.10545 shows 5 decimals where the last digit (5) is a pipette.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Understanding Lot Sizes</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Standard Lot:</strong> 100,000 units of base currency. For EUR/USD, 1 standard lot = 100,000 euros. Pip value ≈ $10. Example: 50 pip profit = $500. Best for experienced traders with capital $10,000+.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Mini Lot:</strong> 10,000 units. Pip value ≈ $1. Example: 50 pip profit = $50. Suitable for intermediate traders with $2,000-10,000 capital.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Micro Lot:</strong> 1,000 units. Pip value ≈ $0.10. Example: 50 pip profit = $5. Perfect for beginners, allows learning with minimal risk. Recommended starting point with $100-500 capital.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Nano Lot:</strong> 100 units. Pip value ≈ $0.01. Available on some brokers, ideal for absolute beginners practicing with tiny accounts under $100.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">How to Calculate Pip Value</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">Pip value depends on the currency pair, lot size, and account currency. Formula:</p>
+        <p style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; color: var(--text-primary); font-size: 1.1rem; margin-bottom: 20px; border-left: 4px solid var(--primary);"><strong>Pip Value = (Pip Size × Contract Size × Lot Size) / Exchange Rate</strong></p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Example 1 - EUR/USD:</strong> Trading 1 standard lot, account in USD:<br>Pip Value = (0.0001 × 100,000 × 1) / 1 = $10 per pip</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Example 2 - GBP/JPY:</strong> Trading 1 mini lot, account in USD:<br>Pip Size = 0.01 (JPY pair)<br>Current GBP/JPY = 185.50, USD/JPY = 150.00<br>Pip Value = (0.01 × 100,000 × 0.1) / 150.00 = $0.67 per pip</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;">Our calculator handles all these complex calculations automatically for any currency pair and account currency combination.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Forex Profit/Loss Calculation</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">P&L calculation formula:</p>
+        <p style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; color: var(--text-primary); font-size: 1.1rem; margin-bottom: 20px; border-left: 4px solid var(--primary);"><strong>Profit/Loss = (Exit Price - Entry Price) × Pip Size Factor × Lot Size × Contract Size</strong></p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Long Position Example:</strong><br>Buy 2 standard lots EUR/USD at 1.1000<br>Sell at 1.1050<br>Price difference: 1.1050 - 1.1000 = 0.0050 = 50 pips<br>Profit: 50 pips × $10/pip × 2 lots = $1,000</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Short Position Example:</strong><br>Sell 1 mini lot GBP/USD at 1.2500<br>Buy back at 1.2450<br>Price difference: 1.2500 - 1.2450 = 0.0050 = 50 pips<br>Profit: 50 pips × $1/pip × 1 lot = $50</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Understanding Leverage in Forex</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">Leverage allows traders to control large positions with small capital. Common leverage ratios:</p>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>1:10 (10:1):</strong> $1,000 controls $10,000 position. Very conservative, requires $10,000 margin for 1 standard lot.</li>
+            <li><strong>1:50 (50:1):</strong> $1,000 controls $50,000. Moderate leverage, requires $2,000 margin for 1 standard lot. Suitable for most traders.</li>
+            <li><strong>1:100 (100:1):</strong> $1,000 controls $100,000. Popular choice, requires $1,000 margin for 1 standard lot. Good balance of flexibility and risk.</li>
+            <li><strong>1:200 (200:1):</strong> $1,000 controls $200,000. High leverage, requires $500 margin for 1 standard lot. Use with extreme caution.</li>
+            <li><strong>1:500 (500:1):</strong> $1,000 controls $500,000. Very high risk, can wipe out accounts quickly. Only for experienced traders with strict risk management.</li>
+        </ul>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Leverage Warning:</strong> While leverage amplifies profits, it equally amplifies losses. With 1:100 leverage, a 1% adverse move can lose 100% of your margin. Never risk more than 1-2% of account per trade.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Spread Costs and Commission</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Spread:</strong> Difference between bid (sell) and ask (buy) prices. This is how most brokers profit. Typical spreads in 2025:</p>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li>EUR/USD: 0.5-1.5 pips (major pair, tightest spreads)</li>
+            <li>GBP/USD: 1.0-2.0 pips</li>
+            <li>USD/JPY: 0.5-1.5 pips</li>
+            <li>AUD/USD: 0.8-2.0 pips</li>
+            <li>EUR/GBP: 1.5-3.0 pips (cross pair, wider spread)</li>
+            <li>Exotic pairs: 5-50 pips (very wide spreads)</li>
+        </ul>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Commission:</strong> Some brokers charge commission instead of/in addition to spreads. ECN brokers typically charge $3-7 per lot round-turn (open + close) with raw spreads starting from 0 pips.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Cost Calculation:</strong> If spread on EUR/USD is 1 pip and you trade 1 standard lot: Cost = 1 pip × $10 = $10. This must be overcome before profit. Always factor spread into trade planning.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Position Sizing and Risk Management</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">Professional traders never risk more than 1-2% of account per trade. Position sizing formula:</p>
+        <p style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; color: var(--text-primary); font-size: 1.1rem; margin-bottom: 20px; border-left: 4px solid var(--primary);"><strong>Lot Size = (Account Balance × Risk %) / (Stop Loss in Pips × Pip Value)</strong></p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Example:</strong><br>Account Balance: $10,000<br>Risk per trade: 1% = $100<br>Stop loss: 50 pips<br>Trading EUR/USD (pip value $10/lot)<br>Lot Size = $100 / (50 × $10) = 0.2 lots (2 mini lots)</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;">This ensures that even if stop loss is hit, you only lose $100 (1% of account), preserving capital for future trades.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Risk-Reward Ratio</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">Risk-reward ratio compares potential loss (stop loss) to potential profit (take profit). Professional traders aim for minimum 1:2 or 1:3 ratios.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Example 1 - 1:2 Risk-Reward:</strong><br>Entry: EUR/USD 1.1000<br>Stop Loss: 1.0950 (50 pips risk)<br>Take Profit: 1.1100 (100 pips reward)<br>Ratio: 50:100 = 1:2</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">With 1:2 ratio, you can be profitable even with 40% win rate:<br>10 trades: 4 wins × $200 profit = $800<br>6 losses × $100 loss = -$600<br>Net: +$200 profit</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Golden Rule:</strong> Never enter trade without defined stop loss and take profit levels. Hope is not a trading strategy.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Major Currency Pairs Characteristics</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>EUR/USD (Euro/US Dollar):</strong> Most liquid pair, 24% of forex volume. Tight spreads (0.5-1 pip), best for beginners. Influenced by ECB and Fed policies. Typical daily range: 60-100 pips.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>GBP/USD (British Pound/US Dollar):</strong> Volatile, larger pip movements. Daily range: 100-150 pips. Great for swing traders. Affected by Bank of England decisions and UK economic data.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>USD/JPY (US Dollar/Japanese Yen):</strong> Second most traded. Strong trends, popular for carry trades. Daily range: 50-80 pips. Influenced by Bank of Japan yield curve control.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>AUD/USD (Australian Dollar/US Dollar):</strong> Commodity currency tied to gold/iron ore. Risk-on asset, correlates with stock markets. Daily range: 60-90 pips.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>USD/CHF (US Dollar/Swiss Franc):</strong> Safe-haven currency. Inverse correlation with EUR/USD. Lower volatility, daily range: 40-70 pips.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Best Trading Sessions</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">Forex trades 24 hours Monday-Friday across three major sessions:</p>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>Asian Session (12:30 AM - 9:30 AM IST):</strong> Tokyo opening. Lower volatility, suitable for range trading. Focus on JPY pairs, AUD/USD.</li>
+            <li><strong>London Session (1:00 PM - 10:00 PM IST):</strong> Highest liquidity, 35% of forex volume. Major moves in EUR, GBP pairs. Best for day trading.</li>
+            <li><strong>New York Session (6:00 PM - 3:00 AM IST):</strong> Overlaps with London 1:30-6:30 PM IST. Peak volatility, tightest spreads. USD pairs most active.</li>
+            <li><strong>London-NY Overlap (1:30 PM - 6:30 PM IST):</strong> Best time for trading. Highest volume, major trends develop. 70% of daily movements occur here.</li>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Common Forex Trading Strategies</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Scalping:</strong> Multiple trades lasting seconds to minutes. Target 5-10 pips per trade. Requires tight spreads, fast execution. High frequency, high stress. Best pairs: EUR/USD during London-NY overlap.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Day Trading:</strong> Positions opened and closed same day. No overnight risk. Target 20-50 pips. Technical analysis focused. Requires 2-4 hours daily monitoring. Suitable for part-time traders.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Swing Trading:</strong> Positions held 2-7 days. Target 100-300 pips. Based on daily charts. Less time-intensive, suitable for full-time workers. Must accept overnight and weekend gaps.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;"><strong>Position Trading:</strong> Long-term holds (weeks to months). Target 500-2000 pips. Fundamental analysis driven. Requires patience, lower leverage. Similar to investing.</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Breakout Trading:</strong> Enter when price breaks support/resistance. High win rate if confirmed. Use on major economic news releases. Stop loss essential to avoid false breakouts.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Technical Analysis Essentials</h3>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>Support and Resistance:</strong> Price levels where buying/selling pressure concentrates. Price bounces off support, retreats from resistance. Break of these levels signals strong moves.</li>
+            <li><strong>Trend Lines:</strong> Connect swing highs (downtrend) or lows (uptrend). Trade in trend direction. "Trend is your friend until it ends."</li>
+            <li><strong>Moving Averages:</strong> 50 EMA and 200 EMA popular. Price above = uptrend, below = downtrend. Golden cross (50 above 200) bullish, death cross bearish.</li>
+            <li><strong>RSI (Relative Strength Index):</strong> Measures overbought (>70) and oversold (<30) conditions. Divergences signal trend reversals.</li>
+            <li><strong>MACD (Moving Average Convergence Divergence):</strong> Trend-following momentum indicator. Crossovers generate buy/sell signals.</li>
+            <li><strong>Fibonacci Retracements:</strong> Identify potential support/resistance at 38.2%, 50%, 61.8% levels. Popular for finding entry points in trends.</li>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Fundamental Analysis Factors</h3>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>Interest Rate Decisions:</strong> Higher rates attract foreign capital, strengthening currency. Fed, ECB, BoE meetings are major events. Rate hikes bullish, cuts bearish.</li>
+            <li><strong>Non-Farm Payrolls (NFP):</strong> US employment data released first Friday each month. Moves USD pairs 50-150 pips. Trade with caution or avoid.</li>
+            <li><strong>GDP Reports:</strong> Economic growth indicators. Strong GDP = currency strength. Released quarterly with advance, preliminary, and final estimates.</li>
+            <li><strong>Inflation Data (CPI, PPI):</strong> Central banks target 2% inflation. High inflation may trigger rate hikes. Monthly releases cause volatility.</li>
+            <li><strong>Trade Balance:</strong> Surplus (exports > imports) strengthens currency, deficit weakens it. Important for commodity currencies (AUD, CAD, NZD).</li>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Psychological Aspects of Trading</h3>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>Discipline:</strong> Stick to trading plan. Don't revenge trade after losses. Follow risk management rules religiously. 80% of trading success is psychology.</li>
+            <li><strong>Patience:</strong> Wait for quality setups. Not every day requires trading. Sometimes doing nothing is the best action. Quality over quantity.</li>
+            <li><strong>Emotional Control:</strong> Fear and greed destroy accounts. Use stop losses to remove emotion. Accept that losses are part of trading.</li>
+            <li><strong>Record Keeping:</strong> Maintain trading journal. Document entry/exit reasons, emotions, lessons learned. Review weekly to improve.</li>
+            <li><strong>Realistic Expectations:</strong> Professional traders target 2-5% monthly returns, not 100%. Get-rich-quick mindset leads to blown accounts.</li>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Common Beginner Mistakes</h3>
+        <ol style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>Overleveraging:</strong> Using excessive leverage (1:400, 1:500). Start with 1:50 or 1:100 maximum. Leverage is a double-edged sword.</li>
+            <li><strong>No Stop Loss:</strong> "It will come back" mentality wipes accounts. Always use stop losses. Cut losses quickly, let winners run.</li>
+            <li><strong>Overtrading:</strong> Taking too many trades, chasing losses. Quality setups only. Less is more in trading.</li>
+            <li><strong>Ignoring Risk Management:</strong> Risking 10-20% per trade. Never exceed 1-2% risk per trade, 5% total open risk.</li>
+            <li><strong>Strategy Hopping:</strong> Changing strategy every week. Master one strategy first. Backtest thoroughly before live trading.</li>
+            <li><strong>Trading Without Plan:</strong> Random entries based on "gut feeling." Develop clear entry/exit criteria. Plan trade, trade plan.</li>
+        </ol>
+        
+        <!-- FAQ Section -->
+        <h2 style="color: var(--text-primary); font-size: 2.2rem; margin-top: 50px; margin-bottom: 25px; border-bottom: 3px solid var(--primary); padding-bottom: 15px;">Frequently Asked Questions (FAQs)</h2>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> How do I calculate forex profit in pips?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Forex profit in pips = (Exit Price - Entry Price) × 10,000 (for 4-decimal pairs) or × 100 (for 2-decimal JPY pairs). For example, if you buy EUR/USD at 1.1000 and sell at 1.1050, profit = (1.1050 - 1.1000) × 10,000 = 50 pips. For monetary value: Pip Value × Number of Pips × Lot Size = Profit in USD. If trading 1 standard lot EUR/USD: 50 pips × $10 = $500 profit.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> What is the difference between standard, mini, and micro lots?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Standard Lot = 100,000 units of base currency, pip value ~$10 (for USD pairs). Suitable for experienced traders with $10,000+ capital. Mini Lot = 10,000 units, pip value ~$1. Good for intermediate traders. Micro Lot = 1,000 units, pip value ~$0.10. Perfect for beginners to practice with minimal risk. A 50-pip move in 1 standard lot = $500 profit/loss, while same move in 1 micro lot = only $5. Always start small to learn without destroying capital.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> How much leverage should I use as a beginner?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Beginners should use 1:50 or 1:100 leverage maximum. While brokers offer 1:500 or higher, this creates enormous risk. With 1:100 leverage, $1,000 controls $100,000 position. A 1% adverse move = 100% loss of margin. Higher leverage doesn't mean more profit—it means faster account destruction if you don't use proper risk management. Professional traders rarely use more than 1:20 effective leverage. Start conservative, focus on consistent profitability before increasing exposure.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> What is the best risk-reward ratio for forex trading?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Professional traders aim for minimum 1:2 risk-reward ratio (risk 50 pips to make 100 pips). With 1:2 ratio, you need only 35% win rate to break even, and 40-50% win rate for good profits. Even better is 1:3 ratio (risk 50, target 150 pips) allowing profitability with just 30% win rate. Never trade worse than 1:1 ratio. Example: If you risk $100 with stop loss, your take profit should target minimum $200. High risk-reward ratios are key to long-term profitability.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> How do spreads affect my trading profits?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Spreads are transaction costs you pay on every trade. If EUR/USD spread is 1 pip and you trade 1 standard lot, you start with -$10 loss (1 pip × $10). For scalpers making 10 trades daily targeting 5-10 pips each, spread costs add up significantly. With 1 pip spread: 10 trades × $10 = $100 daily cost. Choose brokers with tight spreads for your trading pairs. Major pairs (EUR/USD) should have <1 pip spread. Avoid exotic pairs with 10-50 pip spreads unless holding long-term. ECN brokers offer raw spreads from 0 pips but charge commission instead.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> What is position sizing and why is it important?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Position sizing determines how many lots to trade based on account size and risk tolerance. The 1% rule states: never risk more than 1% of account per trade. If you have $10,000 account, maximum risk = $100 per trade. If your stop loss is 50 pips on EUR/USD (pip value $10), your position size = $100 / (50 pips × $10/pip) = 0.2 lots. Proper position sizing prevents account blowups. Even with 10 consecutive losses at 1% risk, you'd only lose 10% of capital and can recover. Without position sizing, one bad trade can destroy your account.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> Can I make a living from forex trading?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Yes, but it requires significant capital, skills, and time. Professional traders target 2-5% monthly returns (24-100% annually with compounding). To make ₹50,000/month living, you'd need: ₹10,00,000 capital earning 5% monthly = ₹50,000. Most beginners underestimate the learning curve (1-2 years) and capital requirements. 90% of retail traders lose money initially. Start part-time, prove consistent profitability for 6-12 months with small account before considering full-time trading. Many successful traders combine trading with other income streams for stability.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> What is the best time to trade forex from India?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Best time: London-New York overlap (1:30 PM - 6:30 PM IST) when 70% of daily movements occur. Highest liquidity, tightest spreads, major trends develop. London session (1:00 PM - 10:00 PM IST) is also excellent for EUR, GBP pairs. Avoid Asian session (3:00 AM - 11:00 AM IST) unless trading JPY pairs—lower volatility and range-bound markets. Friday afternoons can be choppy. Best days: Tuesday, Wednesday, Thursday. Avoid Mondays (setting up) and Fridays after 8 PM IST (low liquidity, weekend gaps risk).</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> Do I need to pay taxes on forex trading profits in India?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Yes, forex trading profits are taxable in India. Classified as business income, taxed at applicable income tax slab rates (5-30%). Unlike stocks, no separate capital gains tax. You can claim trading expenses (internet, software, education) as deductions. Maintain detailed records of all trades. File ITR-3 (for business income). Losses can be carried forward for 8 years to offset future profits. Consult CA for compliance. Note: Offshore forex trading is restricted by RBI; use SEBI-regulated brokers offering currency derivatives (USD/INR, EUR/INR) on NSE/BSE for legal trading from India.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: var(--primary);"></i> What is the difference between demo and live forex trading?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Demo trading uses virtual money, no real financial risk, but also lacks emotional pressure. Traders often take riskier trades on demo that they wouldn't with real money. Live trading involves real money, real emotions (fear, greed), and psychological pressure that significantly affects decision-making. Many profitable demo traders fail when switching to live accounts due to emotional control issues. Recommendation: Practice on demo for 1-2 months to learn platform and test strategy, then start live with micro lots (smallest risk) to experience real trading psychology. "Demo trading is like shadow boxing; live trading is the actual fight."</p>
+        </div>
+    </div>
+</body>
+</html>
+

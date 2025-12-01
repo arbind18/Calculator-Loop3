@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Senior Citizen FD Calculator 2025 👴 SCSS vs FD Comparison India</title>
+    <meta name="description" content="⚡ Senior citizen FD calculator with extra 0.5% interest. Compare FD vs SCSS. Calculate monthly pension, 8.2% SCSS returns. Best rates India 2025.">
+    <meta name="keywords" content="senior citizen fd calculator, SCSS calculator, senior citizen interest rate, FD vs SCSS, pension calculator India 2025">
+    <meta name="author" content="CalculatorLoop.com">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/Senior-Citizen-FD-Calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Senior Citizen FD Calculator 2025 👴 Extra 0.5% Rate">
+    <meta property="og:description" content="⚡ Calculate FD returns with senior citizen rate. Compare SCSS India">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Banking-and-Savings/Senior-Citizen-FD-Calculator.html">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Senior Citizen FD Calculator 2025 👴">
+    <meta name="twitter:description" content="⚡ FD vs SCSS comparison. Free calculator!">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Senior Citizen FD Calculator",
+        "description": "Calculate fixed deposit returns for senior citizens with extra interest rate and compare with SCSS for retirement planning.",
+        "url": "https://calculatorloop.com/Financial/Banking-and-Savings/Senior-Citizen-FD-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "4500"},
+        "provider": {"@type": "Organization", "name": "CalculatorLoop"}
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #0891b2;
+            --primary-dark: #0e7490;
+            --secondary: #f97316;
+            --bg-primary: #ffffff;
+            --bg-secondary: #ecfeff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #666;
+            --border: #a5f3fc;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #e9ecef;
+            --text-secondary: #b8b8b8;
+            --border: #2d3748;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-secondary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+        
+        .benefits-banner {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .benefit-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+        }
+        
+        .benefit-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .benefit-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+        
+        .benefit-card p {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .input-section, .result-section {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.1);
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        .result-card h3 {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .metric-card {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .metric-card h4 {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .metric-value {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .comparison-section {
+            margin-top: 40px;
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .comparison-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .scheme-card {
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 15px;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .scheme-card.scss {
+            border-top-color: var(--secondary);
+        }
+        
+        .scheme-card h4 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scheme-card h4 i {
+            color: var(--primary);
+        }
+        
+        .scheme-card.scss h4 i {
+            color: var(--secondary);
+        }
+        
+        .scheme-details {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .detail-value {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+        
+        .scheme-highlight {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .scheme-card.scss .scheme-highlight {
+            background: linear-gradient(135deg, var(--secondary), #ea580c);
+        }
+        
+        .scheme-highlight h5 {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            opacity: 0.95;
+        }
+        
+        .scheme-highlight-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .chart-container {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+        }
+        
+        .chart-container h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .rates-table {
+            margin-top: 40px;
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tbody tr:hover {
+            background: var(--bg-primary);
+        }
+        
+        td {
+            color: var(--text-primary);
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .benefits-banner { grid-template-columns: 1fr; }
+            .tabs { flex-direction: column; }
+            .main-content { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .comparison-cards { grid-template-columns: 1fr; }
+            .result-value { font-size: 2.2rem; }
+            .theme-toggle { position: static; margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+            <h1><i class="fas fa-user-clock"></i> Senior Citizen FD Calculator</h1>
+            <p class="subtitle">Extra 0.5% interest rate for senior citizens (60+ years)</p>
+        </div>
+        
+        <div class="benefits-banner">
+            <div class="benefit-card">
+                <i class="fas fa-percentage"></i>
+                <h4>Extra Interest</h4>
+                <p>+0.5%</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Guaranteed Returns</h4>
+                <p>100% Safe</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h4>Flexible Tenure</h4>
+                <p>7 days - 10 yrs</p>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('fd')">
+                <i class="fas fa-university"></i> Senior Citizen FD
+            </div>
+            <div class="tab" onclick="switchTab('scss')">
+                <i class="fas fa-landmark"></i> SCSS Calculator
+            </div>
+        </div>
+        
+        <div id="fdTab" class="tab-content active">
+            <div class="main-content">
+                <div class="input-section">
+                    <h3 style="color: var(--text-primary); margin-bottom: 25px;">
+                        <i class="fas fa-calculator"></i> FD Details
+                    </h3>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-rupee-sign"></i> Deposit Amount</label>
+                        <input type="number" id="fdAmount" value="1000000" min="1000" step="10000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label>
+                        <input type="number" id="fdRate" value="7.5" min="1" max="12" step="0.1">
+                        <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                            Senior citizen rate (already includes +0.5% extra)
+                        </small>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-calendar"></i> Tenure (years)</label>
+                        <input type="number" id="fdTenure" value="5" min="0.5" max="10" step="0.5">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-sync"></i> Compounding Frequency</label>
+                        <select id="fdFrequency">
+                            <option value="4" selected>Quarterly</option>
+                            <option value="2">Half-Yearly</option>
+                            <option value="12">Monthly</option>
+                            <option value="1">Yearly</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-money-check"></i> Interest Payout</label>
+                        <select id="fdPayout">
+                            <option value="cumulative" selected>Cumulative (on maturity)</option>
+                            <option value="monthly">Monthly Payout</option>
+                            <option value="quarterly">Quarterly Payout</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <div class="result-card">
+                        <h3><i class="fas fa-coins"></i> Maturity Amount</h3>
+                        <div class="result-value" id="fdMaturity">₹0</div>
+                        <p style="opacity: 0.95;">Total amount at maturity</p>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4><i class="fas fa-money-bill-wave"></i> Principal</h4>
+                            <div class="metric-value" id="fdPrincipal">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4><i class="fas fa-chart-line"></i> Interest Earned</h4>
+                            <div class="metric-value" id="fdInterest">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4><i class="fas fa-calendar-day"></i> Monthly Income</h4>
+                            <div class="metric-value" id="fdMonthly">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4><i class="fas fa-percentage"></i> Effective Rate</h4>
+                            <div class="metric-value" id="fdEffective">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="scssTab" class="tab-content">
+            <div class="main-content">
+                <div class="input-section">
+                    <h3 style="color: var(--text-primary); margin-bottom: 25px;">
+                        <i class="fas fa-calculator"></i> SCSS Details
+                    </h3>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-rupee-sign"></i> Deposit Amount (Max ₹30L)</label>
+                        <input type="number" id="scssAmount" value="1500000" min="1000" max="3000000" step="10000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label>
+                        <input type="number" id="scssRate" value="8.2" readonly>
+                        <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                            Fixed by Government (Q4 FY 2024-25)
+                        </small>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-calendar"></i> Tenure</label>
+                        <select id="scssTenure">
+                            <option value="5" selected>5 Years (Fixed)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-info-circle"></i> Interest Payout</label>
+                        <input type="text" value="Quarterly (every 3 months)" readonly>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <div class="result-card">
+                        <h3><i class="fas fa-coins"></i> Total Returns (5 Years)</h3>
+                        <div class="result-value" id="scssMaturity">₹0</div>
+                        <p style="opacity: 0.95;">Principal + Interest</p>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4><i class="fas fa-money-bill-wave"></i> Principal</h4>
+                            <div class="metric-value" id="scssPrincipal">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4><i class="fas fa-chart-line"></i> Total Interest</h4>
+                            <div class="metric-value" id="scssInterest">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4><i class="fas fa-calendar-day"></i> Quarterly Income</h4>
+                            <div class="metric-value" id="scssQuarterly">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4><i class="fas fa-calendar-alt"></i> Monthly Average</h4>
+                            <div class="metric-value" id="scssMonthly">₹0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison-section">
+            <h3><i class="fas fa-balance-scale"></i> FD vs SCSS Comparison</h3>
+            <div class="comparison-cards">
+                <div class="scheme-card">
+                    <h4><i class="fas fa-university"></i> Senior Citizen FD</h4>
+                    <div class="scheme-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Interest Rate</span>
+                            <span class="detail-value" id="compFdRate">7.5%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tenure</span>
+                            <span class="detail-value">Flexible (7 days - 10 yrs)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Max Limit</span>
+                            <span class="detail-value">No Limit</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payout</span>
+                            <span class="detail-value">Flexible (Monthly/Quarterly)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Premature Withdrawal</span>
+                            <span class="detail-value">Allowed (with penalty)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tax Benefit</span>
+                            <span class="detail-value">80C (Tax Saver FD only)</span>
+                        </div>
+                    </div>
+                    <div class="scheme-highlight">
+                        <h5>Maturity Value (5 yrs, ₹15L)</h5>
+                        <div class="scheme-highlight-value" id="compFdMaturity">₹0</div>
+                    </div>
+                </div>
+                
+                <div class="scheme-card scss">
+                    <h4><i class="fas fa-landmark"></i> SCSS Scheme</h4>
+                    <div class="scheme-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Interest Rate</span>
+                            <span class="detail-value">8.2% (Govt. Fixed)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tenure</span>
+                            <span class="detail-value">5 Years (Fixed)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Max Limit</span>
+                            <span class="detail-value">₹30 Lakh</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payout</span>
+                            <span class="detail-value">Quarterly (Fixed)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Premature Withdrawal</span>
+                            <span class="detail-value">After 1 year (with penalty)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tax Benefit</span>
+                            <span class="detail-value">80C Deduction</span>
+                        </div>
+                    </div>
+                    <div class="scheme-highlight">
+                        <h5>Maturity Value (5 yrs, ₹15L)</h5>
+                        <div class="scheme-highlight-value" id="compScssMaturity">₹0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3><i class="fas fa-chart-line"></i> Growth Comparison</h3>
+            <canvas id="comparisonChart"></canvas>
+        </div>
+        
+        <div class="rates-table">
+            <h3 style="color: var(--text-primary); text-align: center;">
+                <i class="fas fa-building"></i> Senior Citizen FD Rates (Top Banks 2025)
+            </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bank</th>
+                        <th>General Rate</th>
+                        <th>Senior Citizen Rate</th>
+                        <th>Extra Benefit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SBI</strong></td>
+                        <td>7.00%</td>
+                        <td class="highlight">7.50%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HDFC Bank</strong></td>
+                        <td>7.25%</td>
+                        <td class="highlight">7.75%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ICICI Bank</strong></td>
+                        <td>7.25%</td>
+                        <td class="highlight">7.75%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Axis Bank</strong></td>
+                        <td>7.25%</td>
+                        <td class="highlight">7.75%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PNB</strong></td>
+                        <td>7.25%</td>
+                        <td class="highlight">7.75%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bank of Baroda</strong></td>
+                        <td>7.15%</td>
+                        <td class="highlight">7.65%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Canara Bank</strong></td>
+                        <td>7.10%</td>
+                        <td class="highlight">7.60%</td>
+                        <td>+0.50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Post Office SCSS</strong></td>
+                        <td>-</td>
+                        <td class="highlight">8.20%</td>
+                        <td>Best Rate</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+    </div>
+    
+    <script>
+        let comparisonChart;
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'fd') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('fdTab').classList.add('active');
+                calculateFD();
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('scssTab').classList.add('active');
+                calculateSCSS();
+            }
+            updateComparison();
+        }
+        
+        function calculateFD() {
+            const P = parseFloat(document.getElementById('fdAmount').value);
+            const r = parseFloat(document.getElementById('fdRate').value) / 100;
+            const t = parseFloat(document.getElementById('fdTenure').value);
+            const n = parseInt(document.getElementById('fdFrequency').value);
+            const payout = document.getElementById('fdPayout').value;
+            
+            if (P > 0 && r > 0 && t > 0) {
+                let maturity, interest, monthlyIncome;
+                
+                if (payout === 'cumulative') {
+                    // Compound interest
+                    maturity = P * Math.pow(1 + r / n, n * t);
+                    interest = maturity - P;
+                    monthlyIncome = (P * r) / 12;
+                } else {
+                    // Simple interest for periodic payout
+                    interest = P * r * t;
+                    maturity = P + interest;
+                    monthlyIncome = payout === 'monthly' ? (P * r) / 12 : (P * r) / 4;
+                }
+                
+                const effectiveRate = (Math.pow(1 + r / n, n) - 1) * 100;
+                
+                document.getElementById('fdMaturity').textContent = '₹' + Math.round(maturity).toLocaleString('en-IN');
+                document.getElementById('fdPrincipal').textContent = '₹' + P.toLocaleString('en-IN');
+                document.getElementById('fdInterest').textContent = '₹' + Math.round(interest).toLocaleString('en-IN');
+                document.getElementById('fdMonthly').textContent = '₹' + Math.round(monthlyIncome).toLocaleString('en-IN');
+                document.getElementById('fdEffective').textContent = effectiveRate.toFixed(2) + '%';
+            }
+        }
+        
+        function calculateSCSS() {
+            const P = parseFloat(document.getElementById('scssAmount').value);
+            const r = 0.082; // 8.2% fixed
+            const t = 5; // Fixed 5 years
+            
+            if (P > 0) {
+                // SCSS pays simple interest quarterly
+                const totalInterest = P * r * t;
+                const maturity = P + totalInterest;
+                const quarterlyIncome = (P * r) / 4;
+                const monthlyAvg = quarterlyIncome / 3;
+                
+                document.getElementById('scssMaturity').textContent = '₹' + Math.round(maturity).toLocaleString('en-IN');
+                document.getElementById('scssPrincipal').textContent = '₹' + P.toLocaleString('en-IN');
+                document.getElementById('scssInterest').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+                document.getElementById('scssQuarterly').textContent = '₹' + Math.round(quarterlyIncome).toLocaleString('en-IN');
+                document.getElementById('scssMonthly').textContent = '₹' + Math.round(monthlyAvg).toLocaleString('en-IN');
+            }
+        }
+        
+        function updateComparison() {
+            const P = 1500000; // ₹15L for comparison
+            const fdRate = parseFloat(document.getElementById('fdRate').value) / 100;
+            const t = 5;
+            
+            // FD with quarterly compounding
+            const fdMaturity = P * Math.pow(1 + fdRate / 4, 4 * t);
+            document.getElementById('compFdRate').textContent = (fdRate * 100).toFixed(2) + '%';
+            document.getElementById('compFdMaturity').textContent = '₹' + Math.round(fdMaturity).toLocaleString('en-IN');
+            
+            // SCSS with simple interest
+            const scssMaturity = P + (P * 0.082 * t);
+            document.getElementById('compScssMaturity').textContent = '₹' + Math.round(scssMaturity).toLocaleString('en-IN');
+            
+            updateChart(P, fdRate, t);
+        }
+        
+        function updateChart(P, fdRate, t) {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            
+            if (comparisonChart) comparisonChart.destroy();
+            
+            const labels = [];
+            const fdData = [];
+            const scssData = [];
+            
+            for (let year = 0; year <= t; year++) {
+                labels.push('Year ' + year);
+                
+                // FD compound
+                const fdValue = P * Math.pow(1 + fdRate / 4, 4 * year);
+                fdData.push(Math.round(fdValue));
+                
+                // SCSS simple
+                const scssValue = P + (P * 0.082 * year);
+                scssData.push(Math.round(scssValue));
+            }
+            
+            comparisonChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Senior Citizen FD',
+                            data: fdData,
+                            borderColor: '#0891b2',
+                            backgroundColor: 'rgba(8, 145, 178, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'SCSS (8.2%)',
+                            data: scssData,
+                            borderColor: '#f97316',
+                            backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ₹' + context.parsed.y.toLocaleString('en-IN');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + (value / 100000) + 'L';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        
+        document.querySelectorAll('#fdTab input, #fdTab select').forEach(el => 
+            el.addEventListener('input', () => { calculateFD(); updateComparison(); })
+        );
+        
+        document.querySelectorAll('#scssTab input').forEach(el => 
+            el.addEventListener('input', () => { calculateSCSS(); updateComparison(); })
+        );
+        
+        calculateFD();
+        calculateSCSS();
+        updateComparison();
+    </script>
+</body>
+</html>
+

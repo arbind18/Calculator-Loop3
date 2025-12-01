@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏦 FD & RD Maturity Calculator 2025 - Calculate Returns</title>
+    <meta name="description" content="Free FD & RD Maturity Calculator - Calculate Fixed Deposit and Recurring Deposit maturity amounts. Compare returns with interest breakdown. Perfect for investors.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/FD-RD-Maturity-Calculator.html">
+    <meta name="keywords" content="FD maturity calculator, RD maturity calculator, fixed deposit calculator, recurring deposit calculator, bank calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FD & RD Maturity Calculator",
+      "description": "Calculate Fixed Deposit and Recurring Deposit maturity amounts with interest",
+      "url": "https://calculatorloop.com/Financial/Banking-and-Savings/FD-RD-Maturity-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "5100"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #e0e7ff;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
+        .tab { padding: 12px 30px; background: var(--surface); border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .tab:hover { border-color: var(--primary-color); }
+        .tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus, select:focus { outline: none; border-color: var(--primary-color); }
+        .result-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .result-card { background: linear-gradient(135deg, var(--primary-light), white); padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--primary-color); }
+        [data-theme="dark"] .result-card { background: linear-gradient(135deg, var(--surface), var(--background)); }
+        .result-label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .result-value { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); }
+        .chart-container { background: var(--background); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .tabs { flex-direction: column; }
+            .result-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-piggy-bank"></i> FD & RD Maturity</h1>
+            <p class="subtitle">Calculate Fixed & Recurring Deposit maturity</p>
+        </div>
+        <div class="tabs">
+            <div class="tab active" data-tab="fd">Fixed Deposit (FD)</div>
+            <div class="tab" data-tab="rd">Recurring Deposit (RD)</div>
+        </div>
+        <div class="calculator-section">
+            <div class="tab-content active" id="fd">
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Deposit Amount (₹)</label>
+                    <input type="number" id="fdAmount" value="100000" min="0" step="1000">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-percent"></i> Interest Rate (% per annum)</label>
+                    <input type="number" id="fdRate" value="7" min="0" max="20" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-calendar"></i> Time Period (Years)</label>
+                    <input type="number" id="fdYears" value="3" min="0.25" max="30" step="0.25">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-sync"></i> Compounding Frequency</label>
+                    <select id="fdFreq">
+                        <option value="4" selected>Quarterly</option>
+                        <option value="2">Half-Yearly</option>
+                        <option value="1">Yearly</option>
+                        <option value="12">Monthly</option>
+                    </select>
+                </div>
+                <div class="result-cards">
+                    <div class="result-card">
+                        <div class="result-label">Principal</div>
+                        <div class="result-value" id="fdPrincipal">₹1,00,000</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Interest Earned</div>
+                        <div class="result-value" id="fdInterest">₹23,014</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Maturity Amount</div>
+                        <div class="result-value" id="fdMaturity">₹1,23,014</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="fdChart"></canvas>
+                </div>
+            </div>
+            <div class="tab-content" id="rd">
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Monthly Deposit (₹)</label>
+                    <input type="number" id="rdAmount" value="5000" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-percent"></i> Interest Rate (% per annum)</label>
+                    <input type="number" id="rdRate" value="6.5" min="0" max="20" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-calendar"></i> Time Period (Months)</label>
+                    <input type="number" id="rdMonths" value="12" min="3" max="120" step="1">
+                </div>
+                <div class="result-cards">
+                    <div class="result-card">
+                        <div class="result-label">Total Invested</div>
+                        <div class="result-value" id="rdInvested">₹60,000</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Interest Earned</div>
+                        <div class="result-value" id="rdInterest">₹2,113</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Maturity Amount</div>
+                        <div class="result-value" id="rdMaturity">₹62,113</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="rdChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let fdChart = null, rdChart = null;
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            if(fdChart) updateChartTheme(fdChart);
+            if(rdChart) updateChartTheme(rdChart);
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+        
+        function calculateFD() {
+            const P = parseFloat(document.getElementById('fdAmount').value) || 0;
+            const r = parseFloat(document.getElementById('fdRate').value) || 0;
+            const t = parseFloat(document.getElementById('fdYears').value) || 0;
+            const n = parseFloat(document.getElementById('fdFreq').value) || 4;
+            
+            const A = P * Math.pow(1 + (r/100)/n, n*t);
+            const interest = A - P;
+            
+            document.getElementById('fdPrincipal').textContent = '₹' + P.toLocaleString('en-IN');
+            document.getElementById('fdInterest').textContent = '₹' + interest.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('fdMaturity').textContent = '₹' + A.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            
+            createChart('fdChart', P, interest, 'fdChart');
+        }
+        
+        function calculateRD() {
+            const P = parseFloat(document.getElementById('rdAmount').value) || 0;
+            const r = parseFloat(document.getElementById('rdRate').value) || 0;
+            const n = parseInt(document.getElementById('rdMonths').value) || 0;
+            
+            const M = P * n * (1 + (r/100) * (n+1) / (2*12));
+            const invested = P * n;
+            const interest = M - invested;
+            
+            document.getElementById('rdInvested').textContent = '₹' + invested.toLocaleString('en-IN');
+            document.getElementById('rdInterest').textContent = '₹' + interest.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('rdMaturity').textContent = '₹' + M.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            
+            createChart('rdChart', invested, interest, 'rdChart');
+        }
+        
+        function createChart(canvasId, principal, interest, chartVar) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const existingChart = chartVar === 'fdChart' ? fdChart : rdChart;
+            if(existingChart) existingChart.destroy();
+            
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const newChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal/Invested', 'Interest Earned'],
+                    datasets: [{
+                        data: [principal, interest],
+                        backgroundColor: ['rgba(99, 102, 241, 0.8)', 'rgba(16, 185, 129, 0.8)'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: isDark ? '#f9fafb' : '#111827', font: {size: 14}, padding: 20 }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Maturity Breakdown',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: {size: 18, weight: 'bold'}
+                        }
+                    }
+                }
+            });
+            
+            if(chartVar === 'fdChart') fdChart = newChart;
+            else rdChart = newChart;
+        }
+        
+        function updateChartTheme(chart) {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#f9fafb' : '#111827';
+            chart.options.plugins.legend.labels.color = color;
+            chart.options.plugins.title.color = color;
+            chart.update();
+        }
+        
+        document.getElementById('fdAmount').addEventListener('input', calculateFD);
+        document.getElementById('fdRate').addEventListener('input', calculateFD);
+        document.getElementById('fdYears').addEventListener('input', calculateFD);
+        document.getElementById('fdFreq').addEventListener('change', calculateFD);
+        
+        document.getElementById('rdAmount').addEventListener('input', calculateRD);
+        document.getElementById('rdRate').addEventListener('input', calculateRD);
+        document.getElementById('rdMonths').addEventListener('input', calculateRD);
+        
+        calculateFD();
+        calculateRD();
+    </script>
+</body>
+</html>

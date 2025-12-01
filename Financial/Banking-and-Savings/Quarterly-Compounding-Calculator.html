@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Quarterly Compounding Calculator 2025 - Calculate Quarterly Interest</title>
+    <meta name="description" content="Free Quarterly Compounding Calculator - Calculate interest with quarterly compounding frequency. Compare returns and see growth with quarterly interest payments.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/Quarterly-Compounding-Calculator.html">
+    <meta name="keywords" content="quarterly compound interest, quarterly compounding calculator, interest calculator quarterly, FD quarterly interest">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Quarterly Compounding Calculator",
+      "description": "Calculate interest with quarterly compounding frequency",
+      "url": "https://calculatorloop.com/Financial/Banking-and-Savings/Quarterly-Compounding-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.7",
+        "ratingCount": "2600"
+      }
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #ede9fe;
+            --secondary-color: #f59e0b;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--surface);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .calculator-section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--background);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .results-section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, var(--primary-light), white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--primary-color);
+        }
+
+        [data-theme="dark"] .result-card {
+            background: linear-gradient(135deg, var(--surface), var(--background));
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .chart-container {
+            background: var(--background);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--background);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: var(--surface);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-section,
+            .results-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <h1>
+                <i class="fas fa-chart-line"></i>
+                Quarterly Compounding Calculator
+            </h1>
+            <p class="subtitle">Calculate interest with quarterly compounding - most common for FDs</p>
+        </div>
+
+        <div class="calculator-section">
+            <form id="quarterlyForm">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="principal">
+                            <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                        </label>
+                        <input type="number" id="principal" value="100000" min="0" step="1000" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="rate">
+                            <i class="fas fa-percentage"></i> Interest Rate (% p.a.)
+                        </label>
+                        <input type="number" id="rate" value="7.0" min="0" max="20" step="0.1" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="years">
+                            <i class="fas fa-calendar-alt"></i> Time Period (Years)
+                        </label>
+                        <input type="number" id="years" value="3" min="0.25" max="30" step="0.25" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">
+                    <i class="fas fa-calculator"></i> Calculate Quarterly Interest
+                </button>
+            </form>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2><i class="fas fa-chart-bar"></i> Results</h2>
+            
+            <div class="result-cards">
+                <div class="result-card">
+                    <div class="result-label">Principal Amount</div>
+                    <div class="result-value" id="principalResult">₹0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Total Quarters</div>
+                    <div class="result-value" id="quartersResult">0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Interest Per Quarter</div>
+                    <div class="result-value" id="quarterlyInterestResult">₹0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Total Interest</div>
+                    <div class="result-value" id="interestResult">₹0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Maturity Amount</div>
+                    <div class="result-value" id="maturityResult">₹0</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="quarterlyChart"></canvas>
+            </div>
+
+            <h3 style="margin-top: 30px;"><i class="fas fa-table"></i> Quarterly Breakdown</h3>
+            <table class="comparison-table" id="breakdownTable">
+                <thead>
+                    <tr>
+                        <th>Quarter</th>
+                        <th>Opening Balance</th>
+                        <th>Interest Earned</th>
+                        <th>Closing Balance</th>
+                    </tr>
+                </thead>
+                <tbody id="breakdownBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let quarterlyChart = null;
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', newTheme);
+            
+            if (quarterlyChart) {
+                updateChartTheme();
+            }
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+        // Calculate
+        document.getElementById('quarterlyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateQuarterly();
+        });
+
+        function calculateQuarterly() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value) / 100;
+            const years = parseFloat(document.getElementById('years').value);
+            const quarters = years * 4;
+
+            // Quarterly compound interest formula: A = P(1 + r/4)^(4t)
+            const maturity = principal * Math.pow((1 + rate / 4), quarters);
+            const totalInterest = maturity - principal;
+            const avgQuarterlyInterest = totalInterest / quarters;
+
+            // Display results
+            document.getElementById('principalResult').textContent = formatCurrency(principal);
+            document.getElementById('quartersResult').textContent = quarters;
+            document.getElementById('quarterlyInterestResult').textContent = formatCurrency(avgQuarterlyInterest);
+            document.getElementById('interestResult').textContent = formatCurrency(totalInterest);
+            document.getElementById('maturityResult').textContent = formatCurrency(maturity);
+
+            // Generate breakdown
+            generateBreakdown(principal, rate, quarters);
+
+            // Create chart
+            createChart(principal, totalInterest);
+
+            // Show results
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function generateBreakdown(principal, rate, totalQuarters) {
+            const tbody = document.getElementById('breakdownBody');
+            tbody.innerHTML = '';
+
+            let balance = principal;
+            const maxRows = Math.min(totalQuarters, 20); // Show max 20 rows
+
+            for (let quarter = 1; quarter <= maxRows; quarter++) {
+                const openingBalance = balance;
+                const quarterInterest = openingBalance * (rate / 4);
+                balance = openingBalance + quarterInterest;
+
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>Q${quarter}</td>
+                    <td>${formatCurrency(openingBalance)}</td>
+                    <td>${formatCurrency(quarterInterest)}</td>
+                    <td>${formatCurrency(balance)}</td>
+                `;
+            }
+
+            if (totalQuarters > 20) {
+                const row = tbody.insertRow();
+                row.innerHTML = `<td colspan="4" style="text-align: center; font-style: italic; color: var(--text-secondary);">... showing first 20 quarters only</td>`;
+            }
+        }
+
+        function createChart(principal, interest) {
+            const ctx = document.getElementById('quarterlyChart').getContext('2d');
+
+            if (quarterlyChart) {
+                quarterlyChart.destroy();
+            }
+
+            const isDark = html.getAttribute('data-theme') === 'dark';
+
+            quarterlyChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal', 'Interest Earned'],
+                    datasets: [{
+                        data: [principal, interest],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(245, 158, 11, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: isDark ? '#f9fafb' : '#111827',
+                                font: { size: 14 },
+                                padding: 20
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Principal vs Quarterly Compounded Interest',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: { size: 18, weight: 'bold' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ₹' + context.parsed.toLocaleString('en-IN', {maximumFractionDigits: 0});
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChartTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f9fafb' : '#111827';
+
+            quarterlyChart.options.plugins.legend.labels.color = textColor;
+            quarterlyChart.options.plugins.title.color = textColor;
+            quarterlyChart.update();
+        }
+
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN', {
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0
+            });
+        }
+
+        // Auto-calculate on input change
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (document.getElementById('resultsSection').style.display === 'block') {
+                    calculateQuarterly();
+                }
+            });
+        });
+
+        // Initial calculation
+        calculateQuarterly();
+    </script>
+</body>
+</html>

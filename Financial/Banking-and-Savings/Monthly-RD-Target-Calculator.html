@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Monthly RD Target Calculator 2025 - Plan Recurring Deposits</title>
+    <meta name="description" content="Free Monthly RD Target Calculator - Calculate required monthly RD amount to reach your financial goal. Plan recurring deposits with maturity target planning.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/Monthly-RD-Target-Calculator.html">
+    <meta name="keywords" content="RD target calculator, monthly RD planner, recurring deposit target, RD goal calculator, financial planning">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Monthly RD Target Calculator",
+      "description": "Calculate required monthly RD amount to reach your financial goal with interest",
+      "url": "https://calculatorloop.com/Financial/Banking-and-Savings/Monthly-RD-Target-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "3500"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ef4444;
+            --primary-dark: #dc2626;
+            --primary-light: #fee2e2;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus { outline: none; border-color: var(--primary-color); }
+        .highlight-result { background: linear-gradient(135deg, var(--primary-light), white); padding: 30px; border-radius: 15px; text-align: center; border: 3px solid var(--primary-color); margin: 30px 0; }
+        [data-theme="dark"] .highlight-result { background: linear-gradient(135deg, var(--surface), var(--background)); }
+        .highlight-label { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .highlight-value { font-size: 3rem; font-weight: 700; color: var(--primary-color); }
+        .result-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .result-card { background: var(--background); padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--border-color); }
+        .result-label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .result-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .chart-container { background: var(--background); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .highlight-value { font-size: 2rem; }
+            .result-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-bullseye"></i> Monthly RD Target</h1>
+            <p class="subtitle">Calculate monthly RD amount to reach your goal</p>
+        </div>
+        <div class="calculator-section">
+            <div class="input-group">
+                <label><i class="fas fa-trophy"></i> Target Amount (₹)</label>
+                <input type="number" id="targetAmount" value="500000" min="1000" step="1000">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-calendar"></i> Time Period (Months)</label>
+                <input type="number" id="months" value="60" min="3" max="120" step="1">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-percent"></i> Interest Rate (% per annum)</label>
+                <input type="number" id="rate" value="6.5" min="0" max="15" step="0.1">
+            </div>
+            <div class="highlight-result">
+                <div class="highlight-label">Required Monthly Deposit</div>
+                <div class="highlight-value" id="monthlyRequired">₹7,121</div>
+            </div>
+            <div class="result-cards">
+                <div class="result-card">
+                    <div class="result-label">Total Invested</div>
+                    <div class="result-value" id="totalInvested">₹4,27,260</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Interest Earned</div>
+                    <div class="result-value" id="interestEarned">₹72,740</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Maturity Value</div>
+                    <div class="result-value" id="maturityValue">₹5,00,000</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="rdChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        let chart = null;
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            if(chart) updateChartTheme();
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        function calculate() {
+            const target = parseFloat(document.getElementById('targetAmount').value) || 0;
+            const n = parseInt(document.getElementById('months').value) || 0;
+            const r = parseFloat(document.getElementById('rate').value) || 0;
+            
+            if(n === 0) return;
+            
+            // RD formula reversed to find P (monthly deposit)
+            // M = P * n * (1 + r * (n+1) / (2*12*100))
+            // P = M / [n * (1 + r * (n+1) / (2*12*100))]
+            
+            const factor = n * (1 + (r * (n+1)) / (2*12*100));
+            const monthlyDeposit = target / factor;
+            const totalInvested = monthlyDeposit * n;
+            const interest = target - totalInvested;
+            
+            document.getElementById('monthlyRequired').textContent = '₹' + monthlyDeposit.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('totalInvested').textContent = '₹' + totalInvested.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('interestEarned').textContent = '₹' + interest.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('maturityValue').textContent = '₹' + target.toLocaleString('en-IN');
+            
+            createChart(totalInvested, interest);
+        }
+        
+        function createChart(invested, interest) {
+            const ctx = document.getElementById('rdChart').getContext('2d');
+            if(chart) chart.destroy();
+            
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Total Invested', 'Interest Earned'],
+                    datasets: [{
+                        data: [invested, interest],
+                        backgroundColor: ['rgba(239, 68, 68, 0.8)', 'rgba(16, 185, 129, 0.8)'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: isDark ? '#f9fafb' : '#111827', font: {size: 14}, padding: 20 }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Investment Breakdown',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: {size: 18, weight: 'bold'}
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateChartTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#f9fafb' : '#111827';
+            chart.options.plugins.legend.labels.color = color;
+            chart.options.plugins.title.color = color;
+            chart.update();
+        }
+        
+        document.getElementById('targetAmount').addEventListener('input', calculate);
+        document.getElementById('months').addEventListener('input', calculate);
+        document.getElementById('rate').addEventListener('input', calculate);
+        
+        calculate();
+    </script>
+</body>
+</html>

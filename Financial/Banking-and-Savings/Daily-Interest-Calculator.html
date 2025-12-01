@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 Daily Interest Calculator 2025 - Daily Compound Interest</title>
+    <meta name="description" content="Free Daily Interest Calculator - Calculate interest with daily compounding. See how daily interest accumulation grows your savings faster with compound effect.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/Daily-Interest-Calculator.html">
+    <meta name="keywords" content="daily interest calculator, daily compound interest, savings calculator daily, interest per day calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Daily Interest Calculator",
+      "description": "Calculate interest with daily compounding frequency",
+      "url": "https://calculatorloop.com/Financial/Banking-and-Savings/Daily-Interest-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "2800"
+      }
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary-color: #10b981;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--surface);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .calculator-section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--background);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .results-section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, var(--primary-light), white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--primary-color);
+        }
+
+        [data-theme="dark"] .result-card {
+            background: linear-gradient(135deg, var(--surface), var(--background));
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .chart-container {
+            background: var(--background);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: var(--primary-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        [data-theme="dark"] .info-box {
+            background: var(--surface);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-section,
+            .results-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <h1>
+                <i class="fas fa-calendar-alt"></i>
+                Daily Interest Calculator
+            </h1>
+            <p class="subtitle">Calculate interest with daily compounding - maximum growth potential</p>
+        </div>
+
+        <div class="calculator-section">
+            <form id="dailyForm">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="principal">
+                            <i class="fas fa-money-bill-wave"></i> Principal Amount (₹)
+                        </label>
+                        <input type="number" id="principal" value="100000" min="0" step="1000" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="rate">
+                            <i class="fas fa-percentage"></i> Annual Interest Rate (%)
+                        </label>
+                        <input type="number" id="rate" value="6.0" min="0" max="20" step="0.1" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="days">
+                            <i class="fas fa-calendar-day"></i> Number of Days
+                        </label>
+                        <input type="number" id="days" value="365" min="1" max="3650" step="1" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">
+                    <i class="fas fa-calculator"></i> Calculate Daily Interest
+                </button>
+            </form>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2><i class="fas fa-chart-line"></i> Results</h2>
+            
+            <div class="result-cards">
+                <div class="result-card">
+                    <div class="result-label">Principal Amount</div>
+                    <div class="result-value" id="principalResult">₹0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Daily Interest Rate</div>
+                    <div class="result-value" id="dailyRateResult">0%</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Interest Per Day</div>
+                    <div class="result-value" id="perDayResult">₹0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Total Interest</div>
+                    <div class="result-value" id="interestResult">₹0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Final Amount</div>
+                    <div class="result-value" id="finalResult">₹0</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="dailyChart"></canvas>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> About Daily Compounding</h3>
+                <p><strong>Daily compounding</strong> means interest is calculated and added to your principal every day. This results in the highest returns compared to monthly, quarterly, or annual compounding.</p>
+                <p style="margin-top: 10px;"><strong>Formula:</strong> A = P × (1 + r/365)^days</p>
+                <p style="margin-top: 10px;"><strong>Note:</strong> Many savings accounts use daily compounding but credit interest monthly or quarterly.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dailyChart = null;
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', newTheme);
+            
+            if (dailyChart) {
+                updateChartTheme();
+            }
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+        // Calculate
+        document.getElementById('dailyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateDaily();
+        });
+
+        function calculateDaily() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const annualRate = parseFloat(document.getElementById('rate').value) / 100;
+            const days = parseInt(document.getElementById('days').value);
+
+            // Daily compound interest formula
+            const dailyRate = annualRate / 365;
+            const finalAmount = principal * Math.pow((1 + dailyRate), days);
+            const totalInterest = finalAmount - principal;
+            const interestPerDay = totalInterest / days;
+
+            // Display results
+            document.getElementById('principalResult').textContent = formatCurrency(principal);
+            document.getElementById('dailyRateResult').textContent = (dailyRate * 100).toFixed(4) + '%';
+            document.getElementById('perDayResult').textContent = formatCurrency(interestPerDay);
+            document.getElementById('interestResult').textContent = formatCurrency(totalInterest);
+            document.getElementById('finalResult').textContent = formatCurrency(finalAmount);
+
+            // Create chart
+            createChart(principal, totalInterest);
+
+            // Show results
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function createChart(principal, interest) {
+            const ctx = document.getElementById('dailyChart').getContext('2d');
+
+            if (dailyChart) {
+                dailyChart.destroy();
+            }
+
+            const isDark = html.getAttribute('data-theme') === 'dark';
+
+            dailyChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Principal', 'Interest Earned'],
+                    datasets: [{
+                        data: [principal, interest],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: isDark ? '#f9fafb' : '#111827',
+                                font: { size: 14 },
+                                padding: 20
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Principal vs Daily Compounded Interest',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: { size: 18, weight: 'bold' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ₹' + context.parsed.toLocaleString('en-IN', {maximumFractionDigits: 0});
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChartTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f9fafb' : '#111827';
+
+            dailyChart.options.plugins.legend.labels.color = textColor;
+            dailyChart.options.plugins.title.color = textColor;
+            dailyChart.update();
+        }
+
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN', {
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2
+            });
+        }
+
+        // Auto-calculate on input change
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (document.getElementById('resultsSection').style.display === 'block') {
+                    calculateDaily();
+                }
+            });
+        });
+
+        // Initial calculation
+        calculateDaily();
+    </script>
+</body>
+</html>

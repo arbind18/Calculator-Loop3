@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Calculator 2025 - Calculate Volume of Cube, Cylinder, Sphere | Free Online Tool</title>
+    <meta name="description" content="Free online Volume Calculator to calculate the volume of various 3D shapes including cube, cylinder, sphere, cone, and more. Accurate, fast, and easy to use.">
+    <meta name="keywords" content="volume calculator, calculate volume, cube volume, cylinder volume, sphere volume, cone volume, geometric calculator, math calculator, free online calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Area-and-Volume/Volume-Calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Area-and-Volume/Volume-Calculator.html">
+    <meta property="og:title" content="Volume Calculator - Calculate Volume of 3D Shapes">
+    <meta property="og:description" content="Calculate the volume of cubes, cylinders, spheres, and more with our free online Volume Calculator.">
+    <meta property="og:image" content="https://calculatorloop.com/assets/volume-calculator-og.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://calculatorloop.com/Financial/Area-and-Volume/Volume-Calculator.html">
+    <meta property="twitter:title" content="Volume Calculator - Calculate Volume of 3D Shapes">
+    <meta property="twitter:description" content="Calculate the volume of cubes, cylinders, spheres, and more with our free online Volume Calculator.">
+    <meta property="twitter:image" content="https://calculatorloop.com/assets/volume-calculator-twitter.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #818cf8;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.1));
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        .result-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .shape-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .shape-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .shape-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .shape-btn:hover:not(.active) {
+            background: var(--background);
+        }
+        
+        .content-section {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            margin-top: 3rem;
+        }
+        
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+        
+        .content-section h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--text);
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        
+        .content-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .formula-box {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary);
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Dynamic Input Visibility */
+        .input-field {
+            display: none;
+        }
+        
+        .input-field.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-cube"></i> Volume Calculator</h1>
+            <p>Calculate the volume of various 3D shapes instantly</p>
+        </header>
+        
+        <div class="shape-selector">
+            <button class="shape-btn active" onclick="setShape('cube')"><i class="fas fa-cube"></i> Cube</button>
+            <button class="shape-btn" onclick="setShape('cylinder')"><i class="fas fa-database"></i> Cylinder</button>
+            <button class="shape-btn" onclick="setShape('sphere')"><i class="fas fa-globe"></i> Sphere</button>
+            <button class="shape-btn" onclick="setShape('cone')"><i class="fas fa-ice-cream"></i> Cone</button>
+            <button class="shape-btn" onclick="setShape('box')"><i class="fas fa-box"></i> Box</button>
+        </div>
+        
+        <div class="calculator-grid">
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem; color: var(--text);">Enter Dimensions</h2>
+                
+                <!-- Cube Inputs -->
+                <div id="cube-inputs" class="input-field active">
+                    <div class="input-group">
+                        <label>Side Length</label>
+                        <input type="number" id="cube-side" placeholder="Enter side length">
+                    </div>
+                </div>
+                
+                <!-- Cylinder Inputs -->
+                <div id="cylinder-inputs" class="input-field">
+                    <div class="input-group">
+                        <label>Radius</label>
+                        <input type="number" id="cyl-radius" placeholder="Enter radius">
+                    </div>
+                    <div class="input-group">
+                        <label>Height</label>
+                        <input type="number" id="cyl-height" placeholder="Enter height">
+                    </div>
+                </div>
+                
+                <!-- Sphere Inputs -->
+                <div id="sphere-inputs" class="input-field">
+                    <div class="input-group">
+                        <label>Radius</label>
+                        <input type="number" id="sphere-radius" placeholder="Enter radius">
+                    </div>
+                </div>
+                
+                <!-- Cone Inputs -->
+                <div id="cone-inputs" class="input-field">
+                    <div class="input-group">
+                        <label>Radius</label>
+                        <input type="number" id="cone-radius" placeholder="Enter radius">
+                    </div>
+                    <div class="input-group">
+                        <label>Height</label>
+                        <input type="number" id="cone-height" placeholder="Enter height">
+                    </div>
+                </div>
+                
+                <!-- Box Inputs -->
+                <div id="box-inputs" class="input-field">
+                    <div class="input-group">
+                        <label>Length</label>
+                        <input type="number" id="box-length" placeholder="Enter length">
+                    </div>
+                    <div class="input-group">
+                        <label>Width</label>
+                        <input type="number" id="box-width" placeholder="Enter width">
+                    </div>
+                    <div class="input-group">
+                        <label>Height</label>
+                        <input type="number" id="box-height" placeholder="Enter height">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Unit</label>
+                    <select id="unit">
+                        <option value="m">Meters (m)</option>
+                        <option value="cm">Centimeters (cm)</option>
+                        <option value="mm">Millimeters (mm)</option>
+                        <option value="ft">Feet (ft)</option>
+                        <option value="in">Inches (in)</option>
+                        <option value="yd">Yards (yd)</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="calculateVolume()">Calculate Volume</button>
+            </div>
+            
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem; color: var(--text);">Result</h2>
+                <div class="result-box">
+                    <div class="result-label">Calculated Volume</div>
+                    <div class="result-value" id="result-volume">0</div>
+                    <div class="result-label" id="result-unit">Cubic Meters</div>
+                </div>
+                
+                <div style="margin-top: 2rem; height: 250px;">
+                    <canvas id="shapeChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Understanding Volume Calculation</h2>
+            <p>Volume is the quantity of three-dimensional space enclosed by a closed surface, for example, the space that a substance (solid, liquid, gas, or plasma) or shape occupies or contains.</p>
+            
+            <h3>Common Volume Formulas</h3>
+            
+            <h4>Cube</h4>
+            <p>A cube is a three-dimensional solid object bounded by six square faces, facets or sides, with three meeting at each vertex.</p>
+            <div class="formula-box">Volume = Side³</div>
+            
+            <h4>Cylinder</h4>
+            <p>A cylinder is a three-dimensional solid, one of the most basic curvilinear geometric shapes.</p>
+            <div class="formula-box">Volume = π × r² × h</div>
+            
+            <h4>Sphere</h4>
+            <p>A sphere is a geometrical object in three-dimensional space that is the surface of a ball.</p>
+            <div class="formula-box">Volume = (4/3) × π × r³</div>
+            
+            <h4>Cone</h4>
+            <p>A cone is a three-dimensional geometric shape that tapers smoothly from a flat base to a point called the apex or vertex.</p>
+            <div class="formula-box">Volume = (1/3) × π × r² × h</div>
+            
+            <h4>Rectangular Box (Cuboid)</h4>
+            <p>A cuboid is a convex polyhedron bounded by six quadrilateral faces.</p>
+            <div class="formula-box">Volume = Length × Width × Height</div>
+            
+            <h3>Applications of Volume Calculation</h3>
+            <ul>
+                <li><strong>Shipping:</strong> Calculating the volume of packages for shipping costs.</li>
+                <li><strong>Construction:</strong> Estimating concrete needed for a foundation.</li>
+                <li><strong>Chemistry:</strong> Measuring liquid volumes for reactions.</li>
+                <li><strong>Water Management:</strong> Calculating the capacity of tanks or reservoirs.</li>
+            </ul>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Calculators</a>
+    </div>
+    
+    <script>
+        let currentShape = 'cube';
+        let chart = null;
+        
+        function setShape(shape) {
+            currentShape = shape;
+            
+            // Update buttons
+            document.querySelectorAll('.shape-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Update inputs
+            document.querySelectorAll('.input-field').forEach(field => field.classList.remove('active'));
+            document.getElementById(`${shape}-inputs`).classList.add('active');
+            
+            // Reset result
+            document.getElementById('result-volume').textContent = '0';
+            
+            // Clear chart
+            if (chart) {
+                chart.destroy();
+                chart = null;
+            }
+        }
+        
+        function calculateVolume() {
+            let volume = 0;
+            const unit = document.getElementById('unit').value;
+            const unitLabel = document.getElementById('unit').options[document.getElementById('unit').selectedIndex].text;
+            
+            try {
+                switch(currentShape) {
+                    case 'cube':
+                        const s = parseFloat(document.getElementById('cube-side').value);
+                        if (s) volume = Math.pow(s, 3);
+                        break;
+                    case 'cylinder':
+                        const cr = parseFloat(document.getElementById('cyl-radius').value);
+                        const ch = parseFloat(document.getElementById('cyl-height').value);
+                        if (cr && ch) volume = Math.PI * Math.pow(cr, 2) * ch;
+                        break;
+                    case 'sphere':
+                        const sr = parseFloat(document.getElementById('sphere-radius').value);
+                        if (sr) volume = (4/3) * Math.PI * Math.pow(sr, 3);
+                        break;
+                    case 'cone':
+                        const cor = parseFloat(document.getElementById('cone-radius').value);
+                        const coh = parseFloat(document.getElementById('cone-height').value);
+                        if (cor && coh) volume = (1/3) * Math.PI * Math.pow(cor, 2) * coh;
+                        break;
+                    case 'box':
+                        const l = parseFloat(document.getElementById('box-length').value);
+                        const w = parseFloat(document.getElementById('box-width').value);
+                        const h = parseFloat(document.getElementById('box-height').value);
+                        if (l && w && h) volume = l * w * h;
+                        break;
+                }
+                
+                document.getElementById('result-volume').textContent = volume.toFixed(2);
+                document.getElementById('result-unit').textContent = `Cubic ${unitLabel.split(' ')[0]}`;
+                
+                updateChart(volume);
+                
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        
+        function updateChart(volume) {
+            const ctx = document.getElementById('shapeChart').getContext('2d');
+            
+            if (chart) chart.destroy();
+            
+            // Create a visual representation based on shape
+            // For simplicity, we'll show a bar chart comparing this volume to a unit cube
+            
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Calculated Volume', 'Unit Cube (1x1x1)'],
+                    datasets: [{
+                        label: 'Volume Comparison',
+                        data: [volume, 1],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.6)',
+                            'rgba(203, 213, 225, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgb(99, 102, 241)',
+                            'rgb(203, 213, 225)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Volume'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Volume Visualization'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize
+        setShape('cube');
+        // Manually set active class for first button since we called function without event
+        document.querySelector('.shape-btn').classList.add('active');
+    </script>
+</body>
+</html>

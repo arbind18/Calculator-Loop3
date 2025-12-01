@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏧 ATM Limit Calculator 2025 - Check Withdrawal Limits</title>
+    <meta name="description" content="Free ATM Limit Calculator - Check daily, weekly, and monthly ATM withdrawal limits. Calculate available balance and track ATM usage for different banks.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/ATM-Limit-Calculator.html">
+    <meta name="keywords" content="ATM limit calculator, ATM withdrawal limit, daily ATM limit, bank ATM limit, withdrawal calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ATM Limit Calculator",
+      "description": "Calculate and track ATM withdrawal limits - daily, weekly, monthly limits",
+      "url": "https://calculatorloop.com/Financial/Banking-and-Savings/ATM-Limit-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.6", "ratingCount": "2900"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #ede9fe;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus, select:focus { outline: none; border-color: var(--primary-color); }
+        .limit-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
+        .limit-card { background: var(--background); padding: 25px; border-radius: 15px; border: 2px solid var(--border-color); }
+        .limit-card-title { font-size: 1rem; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .limit-amount { font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 10px; }
+        .limit-bar { background: var(--border-color); height: 10px; border-radius: 5px; overflow: hidden; margin-top: 10px; }
+        .limit-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); transition: width 0.5s; }
+        .limit-bar-fill.warning { background: linear-gradient(90deg, var(--warning), #d97706); }
+        .limit-bar-fill.danger { background: linear-gradient(90deg, #ef4444, #dc2626); }
+        .limit-text { font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px; }
+        .info-box { background: linear-gradient(135deg, var(--primary-light), white); padding: 20px; border-radius: 15px; border-left: 4px solid var(--primary-color); margin-top: 20px; }
+        [data-theme="dark"] .info-box { background: linear-gradient(135deg, var(--surface), var(--background)); }
+        .info-title { font-weight: 700; margin-bottom: 8px; color: var(--primary-color); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .limit-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-credit-card"></i> ATM Limit Calculator</h1>
+            <p class="subtitle">Track your ATM withdrawal limits</p>
+        </div>
+        <div class="calculator-section">
+            <div class="input-group">
+                <label><i class="fas fa-university"></i> Bank Type</label>
+                <select id="bankType">
+                    <option value="regular">Regular Account</option>
+                    <option value="premium">Premium/Platinum Account</option>
+                    <option value="salary">Salary Account</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-rupee-sign"></i> Amount Withdrawn Today (₹)</label>
+                <input type="number" id="withdrawn" value="10000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-calendar-week"></i> Amount Withdrawn This Week (₹)</label>
+                <input type="number" id="weekWithdrawn" value="25000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-calendar-alt"></i> Amount Withdrawn This Month (₹)</label>
+                <input type="number" id="monthWithdrawn" value="60000" min="0" step="100">
+            </div>
+            <div class="limit-cards">
+                <div class="limit-card">
+                    <div class="limit-card-title"><i class="fas fa-sun"></i> Daily Limit</div>
+                    <div class="limit-amount" id="dailyLimit">₹25,000</div>
+                    <div class="limit-bar">
+                        <div class="limit-bar-fill" id="dailyBar" style="width: 40%"></div>
+                    </div>
+                    <div class="limit-text">Remaining: <strong id="dailyRemaining">₹15,000</strong></div>
+                </div>
+                <div class="limit-card">
+                    <div class="limit-card-title"><i class="fas fa-calendar-week"></i> Weekly Limit</div>
+                    <div class="limit-amount" id="weeklyLimit">₹50,000</div>
+                    <div class="limit-bar">
+                        <div class="limit-bar-fill warning" id="weeklyBar" style="width: 50%"></div>
+                    </div>
+                    <div class="limit-text">Remaining: <strong id="weeklyRemaining">₹25,000</strong></div>
+                </div>
+                <div class="limit-card">
+                    <div class="limit-card-title"><i class="fas fa-calendar-alt"></i> Monthly Limit</div>
+                    <div class="limit-amount" id="monthlyLimit">₹1,00,000</div>
+                    <div class="limit-bar">
+                        <div class="limit-bar-fill danger" id="monthlyBar" style="width: 60%"></div>
+                    </div>
+                    <div class="limit-text">Remaining: <strong id="monthlyRemaining">₹40,000</strong></div>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">💡 ATM Withdrawal Tips</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Free ATM withdrawals per month vary by account type (usually 3-5 free)</li>
+                    <li>After free limit, charges range from ₹10-₹20 per transaction</li>
+                    <li>Metro cities: ₹20+GST, Non-metro: ₹10+GST (typically)</li>
+                    <li>Daily limits reset at midnight</li>
+                    <li>Plan large withdrawals to avoid exceeding limits</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        const limits = {
+            regular: { daily: 25000, weekly: 50000, monthly: 100000 },
+            premium: { daily: 50000, weekly: 150000, monthly: 300000 },
+            salary: { daily: 40000, weekly: 100000, monthly: 200000 }
+        };
+        
+        function calculate() {
+            const bankType = document.getElementById('bankType').value;
+            const withdrawn = parseFloat(document.getElementById('withdrawn').value) || 0;
+            const weekWithdrawn = parseFloat(document.getElementById('weekWithdrawn').value) || 0;
+            const monthWithdrawn = parseFloat(document.getElementById('monthWithdrawn').value) || 0;
+            
+            const dailyLimit = limits[bankType].daily;
+            const weeklyLimit = limits[bankType].weekly;
+            const monthlyLimit = limits[bankType].monthly;
+            
+            const dailyRemaining = Math.max(0, dailyLimit - withdrawn);
+            const weeklyRemaining = Math.max(0, weeklyLimit - weekWithdrawn);
+            const monthlyRemaining = Math.max(0, monthlyLimit - monthWithdrawn);
+            
+            const dailyPct = Math.min(100, (withdrawn / dailyLimit) * 100);
+            const weeklyPct = Math.min(100, (weekWithdrawn / weeklyLimit) * 100);
+            const monthlyPct = Math.min(100, (monthWithdrawn / monthlyLimit) * 100);
+            
+            document.getElementById('dailyLimit').textContent = '₹' + dailyLimit.toLocaleString('en-IN');
+            document.getElementById('weeklyLimit').textContent = '₹' + weeklyLimit.toLocaleString('en-IN');
+            document.getElementById('monthlyLimit').textContent = '₹' + monthlyLimit.toLocaleString('en-IN');
+            
+            document.getElementById('dailyRemaining').textContent = '₹' + dailyRemaining.toLocaleString('en-IN');
+            document.getElementById('weeklyRemaining').textContent = '₹' + weeklyRemaining.toLocaleString('en-IN');
+            document.getElementById('monthlyRemaining').textContent = '₹' + monthlyRemaining.toLocaleString('en-IN');
+            
+            const dailyBar = document.getElementById('dailyBar');
+            dailyBar.style.width = dailyPct + '%';
+            dailyBar.className = 'limit-bar-fill' + (dailyPct > 80 ? ' danger' : dailyPct > 60 ? ' warning' : '');
+            
+            const weeklyBar = document.getElementById('weeklyBar');
+            weeklyBar.style.width = weeklyPct + '%';
+            weeklyBar.className = 'limit-bar-fill' + (weeklyPct > 80 ? ' danger' : weeklyPct > 60 ? ' warning' : '');
+            
+            const monthlyBar = document.getElementById('monthlyBar');
+            monthlyBar.style.width = monthlyPct + '%';
+            monthlyBar.className = 'limit-bar-fill' + (monthlyPct > 80 ? ' danger' : monthlyPct > 60 ? ' warning' : '');
+        }
+        
+        document.getElementById('bankType').addEventListener('change', calculate);
+        document.getElementById('withdrawn').addEventListener('input', calculate);
+        document.getElementById('weekWithdrawn').addEventListener('input', calculate);
+        document.getElementById('monthWithdrawn').addEventListener('input', calculate);
+        
+        calculate();
+    </script>
+</body>
+</html>

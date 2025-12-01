@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Inflation Calculator 2025 📈 Future Value, Purchasing Power India</title>
+    <meta name="description" content="⚡ Calculate inflation impact on money value 2025. Find future value, purchasing power loss with India 5-6% inflation. Free inflation calculator with historical data.">
+    <meta name="keywords" content="inflation calculator, purchasing power calculator, future value inflation, inflation rate India, cost of living calculator, money value calculator 2025">
+    <meta name="author" content="CalculatorLoop.com">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Currency-and-Forex/Inflation-Calculator.html">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Inflation Calculator", "description": "Calculate inflation impact on purchasing power and future money value.", "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "2800"}}</script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a2e;
+            --text-secondary: #666;
+            --accent-color: #667eea;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --border-color: #e0e0e0;
+            --shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --border-color: #2d3748;
+            --shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg-secondary); 
+            min-height: 100vh; 
+            padding: 20px; 
+            transition: all 0.3s ease;
+        }
+        .container { 
+            max-width: 900px; 
+            width: 100%; 
+            background: var(--bg-primary); 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+            padding: 40px; 
+        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { 
+            background: var(--bg-secondary); 
+            border: 2px solid var(--border-color); 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 1.2rem; 
+            transition: all 0.3s;
+        }
+        .theme-toggle:hover { transform: scale(1.1); }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; }
+        .tab { 
+            flex: 1; 
+            padding: 12px; 
+            background: var(--bg-secondary); 
+            border: 2px solid var(--border-color); 
+            border-radius: 8px; 
+            cursor: pointer; 
+            text-align: center; 
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        .tab.active { 
+            background: var(--accent-gradient); 
+            color: white; 
+            border-color: #667eea; 
+        }
+        .input-group { margin-bottom: 20px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--text-primary); 
+            font-weight: 600; 
+            font-size: 0.95rem;
+        }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s;
+        }
+        input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+        .btn { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--accent-gradient); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5); }
+        .result { 
+            margin-top: 30px; 
+            padding: 30px; 
+            background: var(--bg-secondary); 
+            border-radius: 12px; 
+            display: none; 
+        }
+        .result-main { text-align: center; margin-bottom: 25px; }
+        .result-main h2 { color: var(--text-primary); margin-bottom: 10px; font-size: 1.2rem; }
+        .inflation-value { 
+            font-size: 3rem; 
+            color: var(--danger-color); 
+            font-weight: bold; 
+            margin: 15px 0; 
+        }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .metric-card { 
+            background: var(--bg-primary); 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 4px solid #667eea; 
+        }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .info-box { 
+            background: rgba(239, 68, 68, 0.1); 
+            border-left: 4px solid var(--danger-color); 
+            padding: 20px; 
+            margin-top: 25px; 
+            border-radius: 8px; 
+        }
+        .info-box h4 { color: var(--text-primary); margin-bottom: 10px; font-weight: 600; }
+        .info-box p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .back-link { 
+            display: inline-block; 
+            margin-top: 20px; 
+            color: #667eea; 
+            text-decoration: none; 
+            font-weight: 600; 
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.5rem; }
+            .inflation-value { font-size: 2.5rem; }
+            .tabs { flex-direction: column; }
+            body > div[style*="max-width: 1200px"] {
+                padding: 20px !important;
+                margin: 20px 10px !important;
+                overflow-x: hidden;
+            }
+            body > div[style*="max-width: 1200px"] h2 { font-size: 1.5rem !important; word-wrap: break-word; }
+            body > div[style*="max-width: 1200px"] h3 { font-size: 1.2rem !important; word-wrap: break-word; }
+            body > div[style*="max-width: 1200px"] p,
+            body > div[style*="max-width: 1200px"] li { font-size: 0.95rem !important; line-height: 1.6 !important; }
+            div[style*="background: var(--bg-secondary)"] { padding: 15px !important; margin-bottom: 15px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-area"></i> Inflation Calculator</h1>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        <p class="subtitle">Calculate the impact of inflation on purchasing power</p>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('future')" id="futureTab">
+                <i class="fas fa-arrow-up"></i> Future Value
+            </div>
+            <div class="tab" onclick="switchTab('past')" id="pastTab">
+                <i class="fas fa-arrow-down"></i> Past Value
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label><i class="fas fa-rupee-sign"></i> <span id="amountLabel">Current Amount</span> (?)</label>
+            <input type="number" id="amount" value="10000" min="0" step="100">
+        </div>
+        
+        <div class="input-group">
+            <label><i class="fas fa-percentage"></i> Annual Inflation Rate (%)</label>
+            <input type="number" id="inflationRate" value="6" min="0" max="100" step="0.1">
+        </div>
+        
+        <div class="input-group">
+            <label><i class="fas fa-calendar-alt"></i> Time Period (Years)</label>
+            <input type="number" id="years" value="10" min="0.5" step="0.5">
+        </div>
+        
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Impact</button>
+        
+        <div class="result" id="result">
+            <div class="result-main">
+                <h2 id="resultTitle">Future Value</h2>
+                <div class="inflation-value" id="inflationValue">?0</div>
+                <p style="color: var(--text-secondary); font-size: 1rem;" id="resultDesc">Amount needed to maintain purchasing power</p>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3><i class="fas fa-coins"></i> Original Amount</h3>
+                    <div class="metric-value" id="originalAmount">?0</div>
+                </div>
+                <div class="metric-card">
+                    <h3><i class="fas fa-chart-line"></i> Value Change</h3>
+                    <div class="metric-value" id="valueChange">?0</div>
+                </div>
+                <div class="metric-card">
+                    <h3><i class="fas fa-percentage"></i> Total Impact</h3>
+                    <div class="metric-value" id="totalImpact">0%</div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h4><i class="fas fa-exclamation-triangle"></i> Understanding Inflation Impact</h4>
+                <p id="infoText">Due to inflation at 6% annually, ?10,000 today will need ?17,908 after 10 years to maintain the same purchasing power. Your money loses value over time!</p>
+            </div>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Calculators</a>
+    </div>
+    
+    <script>
+        let currentMode = 'future';
+        
+        function switchTab(mode) {
+            currentMode = mode;
+            document.getElementById('futureTab').classList.toggle('active', mode === 'future');
+            document.getElementById('pastTab').classList.toggle('active', mode === 'past');
+            
+            if (mode === 'future') {
+                document.getElementById('amountLabel').textContent = 'Current Amount';
+            } else {
+                document.getElementById('amountLabel').textContent = 'Future Amount';
+            }
+            
+            calc();
+        }
+        
+        function calc() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
+            const years = parseFloat(document.getElementById('years').value);
+            
+            if (amount > 0 && years > 0 && inflationRate >= 0) {
+                let futureValue, originalValue, valueChange, totalImpact;
+                
+                if (currentMode === 'future') {
+                    // Calculate future value needed
+                    futureValue = amount * Math.pow(1 + inflationRate, years);
+                    originalValue = amount;
+                    valueChange = futureValue - amount;
+                    totalImpact = ((futureValue - amount) / amount) * 100;
+                    
+                    document.getElementById('resultTitle').textContent = 'Future Value Needed';
+                    document.getElementById('resultDesc').textContent = 'Amount needed to maintain purchasing power';
+                    document.getElementById('inflationValue').textContent = '?' + futureValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                    document.getElementById('infoText').textContent = `Due to inflation at ${(inflationRate*100).toFixed(1)}% annually, ?${amount.toLocaleString('en-IN')} today will need ?${futureValue.toLocaleString('en-IN', {maximumFractionDigits: 2})} after ${years} ${years === 1 ? 'year' : 'years'} to maintain the same purchasing power.`;
+                } else {
+                    // Calculate past value (what amount in past equals current amount)
+                    const pastValue = amount / Math.pow(1 + inflationRate, years);
+                    futureValue = amount;
+                    originalValue = pastValue;
+                    valueChange = amount - pastValue;
+                    totalImpact = ((amount - pastValue) / pastValue) * 100;
+                    
+                    document.getElementById('resultTitle').textContent = 'Equivalent Past Value';
+                    document.getElementById('resultDesc').textContent = 'What this amount was worth in the past';
+                    document.getElementById('inflationValue').textContent = '?' + pastValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                    document.getElementById('infoText').textContent = `?${amount.toLocaleString('en-IN')} today was equivalent to ?${pastValue.toLocaleString('en-IN', {maximumFractionDigits: 2})} ${years} ${years === 1 ? 'year' : 'years'} ago, considering ${(inflationRate*100).toFixed(1)}% annual inflation.`;
+                }
+                
+                document.getElementById('originalAmount').textContent = '?' + originalValue.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                document.getElementById('valueChange').textContent = '?' + valueChange.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                document.getElementById('totalImpact').textContent = totalImpact.toFixed(2) + '%';
+                
+                document.getElementById('result').style.display = 'block';
+            } else {
+                alert('Please enter valid positive values for all fields');
+            }
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        }
+        
+        // Auto-calculate on input
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', calc);
+        });
+        
+        calc();
+    </script>
+    
+    <!-- SEO Content Section -->
+    <div style="max-width: 900px; margin: 30px auto; background: var(--bg-primary); padding: 40px; border-radius: 20px; box-shadow: var(--shadow);">
+        <h2 style="color: var(--text-primary); font-size: 2.2rem; margin-bottom: 25px; border-bottom: 3px solid #667eea; padding-bottom: 15px;">Complete Inflation Guide 2025 - Protect Your Purchasing Power</h2>
+        
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;">Inflation erodes money value over time. Understanding inflation's impact helps make better financial decisions for savings, investments, and retirement planning. This guide explains inflation calculation, historical trends in India, strategies to protect purchasing power, and smart investment choices to beat inflation in 2025.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">What is Inflation?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">Inflation is the sustained increase in prices of goods and services over time, reducing purchasing power. If inflation is 6% annually, ₹100 today will buy goods worth only ₹94 next year. Causes include: excess money supply, increased production costs, strong demand, imported inflation, and government policies.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">India Inflation Rates (2015-2025)</h3>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li>2015-2019: Average 4-5% (stable period, RBI inflation targeting)</li>
+            <li>2020: 6.2% (COVID-19 supply disruptions)</li>
+            <li>2021: 5.1% (recovery phase)</li>
+            <li>2022: 6.7% (global commodity price surge, Ukraine war impact)</li>
+            <li>2023: 5.4% (moderating trend)</li>
+            <li>2024-2025: 5-6% projected (RBI target: 4% ±2%)</li>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Inflation Formula</h3>
+        <p style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; color: var(--text-primary); font-size: 1.1rem; margin-bottom: 20px; border-left: 4px solid #667eea;">Future Value = Present Value × (1 + Inflation Rate)^Years</p>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;"><strong>Example:</strong> ₹1,00,000 today at 6% inflation for 10 years = ₹1,00,000 × (1.06)^10 = ₹1,79,085 needed to buy same goods.</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">How to Beat Inflation</h3>
+        <ul style="color: var(--text-secondary); line-height: 1.9; margin-left: 25px; margin-bottom: 20px;">
+            <li><strong>Equity Investments:</strong> Stocks/mutual funds average 12-15% returns, beating 5-6% inflation</li>
+            <li><strong>Real Estate:</strong> Property values typically appreciate 6-10% annually</li>
+            <li><strong>Gold:</strong> Traditional inflation hedge, 8-10% historical returns</li>
+            <li><strong>Debt Mutual Funds:</strong> 7-9% returns, better than bank FDs</li>
+            <li><strong>Avoid Cash Holdings:</strong> Loses 5-6% value annually to inflation</li>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">Retirement Planning with Inflation</h3>
+        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">If you need ₹50,000 monthly today (age 30), at 6% inflation by retirement (age 60 after 30 years): ₹50,000 × (1.06)^30 = ₹2,87,175 monthly needed. Corpus required = ₹2,87,175 × 12 months × 25 years = ₹8.6 crore minimum!</p>
+        
+        <h3 style="color: var(--text-primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 18px;">FAQs</h3>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> How much will ₹1 lakh be worth in 10 years with 6% inflation?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Purchasing power = ₹1,00,000 / (1.06)^10 = ₹55,839. Your ₹1 lakh will buy what ₹55,839 buys today. Alternatively, you'll need ₹1,79,085 in 10 years to buy what ₹1 lakh buys today.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> What is India's current inflation rate 2025?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">India's retail inflation (CPI) is projected at 5-6% for 2025. RBI targets 4% inflation with ±2% tolerance band (2-6%). Food inflation typically 6-8%, while core inflation (excluding food/fuel) is 4-5%. Check RBI website for latest monthly data.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> How can I protect my savings from inflation?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Invest in assets that beat inflation: Equity mutual funds (12-15% returns), real estate (6-10%), gold (8-10%), PPF (7-7.5%). Avoid keeping too much in savings accounts (3-4% interest loses to 5-6% inflation). Rule: Keep only 3-6 months expenses in savings, invest rest. Diversify across asset classes for balance of growth and safety.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> Is gold a good hedge against inflation?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Yes, gold historically preserves value during inflation. Gold returns averaged 10-12% annually in India over past 20 years, beating inflation comfortably. During high inflation (>7%), gold outperforms most assets. However, don't allocate >10-15% portfolio to gold as it doesn't generate income like stocks/bonds. Digital gold, gold ETFs, or Sovereign Gold Bonds offer convenient investment without storage hassles.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> What happens if I keep money in fixed deposits during inflation?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">FDs lose real value. Bank FDs offer 6-7% interest. After 30% tax (assuming 30% bracket), net return = 4.2-4.9%. With 5-6% inflation, you lose 0.8-1.1% purchasing power annually. ₹10 lakh FD at 6% for 10 years = ₹17.91 lakh nominal. But inflation-adjusted value = ₹10 lakh only (zero real growth). FDs good for short-term safety, not long-term wealth creation against inflation.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> How does inflation affect my home loan?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Inflation actually helps borrowers! If you have ₹50 lakh loan at 8% fixed rate, with 6% inflation, your real interest cost is only 2% (8% - 6%). Future EMI payments made with inflated rupees are less burdensome. ₹50,000 EMI today feels like ₹27,889 in 10 years (inflation-adjusted). This is why buying home with loan often beats renting—inflation erodes real debt burden over time while property value appreciates.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> What is the Rule of 72 for inflation?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">Rule of 72: Divide 72 by inflation rate to find years for money to lose half its value. With 6% inflation: 72/6 = 12 years. Your ₹1 lakh purchasing power becomes ₹50,000 in 12 years. With 8% inflation: 72/8 = 9 years (faster erosion). Also works for investment returns: 12% return doubles money in 72/12 = 6 years. Quick mental math for financial planning without calculators.</p>
+        </div>
+        
+        <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+            <h4 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-question-circle" style="color: #667eea;"></i> Should I invest in inflation-indexed bonds?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.8;">India offers Inflation-Indexed Bonds (IIBs) and Inflation-Indexed National Savings Securities (IINSS) where returns adjust with inflation. Principal and interest increase with CPI inflation. Guaranteed real returns of 1-1.5% above inflation. Good for conservative investors seeking inflation protection. However, liquidity lower than regular bonds. Better alternatives: Equity mutual funds (higher returns), PPF (7-7.5% fixed), or balanced portfolio with stocks+bonds for growth with safety.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+

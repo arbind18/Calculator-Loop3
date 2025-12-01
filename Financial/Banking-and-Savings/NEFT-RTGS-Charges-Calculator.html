@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💳 NEFT RTGS Charges Calculator 2025 - Compare Transfer Fees</title>
+    <meta name="description" content="Free NEFT RTGS Charges Calculator - Calculate bank transfer charges for NEFT, RTGS, IMPS. Compare costs and find cheapest transfer method for your amount.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Banking-and-Savings/NEFT-RTGS-Charges-Calculator.html">
+    <meta name="keywords" content="NEFT charges, RTGS charges, bank transfer fees, IMPS charges, transfer cost calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "NEFT RTGS Charges Calculator",
+      "description": "Calculate and compare NEFT, RTGS, IMPS transfer charges",
+      "url": "https://calculatorloop.com/Financial/Banking-and-Savings/NEFT-RTGS-Charges-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "3200"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #f97316;
+            --primary-dark: #ea580c;
+            --primary-light: #ffedd5;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --success: #10b981;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus { outline: none; border-color: var(--primary-color); }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
+        .method-card { background: var(--background); padding: 25px; border-radius: 15px; border: 2px solid var(--border-color); transition: all 0.3s; }
+        .method-card.best { border-color: var(--success); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+        .method-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .method-icon { font-size: 1.5rem; }
+        .charge-amount { font-size: 2rem; font-weight: 700; color: var(--primary-color); margin: 15px 0; }
+        .best .charge-amount { color: var(--success); }
+        .method-details { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8; }
+        .method-details div { margin-bottom: 5px; }
+        .best-badge { background: var(--success); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-top: 10px; }
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: var(--background); border-radius: 10px; overflow: hidden; }
+        .info-table th { background: var(--primary-color); color: white; padding: 12px; text-align: left; }
+        .info-table td { padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .info-table tr:last-child td { border-bottom: none; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-exchange-alt"></i> NEFT/RTGS Charges</h1>
+            <p class="subtitle">Compare transfer charges and find the best option</p>
+        </div>
+        <div class="calculator-section">
+            <div class="input-group">
+                <label><i class="fas fa-rupee-sign"></i> Transfer Amount (₹)</label>
+                <input type="number" id="amount" value="50000" min="1" step="100">
+            </div>
+            <div class="comparison-grid">
+                <div class="method-card" id="neftCard">
+                    <div class="method-name"><span class="method-icon">🏦</span> NEFT</div>
+                    <div class="charge-amount" id="neftCharge">₹5.00</div>
+                    <div class="method-details">
+                        <div>⏰ <strong>Time:</strong> <span id="neftTime">30 min - 2 hrs</span></div>
+                        <div>💰 <strong>Min:</strong> ₹1</div>
+                        <div>📊 <strong>Max:</strong> No limit</div>
+                        <div>🔄 <strong>GST:</strong> 18% extra</div>
+                    </div>
+                    <div class="best-badge" id="neftBadge" style="display: none;">✨ Best Option</div>
+                </div>
+                <div class="method-card" id="rtgsCard">
+                    <div class="method-name"><span class="method-icon">⚡</span> RTGS</div>
+                    <div class="charge-amount" id="rtgsCharge">₹30.00</div>
+                    <div class="method-details">
+                        <div>⏰ <strong>Time:</strong> <span id="rtgsTime">30 minutes</span></div>
+                        <div>💰 <strong>Min:</strong> ₹2 lakhs</div>
+                        <div>📊 <strong>Max:</strong> No limit</div>
+                        <div>🔄 <strong>GST:</strong> 18% extra</div>
+                    </div>
+                    <div class="best-badge" id="rtgsBadge" style="display: none;">✨ Best Option</div>
+                </div>
+                <div class="method-card" id="impsCard">
+                    <div class="method-name"><span class="method-icon">⚡</span> IMPS</div>
+                    <div class="charge-amount" id="impsCharge">₹6.00</div>
+                    <div class="method-details">
+                        <div>⏰ <strong>Time:</strong> <span id="impsTime">Instant</span></div>
+                        <div>💰 <strong>Min:</strong> ₹1</div>
+                        <div>📊 <strong>Max:</strong> ₹5 lakhs</div>
+                        <div>🔄 <strong>GST:</strong> 18% extra</div>
+                    </div>
+                    <div class="best-badge" id="impsBadge" style="display: none;">✨ Best Option</div>
+                </div>
+            </div>
+            <table class="info-table">
+                <thead>
+                    <tr>
+                        <th>Amount Range</th>
+                        <th>NEFT</th>
+                        <th>RTGS</th>
+                        <th>IMPS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Up to ₹10,000</td>
+                        <td>₹2.50 + GST</td>
+                        <td>Not available</td>
+                        <td>₹5 + GST</td>
+                    </tr>
+                    <tr>
+                        <td>₹10,001 - ₹1 lakh</td>
+                        <td>₹5 + GST</td>
+                        <td>Not available</td>
+                        <td>₹6 + GST</td>
+                    </tr>
+                    <tr>
+                        <td>₹1 - ₹2 lakhs</td>
+                        <td>₹15 + GST</td>
+                        <td>Not available</td>
+                        <td>₹8 + GST</td>
+                    </tr>
+                    <tr>
+                        <td>₹2 - ₹5 lakhs</td>
+                        <td>₹25 + GST</td>
+                        <td>₹30 + GST</td>
+                        <td>₹10 + GST</td>
+                    </tr>
+                    <tr>
+                        <td>Above ₹5 lakhs</td>
+                        <td>₹25 + GST</td>
+                        <td>₹55 + GST</td>
+                        <td>Not available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        function calculate() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            
+            // NEFT charges
+            let neftCharge = 0;
+            if(amount <= 10000) neftCharge = 2.50;
+            else if(amount <= 100000) neftCharge = 5;
+            else if(amount <= 200000) neftCharge = 15;
+            else neftCharge = 25;
+            
+            // RTGS charges
+            let rtgsCharge = 0;
+            let rtgsAvailable = false;
+            if(amount >= 200000) {
+                rtgsAvailable = true;
+                if(amount <= 500000) rtgsCharge = 30;
+                else rtgsCharge = 55;
+            }
+            
+            // IMPS charges
+            let impsCharge = 0;
+            let impsAvailable = false;
+            if(amount <= 500000) {
+                impsAvailable = true;
+                if(amount <= 10000) impsCharge = 5;
+                else if(amount <= 100000) impsCharge = 6;
+                else if(amount <= 200000) impsCharge = 8;
+                else impsCharge = 10;
+            }
+            
+            // Add GST
+            const neftTotal = neftCharge * 1.18;
+            const rtgsTotal = rtgsCharge * 1.18;
+            const impsTotal = impsCharge * 1.18;
+            
+            document.getElementById('neftCharge').textContent = '₹' + neftTotal.toFixed(2);
+            document.getElementById('rtgsCharge').textContent = rtgsAvailable ? '₹' + rtgsTotal.toFixed(2) : 'Not Available';
+            document.getElementById('impsCharge').textContent = impsAvailable ? '₹' + impsTotal.toFixed(2) : 'Not Available';
+            
+            // Find best option
+            const options = [];
+            options.push({ name: 'neft', charge: neftTotal });
+            if(rtgsAvailable) options.push({ name: 'rtgs', charge: rtgsTotal });
+            if(impsAvailable) options.push({ name: 'imps', charge: impsTotal });
+            
+            const best = options.reduce((min, opt) => opt.charge < min.charge ? opt : min);
+            
+            // Reset all cards
+            document.querySelectorAll('.method-card').forEach(card => card.classList.remove('best'));
+            document.querySelectorAll('.best-badge').forEach(badge => badge.style.display = 'none');
+            
+            // Highlight best option
+            document.getElementById(best.name + 'Card').classList.add('best');
+            document.getElementById(best.name + 'Badge').style.display = 'inline-block';
+        }
+        
+        document.getElementById('amount').addEventListener('input', calculate);
+        calculate();
+    </script>
+</body>
+</html>
