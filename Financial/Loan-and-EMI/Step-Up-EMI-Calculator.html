@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step-Up EMI Calculator - Increasing EMI with Income Growth</title>
+    <meta name="description" content="Calculate step-up loan EMI that increases annually. Perfect for salaried professionals expecting salary increments.">
+    <meta name="keywords" content="step-up EMI, increasing EMI, flexible loan, salary increment loan, progressive EMI">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#11998e">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Step-Up-EMI-Calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Step-Up EMI Calculator - Increasing EMI">
+    <meta property="og:description" content="Calculate step-up loan EMI that increases with your income growth.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus { outline: none; border-color: #38ef7d; box-shadow: 0 0 0 4px rgba(56, 239, 125, 0.1); }
+        .info-box { background: linear-gradient(135deg, rgba(17, 153, 142, 0.1) 0%, rgba(56, 239, 125, 0.1) 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 4px solid #38ef7d; }
+        .info-box p { color: var(--text-primary); line-height: 1.6; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4); }
+        .result { margin-top: 30px; display: none; }
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .metric-card { background: var(--bg-secondary); padding: 20px; border-radius: 12px; text-align: center; }
+        .metric-label { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 5px; }
+        .metric-value { color: var(--text-primary); font-size: 1.8rem; font-weight: bold; }
+        .emi-schedule { background: var(--bg-secondary); padding: 25px; border-radius: 12px; }
+        .emi-schedule h3 { color: var(--text-primary); margin-bottom: 20px; }
+        .year-row { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 15px; padding: 15px; background: var(--bg-primary); border-radius: 8px; margin-bottom: 10px; align-items: center; }
+        .year-label { font-weight: 600; color: var(--text-primary); font-size: 1.1rem; }
+        .emi-bar-container { position: relative; height: 30px; background: var(--border-color); border-radius: 15px; overflow: hidden; }
+        .emi-bar { height: 100%; background: var(--accent-gradient); border-radius: 15px; transition: width 0.3s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.85rem; }
+        .year-emi { font-size: 1.2rem; font-weight: bold; color: var(--text-primary); }
+        .comparison { background: linear-gradient(135deg, rgba(17, 153, 142, 0.1) 0%, rgba(56, 239, 125, 0.1) 100%); padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .comparison h4 { color: var(--text-primary); margin-bottom: 10px; }
+        .comparison-item { display: flex; justify-content: space-between; padding: 8px 0; color: var(--text-primary); }
+        .back-link { display: inline-block; margin-top: 20px; color: #38ef7d; text-decoration: none; font-weight: 600; }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .year-row { grid-template-columns: 1fr; gap: 10px; text-align: center; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link" style="margin-bottom: 20px;"><i class="fas fa-arrow-left"></i> Back to Calculators</a>
+        
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> Step-Up EMI</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">EMI increases with your income growth</p>
+
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> <strong>Step-Up EMI</strong> allows you to start with lower EMI and gradually increase it as your income grows. Perfect for professionals expecting regular salary increments!</p>
+        </div>
+
+        <div class="input-row">
+            <div class="input-group"><label><i class="fas fa-rupee-sign"></i> Loan Amount (₹)</label><input type="number" id="loanAmt" value="2500000" min="0" step="50000"></div>
+            <div class="input-group"><label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label><input type="number" id="rate" value="8.5" min="0" max="30" step="0.1"></div>
+        </div>
+        <div class="input-row">
+            <div class="input-group"><label><i class="fas fa-calendar"></i> Loan Tenure (Years)</label><input type="number" id="tenure" value="20" min="1" max="30" step="1"></div>
+            <div class="input-group"><label><i class="fas fa-arrow-up"></i> Annual EMI Increase (%)</label><input type="number" id="stepUpRate" value="5" min="0" max="20" step="1"></div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Step-Up EMI</button>
+
+        <div class="result" id="result">
+            <div class="metrics">
+                <div class="metric-card"><div class="metric-label">Starting EMI</div><div class="metric-value" id="startEmi">₹0</div></div>
+                <div class="metric-card"><div class="metric-label">Final Year EMI</div><div class="metric-value" id="finalEmi">₹0</div></div>
+                <div class="metric-card"><div class="metric-label">Total Interest</div><div class="metric-value" id="totalInterest">₹0</div></div>
+                <div class="metric-card"><div class="metric-label">Total Payment</div><div class="metric-value" id="totalPayment">₹0</div></div>
+            </div>
+
+            <div class="emi-schedule">
+                <h3><i class="fas fa-list"></i> Year-wise EMI Schedule</h3>
+                <div id="scheduleContainer"></div>
+            </div>
+
+            <div class="comparison">
+                <h4><i class="fas fa-balance-scale"></i> Step-Up vs Regular EMI</h4>
+                <div class="comparison-item"><span>Regular EMI would be:</span><span id="regularEmi">₹0</span></div>
+                <div class="comparison-item"><span>You save in initial years:</span><span id="initialSavings" style="color: #38ef7d; font-weight: bold;">₹0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const P = parseFloat(document.getElementById('loanAmt').value);
+            const annualRate = parseFloat(document.getElementById('rate').value) / 100;
+            const years = parseFloat(document.getElementById('tenure').value);
+            const stepUpPercent = parseFloat(document.getElementById('stepUpRate').value) / 100;
+            
+            const r = annualRate / 12;
+            const n = years * 12;
+            
+            let balance = P;
+            let totalInterest = 0;
+            let yearlyEmis = [];
+            let yearlyPayments = [];
+            
+            for (let year = 1; year <= years; year++) {
+                const remainingMonths = (years - year + 1) * 12;
+                const yearEmi = (balance * r * Math.pow(1 + r, remainingMonths)) / (Math.pow(1 + r, remainingMonths) - 1);
+                
+                let yearPayment = 0;
+                for (let month = 1; month <= 12 && balance > 0; month++) {
+                    const interest = balance * r;
+                    const principal = yearEmi - interest;
+                    balance = Math.max(0, balance - principal);
+                    totalInterest += interest;
+                    yearPayment += yearEmi;
+                }
+                
+                yearlyEmis.push(Math.round(yearEmi));
+                yearlyPayments.push(Math.round(yearPayment));
+                
+                balance = balance * (1 + stepUpPercent);
+            }
+            
+            const regularEmi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const firstYearSaving = (regularEmi * 12) - yearlyPayments[0];
+            
+            document.getElementById('startEmi').textContent = '₹' + yearlyEmis[0].toLocaleString('en-IN');
+            document.getElementById('finalEmi').textContent = '₹' + yearlyEmis[years - 1].toLocaleString('en-IN');
+            document.getElementById('totalInterest').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+            document.getElementById('totalPayment').textContent = '₹' + Math.round(P + totalInterest).toLocaleString('en-IN');
+            document.getElementById('regularEmi').textContent = '₹' + Math.round(regularEmi).toLocaleString('en-IN');
+            document.getElementById('initialSavings').textContent = '₹' + Math.round(firstYearSaving).toLocaleString('en-IN');
+            
+            const maxEmi = Math.max(...yearlyEmis);
+            let html = '';
+            
+            for (let i = 0; i < years; i++) {
+                const barWidth = (yearlyEmis[i] / maxEmi) * 100;
+                html += `
+                    <div class="year-row">
+                        <div class="year-label">Year ${i + 1}</div>
+                        <div class="emi-bar-container">
+                            <div class="emi-bar" style="width: ${barWidth}%">${barWidth.toFixed(0)}%</div>
+                        </div>
+                        <div class="year-emi">₹${yearlyEmis[i].toLocaleString('en-IN')}/mo</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('scheduleContainer').innerHTML = html;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', () => {
+            if (document.getElementById('result').style.display === 'block') calc();
+        }));
+    </script>
+</body>
+</html>

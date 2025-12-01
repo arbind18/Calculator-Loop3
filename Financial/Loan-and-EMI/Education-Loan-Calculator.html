@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Loan EMI Calculator - Student Loan with Moratorium Period</title>
+    <meta name="description" content="Calculate education loan EMI with moratorium period. Plan student loan repayment for study abroad, engineering, medical courses.">
+    <meta name="keywords" content="education loan calculator, student loan EMI, moratorium period, study loan, abroad education loan">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#667eea">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Education-Loan-Calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Education Loan EMI Calculator - Student Loan with Moratorium">
+    <meta property="og:description" content="Calculate education loan EMI with moratorium period for study abroad.">
+    <meta property="og:url" content="https://calculatorloop.com/Financial/Loan-and-EMI/Education-Loan-Calculator.html">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Education Loan EMI Calculator">
+    <meta name="twitter:description" content="Calculate student loan EMI with moratorium period.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus, select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .info-box { background: var(--bg-secondary); padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea; }
+        .info-box p { color: var(--text-secondary); font-size: 0.9rem; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .emi-card { background: var(--accent-gradient); padding: 30px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .emi-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .emi-value { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .emi-period { font-size: 1rem; opacity: 0.9; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .metric-card { background: var(--bg-primary); padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .timeline { background: var(--bg-primary); padding: 20px; border-radius: 10px; }
+        .timeline h3 { color: var(--text-primary); margin-bottom: 15px; }
+        .phase { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+        .phase:last-child { border-bottom: none; }
+        .back-link { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            padding: 12px 24px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            border-radius: 50px; 
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); 
+            transition: all 0.3s ease; 
+            margin-bottom: 20px;
+        }
+        .back-link:hover { 
+            transform: translateX(-5px); 
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); 
+        }
+        .back-link i { 
+            transition: transform 0.3s ease; 
+        }
+        .back-link:hover i { 
+            transform: translateX(-3px); 
+        }
+        .faq-section { 
+            background: var(--bg-secondary); 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-top: 40px; 
+        }
+        .faq-section h2 { 
+            color: var(--text-primary); 
+            margin-bottom: 25px; 
+            font-size: 1.8rem; 
+            text-align: center;
+        }
+        .faq-item { 
+            background: var(--bg-primary); 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            border-left: 4px solid #667eea; 
+        }
+        .faq-question { 
+            color: var(--text-primary); 
+            font-weight: 600; 
+            font-size: 1.1rem; 
+            margin-bottom: 10px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+        }
+        .faq-answer { 
+            color: var(--text-secondary); 
+            line-height: 1.6; 
+            font-size: 0.95rem; 
+        }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .emi-value { font-size: 2.5rem; } .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+        
+        <div class="header">
+            <h1><i class="fas fa-graduation-cap"></i> Education Loan</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Calculate student loan EMI with moratorium period</p>
+        
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> <strong>Moratorium Period:</strong> Grace period during studies + 6 months after course completion when you don't pay EMI (only interest may apply)</p>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-rupee-sign"></i> Loan Amount (₹)</label><input type="number" id="loanAmt" value="1000000" min="0" step="10000"></div>
+            <div class="input-group"><label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label><input type="number" id="rate" value="9.5" min="0" max="30" step="0.1"></div>
+        </div>
+        
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-clock"></i> Course Duration (Years)</label><input type="number" id="courseDuration" value="4" min="0" max="10" step="0.5"></div>
+            <div class="input-group"><label><i class="fas fa-calendar"></i> Additional Moratorium (Months)</label><input type="number" id="additionalMora" value="6" min="0" max="24" step="1"></div>
+        </div>
+        
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-hourglass-half"></i> Repayment Tenure (Years)</label><input type="number" id="tenure" value="10" min="1" max="20" step="1"></div>
+            <div class="input-group"><label><i class="fas fa-coins"></i> Interest During Moratorium</label><select id="moraInterest"><option value="simple">Simple Interest (Capitalize)</option><option value="none">No Interest</option><option value="paid">Paid Monthly</option></select></div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Education Loan EMI</button>
+
+        <div class="result" id="result">
+            <div class="emi-card">
+                <h2><i class="fas fa-money-check-alt"></i> Monthly EMI After Moratorium</h2>
+                <div class="emi-value" id="emiValue">₹0</div>
+                <p class="emi-period">for <span id="tenureDisp">0</span> months</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><h3><i class="fas fa-graduation-cap"></i> Loan Amount</h3><div class="metric-value" id="principalDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-chart-line"></i> Total Interest</h3><div class="metric-value" id="interestDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-wallet"></i> Total Payment</h3><div class="metric-value" id="totalDisp">₹0</div></div>
+            </div>
+
+            <div class="timeline">
+                <h3><i class="fas fa-timeline"></i> Loan Timeline</h3>
+                <div class="phase"><span><strong>Study Period:</strong></span><span id="studyPeriod">0 months</span></div>
+                <div class="phase"><span><strong>Moratorium Period:</strong></span><span id="moraPeriod">0 months</span></div>
+                <div class="phase"><span><strong>Interest During Moratorium:</strong></span><span id="moraInterestAmt">₹0</span></div>
+                <div class="phase"><span><strong>Effective Loan After Moratorium:</strong></span><span id="effectiveLoan">₹0</span></div>
+                <div class="phase"><span><strong>EMI Payment Period:</strong></span><span id="emiPeriod">0 months</span></div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> What is a moratorium period in education loans?</div>
+                <div class="faq-answer">A moratorium period is a grace period during which students are not required to repay their education loan. This typically includes the entire duration of the course plus an additional 6-12 months after course completion. During this time, students can focus on their studies and job search without the burden of EMI payments. However, interest may still accrue during this period depending on the loan terms.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> How does simple interest capitalization work during moratorium?</div>
+                <div class="faq-answer">When you choose simple interest capitalization, the interest accrued during the moratorium period is added to your principal loan amount. This means your effective loan amount increases after the moratorium ends. For example, if you borrow ₹10 lakhs at 9.5% for a 4-year course, approximately ₹3.8 lakhs of simple interest will be added to your principal, making your effective loan ₹13.8 lakhs. Your EMI calculations will then be based on this higher amount.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> What is the maximum tenure for education loan repayment?</div>
+                <div class="faq-answer">Most banks in India offer education loan repayment tenures ranging from 5 to 15 years, with some premier institutions extending up to 20 years for large loan amounts. The tenure typically depends on the loan amount, your income after graduation, and the lender's policies. Longer tenures result in lower monthly EMIs but higher total interest paid over the loan period. It's advisable to choose a balanced tenure that keeps your EMIs manageable while minimizing interest costs.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> Can I prepay my education loan without penalties?</div>
+                <div class="faq-answer">Yes, most education loans in India allow prepayment without any penalties or foreclosure charges. Many students start making partial prepayments as soon as they secure employment to reduce their interest burden. Some banks even offer incentives for timely prepayments. Prepaying even small amounts during the moratorium period or early in your repayment tenure can significantly reduce your total interest outgo and loan tenure.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> Is collateral required for education loans?</div>
+                <div class="faq-answer">Collateral requirements depend on the loan amount. For loans up to ₹7.5 lakhs, most public sector banks in India do not require collateral under government schemes. For loans between ₹7.5 lakhs and ₹15 lakhs, banks may accept parental income proof or a third-party guarantee instead of collateral. Loans above ₹15 lakhs typically require collateral in the form of property, fixed deposits, or other tangible assets. However, policies vary across lenders and some private banks offer collateral-free loans up to higher amounts based on the institution and course.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> What expenses are covered under education loans?</div>
+                <div class="faq-answer">Education loans typically cover tuition fees, hostel fees, examination fees, library charges, laboratory fees, purchase of books and equipment, travel expenses for study abroad programs, study tour expenses, project work costs, laptop/computer purchases, caution deposits, building funds, and other expenses related to completing the course. Some banks also finance travel insurance and initial living expenses for overseas education. The coverage may vary between lenders, so it's important to clarify the scope with your bank before applying.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> How to calculate education loan eligibility?</div>
+                <div class="faq-answer">Education loan eligibility depends on multiple factors including the course and institution (premier vs. non-premier), academic performance, co-applicant's income and credit score, existing financial obligations, and collateral availability. Generally, banks sanction loans covering 80-100% of total education costs. Your family's income capacity, typically assessed through the Fixed Obligation to Income Ratio (FOIR), determines how much EMI you can afford post-graduation. Most banks require the post-study EMI to be within 40-50% of expected future income.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schema Markup for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a moratorium period in education loans?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A moratorium period is a grace period during which students are not required to repay their education loan. This typically includes the entire duration of the course plus an additional 6-12 months after course completion."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does simple interest capitalization work during moratorium?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "When you choose simple interest capitalization, the interest accrued during the moratorium period is added to your principal loan amount. This means your effective loan amount increases after the moratorium ends."
+                }
+            }
+        ]
+    }
+    </script>
+    </div>
+
+    <script>
+        function calc() {
+            const P = parseFloat(document.getElementById('loanAmt').value);
+            const r = parseFloat(document.getElementById('rate').value) / 100 / 12;
+            const courseDuration = parseFloat(document.getElementById('courseDuration').value) * 12;
+            const additionalMora = parseFloat(document.getElementById('additionalMora').value);
+            const tenure = parseFloat(document.getElementById('tenure').value) * 12;
+            const moraInterestType = document.getElementById('moraInterest').value;
+            
+            const totalMoratorium = courseDuration + additionalMora;
+            
+            let moraInterest = 0;
+            let effectivePrincipal = P;
+            
+            if (moraInterestType === 'simple') {
+                moraInterest = P * (parseFloat(document.getElementById('rate').value) / 100) * (totalMoratorium / 12);
+                effectivePrincipal = P + moraInterest;
+            } else if (moraInterestType === 'paid') {
+                moraInterest = P * r * totalMoratorium;
+                effectivePrincipal = P;
+            }
+            
+            const emi = (effectivePrincipal * r * Math.pow(1 + r, tenure)) / (Math.pow(1 + r, tenure) - 1);
+            const totalPayment = emi * tenure;
+            const totalInterest = totalPayment - P + (moraInterestType === 'paid' ? moraInterest : 0);
+            
+            document.getElementById('emiValue').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+            document.getElementById('tenureDisp').textContent = tenure;
+            document.getElementById('principalDisp').textContent = '₹' + P.toLocaleString('en-IN');
+            document.getElementById('interestDisp').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+            document.getElementById('totalDisp').textContent = '₹' + Math.round(totalPayment + P).toLocaleString('en-IN');
+            
+            document.getElementById('studyPeriod').textContent = courseDuration + ' months';
+            document.getElementById('moraPeriod').textContent = totalMoratorium + ' months';
+            document.getElementById('moraInterestAmt').textContent = '₹' + Math.round(moraInterest).toLocaleString('en-IN');
+            document.getElementById('effectiveLoan').textContent = '₹' + Math.round(effectivePrincipal).toLocaleString('en-IN');
+            document.getElementById('emiPeriod').textContent = tenure + ' months';
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

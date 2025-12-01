@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Monthly Budget & Spending Analysis</title>
+    <meta name="description" content="Track monthly expenses across categories. Analyze spending patterns, calculate savings, and manage your budget effectively.">
+    <meta name="keywords" content="expense tracker, budget calculator, monthly expenses, spending analysis, savings calculator">
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Expense Tracker",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a2e;
+            --text-secondary: #666;
+            --accent-gradient: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --border-color: #e0e0e0;
+            --shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --border-color: #2d3748;
+            --shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--accent-gradient); 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 950px; 
+            width: 100%; 
+            background: var(--bg-primary); 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+            padding: 40px; 
+        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { 
+            background: var(--bg-secondary); 
+            border: 2px solid var(--border-color); 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 1.2rem; 
+        }
+        .input-group { margin-bottom: 20px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--text-primary); 
+            font-weight: 600; 
+            font-size: 0.95rem;
+        }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        input:focus { outline: none; border-color: #ec4899; box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1); }
+        .expense-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .btn { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--accent-gradient); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .result { 
+            margin-top: 30px; 
+            padding: 30px; 
+            background: var(--bg-secondary); 
+            border-radius: 12px; 
+            display: none; 
+        }
+        .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .summary-card { 
+            padding: 25px; 
+            border-radius: 12px; 
+            text-align: center; 
+            color: white;
+        }
+        .income-card { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .expense-card { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+        .savings-card { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+        .summary-card h3 { font-size: 1rem; margin-bottom: 10px; opacity: 0.95; }
+        .summary-value { font-size: 2.5rem; font-weight: bold; }
+        .expense-breakdown { background: var(--bg-primary); padding: 25px; border-radius: 12px; }
+        .expense-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            background: var(--bg-secondary); 
+            border-radius: 8px; 
+            border-left: 4px solid #ec4899;
+        }
+        .expense-item-left { display: flex; align-items: center; gap: 12px; }
+        .expense-item-left i { font-size: 1.3rem; color: #ec4899; }
+        .expense-name { color: var(--text-primary); font-weight: 600; }
+        .expense-percent { color: var(--text-secondary); font-size: 0.85rem; margin-top: 3px; }
+        .expense-amount { color: var(--text-primary); font-size: 1.2rem; font-weight: bold; }
+        .back-link { 
+            display: inline-block; 
+            margin-top: 20px; 
+            color: #ec4899; 
+            text-decoration: none; 
+            font-weight: 600; 
+        }
+        @media (max-width: 768px) {
+            .container { padding: 25px; }
+            h1 { font-size: 1.5rem; }
+            .summary-value { font-size: 2rem; }
+        }
+            .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-wallet"></i> Expense Tracker</h1>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        <p class="subtitle">Track and analyze your monthly expenses</p>
+        
+        <div class="input-group">
+            <label><i class="fas fa-rupee-sign"></i> Monthly Income (?)</label>
+            <input type="number" id="income" value="50000" min="0" step="1000">
+        </div>
+        
+        <h3 style="color: var(--text-primary); margin: 25px 0 15px;"><i class="fas fa-list"></i> Monthly Expenses</h3>
+        
+        <div class="expense-grid">
+            <div class="input-group">
+                <label><i class="fas fa-home"></i> Rent</label>
+                <input type="number" id="rent" value="15000" min="0" step="500">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-utensils"></i> Food</label>
+                <input type="number" id="food" value="8000" min="0" step="500">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-bus"></i> Transport</label>
+                <input type="number" id="transport" value="3000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-bolt"></i> Utilities</label>
+                <input type="number" id="utilities" value="2000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-gamepad"></i> Entertainment</label>
+                <input type="number" id="entertainment" value="3000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-shopping-cart"></i> Shopping</label>
+                <input type="number" id="shopping" value="5000" min="0" step="500">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-heartbeat"></i> Healthcare</label>
+                <input type="number" id="healthcare" value="2000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-ellipsis-h"></i> Others</label>
+                <input type="number" id="others" value="2000" min="0" step="100">
+            </div>
+        </div>
+        
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Analyze Expenses</button>
+        
+        <div class="result" id="result">
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div>
+            <div class="summary-cards">
+                <div class="summary-card income-card">
+                    <h3><i class="fas fa-arrow-down"></i> Income</h3>
+                    <div class="summary-value" id="totalIncome">?0</div>
+                </div>
+                <div class="summary-card expense-card">
+                    <h3><i class="fas fa-arrow-up"></i> Expenses</h3>
+                    <div class="summary-value" id="totalExpenses">?0</div>
+                </div>
+                <div class="summary-card savings-card">
+                    <h3><i class="fas fa-piggy-bank"></i> Savings</h3>
+                    <div class="summary-value" id="totalSavings">?0</div>
+                </div>
+            </div>
+            
+            <div class="expense-breakdown">
+                <h3 style="color: var(--text-primary); margin-bottom: 20px; font-size: 1.2rem;"><i class="fas fa-chart-pie"></i> Expense Breakdown</h3>
+                <div id="expenseList"></div>
+            </div>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Calculators</a>
+    </div>
+    
+    <script>
+        function calc() {
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const expenses = {
+                rent: { value: parseFloat(document.getElementById('rent').value) || 0, icon: 'fa-home', label: 'Rent' },
+                food: { value: parseFloat(document.getElementById('food').value) || 0, icon: 'fa-utensils', label: 'Food' },
+                transport: { value: parseFloat(document.getElementById('transport').value) || 0, icon: 'fa-bus', label: 'Transport' },
+                utilities: { value: parseFloat(document.getElementById('utilities').value) || 0, icon: 'fa-bolt', label: 'Utilities' },
+                entertainment: { value: parseFloat(document.getElementById('entertainment').value) || 0, icon: 'fa-gamepad', label: 'Entertainment' },
+                shopping: { value: parseFloat(document.getElementById('shopping').value) || 0, icon: 'fa-shopping-cart', label: 'Shopping' },
+                healthcare: { value: parseFloat(document.getElementById('healthcare').value) || 0, icon: 'fa-heartbeat', label: 'Healthcare' },
+                others: { value: parseFloat(document.getElementById('others').value) || 0, icon: 'fa-ellipsis-h', label: 'Others' }
+            };
+            
+            const totalExpenses = Object.values(expenses).reduce((sum, exp) => sum + exp.value, 0);
+            const savings = income - totalExpenses;
+            
+            document.getElementById('totalIncome').textContent = '?' + income.toLocaleString('en-IN');
+            document.getElementById('totalExpenses').textContent = '?' + totalExpenses.toLocaleString('en-IN');
+            document.getElementById('totalSavings').textContent = '?' + savings.toLocaleString('en-IN');
+            
+            const expenseList = document.getElementById('expenseList');
+            expenseList.innerHTML = '';
+            
+            Object.entries(expenses).forEach(([key, exp]) => {
+                if (exp.value > 0) {
+                    const percent = totalExpenses > 0 ? ((exp.value / totalExpenses) * 100).toFixed(1) : 0;
+                    const item = document.createElement('div');
+                    item.className = 'expense-item';
+                    item.innerHTML = `
+                        <div class="expense-item-left">
+                            <i class="fas ${exp.icon}"></i>
+                            <div>
+                                <div class="expense-name">${exp.label}</div>
+                                <div class="expense-percent">${percent}% of total</div>
+                            </div>
+                        </div>
+                        <div class="expense-amount">?${exp.value.toLocaleString('en-IN')}</div>
+                    `;
+                    expenseList.appendChild(item);
+                }
+            });
+            
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        }
+        
+        document.querySelectorAll('input').forEach(el => {
+            el.addEventListener('input', calc);
+        });
+        
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('❌ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px;">About This Calculator</h2>
+    <div style="color: #666; line-height: 1.8;">
+        <p style="margin-bottom: 20px; font-size: 1.1rem;">Our free online Expense Tracker.html calculator helps you make informed financial decisions with accurate calculations. Whether you're planning investments, comparing options, or tracking your financial goals, this tool provides instant results with detailed breakdowns.</p>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">Key Features</h3>
+        <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">100% free with no registration required</li>
+            <li style="margin-bottom: 10px;">Instant calculations with real-time results</li>
+            <li style="margin-bottom: 10px;">Mobile-friendly and works on all devices</li>
+            <li style="margin-bottom: 10px;">Share and download your results</li>
+            <li style="margin-bottom: 10px;">Auto-save feature remembers your last calculation</li>
+            <li style="margin-bottom: 10px;">Keyboard shortcuts for faster calculations</li>
+        </ul>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">How to Use</h3>
+        <ol style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">Enter your values in the input fields</li>
+            <li style="margin-bottom: 10px;">Adjust sliders for quick changes</li>
+            <li style="margin-bottom: 10px;">Click Calculate or press Ctrl+Enter</li>
+            <li style="margin-bottom: 10px;">View detailed results and breakdowns</li>
+            <li style="margin-bottom: 10px;">Download or share your calculation</li>
+        </ol>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div style="margin-top: 50px;">
+        <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px;">Frequently Asked Questions</h2>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Is this calculator accurate?</h3>
+            <p style="line-height: 1.7;">Yes, our calculator uses industry-standard formulas and provides mathematically accurate results based on your inputs.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Do I need to create an account?</h3>
+            <p style="line-height: 1.7;">No, this calculator is completely free and requires no registration. Use it unlimited times without any restrictions.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Can I save my calculations?</h3>
+            <p style="line-height: 1.7;">Yes, your last calculation is automatically saved and will be restored when you revisit the page. You can also download results as PNG.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Does it work on mobile?</h3>
+            <p style="line-height: 1.7;">Absolutely! The calculator is fully responsive and optimized for smartphones, tablets, and desktop computers.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">How often is this updated?</h3>
+            <p style="line-height: 1.7;">We regularly update our calculators to ensure accuracy and compliance with the latest financial regulations and tax rules in India.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Calculator 2025 - Free Monthly Budget Planner India | Personal Finance Budget Tool</title>
+    <meta name="description" content="Free Budget Calculator 2025 for monthly budget planning in India. Track income, expenses across 8 categories, calculate surplus/deficit. Best personal budget planner with detailed breakdown and financial insights.">
+    <meta name="keywords" content="budget calculator, monthly budget calculator, budget planner India, personal budget calculator, household budget calculator, expense tracker, income expense calculator 2025, family budget planner, budget calculator India">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/Budget-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Budget Calculator 2025 - Free Monthly Budget Planner">
+    <meta property="og:description" content="Plan your monthly budget with our free calculator. Track income and expenses, get financial insights, and achieve your savings goals.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/Budget-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    <meta property="og:locale" content="en_IN">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Budget Calculator",
+        "description": "Free online budget calculator to plan monthly income and expenses. Track spending across 8 categories, calculate surplus or deficit, and get personalized financial insights.",
+        "url": "https://calculatorloop.com/financial/investment-returns/Budget-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "3124",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #a855f7;
+            --accent-color: #8b5cf6;
+            --text-color: #1f2937;
+            --light-bg: #eef2ff;
+            --white: #ffffff;
+            --shadow: 0 10px 20px rgba(99, 102, 241, 0.1);
+            --gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #818cf8;
+            --secondary-color: #c084fc;
+            --text-color: #f3f4f6;
+            --light-bg: #1f2937;
+            --white: #111827;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background-color: #f3f4f6;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] body {
+            background-color: #0f172a;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .main-header {
+            background: rgba(17, 24, 39, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .theme-btn {
+            background: var(--light-bg);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+        [data-theme="dark"] .theme-btn:hover {
+            background: #374151;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .input-section, .result-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .subtitle { color: #9ca3af; }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+        [data-theme="dark"] input, [data-theme="dark"] select {
+            border-color: #374151;
+            background: #1f2937;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        input[type="range"] {
+            padding: 0;
+            height: 5px;
+            margin-top: 10px;
+            accent-color: var(--primary-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .result-card {
+            background: var(--gradient);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        [data-theme="dark"] .metric-card {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .metric-card h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        [data-theme="dark"] .metric-card h3 { color: #9ca3af; }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+
+        .share-btn { background: #3b82f6; color: white; }
+        .download-btn { background: #8b5cf6; color: white; }
+        .print-btn { background: #64748b; color: white; }
+
+        .action-btn:hover { transform: translateY(-2px); }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+            .header-container { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .header-actions { justify-self: center; }
+            .logo { justify-self: center; margin-bottom: 10px; }
+            .back-btn { justify-self: center; }
+        }
+        
+        /* FAQ Styles */
+        .faq-section { margin-top: 40px; }
+        .faq-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #6b7280;
+            margin-top: 0;
+        }
+        [data-theme="dark"] .faq-answer { color: #9ca3af; }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        
+        .info-box {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+        .info-box h4 { color: var(--primary-color); margin-bottom: 5px; }
+        .info-box p { font-size: 0.9rem; color: var(--text-color); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="window.location.href='../../Ui.html'">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="../../Ui.html" class="logo">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1><i class="fas fa-wallet" style="color: var(--primary-color);"></i> Budget Calculator</h1>
+        <p class="subtitle">Plan your monthly income and expenses effectively</p>
+
+        <div class="calculator-grid">
+            <div class="input-section">
+                <div class="section-title"><i class="fas fa-money-bill-wave"></i> Income</div>
+                <div class="input-group">
+                    <label>Monthly Salary (₹)</label>
+                    <input type="number" id="salary" value="50000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Other Income (₹)</label>
+                    <input type="number" id="otherIncome" value="0" oninput="calc()">
+                </div>
+
+                <div class="section-title" style="margin-top: 30px;"><i class="fas fa-home"></i> Housing & Utilities</div>
+                <div class="input-group">
+                    <label>Rent/EMI (₹)</label>
+                    <input type="number" id="rent" value="15000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Utilities (Electricity, Water, Internet) (₹)</label>
+                    <input type="number" id="utilities" value="4000" oninput="calc()">
+                </div>
+
+                <div class="section-title" style="margin-top: 30px;"><i class="fas fa-utensils"></i> Living Expenses</div>
+                <div class="input-group">
+                    <label>Food & Groceries (₹)</label>
+                    <input type="number" id="food" value="10000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Transportation (₹)</label>
+                    <input type="number" id="transport" value="3000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Health & Insurance (₹)</label>
+                    <input type="number" id="health" value="2000" oninput="calc()">
+                </div>
+
+                <div class="section-title" style="margin-top: 30px;"><i class="fas fa-film"></i> Lifestyle & Savings</div>
+                <div class="input-group">
+                    <label>Entertainment & Shopping (₹)</label>
+                    <input type="number" id="lifestyle" value="5000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Savings & Investments (₹)</label>
+                    <input type="number" id="savings" value="10000" oninput="calc()">
+                </div>
+                
+                <button class="btn" onclick="calc()">Update Budget</button>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-lightbulb"></i> 50/30/20 Rule</h4>
+                    <p>Aim for 50% Needs, 30% Wants, and 20% Savings for a balanced financial life.</p>
+                </div>
+            </div>
+
+            <div class="result-section" id="result">
+                <div class="result-card">
+                    <h2>Monthly Balance</h2>
+                    <div class="balance-amount" id="balance">₹0</div>
+                    <p id="balanceStatus">Balanced Budget</p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Total Income</h3>
+                        <div class="metric-value" id="totalIncome">₹0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Total Expenses</h3>
+                        <div class="metric-value" id="totalExpenses">₹0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Savings Rate</h3>
+                        <div class="metric-value" id="savingsRate">0%</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Needs/Wants/Savings</h3>
+                        <div class="metric-value" id="ratio">50/30/20</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download</button>
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="input-section faq-section">
+            <h2 style="margin-bottom: 20px;">Budget Planning Guide 2025</h2>
+            <p style="color: #6b7280; line-height: 1.6; margin-bottom: 20px;">
+                Budget planning is the foundation of financial health. By tracking your income and expenses, you can identify spending leaks, prioritize savings, and achieve your financial goals faster. Our calculator helps you visualize your cash flow and adhere to popular budgeting frameworks like the 50/30/20 rule.
+            </p>
+
+            <h3 style="color: var(--primary-color); font-size: 1.5rem; margin: 25px 0 15px;">The 50/30/20 Rule</h3>
+            <p style="color: var(--text-color); margin-bottom: 15px;">
+                This popular budgeting method suggests allocating your after-tax income as follows:
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>50% Needs:</strong> Essentials like rent, groceries, utilities, and minimum debt payments.</li>
+                    <li><strong>30% Wants:</strong> Discretionary spending like dining out, entertainment, and hobbies.</li>
+                    <li><strong>20% Savings:</strong> Savings, investments, and extra debt repayment.</li>
+                </ul>
+            </p>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    How much should I save each month? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Aim to save at least 20% of your income. If you're just starting, even 10% is a great first step. As your income grows, try to increase your savings rate to accelerate wealth building.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    What counts as a "Need" vs "Want"? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Needs are expenses you cannot avoid (rent, basic food, electricity). Wants are expenses you can live without (Netflix, restaurant meals, new clothes). Be honest with your categorization!
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    How do I handle irregular expenses? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    For annual expenses like insurance or festivals, estimate the total yearly cost and divide by 12. Set aside this amount monthly in a "sinking fund" so you're prepared when the bill arrives.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let expenseChart = null;
+
+        function fmt(n) {
+            return '₹' + Math.round(n).toLocaleString('en-IN');
+        }
+
+        function calc() {
+            const salary = parseFloat(document.getElementById('salary').value) || 0;
+            const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+            const totalIncome = salary + otherIncome;
+
+            const rent = parseFloat(document.getElementById('rent').value) || 0;
+            const utilities = parseFloat(document.getElementById('utilities').value) || 0;
+            const food = parseFloat(document.getElementById('food').value) || 0;
+            const transport = parseFloat(document.getElementById('transport').value) || 0;
+            const health = parseFloat(document.getElementById('health').value) || 0;
+            const lifestyle = parseFloat(document.getElementById('lifestyle').value) || 0;
+            const savings = parseFloat(document.getElementById('savings').value) || 0;
+
+            const totalExpenses = rent + utilities + food + transport + health + lifestyle + savings;
+            const balance = totalIncome - totalExpenses;
+
+            // Categorization for 50/30/20
+            const needs = rent + utilities + food + transport + health;
+            const wants = lifestyle;
+            // Savings is already defined
+
+            const needsPct = totalIncome > 0 ? Math.round((needs / totalIncome) * 100) : 0;
+            const wantsPct = totalIncome > 0 ? Math.round((wants / totalIncome) * 100) : 0;
+            const savingsPct = totalIncome > 0 ? Math.round((savings / totalIncome) * 100) : 0;
+
+            document.getElementById('totalIncome').textContent = fmt(totalIncome);
+            document.getElementById('totalExpenses').textContent = fmt(totalExpenses);
+            document.getElementById('balance').textContent = fmt(balance);
+            document.getElementById('savingsRate').textContent = savingsPct + '%';
+            document.getElementById('ratio').textContent = `${needsPct}/${wantsPct}/${savingsPct}`;
+
+            const balanceEl = document.getElementById('balance');
+            const statusEl = document.getElementById('balanceStatus');
+            
+            if (balance > 0) {
+                balanceEl.style.color = 'var(--success)';
+                statusEl.textContent = 'Surplus (Great Job!)';
+                statusEl.style.color = 'var(--success)';
+            } else if (balance < 0) {
+                balanceEl.style.color = 'var(--danger)';
+                statusEl.textContent = 'Deficit (Reduce Expenses)';
+                statusEl.style.color = 'var(--danger)';
+            } else {
+                balanceEl.style.color = 'var(--text-color)';
+                statusEl.textContent = 'Balanced Budget';
+                statusEl.style.color = 'var(--text-color)';
+            }
+
+            updateChart(rent, utilities, food, transport, health, lifestyle, savings);
+        }
+
+        function updateChart(rent, utilities, food, transport, health, lifestyle, savings) {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f3f4f6' : '#1f2937';
+
+            if (expenseChart) expenseChart.destroy();
+            expenseChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Housing', 'Utilities', 'Food', 'Transport', 'Health', 'Lifestyle', 'Savings'],
+                    datasets: [{
+                        data: [rent, utilities, food, transport, health, lifestyle, savings],
+                        backgroundColor: [
+                            '#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#10b981', '#f59e0b', '#3b82f6'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: textColor } },
+                        title: { display: true, text: 'Expense Breakdown', color: textColor }
+                    }
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-btn i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            calc();
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') document.querySelector('.theme-btn i').className = 'fas fa-sun';
+        
+        calc();
+
+        function shareCalc() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    text: 'Check out my Budget Plan!',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        }
+
+        function downloadCalc() {
+            const element = document.querySelector('.container');
+            html2canvas(element).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'budget-plan.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

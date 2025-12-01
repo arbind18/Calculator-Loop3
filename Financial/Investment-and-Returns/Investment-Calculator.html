@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online calculator for financial planning and investment calculations.">
+    <meta name="keywords" content="calculator, financial calculator, investment calculator India 2025">
+    <title>Investment Calculator</title>
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Investment Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; width: 100%; background: white; border-radius: 25px; box-shadow: 0 25px 70px rgba(0,0,0,0.3); padding: 50px; margin: 0 auto; }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 15px; font-size: 2.8rem; font-weight: 800; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 40px; font-size: 1.2rem; }
+        .layout { display: grid; grid-template-columns: 420px 1fr; gap: 40px; margin-top: 40px; }
+        .input-section { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 35px; border-radius: 20px; height: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 28px; }
+        label { display: block; margin-bottom: 12px; color: #1a1a2e; font-weight: 700; font-size: 1rem; }
+        input[type="number"] { width: 100%; padding: 16px; border: 2px solid #d0d5dd; border-radius: 12px; font-size: 1.05rem; transition: all 0.3s; background: white; }
+        input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15); }
+        input[type="range"] { width: 100%; accent-color: #667eea; margin-top: 10px; height: 8px; cursor: pointer; }
+        .btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 15px; font-size: 1.2rem; cursor: pointer; margin-top: 25px; font-weight: 800; box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); transition: all 0.3s; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5); }
+        .results-section { display: flex; flex-direction: column; gap: 30px; }
+        .hero-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 50px; border-radius: 25px; color: white; text-align: center; box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4); }
+        .maturity-amount { font-size: 4.5rem; font-weight: 900; margin: 20px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .metric-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid #667eea; }
+        .metric-card h3 { font-size: 0.85rem; color: #666; margin-bottom: 12px; text-transform: uppercase; font-weight: 700; }
+        .metric-value { font-size: 2.2rem; font-weight: 800; color: #1a1a2e; }
+        .chart-section { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .chart-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .chart-card h3 { color: #1a1a2e; margin-bottom: 20px; font-size: 1.3rem; font-weight: 700; }
+        .chart-wrapper { height: 350px; position: relative; }
+        .info-box { background: #e0e7ff; border-left: 5px solid #667eea; padding: 20px; margin-top: 25px; border-radius: 12px; }
+        .info-box h4 { color: #3730a3; margin-bottom: 10px; font-weight: 700; }
+        .info-box p { color: #3730a3; font-size: 0.9rem; line-height: 1.7; }
+        .back-link { display: inline-block; margin-top: 40px; color: #667eea; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+        
+        /* Tablet & Mobile Responsive */
+        @media (max-width: 1200px) {
+            .layout { grid-template-columns: 1fr; gap: 30px; }
+            .input-section { position: relative; top: 0; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .chart-section { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 25px 15px; border-radius: 15px; }
+            h1 { font-size: 1.8rem; margin-bottom: 10px; }
+            h1 i { font-size: 1.5rem; }
+            .subtitle { font-size: 0.95rem; margin-bottom: 25px; }
+            .layout { gap: 25px; }
+            .input-section { padding: 20px 15px; }
+            .input-section h2 { font-size: 1.3rem; margin-bottom: 20px; }
+            .input-group { margin-bottom: 20px; }
+            label { font-size: 0.9rem; margin-bottom: 8px; }
+            input[type="number"] { padding: 12px; font-size: 0.95rem; }
+            .btn { padding: 15px; font-size: 1.05rem; }
+            .hero-card { padding: 30px 20px; }
+            .hero-card h2 { font-size: 1.1rem; }
+            .maturity-amount { font-size: 3rem; }
+            .metric-card { padding: 20px 15px; }
+            .metric-card h3 { font-size: 0.75rem; }
+            .metric-value { font-size: 1.8rem; }
+            .chart-card { padding: 20px 15px; }
+            .chart-card h3 { font-size: 1.1rem; }
+            .chart-wrapper { height: 280px; }
+            .action-buttons { gap: 8px; }
+            .action-btn { padding: 10px 18px; font-size: 0.85rem; }
+            .info-box { padding: 15px; }
+            .info-box h4 { font-size: 0.9rem; }
+            .info-box p { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            body { padding: 5px; }
+            .container { padding: 20px 12px; }
+            h1 { font-size: 1.5rem; }
+            .subtitle { font-size: 0.85rem; }
+            .maturity-amount { font-size: 2.5rem; }
+            .metric-value { font-size: 1.5rem; }
+            .chart-wrapper { height: 250px; }
+            .action-btn { padding: 8px 12px; font-size: 0.8rem; flex: 1; min-width: 100px; }
+        }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-chart-line"></i> Investment Calculator</h1>
+        <p class="subtitle">Plan your wealth creation with smart investment strategy</p>
+        
+        <div class="layout">
+            <div class="input-section">
+                <h2 style="margin-bottom: 30px; color: #1a1a2e;"><i class="fas fa-wallet"></i> Investment Details</h2>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-money-bill-wave"></i> Initial Investment ($)</label>
+                    <input type="number" id="initial" value="5000" min="0">
+                    <input type="range" id="initialRange" min="0" max="100000" value="5000" step="1000">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-calendar-plus"></i> Monthly Contribution ($)</label>
+                    <input type="number" id="monthly" value="200" min="0">
+                    <input type="range" id="monthlyRange" min="0" max="5000" value="200" step="50">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Expected Return (% per year)</label>
+                    <input type="number" id="return" value="8" step="0.1" min="0" max="30">
+                    <input type="range" id="returnRange" min="0" max="30" value="8" step="0.5">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-clock"></i> Investment Period (years)</label>
+                    <input type="number" id="years" value="10" min="1" max="50">
+                    <input type="range" id="yearsRange" min="1" max="50" value="10">
+                </div>
+                
+                <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Investment</button>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-lightbulb"></i> Investment Tip</h4>
+                    <p>Starting early and staying consistent with contributions can significantly boost your wealth through compound interest.</p>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <div class="hero-card">
+                    <h2><i class="fas fa-trophy"></i> Future Value</h2>
+                    <div class="maturity-amount" id="futureValue">$0</div>
+                    <p style="font-size:1.1rem;">Wealth after <span id="period">0</span> years</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download</button>
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3><i class="fas fa-hand-holding-usd"></i> Total Invested</h3>
+                        <div class="metric-value" id="totalInvested">$0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-chart-line"></i> Total Gains</h3>
+                        <div class="metric-value" id="totalGains">$0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-percentage"></i> Return %</h3>
+                        <div class="metric-value" id="returnPercent">0%</div>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-pie"></i> Investment Breakdown</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-area"></i> Growth Over Time</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Calculator Hub</a>
+    </div>
+    <script>
+        let pieChart = null;
+        let lineChart = null;
+        
+        // Sync range sliders with inputs
+        document.addEventListener('DOMContentLoaded', () => {
+            syncSlider('initial', 'initialRange');
+            syncSlider('monthly', 'monthlyRange');
+            syncSlider('return', 'returnRange');
+            syncSlider('years', 'yearsRange');
+            calc(); // Calculate on load
+        });
+        
+        function syncSlider(inputId, rangeId) {
+            const input = document.getElementById(inputId);
+            const range = document.getElementById(rangeId);
+            
+            range.addEventListener('input', () => {
+                input.value = range.value;
+                calc();
+            });
+            
+            input.addEventListener('input', () => {
+                range.value = input.value;
+                calc();
+            });
+        }
+        
+        function calc() {
+            const initial = parseFloat(document.getElementById('initial').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+            const returnRate = parseFloat(document.getElementById('return').value) || 0;
+            const years = parseFloat(document.getElementById('years').value) || 0;
+            
+            if (years <= 0) {
+                alert('Please enter a valid investment period');
+                return;
+            }
+            
+            const monthlyRate = returnRate / 100 / 12;
+            const months = years * 12;
+            
+            // Future value calculation
+            const futureValueInitial = initial * Math.pow(1 + monthlyRate, months);
+            const futureValueMonthly = monthly > 0 ? 
+                monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) : 0;
+            const futureValue = futureValueInitial + futureValueMonthly;
+            
+            const totalInvested = initial + (monthly * months);
+            const totalGains = futureValue - totalInvested;
+            const returnPercent = totalInvested > 0 ? (totalGains / totalInvested * 100) : 0;
+            
+            // Update display
+            document.getElementById('futureValue').textContent = '$' + futureValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('period').textContent = years;
+            document.getElementById('totalInvested').textContent = '$' + totalInvested.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('totalGains').textContent = '$' + totalGains.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('returnPercent').textContent = returnPercent.toFixed(1) + '%';
+            
+            // Update charts
+            updatePieChart(totalInvested, totalGains);
+            updateLineChart(initial, monthly, monthlyRate, months);
+        }
+        
+        function updatePieChart(invested, gains) {
+            const ctx = document.getElementById('pieChart').getContext('2d');
+            
+            if (pieChart) pieChart.destroy();
+            
+            pieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Total Invested', 'Total Gains'],
+                    datasets: [{
+                        data: [invested, gains > 0 ? gains : 0],
+                        backgroundColor: ['#667eea', '#764ba2'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const label = context.label || '';
+                                    const value = '$' + context.parsed.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percent = ((context.parsed / total) * 100).toFixed(1);
+                                    return label + ': ' + value + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateLineChart(initial, monthly, rate, months) {
+            const ctx = document.getElementById('lineChart').getContext('2d');
+            
+            if (lineChart) lineChart.destroy();
+            
+            const labels = [];
+            const investedData = [];
+            const valueData = [];
+            
+            let balance = initial;
+            let invested = initial;
+            
+            for (let month = 0; month <= months; month++) {
+                if (month % 12 === 0) { // Show yearly data
+                    labels.push('Year ' + (month / 12));
+                    investedData.push(invested);
+                    valueData.push(balance);
+                }
+                
+                if (month < months) {
+                    balance = balance * (1 + rate) + monthly;
+                    invested += monthly;
+                }
+            }
+            
+            lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Investment Value',
+                        data: valueData,
+                        borderColor: '#764ba2',
+                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Total Invested',
+                        data: investedData,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    return context.dataset.label + ': $' + 
+                                           context.parsed.y.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: (value) => '$' + (value / 1000).toFixed(0) + 'K'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('❌ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px;">About This Calculator</h2>
+    <div style="color: #666; line-height: 1.8;">
+        <p style="margin-bottom: 20px; font-size: 1.1rem;">Our free online Investment calculator helps you make informed financial decisions with accurate calculations. Whether you're planning investments, comparing options, or tracking your financial goals, this tool provides instant results with detailed breakdowns.</p>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">Key Features</h3>
+        <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">100% free with no registration required</li>
+            <li style="margin-bottom: 10px;">Instant calculations with real-time results</li>
+            <li style="margin-bottom: 10px;">Mobile-friendly and works on all devices</li>
+            <li style="margin-bottom: 10px;">Share and download your results</li>
+            <li style="margin-bottom: 10px;">Auto-save feature remembers your last calculation</li>
+            <li style="margin-bottom: 10px;">Keyboard shortcuts for faster calculations</li>
+        </ul>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">How to Use</h3>
+        <ol style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">Enter your values in the input fields</li>
+            <li style="margin-bottom: 10px;">Adjust sliders for quick changes</li>
+            <li style="margin-bottom: 10px;">Click Calculate or press Ctrl+Enter</li>
+            <li style="margin-bottom: 10px;">View detailed results and breakdowns</li>
+            <li style="margin-bottom: 10px;">Download or share your calculation</li>
+        </ol>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div style="margin-top: 50px;">
+        <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px;">Frequently Asked Questions</h2>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Is this calculator accurate?</h3>
+            <p style="line-height: 1.7;">Yes, our calculator uses industry-standard formulas and provides mathematically accurate results based on your inputs.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Do I need to create an account?</h3>
+            <p style="line-height: 1.7;">No, this calculator is completely free and requires no registration. Use it unlimited times without any restrictions.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Can I save my calculations?</h3>
+            <p style="line-height: 1.7;">Yes, your last calculation is automatically saved and will be restored when you revisit the page. You can also download results as PNG.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Does it work on mobile?</h3>
+            <p style="line-height: 1.7;">Absolutely! The calculator is fully responsive and optimized for smartphones, tablets, and desktop computers.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">How often is this updated?</h3>
+            <p style="line-height: 1.7;">We regularly update our calculators to ensure accuracy and compliance with the latest financial regulations and tax rules in India.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

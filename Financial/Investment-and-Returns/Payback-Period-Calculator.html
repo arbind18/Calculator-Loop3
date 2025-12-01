@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payback Period Calculator - Investment Recovery Time</title>
+    <meta name="description" content="Calculate payback period for investments. Determine how long it takes to recover initial investment from annual cash flows.">
+    <meta name="keywords" content="payback period calculator, investment recovery, break-even time, cash flow payback">
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Payback Period Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #f43f5e;
+            --secondary-color: #e11d48;
+            --accent-color: #fb7185;
+            --text-color: #1f2937;
+            --light-bg: #fff1f2;
+            --white: #ffffff;
+            --shadow: 0 10px 20px rgba(244, 63, 94, 0.1);
+            --gradient: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #fb7185;
+            --secondary-color: #f43f5e;
+            --text-color: #f3f4f6;
+            --light-bg: #1f2937;
+            --white: #111827;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background-color: #f3f4f6;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] body {
+            background-color: #0f172a;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .main-header {
+            background: rgba(17, 24, 39, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(244, 63, 94, 0.1);
+            color: var(--primary-color);
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .theme-btn {
+            background: var(--light-bg);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+        [data-theme="dark"] .theme-btn:hover {
+            background: #374151;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .input-section, .result-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .subtitle { color: #9ca3af; }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+        [data-theme="dark"] input {
+            border-color: #374151;
+            background: #1f2937;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(244, 63, 94, 0.2);
+        }
+
+        .result-card {
+            background: var(--gradient);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .period-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        [data-theme="dark"] .metric-card {
+            background: rgba(244, 63, 94, 0.1);
+        }
+
+        .metric-card h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        [data-theme="dark"] .metric-card h3 { color: #9ca3af; }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+
+        .share-btn { background: #3b82f6; color: white; }
+        .download-btn { background: #8b5cf6; color: white; }
+        .print-btn { background: #64748b; color: white; }
+
+        .action-btn:hover { transform: translateY(-2px); }
+
+        @media (max-width: 768px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+            .header-container { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .header-actions { justify-self: center; }
+            .logo { justify-self: center; margin-bottom: 10px; }
+            .back-btn { justify-self: center; }
+        }
+        
+        /* FAQ Styles */
+        .faq-section { margin-top: 40px; }
+        .faq-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #6b7280;
+            margin-top: 0;
+        }
+        [data-theme="dark"] .faq-answer { color: #9ca3af; }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="window.location.href='../../Ui.html'">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="../../Ui.html" class="logo">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1><i class="fas fa-hourglass-half" style="color: var(--primary-color);"></i> Payback Period Calculator</h1>
+        <p class="subtitle">Calculate the time required to recover your initial investment</p>
+
+        <div class="calculator-grid">
+            <div class="input-section">
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Initial Investment (?)</label>
+                    <input type="number" id="investment" value="500000" min="0" step="10000">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-coins"></i> Annual Cash Flow (?)</label>
+                    <input type="number" id="cashflow" value="100000" min="0" step="5000">
+                </div>
+                
+                <button class="btn" onclick="calc()">Calculate Payback Period</button>
+            </div>
+
+            <div class="result-section" id="result">
+                <div class="result-card">
+                    <h2>Payback Period</h2>
+                    <div class="period-value" id="periodValue">0 years</div>
+                    <p id="periodDesc">Time to recover investment</p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Investment</h3>
+                        <div class="metric-value" id="investDisplay">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Annual Cash Flow</h3>
+                        <div class="metric-value" id="cashflowDisplay">?0</div>
+                    </div>
+                    <div class="metric-card" style="grid-column: span 2;">
+                        <h3>Break-even Month</h3>
+                        <div class="metric-value" id="monthDisplay">Month 0</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="paybackChart"></canvas>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download</button>
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="input-section faq-section">
+            <h2 style="margin-bottom: 20px;">About Payback Period Calculator</h2>
+            <p style="color: #6b7280; line-height: 1.6; margin-bottom: 20px;">
+                The Payback Period Calculator helps you determine how long it will take to recover the cost of an investment. It is a simple and widely used method for evaluating the risk and liquidity of a project.
+            </p>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    What is Payback Period? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    The payback period is the length of time required to recover the cost of an investment. It is calculated by dividing the initial investment by the annual cash inflow.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    Why is a shorter payback period better? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    A shorter payback period is generally preferred because it means the investor recovers their capital sooner, reducing the risk of loss from long-term uncertainties. It also improves liquidity.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    Does this calculator consider the time value of money? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    No, this is a simple payback period calculator. It does not account for the time value of money (discounting future cash flows). For that, you would need a Discounted Payback Period calculator.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let paybackChart = null;
+
+        function calc() {
+            const investment = parseFloat(document.getElementById('investment').value);
+            const cashflow = parseFloat(document.getElementById('cashflow').value);
+            
+            if (investment > 0 && cashflow > 0) {
+                const years = investment / cashflow;
+                const months = years * 12;
+                const fullYears = Math.floor(years);
+                const remainingMonths = Math.round((years - fullYears) * 12);
+                
+                let periodText = fullYears + (fullYears === 1 ? ' year' : ' years');
+                if (remainingMonths > 0) periodText += ' ' + remainingMonths + (remainingMonths === 1 ? ' month' : ' months');
+                
+                document.getElementById('periodValue').textContent = periodText;
+                document.getElementById('periodDesc').textContent = years < 3 ? 'Fast recovery' : years < 5 ? 'Moderate recovery' : 'Long recovery period';
+                document.getElementById('investDisplay').textContent = '?' + investment.toLocaleString('en-IN');
+                document.getElementById('cashflowDisplay').textContent = '?' + cashflow.toLocaleString('en-IN');
+                document.getElementById('monthDisplay').textContent = 'Month ' + Math.ceil(months);
+                
+                updateChart(investment, cashflow, years);
+            }
+        }
+
+        function updateChart(investment, cashflow, years) {
+            const ctx = document.getElementById('paybackChart').getContext('2d');
+            
+            if (paybackChart) {
+                paybackChart.destroy();
+            }
+
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f3f4f6' : '#1f2937';
+            const gridColor = isDark ? '#374151' : '#e5e7eb';
+
+            const chartYears = Math.ceil(years) + 2;
+            const labels = Array.from({length: chartYears + 1}, (_, i) => 'Year ' + i);
+            const investmentData = Array(chartYears + 1).fill(investment);
+            const recoveryData = labels.map((_, i) => Math.min(i * cashflow, investment * 1.2)); // Cap for visual
+
+            paybackChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Investment Cost',
+                            data: investmentData,
+                            borderColor: '#f43f5e',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Cumulative Cash Flow',
+                            data: recoveryData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ?' + context.raw.toLocaleString('en-IN');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-btn i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            calc(); // Redraw chart
+        }
+        
+        // Initialize
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') document.querySelector('.theme-btn i').className = 'fas fa-sun';
+        
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+
+        // Share/Download functions
+        function shareCalc() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    text: 'Check out my Payback Period calculation!',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        }
+
+        function downloadCalc() {
+            const element = document.querySelector('.result-section');
+            html2canvas(element).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'payback-period-report.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
+

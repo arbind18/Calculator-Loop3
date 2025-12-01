@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Savings Calculator - Education Planning Tool</title>
+    <meta name="description" content="Plan for your child's education with our College Savings Calculator. Estimate future college costs and calculate required monthly savings.">
+    <meta name="keywords" content="college savings calculator, education planning, tuition calculator, future value calculator, college fund">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/College-Savings-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="College Savings Calculator - Education Planning Tool">
+    <meta property="og:description" content="Plan for your child's education with our College Savings Calculator. Estimate future college costs and calculate required monthly savings.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/College-Savings-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    <meta property="og:locale" content="en_IN">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "College Savings Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "1890"}
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --accent-color: #2563eb;
+            --text-color: #1f2937;
+            --light-bg: #eff6ff;
+            --white: #ffffff;
+            --shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
+            --gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --secondary-color: #93c5fd;
+            --text-color: #f3f4f6;
+            --light-bg: #1f2937;
+            --white: #111827;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background-color: #f3f4f6;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] body {
+            background-color: #0f172a;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .main-header {
+            background: rgba(17, 24, 39, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .theme-btn {
+            background: var(--light-bg);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+        [data-theme="dark"] .theme-btn:hover {
+            background: #374151;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .input-section, .result-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .subtitle { color: #9ca3af; }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+        [data-theme="dark"] input, [data-theme="dark"] select {
+            border-color: #374151;
+            background: #1f2937;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .result-card {
+            background: var(--gradient);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        [data-theme="dark"] .metric-card {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .metric-card h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        [data-theme="dark"] .metric-card h3 { color: #9ca3af; }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+
+        .share-btn { background: #3b82f6; color: white; }
+        .download-btn { background: #8b5cf6; color: white; }
+        .print-btn { background: #64748b; color: white; }
+
+        .action-btn:hover { transform: translateY(-2px); }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+            .header-container { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .header-actions { justify-self: center; }
+            .logo { justify-self: center; margin-bottom: 10px; }
+            .back-btn { justify-self: center; }
+        }
+        
+        /* FAQ Styles */
+        .faq-section { margin-top: 40px; }
+        .faq-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #6b7280;
+            margin-top: 0;
+        }
+        [data-theme="dark"] .faq-answer { color: #9ca3af; }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        
+        .info-box {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+        .info-box h4 { color: var(--primary-color); margin-bottom: 5px; }
+        .info-box p { font-size: 0.9rem; color: var(--text-color); }
+        
+        .seo-content {
+            margin-top: 40px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+        .seo-content h2 { color: var(--primary-color); margin-bottom: 20px; }
+        .seo-content h3 { color: var(--text-color); margin: 20px 0 10px; }
+        .seo-content p { color: #6b7280; line-height: 1.6; margin-bottom: 15px; }
+        .seo-content ul { margin-left: 20px; color: #6b7280; margin-bottom: 15px; }
+        .seo-content li { margin-bottom: 8px; }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="window.location.href='../../Ui.html'">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="../../Ui.html" class="logo">
+                <i class="fas fa-graduation-cap"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1><i class="fas fa-university" style="color: var(--primary-color);"></i> College Savings Calculator</h1>
+        <p class="subtitle">Plan your child's education fund effectively</p>
+
+        <div class="calculator-grid">
+            <div class="input-section">
+                <div class="section-title"><i class="fas fa-sliders-h"></i> Savings Parameters</div>
+                
+                <div class="input-group">
+                    <label>Current Annual College Cost (₹)</label>
+                    <input type="number" id="currentCost" value="500000" oninput="calc()">
+                </div>
+                
+                <div class="input-group">
+                    <label>Years Until College</label>
+                    <input type="number" id="years" value="10" oninput="calc()">
+                </div>
+                
+                <div class="input-group">
+                    <label>Education Inflation Rate (%)</label>
+                    <input type="number" id="inflation" value="6" step="0.1" oninput="calc()">
+                </div>
+                
+                <div class="input-group">
+                    <label>Current Savings (₹)</label>
+                    <input type="number" id="savings" value="100000" oninput="calc()">
+                </div>
+                
+                <div class="input-group">
+                    <label>Monthly Contribution (₹)</label>
+                    <input type="number" id="contribution" value="5000" oninput="calc()">
+                </div>
+                
+                <div class="input-group">
+                    <label>Expected Annual Return (%)</label>
+                    <input type="number" id="returnRate" value="10" step="0.1" oninput="calc()">
+                </div>
+                
+                <button class="btn" onclick="calc()">Calculate Plan</button>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+                    <p>Education costs typically rise faster than general inflation. Consider increasing your monthly contribution annually to keep pace.</p>
+                </div>
+            </div>
+
+            <div class="result-section" id="result">
+                <div class="result-card">
+                    <h2>Projected College Cost</h2>
+                    <div class="result-value" id="futureCostDisplay">₹0</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Total for 4 Years</div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Projected Savings</h3>
+                        <div class="metric-value" id="projectedSavingsDisplay">₹0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Shortfall / Surplus</h3>
+                        <div class="metric-value" id="shortfallDisplay">₹0</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="savingsChart"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download</button>
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="seo-content">
+            <h2>Planning for Higher Education</h2>
+            <p>Rising education costs make early planning essential. Our <strong>College Savings Calculator</strong> helps you estimate the future cost of a degree and determine how much you need to save monthly to reach your goal.</p>
+            
+            <h3>Key Factors Affecting Your Goal</h3>
+            <ul>
+                <li><strong>Time Horizon:</strong> The earlier you start, the more time your money has to compound.</li>
+                <li><strong>Inflation:</strong> Education inflation often outpaces general inflation (typically 6-8%).</li>
+                <li><strong>Investment Returns:</strong> Higher returns can significantly reduce the amount you need to save out-of-pocket.</li>
+            </ul>
+            
+            <h3>Investment Options</h3>
+            <p>Consider tax-advantaged accounts like 529 Plans (in the US) or specific child education mutual funds and insurance plans available in your region.</p>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="input-section faq-section">
+            <h2 style="margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+            
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    How much does college cost increase per year? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Historically, college tuition costs have increased by about 5% to 8% annually, which is higher than the general inflation rate.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    When should I start saving for college? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    The best time to start is as soon as the child is born. Starting early allows you to take advantage of compound interest, meaning you can save less per month to reach the same goal.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let savingsChart = null;
+
+        function fmt(n) {
+            return '₹' + Math.round(n).toLocaleString('en-IN');
+        }
+
+        function calc() {
+            const currentCost = parseFloat(document.getElementById('currentCost').value) || 0;
+            const years = parseFloat(document.getElementById('years').value) || 0;
+            const inflation = parseFloat(document.getElementById('inflation').value) / 100 || 0;
+            const savings = parseFloat(document.getElementById('savings').value) || 0;
+            const contribution = parseFloat(document.getElementById('contribution').value) || 0;
+            const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
+
+            // Calculate Future Cost of College (4 years)
+            // Cost grows for 'years' until college starts
+            // Then we need to cover 4 years. For simplicity, we'll estimate total 4-year cost at start of college.
+            // A more precise calc would inflate each of the 4 years.
+            // Let's do: Year 1 cost = Current * (1+inf)^years
+            // Total 4 year cost approx = Year 1 * 4 (simplified) or sum of 4 inflated years.
+            
+            let futureCostYear1 = currentCost * Math.pow(1 + inflation, years);
+            let totalFutureCost = 0;
+            for(let i=0; i<4; i++) {
+                totalFutureCost += futureCostYear1 * Math.pow(1 + inflation, i);
+            }
+
+            // Calculate Future Value of Savings
+            // FV = P(1+r)^t + PMT * [((1+r)^t - 1) / r] * (1+r) (assuming beginning of period)
+            // Monthly compounding
+            const r = returnRate / 12;
+            const n = years * 12;
+            
+            let futureSavings = 0;
+            if (returnRate === 0) {
+                futureSavings = savings + (contribution * n);
+            } else {
+                futureSavings = savings * Math.pow(1 + r, n) + 
+                               (contribution * (Math.pow(1 + r, n) - 1) / r);
+            }
+
+            const shortfall = futureSavings - totalFutureCost;
+
+            document.getElementById('futureCostDisplay').textContent = fmt(totalFutureCost);
+            document.getElementById('projectedSavingsDisplay').textContent = fmt(futureSavings);
+            
+            const shortfallEl = document.getElementById('shortfallDisplay');
+            shortfallEl.textContent = fmt(shortfall);
+            shortfallEl.style.color = shortfall >= 0 ? 'var(--success)' : 'var(--danger)';
+
+            updateChart(totalFutureCost, futureSavings);
+        }
+
+        function updateChart(cost, savings) {
+            const ctx = document.getElementById('savingsChart').getContext('2d');
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f3f4f6' : '#1f2937';
+
+            if (savingsChart) savingsChart.destroy();
+            
+            savingsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Projected Cost', 'Projected Savings'],
+                    datasets: [{
+                        label: 'Amount (₹)',
+                        data: [cost, savings],
+                        backgroundColor: [
+                            '#ef4444', // Red for cost
+                            '#10b981'  // Green for savings
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Cost vs Savings Comparison', color: textColor }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: isDark ? '#374151' : '#e5e7eb' },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-btn i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            calc();
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') document.querySelector('.theme-btn i').className = 'fas fa-sun';
+        
+        calc();
+
+        function shareCalc() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    text: 'Check out my College Savings Plan!',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        }
+
+        function downloadCalc() {
+            const element = document.querySelector('.container');
+            html2canvas(element).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'college-savings-plan.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

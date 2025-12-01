@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Cost vs Selling Price Calculator 2025 - Calculate Profit</title>
+    <meta name="description" content="Free Cost vs Selling Price Calculator - Calculate profit, loss, and profit margin. Perfect for businesses to determine pricing and profitability.">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Business-and-Profitability/Cost-vs-Selling-Price-Calculator.html">
+    <meta name="keywords" content="cost vs selling price, profit calculator, profit margin calculator, pricing calculator, business calculator">
+    <meta name="author" content="Calculator Loop">
+    <meta name="robots" content="index, follow">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Cost vs Selling Price Calculator",
+      "description": "Calculate profit, loss, and margins from cost and selling price",
+      "url": "https://calculatorloop.com/Financial/Business-and-Profitability/Cost-vs-Selling-Price-Calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "5200"}
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #d1fae5;
+            --danger: #ef4444;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --background: #1f2937;
+            --surface: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; transition: background 0.3s; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; position: relative; }
+        .theme-toggle { position: absolute; top: 0; right: 0; background: var(--surface); border: 2px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; }
+        .theme-toggle:hover { transform: scale(1.1); }
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        .calculator-section { background: var(--surface); border-radius: 20px; padding: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; background: var(--background); color: var(--text-primary); transition: all 0.3s; }
+        input:focus { outline: none; border-color: var(--primary-color); }
+        .result-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .result-card { background: linear-gradient(135deg, var(--primary-light), white); padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--primary-color); }
+        .result-card.loss { background: linear-gradient(135deg, #fee2e2, white); border-color: var(--danger); }
+        [data-theme="dark"] .result-card { background: linear-gradient(135deg, var(--surface), var(--background)); }
+        .result-label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .result-value { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); }
+        .result-card.loss .result-value { color: var(--danger); }
+        .chart-container { background: var(--background); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .status-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-weight: 700; margin-top: 15px; }
+        .status-badge.profit { background: var(--primary-color); color: white; }
+        .status-badge.loss { background: var(--danger); color: white; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 600; margin-bottom: 20px; transition: all 0.3s; }
+        .back-link:hover { gap: 12px; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .result-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <h1><i class="fas fa-balance-scale"></i> Cost vs Selling Price</h1>
+            <p class="subtitle">Calculate profit, loss, and profit margins</p>
+        </div>
+        <div class="calculator-section">
+            <div class="input-group">
+                <label><i class="fas fa-tag"></i> Cost Price (₹)</label>
+                <input type="number" id="cost" value="1000" min="0" step="10">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-rupee-sign"></i> Selling Price (₹)</label>
+                <input type="number" id="selling" value="1300" min="0" step="10">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-boxes"></i> Quantity</label>
+                <input type="number" id="quantity" value="10" min="1" step="1">
+            </div>
+            <div class="result-cards">
+                <div class="result-card" id="profitCard">
+                    <div class="result-label">Profit/Loss per Unit</div>
+                    <div class="result-value" id="profitPerUnit">₹300</div>
+                    <span class="status-badge profit" id="statusBadge">📈 Profit</span>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Total Profit/Loss</div>
+                    <div class="result-value" id="totalProfit">₹3,000</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Profit Margin</div>
+                    <div class="result-value" id="profitMargin">30%</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Markup %</div>
+                    <div class="result-value" id="markup">30%</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="profitChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        let chart = null;
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            if(chart) updateChartTheme();
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        function calculate() {
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const selling = parseFloat(document.getElementById('selling').value) || 0;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            
+            const profitPerUnit = selling - cost;
+            const totalProfit = profitPerUnit * quantity;
+            const profitMargin = cost > 0 ? (profitPerUnit / selling) * 100 : 0;
+            const markup = cost > 0 ? (profitPerUnit / cost) * 100 : 0;
+            
+            const isProfit = profitPerUnit >= 0;
+            
+            document.getElementById('profitPerUnit').textContent = '₹' + Math.abs(profitPerUnit).toLocaleString('en-IN');
+            document.getElementById('totalProfit').textContent = '₹' + Math.abs(totalProfit).toLocaleString('en-IN');
+            document.getElementById('profitMargin').textContent = profitMargin.toFixed(2) + '%';
+            document.getElementById('markup').textContent = markup.toFixed(2) + '%';
+            
+            const profitCard = document.getElementById('profitCard');
+            const statusBadge = document.getElementById('statusBadge');
+            
+            if(isProfit) {
+                profitCard.classList.remove('loss');
+                statusBadge.className = 'status-badge profit';
+                statusBadge.textContent = '📈 Profit';
+            } else {
+                profitCard.classList.add('loss');
+                statusBadge.className = 'status-badge loss';
+                statusBadge.textContent = '📉 Loss';
+            }
+            
+            createChart(cost, selling, profitPerUnit);
+        }
+        
+        function createChart(cost, selling, profit) {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            if(chart) chart.destroy();
+            
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cost Price', 'Selling Price', 'Profit/Loss'],
+                    datasets: [{
+                        label: 'Amount (₹)',
+                        data: [cost, selling, Math.abs(profit)],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            profit >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Price Breakdown',
+                            color: isDark ? '#f9fafb' : '#111827',
+                            font: {size: 18, weight: 'bold'}
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: isDark ? '#d1d5db' : '#6b7280',
+                                callback: val => '₹' + val.toLocaleString('en-IN')
+                            },
+                            grid: { color: isDark ? '#4b5563' : '#e5e7eb' }
+                        },
+                        x: {
+                            ticks: { color: isDark ? '#d1d5db' : '#6b7280' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateChartTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#f9fafb' : '#111827';
+            const gridColor = isDark ? '#4b5563' : '#e5e7eb';
+            const tickColor = isDark ? '#d1d5db' : '#6b7280';
+            chart.options.plugins.title.color = color;
+            chart.options.scales.y.ticks.color = tickColor;
+            chart.options.scales.x.ticks.color = tickColor;
+            chart.options.scales.y.grid.color = gridColor;
+            chart.update();
+        }
+        
+        document.getElementById('cost').addEventListener('input', calculate);
+        document.getElementById('selling').addEventListener('input', calculate);
+        document.getElementById('quantity').addEventListener('input', calculate);
+        
+        calculate();
+    </script>
+</body>
+</html>

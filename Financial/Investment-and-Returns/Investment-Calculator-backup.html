@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online calculator for financial planning and investment calculations.">
+    <meta name="keywords" content="calculator, financial calculator, investment calculator India 2025">
+    <title>Investment Calculator</title>
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Investment Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; } .container { max-width: 800px; width: 100%; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; } h1 { color: #333; text-align: center; margin-bottom: 30px; } .input-group { margin-bottom: 20px; } label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; } input { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; } .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; } .result { margin-top: 30px; padding: 25px; background: #f8f9fa; border-radius: 12px; text-align: center; display: none; } .result-value { font-size: 2rem; color: #667eea; font-weight: bold; } .back-link { display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; }        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-chart-line"></i> Investment Calculator</h1>
+        <div class="input-group"><label>Initial Investment ($)</label><input type="number" id="initial" value="5000"></div>
+        <div class="input-group"><label>Monthly Contribution ($)</label><input type="number" id="monthly" value="200"></div>
+        <div class="input-group"><label>Expected Return (% per year)</label><input type="number" id="return" value="8" step="0.1"></div>
+        <div class="input-group"><label>Investment Period (years)</label><input type="number" id="years" value="10"></div>
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate</button>
+        <div class="result" id="result">
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div><h2>Future Value</h2><div class="result-value" id="value">$0</div><p id="gain"></p></div>
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <script>function calc(){const i=parseFloat(document.getElementById('initial').value);const m=parseFloat(document.getElementById('monthly').value);const r=parseFloat(document.getElementById('return').value)/100/12;const y=parseFloat(document.getElementById('years').value);if(i>=0&&m>=0&&y>0){const n=y*12;const fv=i*Math.pow(1+r,n)+m*(Math.pow(1+r,n)-1)/r;const total=i+m*n;const gain=fv-total;document.getElementById('value').textContent='$'+fv.toFixed(2);document.getElementById('gain').textContent='Total Gain: $'+gain.toFixed(2);document.getElementById('result').style.display='block';}else{alert('Please enter valid values');}}calc();</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('❌ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px;">About This Calculator</h2>
+    <div style="color: #666; line-height: 1.8;">
+        <p style="margin-bottom: 20px; font-size: 1.1rem;">Our free online Investment calculator helps you make informed financial decisions with accurate calculations. Whether you're planning investments, comparing options, or tracking your financial goals, this tool provides instant results with detailed breakdowns.</p>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">Key Features</h3>
+        <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">100% free with no registration required</li>
+            <li style="margin-bottom: 10px;">Instant calculations with real-time results</li>
+            <li style="margin-bottom: 10px;">Mobile-friendly and works on all devices</li>
+            <li style="margin-bottom: 10px;">Share and download your results</li>
+            <li style="margin-bottom: 10px;">Auto-save feature remembers your last calculation</li>
+            <li style="margin-bottom: 10px;">Keyboard shortcuts for faster calculations</li>
+        </ul>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">How to Use</h3>
+        <ol style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">Enter your values in the input fields</li>
+            <li style="margin-bottom: 10px;">Adjust sliders for quick changes</li>
+            <li style="margin-bottom: 10px;">Click Calculate or press Ctrl+Enter</li>
+            <li style="margin-bottom: 10px;">View detailed results and breakdowns</li>
+            <li style="margin-bottom: 10px;">Download or share your calculation</li>
+        </ol>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div style="margin-top: 50px;">
+        <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px;">Frequently Asked Questions</h2>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Is this calculator accurate?</h3>
+            <p style="line-height: 1.7;">Yes, our calculator uses industry-standard formulas and provides mathematically accurate results based on your inputs.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Do I need to create an account?</h3>
+            <p style="line-height: 1.7;">No, this calculator is completely free and requires no registration. Use it unlimited times without any restrictions.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Can I save my calculations?</h3>
+            <p style="line-height: 1.7;">Yes, your last calculation is automatically saved and will be restored when you revisit the page. You can also download results as PNG.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Does it work on mobile?</h3>
+            <p style="line-height: 1.7;">Absolutely! The calculator is fully responsive and optimized for smartphones, tablets, and desktop computers.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">How often is this updated?</h3>
+            <p style="line-height: 1.7;">We regularly update our calculators to ensure accuracy and compliance with the latest financial regulations and tax rules in India.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

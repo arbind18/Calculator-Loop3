@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Wheeler Loan Calculator - Bike & Scooter EMI</title>
+    <meta name="description" content="Calculate two wheeler loan EMI for bike, scooter, electric vehicle. Check on-road price, down payment, insurance premium.">
+    <meta name="keywords" content="two wheeler loan, bike loan calculator, scooter loan EMI, motorcycle financing, EV loan">
+    <meta name="author" content="CalculatorLoop">
+    <meta name="theme-color" content="#667eea">
+    <link rel="canonical" href="https://calculatorloop.com/Financial/Loan-and-EMI/Two-Wheeler-Loan-Calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Two Wheeler Loan Calculator - Bike & Scooter EMI">
+    <meta property="og:description" content="Calculate bike, scooter, EV loan EMI with on-road price.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus, select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .emi-card { background: var(--accent-gradient); padding: 30px; border-radius: 12px; text-align: center; color: white; margin-bottom: 25px; }
+        .emi-card h2 { font-size: 1.2rem; margin-bottom: 10px; opacity: 0.95; }
+        .emi-value { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .metric-card { background: var(--bg-primary); padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .back-link { 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .back-link i {
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+        .faq-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        .faq-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .faq-question {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .emi-value { font-size: 2.5rem; } .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../Ui.html#financial" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Calculators
+        </a>
+        
+        <div class="header">
+            <h1><i class="fas fa-motorcycle"></i> Two Wheeler Loan</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Calculate bike & scooter loan EMI with on-road price</p>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-tag"></i> Ex-Showroom Price (₹)</label><input type="number" id="exShowroom" value="100000" min="0" step="5000"></div>
+            <div class="input-group"><label><i class="fas fa-motorcycle"></i> Vehicle Type</label><select id="vehicleType"><option value="bike">Motorcycle/Bike</option><option value="scooter">Scooter</option><option value="ev">Electric Vehicle</option></select></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-receipt"></i> RTO & Road Tax (%)</label><input type="number" id="rto" value="10" min="0" max="20" step="1"></div>
+            <div class="input-group"><label><i class="fas fa-shield-alt"></i> Insurance (₹/year)</label><input type="number" id="insurance" value="5000" min="0" step="500"></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-tools"></i> Other Charges (₹)</label><input type="number" id="otherCharges" value="5000" min="0" step="1000"></div>
+            <div class="input-group"><label><i class="fas fa-hand-holding-usd"></i> Down Payment (%)</label><input type="number" id="downPayment" value="20" min="0" max="50" step="5"></div>
+        </div>
+
+        <div class="row">
+            <div class="input-group"><label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label><input type="number" id="rate" value="11" min="0" max="25" step="0.25"></div>
+            <div class="input-group"><label><i class="fas fa-calendar"></i> Loan Tenure (Years)</label><input type="number" id="tenure" value="3" min="1" max="5" step="1"></div>
+        </div>
+
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Two Wheeler Loan</button>
+
+        <div class="result" id="result">
+            <div class="emi-card">
+                <h2><i class="fas fa-money-check-alt"></i> Monthly EMI</h2>
+                <div class="emi-value" id="emiValue">₹0</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><h3><i class="fas fa-tag"></i> Ex-Showroom</h3><div class="metric-value" id="exShowroomDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-road"></i> On-Road Price</h3><div class="metric-value" id="onRoad">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-hand-holding-usd"></i> Down Payment</h3><div class="metric-value" id="downDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-coins"></i> Loan Amount</h3><div class="metric-value" id="loanDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-chart-line"></i> Total Interest</h3><div class="metric-value" id="interestDisp">₹0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-wallet"></i> Total Payment</h3><div class="metric-value" id="totalDisp">₹0</div></div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> What is included in the on-road price of a two-wheeler?</div>
+                <div class="faq-answer">The on-road price includes the ex-showroom price (manufacturer's base price), RTO registration charges (5-12% varying by state), road tax (lifetime or annual based on state policy), insurance premium (third-party and comprehensive), extended warranty costs if opted, accessories and add-ons like helmets or phone mounts, and dealer handling charges. For example, a bike with ₹1 lakh ex-showroom price might have on-road price of ₹1.15-1.20 lakhs depending on your state and insurance choices.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> How much down payment is required for two-wheeler loans?</div>
+                <div class="faq-answer">Most lenders require 10-25% down payment for two-wheeler loans. For a bike priced at ₹1 lakh on-road, you'll pay ₹10,000-25,000 upfront and finance the remaining ₹75,000-90,000. Lower down payment increases your EMI and total interest burden. Some lenders offer zero down payment schemes during festive seasons, especially for customers with excellent credit scores (750+) and stable income. Electric vehicles often get better financing terms with down payments as low as 5-10% due to government subsidies and lender promotions.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> What is the typical two-wheeler loan tenure?</div>
+                <div class="faq-answer">Two-wheeler loans typically have tenure ranging from 12 months to 48 months (1-4 years), with most borrowers opting for 24-36 months. Shorter tenure means higher EMIs but lower total interest. For example, on a ₹80,000 loan at 11% interest, 2-year EMI is ₹3,700 (total interest ₹8,800) versus 3-year EMI of ₹2,620 (total interest ₹14,320). Choose tenure based on your monthly income and existing financial obligations, keeping EMI within 20% of take-home salary.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> Are there special schemes for electric two-wheeler loans?</div>
+                <div class="faq-answer">Yes, electric two-wheelers benefit from multiple advantages including FAME II subsidy (₹10,000-15,000 direct price reduction), state-specific subsidies (varying by state), lower interest rates (8-10% vs 10-15% for petrol bikes), 100% financing options from some banks, waived processing fees, and zero-emission vehicle benefits. Total savings can reach ₹20,000-40,000 making EVs more affordable. Many manufacturers partner with NBFCs to offer instant loan approval at dealerships with minimal documentation for EV purchases.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> What documents are needed for two-wheeler loan approval?</div>
+                <div class="faq-answer">Required documents include identity proof (Aadhaar, PAN card, passport), address proof (utility bills, rent agreement), income proof (salary slips for last 3 months, bank statements for 6 months, ITR for self-employed), age proof (minimum 21 years, maximum 60-65 years), passport size photographs, proforma invoice from dealer showing vehicle details and price, and existing loan statements if any. Salaried employees get faster approval (24-48 hours) while self-employed may need additional business documents and take 3-5 days.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> Can I prepay my two-wheeler loan without penalties?</div>
+                <div class="faq-answer">Most two-wheeler loans allow prepayment or foreclosure after 6-12 months without penalties, especially for floating rate loans. Fixed rate loans might have 2-4% foreclosure charges if closed within first year. Check your loan agreement for specific terms. Even partial prepayments of ₹5,000-10,000 made annually can reduce your tenure by 3-6 months and save thousands in interest. Some lenders offer zero prepayment charges throughout the loan tenure, particularly NBFCs competing for market share during festive seasons.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-chevron-right" style="color: #667eea;"></i> How does credit score affect two-wheeler loan approval?</div>
+                <div class="faq-answer">Credit score significantly impacts loan approval, interest rates, and down payment requirements. Score above 750 gets best rates (9-11%), fastest approval, and minimal down payment. Score 650-750 faces higher rates (11-14%) and 15-20% down payment. Score below 650 may face rejection or require 25-30% down payment with co-applicant. First-time borrowers with no credit history can still get loans based on income stability and employer reputation, though at slightly higher rates. Building good credit by paying EMIs on time improves future borrowing capacity.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schema Markup for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is included in the on-road price of a two-wheeler?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The on-road price includes ex-showroom price, RTO registration charges, road tax, insurance premium, extended warranty, accessories, and dealer handling charges."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much down payment is required for two-wheeler loans?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most lenders require 10-25% down payment for two-wheeler loans. Some offer zero down payment during festive seasons for excellent credit scores."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script>
+        function calc() {
+            const exShowroom = parseFloat(document.getElementById('exShowroom').value);
+            const rtoPercent = parseFloat(document.getElementById('rto').value) / 100;
+            const insurance = parseFloat(document.getElementById('insurance').value);
+            const otherCharges = parseFloat(document.getElementById('otherCharges').value);
+            const downPaymentPercent = parseFloat(document.getElementById('downPayment').value) / 100;
+            const rate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+            const n = parseFloat(document.getElementById('tenure').value) * 12;
+            
+            const rtoCharges = exShowroom * rtoPercent;
+            const onRoadPrice = exShowroom + rtoCharges + insurance + otherCharges;
+            const downPayment = onRoadPrice * downPaymentPercent;
+            const loanAmount = onRoadPrice - downPayment;
+            
+            const emi = (loanAmount * rate * Math.pow(1 + rate, n)) / (Math.pow(1 + rate, n) - 1);
+            const totalPayment = emi * n;
+            const totalInterest = totalPayment - loanAmount;
+            
+            document.getElementById('emiValue').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+            document.getElementById('exShowroomDisp').textContent = '₹' + exShowroom.toLocaleString('en-IN');
+            document.getElementById('onRoad').textContent = '₹' + Math.round(onRoadPrice).toLocaleString('en-IN');
+            document.getElementById('downDisp').textContent = '₹' + Math.round(downPayment).toLocaleString('en-IN');
+            document.getElementById('loanDisp').textContent = '₹' + Math.round(loanAmount).toLocaleString('en-IN');
+            document.getElementById('interestDisp').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+            document.getElementById('totalDisp').textContent = '₹' + Math.round(totalPayment).toLocaleString('en-IN');
+            
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+
+        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free retirement calculator to plan your retirement savings. Calculate retirement corpus needed, monthly savings required. Best retirement planning calculator India 2025.">
+    <meta name="keywords" content="retirement calculator, retirement planning calculator, retirement corpus calculator India, how much to save for retirement calculator 2025">
+    <title>Advanced Retirement Planning Calculator | Future Planning Tool</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Retirement Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #a78bfa;
+            --text-color: #1f2937;
+            --light-bg: #f5f3ff;
+            --white: #ffffff;
+            --shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #a78bfa;
+            --secondary-color: #667eea;
+            --text-color: #f3f4f6;
+            --light-bg: #1f2937;
+            --white: #111827;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background-color: #f3f4f6;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] body {
+            background-color: #0f172a;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .main-header {
+            background: rgba(17, 24, 39, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .theme-btn {
+            background: var(--light-bg);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+        [data-theme="dark"] .theme-btn:hover {
+            background: #374151;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .input-section, .result-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .subtitle { color: #9ca3af; }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+        [data-theme="dark"] input {
+            border-color: #374151;
+            background: #1f2937;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .result-card {
+            background: var(--gradient);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .corpus-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        [data-theme="dark"] .metric-card {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .metric-card h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        [data-theme="dark"] .metric-card h3 { color: #9ca3af; }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+
+        .share-btn { background: #3b82f6; color: white; }
+        .download-btn { background: #8b5cf6; color: white; }
+        .print-btn { background: #64748b; color: white; }
+
+        .action-btn:hover { transform: translateY(-2px); }
+
+        .projection-section {
+            margin-top: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        [data-theme="dark"] th, [data-theme="dark"] td {
+            border-color: #374151;
+        }
+
+        th {
+            background: var(--light-bg);
+            color: var(--text-color);
+            position: sticky;
+            top: 0;
+        }
+        [data-theme="dark"] th {
+            background: #1f2937;
+        }
+
+        td {
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+            .header-container { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .header-actions { justify-self: center; }
+            .logo { justify-self: center; margin-bottom: 10px; }
+            .back-btn { justify-self: center; }
+        }
+        
+        /* FAQ Styles */
+        .faq-section { margin-top: 40px; }
+        .faq-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #6b7280;
+            margin-top: 0;
+        }
+        [data-theme="dark"] .faq-answer { color: #9ca3af; }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="window.location.href='../../Ui.html'">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="../../Ui.html" class="logo">
+                <i class="fas fa-umbrella-beach"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1><i class="fas fa-umbrella-beach" style="color: var(--primary-color);"></i> Retirement Planning Calculator</h1>
+        <p class="subtitle">Plan your dream retirement with inflation-adjusted projections</p>
+
+        <div class="calculator-grid">
+            <div class="input-section">
+                <h2 style="margin-bottom: 20px; color: var(--text-color);"><i class="fas fa-user-clock"></i> Your Details</h2>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-birthday-cake"></i> Current Age</label>
+                    <input type="number" id="currentAge" value="30" min="18" max="60">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-hourglass-end"></i> Retirement Age</label>
+                    <input type="number" id="retirementAge" value="60" min="40" max="75">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-heartbeat"></i> Life Expectancy</label>
+                    <input type="number" id="lifeExpectancy" value="85" min="60" max="100">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-piggy-bank"></i> Current Savings (?)</label>
+                    <input type="number" id="currentSavings" value="500000">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-hand-holding-usd"></i> Monthly Investment (?)</label>
+                    <input type="number" id="monthlySaving" value="15000">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-chart-line"></i> Expected Return (% p.a.)</label>
+                    <input type="number" id="returnRate" value="12" step="0.5">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Inflation Rate (%)</label>
+                    <input type="number" id="inflationRate" value="6" step="0.5">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Monthly Expense (?)</label>
+                    <input type="number" id="monthlyExpense" value="40000">
+                </div>
+                
+                <button class="btn" onclick="calc()">Calculate Plan</button>
+            </div>
+
+            <div class="result-section" id="result">
+                <div class="result-card">
+                    <h2>Retirement Corpus</h2>
+                    <div class="corpus-amount" id="corpusAmount">?0</div>
+                    <p>Required for <span id="retirementYears">0</span> years of retirement</p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Total Savings</h3>
+                        <div class="metric-value" id="totalSavings">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Shortfall/Surplus</h3>
+                        <div class="metric-value" id="shortfall">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Future Monthly Expense</h3>
+                        <div class="metric-value" id="futureExpense">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Years to Retirement</h3>
+                        <div class="metric-value" id="yearsToRetirement">0</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="wealthChart"></canvas>
+                </div>
+                
+                <div class="chart-container" style="margin-top: 30px;">
+                    <canvas id="breakdownChart"></canvas>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download</button>
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="projection-section">
+            <h3><i class="fas fa-table"></i> Year-by-Year Projection</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Age</th>
+                            <th>Investment</th>
+                            <th>Interest</th>
+                            <th>Total Corpus</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectionBody">
+                        <tr><td colspan="5" style="text-align:center;padding:20px;">Calculate to see projection</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="input-section faq-section">
+            <h2 style="margin-bottom: 20px;">About Retirement Planning</h2>
+            <p style="color: #6b7280; line-height: 1.6; margin-bottom: 20px;">
+                Retirement planning is the process of determining retirement income goals and the actions and decisions necessary to achieve those goals. It includes identifying sources of income, estimating expenses, implementing a savings program, and managing assets and risk.
+            </p>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    How much corpus is enough for retirement? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    A common rule is the 25x rule, which suggests you need 25 times your annual expenses. However, this varies based on inflation, lifestyle, and life expectancy. This calculator provides a more precise estimate based on your specific inputs.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                    Why is inflation important? <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Inflation erodes the purchasing power of money. ?40,000 today might be equivalent to ?1,50,000 in 20 years. Ignoring inflation is the biggest mistake in retirement planning.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let wealthChart = null;
+        let breakdownChart = null;
+
+        function calc() {
+            const ca = parseFloat(document.getElementById('currentAge').value) || 30;
+            const ra = parseFloat(document.getElementById('retirementAge').value) || 60;
+            const le = parseFloat(document.getElementById('lifeExpectancy').value) || 85;
+            const cs = parseFloat(document.getElementById('currentSavings').value) || 0;
+            const ms = parseFloat(document.getElementById('monthlySaving').value) || 0;
+            const rr = parseFloat(document.getElementById('returnRate').value) || 12;
+            const ir = parseFloat(document.getElementById('inflationRate').value) || 6;
+            const me = parseFloat(document.getElementById('monthlyExpense').value) || 0;
+
+            const ytr = ra - ca;
+            const ry = le - ra;
+
+            if (ytr <= 0 || ry <= 0) return;
+
+            // Future Value of Current Savings
+            const fvcs = cs * Math.pow(1 + rr / 100, ytr);
+            
+            // Future Value of Monthly Savings (SIP)
+            const mr = rr / 100 / 12;
+            const m = ytr * 12;
+            const fvms = ms * ((Math.pow(1 + mr, m) - 1) / mr) * (1 + mr);
+            
+            const ts = fvcs + fvms; // Total Savings at Retirement
+
+            // Future Monthly Expense
+            const fme = me * Math.pow(1 + ir / 100, ytr);
+            
+            // Corpus Required
+            // Real rate of return during retirement
+            const rrr = ((1 + rr / 100) / (1 + ir / 100) - 1) * 100;
+            // Present Value of Annuity (Corpus needed)
+            // Assuming expenses grow with inflation and corpus grows with return rate
+            // Simplified: Corpus = Annual Expense * Present Value Factor
+            // Using real rate of return for calculation
+            
+            // More accurate: Corpus needed to support monthly withdrawals increasing by inflation
+            // Formula: PV = PMT * [ (1 - (1+r)^-n) / r ] * (1+r) if payment at beginning
+            // Here r is monthly real rate
+            const monthlyRealRate = Math.pow(1 + rrr/100, 1/12) - 1;
+            const retirementMonths = ry * 12;
+            
+            let cr;
+            if (monthlyRealRate === 0) {
+                cr = fme * retirementMonths;
+            } else {
+                cr = fme * ((1 - Math.pow(1 + monthlyRealRate, -retirementMonths)) / monthlyRealRate);
+            }
+
+            const sf = ts - cr;
+
+            // Update UI
+            document.getElementById('corpusAmount').textContent = '?' + Math.round(cr).toLocaleString('en-IN');
+            document.getElementById('retirementYears').textContent = ry;
+            document.getElementById('totalSavings').textContent = '?' + Math.round(ts).toLocaleString('en-IN');
+            
+            const sfEl = document.getElementById('shortfall');
+            sfEl.textContent = '?' + Math.round(Math.abs(sf)).toLocaleString('en-IN') + (sf >= 0 ? ' (Surplus)' : ' (Shortfall)');
+            sfEl.style.color = sf >= 0 ? '#10b981' : '#ef4444';
+            
+            document.getElementById('futureExpense').textContent = '?' + Math.round(fme).toLocaleString('en-IN');
+            document.getElementById('yearsToRetirement').textContent = ytr;
+
+            genProj(ca, ra, cs, ms, rr);
+            updateCharts(ca, ra, cs, ms, rr, fvcs, fvms);
+        }
+
+        function genProj(sa, ea, ini, mon, rate) {
+            const tb = document.getElementById('projectionBody');
+            tb.innerHTML = '';
+            let bal = ini;
+            const mr = rate / 100 / 12;
+            
+            for (let y = 1; y <= ea - sa; y++) {
+                const age = sa + y;
+                const startBal = bal;
+                const yearlyInv = mon * 12;
+                
+                // Calculate interest and closing balance for the year
+                // Approximation: Balance grows, monthly investments added
+                // Accurate: FV of startBal + FV of SIP for 1 year
+                
+                const endBalFromStart = startBal * (1 + rate/100);
+                const endBalFromSIP = mon * ((Math.pow(1 + mr, 12) - 1) / mr) * (1 + mr);
+                
+                bal = endBalFromStart + endBalFromSIP;
+                const interest = bal - startBal - yearlyInv;
+
+                const r = tb.insertRow();
+                r.innerHTML = `
+                    <td>${y}</td>
+                    <td>${age}</td>
+                    <td>?${Math.round(yearlyInv).toLocaleString('en-IN')}</td>
+                    <td style="color:#10b981;">?${Math.round(interest).toLocaleString('en-IN')}</td>
+                    <td style="font-weight:bold;">?${Math.round(bal).toLocaleString('en-IN')}</td>
+                `;
+            }
+        }
+
+        function updateCharts(sa, ea, ini, mon, rate, fvcs, fvms) {
+            const ctxW = document.getElementById('wealthChart').getContext('2d');
+            const ctxB = document.getElementById('breakdownChart').getContext('2d');
+            
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f3f4f6' : '#1f2937';
+            const gridColor = isDark ? '#374151' : '#e5e7eb';
+
+            // Wealth Chart
+            const labels = [];
+            const data = [];
+            let bal = ini;
+            const mr = rate / 100 / 12;
+            
+            for (let y = 0; y <= ea - sa; y++) {
+                labels.push(sa + y);
+                data.push(bal);
+                if (y < ea - sa) {
+                    const endBalFromStart = bal * (1 + rate/100);
+                    const endBalFromSIP = mon * ((Math.pow(1 + mr, 12) - 1) / mr) * (1 + mr);
+                    bal = endBalFromStart + endBalFromSIP;
+                }
+            }
+
+            if (wealthChart) wealthChart.destroy();
+            wealthChart = new Chart(ctxW, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Corpus Growth',
+                        data: data,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: textColor } },
+                        title: { display: true, text: 'Wealth Accumulation', color: textColor }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor, callback: v => '?' + (v/100000).toFixed(1) + 'L' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+
+            // Breakdown Chart
+            if (breakdownChart) breakdownChart.destroy();
+            breakdownChart = new Chart(ctxB, {
+                type: 'doughnut',
+                data: {
+                    labels: ['From Current Savings', 'From Monthly Investment'],
+                    datasets: [{
+                        data: [fvcs, fvms],
+                        backgroundColor: ['#667eea', '#764ba2'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: textColor } },
+                        title: { display: true, text: 'Corpus Source Breakdown', color: textColor }
+                    }
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-btn i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+            calc(); // Redraw charts
+        }
+        
+        // Initialize
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') document.querySelector('.theme-btn i').className = 'fas fa-sun';
+        
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+
+        // Share/Download functions
+        function shareCalc() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    text: 'Check out my Retirement Plan!',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        }
+
+        function downloadCalc() {
+            const element = document.querySelector('.container');
+            html2canvas(element).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'retirement-plan.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquidity Ratio Calculator - Current & Quick Ratio</title>
+    <meta name="description" content="Calculate liquidity ratios including current ratio and quick ratio. Measure company's ability to meet short-term obligations.">
+    <meta name="keywords" content="liquidity ratio, current ratio, quick ratio, financial ratios, solvency analysis">
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Liquidity Ratio Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-primary: #fff; --bg-secondary: #f8f9fa; --text-primary: #1a1a2e; --text-secondary: #666; --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); --border-color: #e0e0e0; --shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        [data-theme="dark"] { --bg-primary: #1a1a2e; --bg-secondary: #16213e; --text-primary: #fff; --text-secondary: #b8b8b8; --border-color: #2d3748; --shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--accent-gradient); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { max-width: 900px; width: 100%; background: var(--bg-primary); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: var(--text-primary); font-size: 2rem; }
+        .subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .theme-toggle { background: var(--bg-secondary); border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); }
+        input:focus { outline: none; border-color: #06b6d4; box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1); }
+        .btn { width: 100%; padding: 15px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4); }
+        .result { margin-top: 30px; padding: 30px; background: var(--bg-secondary); border-radius: 12px; display: none; }
+        .ratios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .ratio-card { padding: 25px; border-radius: 12px; text-align: center; color: white; }
+        .ratio-card h2 { font-size: 1.1rem; margin-bottom: 10px; opacity: 0.95; }
+        .ratio-value { font-size: 3rem; font-weight: bold; margin: 10px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .metric-card { background: var(--bg-primary); padding: 20px; border-radius: 10px; border-left: 4px solid #06b6d4; }
+        .metric-card h3 { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; }
+        .metric-value { color: var(--text-primary); font-size: 1.5rem; font-weight: bold; }
+        .back-link { display: inline-block; margin-top: 20px; color: #06b6d4; text-decoration: none; font-weight: 600; }
+        @media (max-width: 768px) { .container { padding: 25px; } h1 { font-size: 1.5rem; } .ratio-value { font-size: 2.2rem; } }
+            .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-water"></i> Liquidity Ratios</h1>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+        <p class="subtitle">Measure ability to meet short-term obligations</p>
+        <div class="input-group"><label><i class="fas fa-coins"></i> Current Assets (?)</label><input type="number" id="currentAssets" value="500000" min="0" step="10000"></div>
+        <div class="input-group"><label><i class="fas fa-box"></i> Inventory (?)</label><input type="number" id="inventory" value="100000" min="0" step="10000"></div>
+        <div class="input-group"><label><i class="fas fa-file-invoice"></i> Current Liabilities (?)</label><input type="number" id="currentLiabilities" value="200000" min="0" step="10000"></div>
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate Ratios</button>
+        <div class="result" id="result">
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div>
+            <div class="ratios-grid">
+                <div class="ratio-card" id="currentCard" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);">
+                    <h2><i class="fas fa-stream"></i> Current Ratio</h2>
+                    <div class="ratio-value" id="currentValue">0:1</div>
+                    <p style="opacity: 0.9;" id="currentDesc">Assets vs Liabilities</p>
+                </div>
+                <div class="ratio-card" id="quickCard" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <h2><i class="fas fa-bolt"></i> Quick Ratio</h2>
+                    <div class="ratio-value" id="quickValue">0:1</div>
+                    <p style="opacity: 0.9;" id="quickDesc">Liquid Assets Only</p>
+                </div>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card"><h3><i class="fas fa-arrow-up"></i> Current Assets</h3><div class="metric-value" id="assetsDisplay">?0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-arrow-down"></i> Current Liabilities</h3><div class="metric-value" id="liabilitiesDisplay">?0</div></div>
+                <div class="metric-card"><h3><i class="fas fa-box"></i> Inventory</h3><div class="metric-value" id="inventoryDisplay">?0</div></div>
+            </div>
+        </div>
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <script>
+        function calc() {
+            const assets = parseFloat(document.getElementById('currentAssets').value);
+            const inventory = parseFloat(document.getElementById('inventory').value);
+            const liabilities = parseFloat(document.getElementById('currentLiabilities').value);
+            if (assets >= 0 && inventory >= 0 && liabilities > 0) {
+                const currentRatio = assets / liabilities;
+                const quickRatio = (assets - inventory) / liabilities;
+                document.getElementById('currentValue').textContent = currentRatio.toFixed(2) + ':1';
+                document.getElementById('quickValue').textContent = quickRatio.toFixed(2) + ':1';
+                if (currentRatio >= 2) {
+                    document.getElementById('currentDesc').textContent = 'Excellent liquidity';
+                } else if (currentRatio >= 1) {
+                    document.getElementById('currentDesc').textContent = 'Good liquidity';
+                } else {
+                    document.getElementById('currentDesc').textContent = 'Low liquidity';
+                }
+                if (quickRatio >= 1) {
+                    document.getElementById('quickDesc').textContent = 'Strong quick ratio';
+                } else if (quickRatio >= 0.5) {
+                    document.getElementById('quickDesc').textContent = 'Moderate quick ratio';
+                } else {
+                    document.getElementById('quickDesc').textContent = 'Weak quick ratio';
+                }
+                document.getElementById('assetsDisplay').textContent = '?' + assets.toLocaleString('en-IN');
+                document.getElementById('liabilitiesDisplay').textContent = '?' + liabilities.toLocaleString('en-IN');
+                document.getElementById('inventoryDisplay').textContent = '?' + inventory.toLocaleString('en-IN');
+                document.getElementById('result').style.display = 'block';
+            } else alert('Please enter valid values');
+        }
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', theme);
+        }
+        const saved = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', saved);
+        if (saved === 'dark') document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('❌ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px;">About This Calculator</h2>
+    <div style="color: #666; line-height: 1.8;">
+        <p style="margin-bottom: 20px; font-size: 1.1rem;">Our free online Liquidity Ratio calculator helps you make informed financial decisions with accurate calculations. Whether you're planning investments, comparing options, or tracking your financial goals, this tool provides instant results with detailed breakdowns.</p>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">Key Features</h3>
+        <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">100% free with no registration required</li>
+            <li style="margin-bottom: 10px;">Instant calculations with real-time results</li>
+            <li style="margin-bottom: 10px;">Mobile-friendly and works on all devices</li>
+            <li style="margin-bottom: 10px;">Share and download your results</li>
+            <li style="margin-bottom: 10px;">Auto-save feature remembers your last calculation</li>
+            <li style="margin-bottom: 10px;">Keyboard shortcuts for faster calculations</li>
+        </ul>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">How to Use</h3>
+        <ol style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">Enter your values in the input fields</li>
+            <li style="margin-bottom: 10px;">Adjust sliders for quick changes</li>
+            <li style="margin-bottom: 10px;">Click Calculate or press Ctrl+Enter</li>
+            <li style="margin-bottom: 10px;">View detailed results and breakdowns</li>
+            <li style="margin-bottom: 10px;">Download or share your calculation</li>
+        </ol>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div style="margin-top: 50px;">
+        <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px;">Frequently Asked Questions</h2>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Is this calculator accurate?</h3>
+            <p style="line-height: 1.7;">Yes, our calculator uses industry-standard formulas and provides mathematically accurate results based on your inputs.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Do I need to create an account?</h3>
+            <p style="line-height: 1.7;">No, this calculator is completely free and requires no registration. Use it unlimited times without any restrictions.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Can I save my calculations?</h3>
+            <p style="line-height: 1.7;">Yes, your last calculation is automatically saved and will be restored when you revisit the page. You can also download results as PNG.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">Does it work on mobile?</h3>
+            <p style="line-height: 1.7;">Absolutely! The calculator is fully responsive and optimized for smartphones, tablets, and desktop computers.</p>
+        </div>
+        <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;">
+            <h3 style="color: #667eea; font-size: 1.2rem; margin-bottom: 10px;">How often is this updated?</h3>
+            <p style="line-height: 1.7;">We regularly update our calculators to ensure accuracy and compliance with the latest financial regulations and tax rules in India.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free ROI calculator to calculate return on investment percentage. Calculate investment profit, loss, and ROI. Best ROI calculator India 2025.">
+    <meta name="keywords" content="ROI calculator, return on investment calculator, investment return calculator, ROI formula calculator 2025">
+    <title>ROI Calculator - Return on Investment</title>
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ROI Calculator",
+        "applicationCategory": "FinanceApplication",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2547"}
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding-bottom: 20px; }
+        
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        .theme-btn {
+            background: #f0f2f5;
+            color: #1a1a2e;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark-mode .main-header {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .logo { color: #fff; }
+        body.dark-mode .container, 
+        body.dark-mode .input-section,
+        body.dark-mode .result-section,
+        body.dark-mode .comparison-card,
+        body.dark-mode .breakdown-table,
+        body.dark-mode .chart-container,
+        body.dark-mode .info-box,
+        body.dark-mode .seo-content,
+        body.dark-mode .faq-item {
+            background: #1e293b !important;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f8fafc !important;
+        }
+        body.dark-mode .subtitle, body.dark-mode label, body.dark-mode p, body.dark-mode .detail-card h3, body.dark-mode .seo-content div {
+            color: #94a3b8 !important;
+        }
+        body.dark-mode input, body.dark-mode select {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode .theme-btn {
+            background: #334155;
+            color: #fbbf24;
+        }
+        body.dark-mode .detail-value { color: #fff; }
+        body.dark-mode .back-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        body.dark-mode .back-btn:hover {
+            background: #667eea;
+            color: #fff;
+        }
+        body.dark-mode .range-value {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode th {
+            background: #4f46e5;
+        }
+        body.dark-mode td {
+            border-bottom-color: #334155;
+        }
+        body.dark-mode tr:hover {
+            background: #334155;
+        }
+        body.dark-mode .info-box {
+            background: rgba(102, 126, 234, 0.1) !important;
+            border-left-color: #667eea !important;
+        }
+        body.dark-mode .seo-content div[style*="background: #f8f9fa"] {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+
+        .container { max-width: 1200px; width: 100%; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; margin: 0 auto; }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 10px; font-size: 2.2rem; font-weight: 700; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1rem; }
+        
+        .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+        .input-section { background: #f8f9fa; padding: 25px; border-radius: 15px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; transition: all 0.3s; }
+        input:focus, select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        
+        .range-container { display: flex; align-items: center; gap: 15px; }
+        input[type="range"] { flex: 1; }
+        .range-value { min-width: 80px; padding: 8px 12px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; text-align: center; font-weight: 600; color: #667eea; }
+        
+        .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: 600; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        
+        .result-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 15px; color: white; }
+        .result-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .result-card { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); padding: 20px; border-radius: 12px; text-align: center; }
+        .result-card h3 { font-size: 0.85rem; font-weight: 500; margin-bottom: 10px; opacity: 0.9; }
+        .result-card .value { font-size: 1.8rem; font-weight: 700; color: white; }
+        
+        .chart-container { background: white; padding: 20px; border-radius: 12px; margin-top: 20px; height: 300px; position: relative; }
+        
+        .full-width-section { margin-top: 30px; }
+        .breakdown-table { background: white; border-radius: 15px; padding: 25px; margin-top: 20px; max-height: 400px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #667eea; color: white; padding: 12px; text-align: left; font-weight: 600; position: sticky; top: 0; }
+        td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
+        tr:hover { background: #f8f9fa; }
+        
+        .back-link { display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .back-link:hover { color: #764ba2; transform: translateX(-5px); }
+        
+        .info-box { background: #e7f3ff; border-left: 4px solid #667eea; padding: 15px; margin-top: 20px; border-radius: 8px; }
+        .info-box h4 { color: #667eea; margin-bottom: 8px; }
+        .info-box p { color: #555; font-size: 0.9rem; line-height: 1.6; }
+        
+        .comparison-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .comparison-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .comparison-card h3 { color: #667eea; margin-bottom: 15px; }
+        
+        .progress-bar { background: #e0e0e0; border-radius: 10px; height: 30px; overflow: hidden; position: relative; margin: 10px 0; }
+        .progress-fill { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.9rem; transition: width 1s ease; }
+        
+        @media (max-width: 768px) {
+            .layout { grid-template-columns: 1fr; }
+            .result-cards { grid-template-columns: 1fr; }
+            .comparison-section { grid-template-columns: 1fr; }
+            h1 { font-size: 1.6rem; }
+        }
+        
+        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+        
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .faq-question {
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="#" class="logo" onclick="history.back()">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1><i class="fas fa-chart-line"></i> ROI Calculator</h1>
+        <p class="subtitle">Calculate Return on Investment and Annualized Growth</p>
+
+        <div class="layout">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 style="margin-bottom: 20px; color: #1a1a2e;"><i class="fas fa-calculator"></i> Investment Details</h2>
+                
+                <div class="input-group">
+                    <label for="invested"><i class="fas fa-wallet"></i> Amount Invested (?)</label>
+                    <input type="number" id="invested" value="10000" placeholder="10000">
+                </div>
+
+                <div class="input-group">
+                    <label for="returned"><i class="fas fa-hand-holding-usd"></i> Amount Returned (?)</label>
+                    <input type="number" id="returned" value="15000" placeholder="15000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="time"><i class="fas fa-clock"></i> Investment Period (Years)</label>
+                    <div class="range-container">
+                        <input type="range" id="timeRange" min="0.1" max="50" value="3" step="0.1">
+                        <input type="number" id="time" class="range-value" value="3" min="0.1" max="50" step="0.1">
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="calculateROI()">
+                    <i class="fas fa-calculator"></i> Calculate ROI
+                </button>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+                    <p>Annualized ROI (CAGR) gives a better picture of performance over time than simple ROI, especially for long-term investments.</p>
+                </div>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section">
+                <h2 style="margin-bottom: 20px;"><i class="fas fa-chart-pie"></i> Result Summary</h2>
+                
+                <div class="result-cards">
+                    <div class="result-card">
+                        <h3><i class="fas fa-percentage"></i> Total ROI</h3>
+                        <div class="value" id="totalRoi">0%</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3><i class="fas fa-chart-line"></i> Annualized ROI</h3>
+                        <div class="value" id="annualizedRoi">0%</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3><i class="fas fa-money-bill-wave"></i> Net Profit/Loss</h3>
+                        <div class="value" id="netProfit">?0</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3><i class="fas fa-clock"></i> Simple Annual ROI</h3>
+                        <div class="value" id="simpleAnnualRoi">0%</div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="chart-container">
+                    <canvas id="roiChart"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+                    <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Section -->
+        <div class="comparison-section">
+            <div class="comparison-card">
+                <h3><i class="fas fa-balance-scale"></i> Investment Breakdown</h3>
+                <div style="margin-top: 20px;">
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="color: #666; font-weight: 600;">Initial Investment</span>
+                            <span id="investedPercent" style="color: #667eea; font-weight: 700;">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="investedBar" style="width: 0%;">?0</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="color: #666; font-weight: 600;">Profit/Loss</span>
+                            <span id="profitPercent" style="color: #10b981; font-weight: 700;">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="profitBar" style="width: 0%; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">?0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-card">
+                <h3><i class="fas fa-chart-area"></i> Investment Multiplier</h3>
+                <div style="margin-top: 20px; text-align: center;">
+                    <p style="color: #666; margin-bottom: 10px;">Your investment grew by a factor of:</p>
+                    <div id="multiplier" style="font-size: 3rem; font-weight: 800; color: #764ba2;">1.0x</div>
+                    <p style="color: #666; margin-top: 10px;">Over <span id="timeDisplay">0</span> years</p>
+                </div>
+            </div>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Calculator Hub</a>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-btn i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            if(roiChart) roiChart.update();
+        }
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-btn i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        let roiChart = null;
+
+        // Sync range sliders with number inputs
+        document.getElementById('timeRange').addEventListener('input', (e) => {
+            document.getElementById('time').value = e.target.value;
+            calculateROI();
+        });
+        document.getElementById('time').addEventListener('input', (e) => {
+            document.getElementById('timeRange').value = e.target.value;
+            calculateROI();
+        });
+
+        // Auto-calculate on input change
+        document.querySelectorAll('input').forEach(el => {
+            el.addEventListener('input', calculateROI);
+        });
+
+        function formatCurrency(amount) {
+            return '?' + amount.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        }
+
+        function calculateROI() {
+            const invested = parseFloat(document.getElementById('invested').value) || 0;
+            const returned = parseFloat(document.getElementById('returned').value) || 0;
+            const time = parseFloat(document.getElementById('time').value) || 0;
+
+            if (invested <= 0 || time <= 0) return;
+
+            const profit = returned - invested;
+            const roi = (profit / invested) * 100;
+            
+            // Annualized ROI (CAGR) formula: (Ending Value / Beginning Value) ^ (1 / n) - 1
+            let annualizedRoi = 0;
+            if (returned > 0 && invested > 0) {
+                annualizedRoi = (Math.pow(returned / invested, 1 / time) - 1) * 100;
+            }
+            
+            const simpleAnnualRoi = roi / time;
+            const multiplier = returned / invested;
+
+            // Update result cards
+            document.getElementById('totalRoi').textContent = roi.toFixed(2) + '%';
+            document.getElementById('totalRoi').style.color = roi >= 0 ? '#fff' : '#ff6b6b';
+            
+            document.getElementById('annualizedRoi').textContent = annualizedRoi.toFixed(2) + '%';
+            document.getElementById('netProfit').textContent = formatCurrency(profit);
+            document.getElementById('simpleAnnualRoi').textContent = simpleAnnualRoi.toFixed(2) + '%';
+            
+            document.getElementById('multiplier').textContent = multiplier.toFixed(2) + 'x';
+            document.getElementById('timeDisplay').textContent = time;
+
+            // Update comparison section
+            const total = Math.abs(invested) + Math.abs(profit);
+            const investedPercent = (Math.abs(invested) / returned * 100).toFixed(1); // Relative to total returned for visualization if profit > 0
+            
+            // Better visualization logic:
+            // If profit > 0: Bar shows Invested vs Profit
+            // If profit < 0: Bar shows Returned vs Loss
+            
+            let barInvestedWidth = 0;
+            let barProfitWidth = 0;
+            
+            if (profit >= 0) {
+                barInvestedWidth = (invested / returned) * 100;
+                barProfitWidth = (profit / returned) * 100;
+                
+                document.getElementById('investedPercent').textContent = barInvestedWidth.toFixed(1) + '%';
+                document.getElementById('profitPercent').textContent = barProfitWidth.toFixed(1) + '%';
+                
+                document.getElementById('investedBar').style.width = barInvestedWidth + '%';
+                document.getElementById('investedBar').textContent = formatCurrency(invested);
+                document.getElementById('investedBar').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                
+                document.getElementById('profitBar').style.width = barProfitWidth + '%';
+                document.getElementById('profitBar').textContent = formatCurrency(profit);
+                document.getElementById('profitBar').style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            } else {
+                // Loss scenario
+                const loss = Math.abs(profit);
+                barInvestedWidth = (returned / invested) * 100;
+                barProfitWidth = (loss / invested) * 100;
+                
+                document.getElementById('investedPercent').textContent = barInvestedWidth.toFixed(1) + '% (Returned)';
+                document.getElementById('profitPercent').textContent = barProfitWidth.toFixed(1) + '% (Loss)';
+                
+                document.getElementById('investedBar').style.width = barInvestedWidth + '%';
+                document.getElementById('investedBar').textContent = formatCurrency(returned);
+                
+                document.getElementById('profitBar').style.width = barProfitWidth + '%';
+                document.getElementById('profitBar').textContent = '-' + formatCurrency(loss);
+                document.getElementById('profitBar').style.background = 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)';
+            }
+
+            // Update chart
+            updateChart(invested, profit);
+        }
+
+        function updateChart(invested, profit) {
+            const ctx = document.getElementById('roiChart').getContext('2d');
+            
+            if (roiChart) {
+                roiChart.destroy();
+            }
+            
+            const isLoss = profit < 0;
+            const labels = isLoss ? ['Amount Returned', 'Loss'] : ['Invested Amount', 'Profit'];
+            const data = isLoss ? [invested + profit, Math.abs(profit)] : [invested, profit];
+            const colors = isLoss ? ['#667eea', '#ef4444'] : ['#667eea', '#10b981'];
+
+            roiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#666',
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // Initial calculation
+        calculateROI();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('? Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('? No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('? Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    
+    
+<!-- SEO Content Section -->
+<div class="seo-content" style="max-width: 1200px; margin: 40px auto; padding: 50px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px;">About ROI Calculator</h2>
+    <div style="color: #666; line-height: 1.8;">
+        <p style="margin-bottom: 20px; font-size: 1.1rem;">Return on Investment (ROI) is a performance measure used to evaluate the efficiency or profitability of an investment or compare the efficiency of a number of different investments. ROI tries to directly measure the amount of return on a particular investment, relative to the investment's cost.</p>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">How to Calculate ROI?</h3>
+        <p>The basic formula for ROI is:</p>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace; margin: 10px 0;">
+            ROI = ((Current Value of Investment - Cost of Investment) / Cost of Investment) * 100
+        </div>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">What is Annualized ROI?</h3>
+        <p>Annualized ROI, also known as CAGR (Compound Annual Growth Rate), takes into account the time period of the investment. It shows you the geometric progression ratio that provides a constant rate of return over the time period.</p>
+        
+        <h3 style="color: #667eea; font-size: 1.5rem; margin: 25px 0 15px;">Key Features</h3>
+        <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px;">Calculate simple ROI and Annualized ROI</li>
+            <li style="margin-bottom: 10px;">Visual charts for better understanding</li>
+            <li style="margin-bottom: 10px;">Investment multiplier analysis</li>
+            <li style="margin-bottom: 10px;">Mobile-friendly interface</li>
+        </ul>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div style="margin-top: 50px;">
+        <h2 style="color: #333; font-size: 2rem; margin-bottom: 30px;">Frequently Asked Questions</h2>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                What is a good ROI?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                A "good" ROI depends on the risk tolerance and the time required for the investment to generate a return. Generally, an annual ROI of 7% or more (adjusted for inflation) is considered good for stock market investments.
+            </div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                What is the difference between ROI and Profit?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Profit is the absolute amount of money gained (e.g., ?5,000), while ROI is the percentage return relative to the initial investment (e.g., 50%). ROI allows for easier comparison between investments of different sizes.
+            </div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                Does this calculator account for inflation?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                This basic ROI calculator does not automatically adjust for inflation. However, you can subtract the inflation rate from the calculated Annualized ROI to get the "Real Rate of Return".
+            </div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                How do I use the Annualized ROI?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Use Annualized ROI to compare investments held for different time periods. For example, a 20% total return over 1 year is much better than a 20% total return over 5 years. Annualized ROI makes this comparison clear.
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

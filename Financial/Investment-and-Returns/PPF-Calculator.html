@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPF Calculator 2025 - Public Provident Fund Maturity Calculator India</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free PPF Calculator 2025 to calculate Public Provident Fund maturity amount, interest earned, and tax-free returns. Accurate PPF interest calculator with yearly breakdown and charts.">
+    <meta name="keywords" content="PPF calculator, public provident fund calculator, PPF interest calculator, PPF maturity calculator, PPF calculator India, post office PPF calculator, SBI PPF calculator, tax saving calculator">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/PPF-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PPF Calculator 2025 - Calculate Public Provident Fund Returns">
+    <meta property="og:description" content="Calculate your PPF maturity amount and tax-free interest with our advanced Public Provident Fund calculator. Features yearly breakdown and visual charts.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/PPF-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PPF Calculator",
+        "description": "Free online Public Provident Fund (PPF) calculator to calculate maturity amount, interest earned, and tax benefits.",
+        "url": "https://calculatorloop.com/financial/investment-returns/PPF-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); min-height: 100vh; padding-bottom: 20px; }
+        
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        .theme-btn {
+            background: #f0f2f5;
+            color: #1a1a2e;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark-mode .main-header {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .seo-content {
+            background: #1e293b !important;
+        }
+        body.dark-mode .logo { color: #fff; }
+        body.dark-mode .container, 
+        body.dark-mode .seo-content,
+        body.dark-mode .metric-card,
+        body.dark-mode .chart-card,
+        body.dark-mode .input-section,
+        body.dark-mode .info-box,
+        body.dark-mode .faq-item,
+        body.dark-mode .hero-card {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f8fafc !important;
+        }
+        body.dark-mode .subtitle, body.dark-mode label, body.dark-mode p, body.dark-mode .faq-answer {
+            color: #94a3b8 !important;
+        }
+        body.dark-mode input, body.dark-mode select {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode .input-section {
+            background: #1e293b;
+        }
+        body.dark-mode .faq-item {
+            background: #1e293b;
+            border-left-color: #3b82f6;
+        }
+        body.dark-mode .faq-item:hover {
+            background: #334155;
+        }
+        body.dark-mode .theme-btn {
+            background: #334155;
+            color: #fbbf24;
+        }
+        body.dark-mode .metric-value { color: #fff; }
+        body.dark-mode .hero-card {
+            background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+        }
+        body.dark-mode .back-btn {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        body.dark-mode .back-btn:hover {
+            background: #3b82f6;
+            color: #0f172a;
+        }
+        body.dark-mode .seo-content table th {
+            background: #1e40af !important;
+            color: #fff;
+        }
+        body.dark-mode .seo-content table td {
+            border-color: #334155 !important;
+            color: #cbd5e1;
+        }
+        body.dark-mode .seo-content table tr {
+            background: transparent !important;
+        }
+        body.dark-mode .seo-content div[style*="background: #f8f9fa"] {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        body.dark-mode .seo-content div[style*="background: #e6f7ff"] {
+            background: rgba(14, 165, 233, 0.1) !important;
+            border-left-color: #0ea5e9 !important;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #3b82f6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        .faq-question {
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #3b82f6;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+
+        .container { max-width: 1400px; width: 100%; background: white; border-radius: 25px; box-shadow: 0 25px 70px rgba(0,0,0,0.3); padding: 50px; margin: 0 auto; }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 15px; font-size: 2.8rem; font-weight: 800; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 40px; font-size: 1.2rem; }
+        .layout { display: grid; grid-template-columns: 420px 1fr; gap: 40px; margin-top: 40px; }
+        .input-section { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 35px; border-radius: 20px; height: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 28px; }
+        label { display: block; margin-bottom: 12px; color: #1a1a2e; font-weight: 700; font-size: 1rem; }
+        input { width: 100%; padding: 16px; border: 2px solid #bfdbfe; border-radius: 12px; font-size: 1.05rem; transition: all 0.3s; background: white; }
+        input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); }
+        input[type="range"] { accent-color: #3b82f6; margin-top: 10px; }
+        .btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; border-radius: 15px; font-size: 1.2rem; cursor: pointer; margin-top: 25px; font-weight: 800; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5); }
+        .results-section { display: flex; flex-direction: column; gap: 30px; }
+        .hero-card { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 50px; border-radius: 25px; color: white; text-align: center; box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4); }
+        .maturity-amount { font-size: 4.5rem; font-weight: 900; margin: 20px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .metric-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid #3b82f6; }
+        .metric-card h3 { font-size: 0.85rem; color: #666; margin-bottom: 12px; text-transform: uppercase; }
+        .metric-value { font-size: 2.2rem; font-weight: 800; color: #1a1a2e; }
+        .chart-section { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .chart-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .chart-card h3 { color: #1a1a2e; margin-bottom: 20px; font-size: 1.3rem; font-weight: 700; }
+        .chart-wrapper { height: 350px; position: relative; }
+        .back-link { display: inline-block; margin-top: 40px; color: #3b82f6; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+        .info-box { background: #dbeafe; border-left: 5px solid #3b82f6; padding: 20px; margin-top: 25px; border-radius: 12px; }
+        .info-box h4 { color: #1e40af; margin-bottom: 10px; font-weight: 700; }
+        .info-box p { color: #1e40af; font-size: 0.9rem; line-height: 1.7; }
+        @media (max-width: 1200px) { .layout { grid-template-columns: 1fr; } .metrics-grid { grid-template-columns: 1fr; } .chart-section { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { 
+            h1 { font-size: 2rem; } 
+            .subtitle { font-size: 1rem; }
+            .seo-content { padding: 30px 20px !important; }
+            .seo-content h2 { font-size: 1.8rem !important; }
+            .seo-content h3 { font-size: 1.4rem !important; }
+            .seo-content table { font-size: 0.85rem; }
+        }
+        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="#" class="logo" onclick="history.back()">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1><i class="fas fa-piggy-bank"></i> PPF Calculator</h1>
+        <p class="subtitle">Calculate Public Provident Fund maturity amount and tax-free returns</p>
+        <div class="layout">
+            <div class="input-section">
+                <h2 style="margin-bottom: 30px; color: #1a1a2e;"><i class="fas fa-calculator"></i> PPF Details</h2>
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Yearly Investment (?)</label>
+                    <input type="number" id="yearly" value="150000" min="500" max="150000">
+                    <input type="range" id="yearlyRange" min="500" max="150000" value="150000" step="500">
+                    <small style="color: #666; display: block; margin-top: 5px;">Max Limit: ?1,50,000 per year</small>
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label>
+                    <input type="number" id="rate" value="7.1" step="0.1" readonly style="background: #f1f5f9;">
+                    <small style="color: #666; display: block; margin-top: 5px;">Current Govt Rate: 7.1% (Fixed)</small>
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-clock"></i> Investment Period (Years)</label>
+                    <input type="number" id="years" value="15" min="15" max="50">
+                    <input type="range" id="yearsRange" min="15" max="50" value="15" step="5">
+                    <small style="color: #666; display: block; margin-top: 5px;">Min Lock-in: 15 Years</small>
+                </div>
+                <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate PPF</button>
+                <div class="info-box">
+                    <h4><i class="fas fa-shield-alt"></i> Safe & Tax-Free</h4>
+                    <p>PPF is a government-backed scheme with EEE status - Exempt on Investment, Exempt on Interest, and Exempt on Maturity!</p>
+                </div>
+            </div>
+            <div class="results-section">
+                <div class="hero-card">
+                    <h2><i class="fas fa-trophy"></i> Maturity Amount</h2>
+                    <div class="maturity-amount" id="maturity">?0</div>
+                    <p style="font-size:1.1rem;">Total wealth after <span id="period">15</span> years</p>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3><i class="fas fa-hand-holding-usd"></i> Total Invested</h3>
+                        <div class="metric-value" id="invested">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-chart-line"></i> Interest Earned</h3>
+                        <div class="metric-value" id="interest">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-percentage"></i> Returns %</h3>
+                        <div class="metric-value" id="returnPercent">0%</div>
+                    </div>
+                </div>
+                <div class="chart-section">
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-pie"></i> Investment Breakdown</h3>
+                        <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-area"></i> Growth Over Time</h3>
+                        <div class="chart-wrapper"><canvas id="lineChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div>
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Calculator Hub</a>
+    </div>
+
+    <!-- SEO Content Section -->
+    <div class="seo-content" style="max-width: 1400px; margin: 40px auto; background: white; border-radius: 25px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+        
+        <!-- Main Article -->
+        <article>
+            <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #3b82f6; padding-bottom: 15px;">Complete Guide to PPF Calculator 2025</h2>
+            
+            <div style="color: #666; line-height: 1.8; font-size: 1.05rem;">
+                <p style="margin-bottom: 20px; font-size: 1.15rem; color: #444;">The <strong>Public Provident Fund (PPF)</strong> is one of the most popular long-term saving-cum-investment products in India, mainly due to its safety, attractive interest rate, and tax benefits. Our PPF Calculator helps you calculate the maturity value of your PPF account and visualize your wealth growth over the 15-year tenure.</p>
+
+                <h3 style="color: #3b82f6; font-size: 1.8rem; margin: 30px 0 15px;">What is Public Provident Fund (PPF)?</h3>
+                <p style="margin-bottom: 15px;">PPF is a government-backed savings scheme introduced by the National Savings Institute of the Ministry of Finance in 1968. It aims to mobilize small savings by offering an investment with reasonable returns combined with income tax benefits.</p>
+                
+                <p style="margin-bottom: 15px;"><strong>Key Features of PPF:</strong></p>
+                <ul style="margin-left: 30px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 10px;"><strong>Government Guarantee:</strong> Being a government-backed scheme, it offers the highest safety for your capital.</li>
+                    <li style="margin-bottom: 10px;"><strong>Tax Benefits (EEE):</strong> PPF enjoys Exempt-Exempt-Exempt status. Investment is tax-deductible u/s 80C, interest earned is tax-free, and maturity amount is also tax-free.</li>
+                    <li style="margin-bottom: 10px;"><strong>Lock-in Period:</strong> The scheme has a mandatory lock-in period of 15 years.</li>
+                    <li style="margin-bottom: 10px;"><strong>Interest Rate:</strong> The interest rate is determined by the government every quarter. Currently, it is 7.1% p.a.</li>
+                    <li style="margin-bottom: 10px;"><strong>Investment Limits:</strong> Minimum ?500 and Maximum ?1.5 Lakh per financial year.</li>
+                </ul>
+
+                <h3 style="color: #3b82f6; font-size: 1.8rem; margin: 30px 0 15px;">How PPF Interest is Calculated?</h3>
+                <p style="margin-bottom: 15px;">PPF interest is calculated on the minimum balance in your account between the 5th and the last day of each month. The interest is compounded annually and credited to your account at the end of the financial year (31st March).</p>
+                
+                <div style="background: #e6f7ff; padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #3b82f6;">
+                    <h4 style="color: #0050b3; margin-bottom: 15px; font-size: 1.3rem;"><i class="fas fa-lightbulb"></i> Pro Tip for Maximizing Returns</h4>
+                    <p style="color: #003a70; line-height: 1.7; margin: 0;">To maximize your PPF interest, always deposit your contribution <strong>before the 5th of the month</strong>. If you deposit after the 5th, you lose interest for that entire month!</p>
+                </div>
+
+                <h3 style="color: #3b82f6; font-size: 1.8rem; margin: 30px 0 15px;">PPF Withdrawal and Extension Rules</h3>
+                <p style="margin-bottom: 15px;"><strong>Partial Withdrawal:</strong> Allowed from the 7th financial year onwards. You can withdraw up to 50% of the balance at the end of the 4th preceding year or the immediate preceding year, whichever is lower.</p>
+                <p style="margin-bottom: 15px;"><strong>Extension:</strong> After the 15-year maturity, you can extend your PPF account in blocks of 5 years indefinitely, with or without further contributions.</p>
+
+                <h3 style="color: #3b82f6; font-size: 1.8rem; margin: 30px 0 15px;">PPF vs Other Tax Saving Options</h3>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background: #f8f9fa; border-radius: 8px; overflow: hidden;">
+                        <thead>
+                            <tr style="background: #3b82f6; color: white;">
+                                <th style="padding: 15px; text-align: left;">Feature</th>
+                                <th style="padding: 15px; text-align: left;">PPF</th>
+                                <th style="padding: 15px; text-align: left;">ELSS (Mutual Funds)</th>
+                                <th style="padding: 15px; text-align: left;">FD (Tax Saver)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>Returns</strong></td><td style="padding: 12px; border-bottom: 1px solid #ddd;">7.1% (Fixed)</td><td style="padding: 12px; border-bottom: 1px solid #ddd;">12-15% (Market Linked)</td><td style="padding: 12px; border-bottom: 1px solid #ddd;">6-7% (Fixed)</td></tr>
+                            <tr><td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>Lock-in</strong></td><td style="padding: 12px; border-bottom: 1px solid #ddd;">15 Years</td><td style="padding: 12px; border-bottom: 1px solid #ddd;">3 Years</td><td style="padding: 12px; border-bottom: 1px solid #ddd;">5 Years</td></tr>
+                            <tr><td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>Risk</strong></td><td style="padding: 12px; border-bottom: 1px solid #ddd;">Zero (Govt Backed)</td><td style="padding: 12px; border-bottom: 1px solid #ddd;">Moderate to High</td><td style="padding: 12px; border-bottom: 1px solid #ddd;">Low</td></tr>
+                            <tr><td style="padding: 12px;"><strong>Tax on Maturity</strong></td><td style="padding: 12px;">Tax Free</td><td style="padding: 12px;">LTCG Tax > ?1L</td><td style="padding: 12px;">Taxable</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </article>
+
+        <!-- FAQ Section -->
+        <div style="margin-top: 60px;">
+            <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 30px; border-bottom: 4px solid #3b82f6; padding-bottom: 15px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions (FAQ)</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">1. Can I open more than one PPF account? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>No, an individual can open only one PPF account in their name. Opening multiple accounts is illegal, and the second account will be deactivated without interest.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">2. What happens if I miss a yearly deposit? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>If you fail to deposit the minimum ?500 in a financial year, your account becomes inactive. You can revive it by paying a penalty of ?50 per year of default along with the minimum arrears of ?500 per year.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">3. Can I close my PPF account before 15 years? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>Premature closure is allowed only after 5 financial years under specific grounds like treatment of life-threatening diseases or higher education of children. A 1% interest penalty is deducted from the date of opening.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">4. Is PPF interest taxable? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>No, PPF falls under the EEE (Exempt-Exempt-Exempt) category. The interest earned and the maturity amount are completely tax-free under Section 10(11) of the Income Tax Act.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">5. Can I take a loan against my PPF account? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>Yes, you can avail a loan from the 3rd financial year up to the 6th financial year. The loan amount is capped at 25% of the balance at the end of the 2nd preceding year. The interest rate charged is 1% above the prevailing PPF rate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pieChart=null,lineChart=null;
+        
+        // Sync inputs
+        [['yearly','yearlyRange'],['years','yearsRange']].forEach(([i,r])=>{
+            document.getElementById(r).oninput=e=>{
+                let val = +e.target.value;
+                if(i==='yearly' && val>150000) val=150000;
+                document.getElementById(i).value=val;
+                calc();
+            }
+            document.getElementById(i).oninput=e=>{
+                let val = +e.target.value;
+                if(i==='yearly' && val>150000) { val=150000; document.getElementById(i).value=150000; }
+                document.getElementById(r).value=val;
+                calc();
+            }
+        });
+
+        function fmt(n){if(n>=1e7)return'?'+(n/1e7).toFixed(2)+' Cr';if(n>=1e5)return'?'+(n/1e5).toFixed(2)+' L';return'?'+Math.round(n).toLocaleString('en-IN');}
+        
+        function calc(){
+            const yearly = +document.getElementById('yearly').value || 0;
+            const rate = 7.1; // Fixed rate
+            const years = +document.getElementById('years').value || 15;
+            
+            let balance = 0;
+            const labels = [];
+            const investedData = [];
+            const balanceData = [];
+            
+            for(let i=1; i<=years; i++){
+                balance = (balance + yearly) * (1 + rate/100);
+                labels.push('Year '+i);
+                investedData.push(yearly * i);
+                balanceData.push(balance);
+            }
+            
+            const totalInvested = yearly * years;
+            const interestEarned = balance - totalInvested;
+            const returnPct = (interestEarned / totalInvested) * 100;
+            
+            document.getElementById('maturity').textContent = fmt(balance);
+            document.getElementById('invested').textContent = fmt(totalInvested);
+            document.getElementById('interest').textContent = fmt(interestEarned);
+            document.getElementById('returnPercent').textContent = returnPct.toFixed(1) + '%';
+            document.getElementById('period').textContent = years;
+            
+            // Charts
+            const ctx1=document.getElementById('pieChart').getContext('2d');
+            if(pieChart){
+                pieChart.data.datasets[0].data = [totalInvested, interestEarned];
+                pieChart.update();
+            } else {
+                pieChart=new Chart(ctx1,{
+                    type:'doughnut',
+                    data:{labels:['Invested','Interest'],datasets:[{data:[totalInvested,interestEarned],backgroundColor:['#3b82f6','#93c5fd']}]},
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:false,
+                        animation: { duration: 750 },
+                        plugins:{legend:{position:'bottom'}}
+                    }
+                });
+            }
+            
+            const ctx2=document.getElementById('lineChart').getContext('2d');
+            if(lineChart){
+                lineChart.data.labels = labels;
+                lineChart.data.datasets[0].data = investedData;
+                lineChart.data.datasets[1].data = balanceData;
+                lineChart.update();
+            } else {
+                lineChart=new Chart(ctx2,{
+                    type:'line',
+                    data:{
+                        labels:labels,
+                        datasets:[
+                            {label:'Invested',data:investedData,borderColor:'#93c5fd',backgroundColor:'rgba(147, 197, 253, 0.1)',fill:true,tension:0.4},
+                            {label:'Maturity Value',data:balanceData,borderColor:'#3b82f6',backgroundColor:'rgba(59, 130, 246, 0.1)',fill:true,tension:0.4}
+                        ]
+                    },
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:false,
+                        animation: { duration: 750 },
+                        plugins:{legend:{position:'top'}},
+                        scales:{y:{beginAtZero:true,ticks:{callback:v=>'?'+(v/100000).toFixed(1)+'L'}}}
+                    }
+                });
+            }
+        }
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('❌ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-btn i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            if(pieChart) pieChart.update();
+            if(lineChart) lineChart.update();
+        }
+
+        // Check saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-btn i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

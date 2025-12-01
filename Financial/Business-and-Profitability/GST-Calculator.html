@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; } .container { max-width: 800px; width: 100%; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; } h1 { color: #333; text-align: center; margin-bottom: 30px; } .input-group { margin-bottom: 20px; } label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; } input { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; } .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; } .result { margin-top: 30px; padding: 25px; background: #f8f9fa; border-radius: 12px; text-align: center; display: none; } .result-value { font-size: 2rem; color: #667eea; font-weight: bold; } .back-link { display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; }</style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-receipt"></i> GST Calculator</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">Calculate Goods and Services Tax</p>
+        
+        <div class="input-group">
+            <label>Calculation Type</label>
+            <select id="calcType" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;margin-bottom:5px;">
+                <option value="exclusive">Add GST (Exclusive)</option>
+                <option value="inclusive">Remove GST (Inclusive)</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label>Amount ($)</label>
+            <input type="number" id="amount" value="1000" min="0" step="0.01">
+        </div>
+        
+        <div class="input-group">
+            <label>GST Rate (%)</label>
+            <select id="gstRate" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;">
+                <option value="5">5% - Essential Goods</option>
+                <option value="12">12% - Standard</option>
+                <option value="18" selected>18% - Standard</option>
+                <option value="28">28% - Luxury Goods</option>
+            </select>
+        </div>
+        
+        <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate GST</button>
+        
+        <div class="result" id="result">
+            <h2>GST Calculation</h2>
+            <div style="text-align:left;max-width:400px;margin:0 auto;">
+                <p style="display:flex;justify-content:space-between;margin:10px 0;padding:10px;background:#f8f9fa;border-radius:8px;"><span>Original:</span><strong id="originalAmt">$0</strong></p>
+                <p style="display:flex;justify-content:space-between;margin:10px 0;padding:10px;background:#fff3cd;border-radius:8px;"><span>GST:</span><strong id="gstAmt" style="color:#f59e0b">$0</strong></p>
+                <p style="display:flex;justify-content:space-between;margin:10px 0;padding:15px;background:#667eea;color:white;border-radius:8px;font-size:1.2rem;"><span>Total:</span><strong id="finalAmt">$0</strong></p>
+            </div>
+        </div>
+        
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Calculators</a>
+    </div>
+    <script>
+        function calc(){
+            const amount=parseFloat(document.getElementById('amount').value);
+            const calcType=document.getElementById('calcType').value;
+            const gstRate=parseFloat(document.getElementById('gstRate').value);
+            
+            if(amount>0&&gstRate>=0){
+                let originalAmount,gstAmount,finalAmount;
+                
+                if(calcType==='exclusive'){
+                    originalAmount=amount;
+                    gstAmount=(amount*gstRate)/100;
+                    finalAmount=amount+gstAmount;
+                }else{
+                    finalAmount=amount;
+                    originalAmount=amount/(1+gstRate/100);
+                    gstAmount=amount-originalAmount;
+                }
+                
+                document.getElementById('originalAmt').textContent='$'+originalAmount.toFixed(2);
+                document.getElementById('gstAmt').textContent='$'+gstAmount.toFixed(2);
+                document.getElementById('finalAmt').textContent='$'+finalAmount.toFixed(2);
+                document.getElementById('result').style.display='block';
+            }else{
+                alert('Please enter valid values');
+            }
+        }
+        
+        document.querySelectorAll('input,select').forEach(el=>el.addEventListener('change',calc));
+        calc();
+    </script>
+</body>
+</html>
+

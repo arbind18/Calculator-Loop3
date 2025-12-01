@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RD Calculator 2025 - Recurring Deposit Maturity Calculator</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free RD Calculator 2025 to calculate Recurring Deposit maturity amount and interest earned. Accurate RD interest calculator with quarterly compounding for SBI, HDFC, ICICI, and Post Office.">
+    <meta name="keywords" content="RD calculator, recurring deposit calculator, RD interest calculator, RD maturity calculator, post office RD calculator, SBI RD calculator, HDFC RD calculator">
+    <meta name="author" content="CalculatorLoop - Financial Planning Tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://calculatorloop.com/financial/investment-returns/RD-Calculator.html">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RD Calculator 2025 - Calculate Recurring Deposit Returns">
+    <meta property="og:description" content="Calculate your Recurring Deposit (RD) maturity amount and interest with our advanced RD calculator. Supports quarterly compounding logic used by Indian banks.">
+    <meta property="og:url" content="https://calculatorloop.com/financial/investment-returns/RD-Calculator.html">
+    <meta property="og:site_name" content="CalculatorLoop">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "RD Calculator",
+        "description": "Free online Recurring Deposit (RD) calculator to calculate maturity amount and interest earned with quarterly compounding.",
+        "url": "https://calculatorloop.com/financial/investment-returns/RD-Calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); min-height: 100vh; padding-bottom: 20px; }
+        
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-self: center;
+        }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-self: end;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .back-btn {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            justify-self: start;
+        }
+        .back-btn:hover {
+            background: #f59e0b;
+            color: white;
+        }
+        .theme-btn {
+            background: #f0f2f5;
+            color: #1a1a2e;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .theme-btn:hover {
+            background: #e2e8f0;
+            transform: rotate(15deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark-mode .main-header {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .seo-content {
+            background: #1e293b !important;
+        }
+        body.dark-mode .logo { color: #fff; }
+        body.dark-mode .container, 
+        body.dark-mode .seo-content,
+        body.dark-mode .metric-card,
+        body.dark-mode .chart-card,
+        body.dark-mode .input-section,
+        body.dark-mode .info-box,
+        body.dark-mode .faq-item,
+        body.dark-mode .hero-card {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f8fafc !important;
+        }
+        body.dark-mode .subtitle, body.dark-mode label, body.dark-mode p, body.dark-mode .faq-answer {
+            color: #94a3b8 !important;
+        }
+        body.dark-mode input, body.dark-mode select {
+            background: #0f172a;
+            border-color: #334155;
+            color: #fff;
+        }
+        body.dark-mode .input-section {
+            background: #1e293b;
+        }
+        body.dark-mode .faq-item {
+            background: #1e293b;
+            border-left-color: #f59e0b;
+        }
+        body.dark-mode .faq-item:hover {
+            background: #334155;
+        }
+        body.dark-mode .theme-btn {
+            background: #334155;
+            color: #fbbf24;
+        }
+        body.dark-mode .metric-value { color: #fff; }
+        body.dark-mode .hero-card {
+            background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+        }
+        body.dark-mode .back-btn {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+        body.dark-mode .back-btn:hover {
+            background: #f59e0b;
+            color: #0f172a;
+        }
+        body.dark-mode .seo-content table th {
+            background: #b45309 !important;
+            color: #fff;
+        }
+        body.dark-mode .seo-content table td {
+            border-color: #334155 !important;
+            color: #cbd5e1;
+        }
+        body.dark-mode .seo-content table tr {
+            background: transparent !important;
+        }
+        body.dark-mode .seo-content div[style*="background: #f8f9fa"] {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #f59e0b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+        .faq-question {
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-icon {
+            font-size: 1.2rem;
+            color: #f59e0b;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            margin-top: 15px;
+        }
+
+        .container { max-width: 1400px; width: 100%; background: white; border-radius: 25px; box-shadow: 0 25px 70px rgba(0,0,0,0.3); padding: 50px; margin: 0 auto; }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 15px; font-size: 2.8rem; font-weight: 800; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 40px; font-size: 1.2rem; }
+        .layout { display: grid; grid-template-columns: 420px 1fr; gap: 40px; margin-top: 40px; }
+        .input-section { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); padding: 35px; border-radius: 20px; height: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 28px; }
+        label { display: block; margin-bottom: 12px; color: #1a1a2e; font-weight: 700; font-size: 1rem; }
+        input, select { width: 100%; padding: 16px; border: 2px solid #fcd34d; border-radius: 12px; font-size: 1.05rem; transition: all 0.3s; background: white; }
+        input:focus, select:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15); }
+        input[type="range"] { accent-color: #f59e0b; margin-top: 10px; }
+        .btn { width: 100%; padding: 20px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; border-radius: 15px; font-size: 1.2rem; cursor: pointer; margin-top: 25px; font-weight: 800; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5); }
+        .results-section { display: flex; flex-direction: column; gap: 30px; }
+        .hero-card { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 50px; border-radius: 25px; color: white; text-align: center; box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4); }
+        .maturity-amount { font-size: 4.5rem; font-weight: 900; margin: 20px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .metric-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid #f59e0b; }
+        .metric-card h3 { font-size: 0.85rem; color: #666; margin-bottom: 12px; text-transform: uppercase; }
+        .metric-value { font-size: 2.2rem; font-weight: 800; color: #1a1a2e; }
+        .chart-section { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .chart-card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .chart-card h3 { color: #1a1a2e; margin-bottom: 20px; font-size: 1.3rem; font-weight: 700; }
+        .chart-wrapper { height: 350px; position: relative; }
+        .back-link { display: inline-block; margin-top: 40px; color: #f59e0b; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+        .info-box { background: #fef3c7; border-left: 5px solid #f59e0b; padding: 20px; margin-top: 25px; border-radius: 12px; }
+        .info-box h4 { color: #92400e; margin-bottom: 10px; font-weight: 700; }
+        .info-box p { color: #92400e; font-size: 0.9rem; line-height: 1.7; }
+        @media (max-width: 1200px) { .layout { grid-template-columns: 1fr; } .metrics-grid { grid-template-columns: 1fr; } .chart-section { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { 
+            h1 { font-size: 2rem; } 
+            .subtitle { font-size: 1rem; }
+            .seo-content { padding: 30px 20px !important; }
+            .seo-content h2 { font-size: 1.8rem !important; }
+            .seo-content h3 { font-size: 1.4rem !important; }
+            .seo-content table { font-size: 0.85rem; }
+        }
+        .action-buttons { display: flex; gap: 12px; margin: 25px 0; justify-content: center; flex-wrap: wrap; }
+        .action-btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .share-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4); }
+        .download-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(240, 147, 251, 0.4); }
+        .print-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4); }
+    </style>
+    <script src="./calc-performance.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <button class="nav-btn back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <a href="#" class="logo" onclick="history.back()">
+                <i class="fas fa-calculator"></i> CalculatorLoop
+            </a>
+            <div class="header-actions">
+                <button class="nav-btn theme-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1><i class="fas fa-redo-alt"></i> RD Calculator</h1>
+        <p class="subtitle">Calculate Recurring Deposit maturity amount and interest earned</p>
+        <div class="layout">
+            <div class="input-section">
+                <h2 style="margin-bottom: 30px; color: #1a1a2e;"><i class="fas fa-calculator"></i> RD Details</h2>
+                <div class="input-group">
+                    <label><i class="fas fa-rupee-sign"></i> Monthly Deposit (?)</label>
+                    <input type="number" id="monthly" value="5000" min="100">
+                    <input type="range" id="monthlyRange" min="100" max="100000" value="5000" step="100">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-percentage"></i> Interest Rate (% p.a.)</label>
+                    <input type="number" id="rate" value="6.5" step="0.1">
+                    <input type="range" id="rateRange" min="1" max="15" value="6.5" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-clock"></i> Time Period (Years)</label>
+                    <input type="number" id="years" value="5" min="1" max="10">
+                    <input type="range" id="yearsRange" min="1" max="10" value="5">
+                </div>
+                <button class="btn" onclick="calc()"><i class="fas fa-calculator"></i> Calculate RD</button>
+                <div class="info-box">
+                    <h4><i class="fas fa-piggy-bank"></i> Disciplined Savings</h4>
+                    <p>RD helps you save small amounts monthly to build a large corpus. Interest is compounded quarterly.</p>
+                </div>
+            </div>
+            <div class="results-section">
+                <div class="hero-card">
+                    <h2><i class="fas fa-trophy"></i> Maturity Amount</h2>
+                    <div class="maturity-amount" id="maturity">?0</div>
+                    <p style="font-size:1.1rem;">Total value after <span id="period">5</span> years</p>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3><i class="fas fa-hand-holding-usd"></i> Total Investment</h3>
+                        <div class="metric-value" id="invested">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-chart-line"></i> Interest Earned</h3>
+                        <div class="metric-value" id="interest">?0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3><i class="fas fa-percentage"></i> Absolute Return</h3>
+                        <div class="metric-value" id="returnPercent">0%</div>
+                    </div>
+                </div>
+                <div class="chart-section">
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-pie"></i> Investment Breakdown</h3>
+                        <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-area"></i> Growth Over Time</h3>
+                        <div class="chart-wrapper"><canvas id="lineChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button class="action-btn share-btn" onclick="shareCalc()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="action-btn download-btn" onclick="downloadCalc()"><i class="fas fa-download"></i> Download PNG</button>
+            <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        </div>
+        <a href="../../Ui.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Calculator Hub</a>
+    </div>
+
+    <!-- SEO Content Section -->
+    <div class="seo-content" style="max-width: 1400px; margin: 40px auto; background: white; border-radius: 25px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+        
+        <!-- Main Article -->
+        <article>
+            <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #f59e0b; padding-bottom: 15px;">Complete Guide to RD Calculator 2025</h2>
+            
+            <div style="color: #666; line-height: 1.8; font-size: 1.05rem;">
+                <p style="margin-bottom: 20px; font-size: 1.15rem; color: #444;">A <strong>Recurring Deposit (RD)</strong> is a popular savings scheme in India that allows you to deposit a fixed amount every month for a pre-determined tenure. It offers interest rates similar to Fixed Deposits (FDs) but with the flexibility of monthly contributions.</p>
+
+                <h3 style="color: #f59e0b; font-size: 1.8rem; margin: 30px 0 15px;">How RD Interest is Calculated?</h3>
+                <p style="margin-bottom: 15px;">In India, RD interest is compounded quarterly by most banks. The formula used is complex because each monthly installment earns interest for a different duration.</p>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #f59e0b;">
+                    <p style="font-family: monospace; font-size: 1.1rem; color: #1a1a2e; margin: 0;"><strong>M = P * n + Interest</strong></p>
+                    <p style="margin-top: 15px; color: #666; font-size: 0.95rem;">Where:<br>
+                    M = Maturity Amount<br>
+                    P = Monthly Installment<br>
+                    n = Number of months<br>
+                    Interest is calculated on each installment compounded quarterly.</p>
+                </div>
+
+                <h3 style="color: #f59e0b; font-size: 1.8rem; margin: 30px 0 15px;">Benefits of Recurring Deposit</h3>
+                <ul style="margin-left: 30px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 10px;"><strong>Disciplined Savings:</strong> Encourages a habit of saving regularly.</li>
+                    <li style="margin-bottom: 10px;"><strong>High Returns:</strong> Offers interest rates comparable to FDs (6% - 8%).</li>
+                    <li style="margin-bottom: 10px;"><strong>Low Entry Barrier:</strong> Start with as low as ?500 per month.</li>
+                    <li style="margin-bottom: 10px;"><strong>Safe Investment:</strong> Backed by DICGC insurance up to ?5 Lakhs.</li>
+                </ul>
+
+                <h3 style="color: #f59e0b; font-size: 1.8rem; margin: 30px 0 15px;">RD Taxation Rules 2025</h3>
+                <p style="margin-bottom: 15px;">Interest earned on RD is fully taxable as per your income tax slab. TDS (Tax Deducted at Source) at 10% is applicable if the interest exceeds ?40,000 in a financial year (?50,000 for senior citizens).</p>
+            </div>
+        </article>
+
+        <!-- FAQ Section -->
+        <div style="margin-top: 60px;">
+            <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 30px; border-bottom: 4px solid #f59e0b; padding-bottom: 15px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions (FAQ)</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">1. Can I miss an RD installment? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>If you miss an installment, banks may charge a penalty (usually ?1.50 per ?100 per month). Continuous defaults may lead to closure of the RD account.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">2. Is RD interest taxable? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>Yes, RD interest is fully taxable. It is added to your total income and taxed according to your slab. TDS is also applicable.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">3. Can I withdraw RD before maturity? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>Yes, premature withdrawal is allowed but attracts a penalty (usually 1% lower interest rate). You will get interest only for the period the deposit was held.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">4. What is the minimum tenure for RD? <i class="fas fa-chevron-down faq-icon"></i></h3>
+                    <div class="faq-answer">
+                        <p>The minimum tenure for a bank RD is usually 6 months, and the maximum can go up to 10 years.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pieChart=null,lineChart=null;
+        
+        // Sync inputs
+        [['monthly','monthlyRange'],['rate','rateRange'],['years','yearsRange']].forEach(([i,r])=>{
+            document.getElementById(r).oninput=e=>{document.getElementById(i).value=e.target.value;calc();}
+            document.getElementById(i).oninput=e=>{document.getElementById(r).value=e.target.value;calc();}
+        });
+
+        function fmt(n){if(n>=1e7)return'?'+(n/1e7).toFixed(2)+' Cr';if(n>=1e5)return'?'+(n/1e5).toFixed(2)+' L';return'?'+Math.round(n).toLocaleString('en-IN');}
+        
+        function calc(){
+            const P = +document.getElementById('monthly').value || 0;
+            const r = +document.getElementById('rate').value || 0;
+            const t = +document.getElementById('years').value || 0;
+            const n = t * 12; // Total months
+            
+            // RD Calculation with Quarterly Compounding
+            // Treat each installment as a separate FD
+            let maturity = 0;
+            const quarterlyRate = r / 400;
+            
+            for(let i=1; i<=n; i++){
+                // Months remaining for this installment
+                const monthsRemaining = n - i + 1;
+                const quartersRemaining = monthsRemaining / 3;
+                maturity += P * Math.pow(1 + quarterlyRate, quartersRemaining);
+            }
+            
+            const invested = P * n;
+            const interest = maturity - invested;
+            const retPct = (interest / invested) * 100;
+            
+            document.getElementById('maturity').textContent = fmt(maturity);
+            document.getElementById('invested').textContent = fmt(invested);
+            document.getElementById('interest').textContent = fmt(interest);
+            document.getElementById('returnPercent').textContent = retPct.toFixed(2) + '%';
+            document.getElementById('period').textContent = t;
+            
+            // Charts
+            const ctx1=document.getElementById('pieChart').getContext('2d');
+            if(pieChart){
+                pieChart.data.datasets[0].data = [invested, interest];
+                pieChart.update();
+            } else {
+                pieChart=new Chart(ctx1,{
+                    type:'doughnut',
+                    data:{labels:['Invested','Interest'],datasets:[{data:[invested,interest],backgroundColor:['#f59e0b','#fcd34d']}]},
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:false,
+                        animation: { duration: 750 },
+                        plugins:{legend:{position:'bottom'}}
+                    }
+                });
+            }
+            
+            // Line Chart for Growth
+            const labels = [];
+            const growthData = [];
+            const principalData = [];
+            
+            // Calculate yearly growth points
+            for(let year=0; year<=t; year++){
+                labels.push('Year '+year);
+                const monthsPassed = year * 12;
+                const investedTillNow = P * monthsPassed;
+                principalData.push(investedTillNow);
+                
+                if(year === 0) {
+                    growthData.push(0);
+                    continue;
+                }
+
+                // Calculate maturity for 'monthsPassed' duration
+                let currentMaturity = 0;
+                for(let i=1; i<=monthsPassed; i++){
+                    const monthsRemaining = monthsPassed - i + 1;
+                    const quartersRemaining = monthsRemaining / 3;
+                    currentMaturity += P * Math.pow(1 + quarterlyRate, quartersRemaining);
+                }
+                growthData.push(currentMaturity);
+            }
+            
+            const ctx2=document.getElementById('lineChart').getContext('2d');
+            if(lineChart){
+                lineChart.data.labels = labels;
+                lineChart.data.datasets[0].data = principalData;
+                lineChart.data.datasets[1].data = growthData;
+                lineChart.update();
+            } else {
+                lineChart=new Chart(ctx2,{
+                    type:'line',
+                    data:{
+                        labels:labels,
+                        datasets:[
+                            {label:'Invested',data:principalData,borderColor:'#f59e0b',backgroundColor:'rgba(245, 158, 11, 0.1)',fill:true,tension:0.1},
+                            {label:'Maturity Value',data:growthData,borderColor:'#d97706',backgroundColor:'rgba(217, 119, 6, 0.1)',fill:true,tension:0.4}
+                        ]
+                    },
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:false,
+                        animation: { duration: 750 },
+                        plugins:{legend:{position:'top'}},
+                        scales:{y:{beginAtZero:true,ticks:{callback:v=>'?'+(v/1000).toFixed(0)+'K'}}}
+                    }
+                });
+            }
+        }
+        calc();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    function shareCalc() {
+        const title = document.title;
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: title, text: 'Check out this calculator result!', url: url })
+                .catch(() => copyLink(url));
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Link copied!'));
+    }
+    function downloadCalc() {
+        const elem = document.querySelector('.result') || document.querySelector('.container');
+        if (!elem) { showToast('❌ No results to download'); return; }
+        html2canvas(elem, { scale: 2, backgroundColor: '#fff', logging: false }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = document.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ Downloaded!');
+        });
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#f59e0b;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);animation:slideIn 0.3s';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+    </script>
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-btn i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            if(pieChart) pieChart.update();
+            if(lineChart) lineChart.update();
+        }
+
+        // Check saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-btn i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
