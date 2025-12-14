@@ -1,0 +1,117 @@
+import dynamic from 'next/dynamic'
+
+// Central registry of calculator components and their route ids
+export const calculatorComponents: Record<string, any> = {
+  // Loan & EMI Calculators
+  'personal-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/PersonalLoanEMI').then(m => ({ default: m.PersonalLoanEMI }))),
+  'home-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/HomeLoanEMI').then(m => ({ default: m.HomeLoanEMI }))),
+  'car-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/CarLoanEMI').then(m => ({ default: m.CarLoanEMI }))),
+  'education-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/EducationLoanEMI').then(m => ({ default: m.EducationLoanEMI }))),
+  'business-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/BusinessLoanEMI').then(m => ({ default: m.BusinessLoanEMI }))),
+  'gold-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/GoldLoanEMI').then(m => ({ default: m.GoldLoanEMI }))),
+  'two-wheeler-loan': dynamic(() => import('@/components/calculators/categories/loan/TwoWheelerLoan').then(m => ({ default: m.TwoWheelerLoan }))),
+  'loan-prepayment-impact': dynamic(() => import('@/components/calculators/categories/loan/LoanPrepaymentImpact').then(m => ({ default: m.LoanPrepaymentImpact }))),
+  'loan-eligibility': dynamic(() => import('@/components/calculators/categories/loan/LoanEligibility').then(m => ({ default: m.LoanEligibility }))),
+  'loan-comparison': dynamic(() => import('@/components/calculators/categories/loan/LoanComparison').then(m => ({ default: m.LoanComparison }))),
+  'simple-interest-loan': dynamic(() => import('@/components/calculators/categories/loan/SimpleInterestLoan').then(m => ({ default: m.SimpleInterestLoan }))),
+  'compound-interest-loan': dynamic(() => import('@/components/calculators/categories/loan/CompoundInterestLoan').then(m => ({ default: m.CompoundInterestLoan }))),
+  'loan-amortization': dynamic(() => import('@/components/calculators/categories/loan/LoanAmortization').then(m => ({ default: m.LoanAmortization }))),
+  'remaining-loan-balance': dynamic(() => import('@/components/calculators/categories/loan/RemainingLoanBalance').then(m => ({ default: m.RemainingLoanBalance }))),
+  'top-up-loan': dynamic(() => import('@/components/calculators/categories/loan/TopUpLoan').then(m => ({ default: m.TopUpLoan }))),
+  'rent-vs-buy': dynamic(() => import('@/components/calculators/categories/real-estate/RentVsBuy').then(m => ({ default: m.RentVsBuy }))),
+
+  // Investment
+  'sip-calculator': dynamic(() => import('@/components/calculators/categories/investment/SIPCalculator').then(m => ({ default: m.SIPCalculator }))),
+  'step-up-sip': dynamic(() => import('@/components/calculators/categories/investment/StepUpSIP').then(m => ({ default: m.StepUpSIP }))),
+  'fire-calculator': dynamic(() => import('@/components/calculators/categories/retirement/FIRECalculator').then(m => ({ default: m.FIRECalculator }))),
+  'mutual-fund-returns': dynamic(() => import('@/components/calculators/categories/investment/InvestmentCalculators').then(m => ({ default: m.MutualFundReturns }))),
+  'cagr-calculator': dynamic(() => import('@/components/calculators/categories/investment/InvestmentCalculators').then(m => ({ default: m.CAGRCalculator }))),
+  'roi-calculator': dynamic(() => import('@/components/calculators/categories/investment/InvestmentCalculators').then(m => ({ default: m.ROICalculator }))),
+  'fd-calculator': dynamic(() => import('@/components/calculators/categories/investment/InvestmentCalculators').then(m => ({ default: m.FDCalculator }))),
+  'rd-calculator': dynamic(() => import('@/components/calculators/categories/investment/InvestmentCalculators').then(m => ({ default: m.RDCalculator }))),
+  'nps-calculator': dynamic(() => import('@/components/calculators/categories/retirement/NPSCalculator').then(m => ({ default: m.NPSCalculator }))),
+  'ppf-calculator': dynamic(() => import('@/components/calculators/categories/investment/MoreInvestmentCalculators').then(m => ({ default: m.PPFCalculator }))),
+  'retirement-corpus': dynamic(() => import('@/components/calculators/categories/retirement/RetirementCorpus').then(m => ({ default: m.RetirementCorpus }))),
+  'lumpsum-calculator': dynamic(() => import('@/components/calculators/categories/investment/MoreInvestmentCalculators').then(m => ({ default: m.LumpsumCalculator }))),
+  'inflation-impact': dynamic(() => import('@/components/calculators/categories/investment/MoreInvestmentCalculators').then(m => ({ default: m.InflationImpact }))),
+  'compound-interest-investment': dynamic(() => import('@/components/calculators/categories/investment/MoreInvestmentCalculators').then(m => ({ default: m.CompoundInterestInvestment }))),
+
+  // Tax
+  'income-tax-calculator': dynamic(() => import('@/components/calculators/categories/tax/TaxCalculators').then(m => ({ default: m.IncomeTaxCalculator }))),
+  'salary-breakup': dynamic(() => import('@/components/calculators/categories/tax/TaxCalculators').then(m => ({ default: m.SalaryBreakup }))),
+  'hra-calculator': dynamic(() => import('@/components/calculators/categories/tax/TaxCalculators').then(m => ({ default: m.HRACalculator }))),
+  'pf-calculator': dynamic(() => import('@/components/calculators/categories/tax/MoreTaxCalculators').then(m => ({ default: m.PFCalculator }))),
+  'gratuity-calculator': dynamic(() => import('@/components/calculators/categories/tax/MoreTaxCalculators').then(m => ({ default: m.GratuityCalculator }))),
+  'tds-calculator': dynamic(() => import('@/components/calculators/categories/tax/MoreTaxCalculators').then(m => ({ default: m.TDSCalculator }))),
+  'gst-calculator': dynamic(() => import('@/components/calculators/categories/tax/TaxCalculators').then(m => ({ default: m.GSTCalculator }))),
+  'professional-tax': dynamic(() => import('@/components/calculators/categories/tax/MoreTaxCalculators').then(m => ({ default: m.ProfessionalTax }))),
+  'advance-tax-calculator': dynamic(() => import('@/components/calculators/categories/tax/MoreTaxCalculators').then(m => ({ default: m.AdvanceTaxCalculator }))),
+  'post-tax-income': dynamic(() => import('@/components/calculators/categories/tax/MoreTaxCalculators').then(m => ({ default: m.PostTaxIncome }))),
+  'capital-gains-tax': dynamic(() => import('@/components/calculators/categories/tax/CapitalGainsTax').then(m => ({ default: m.CapitalGainsTax }))),
+  'old-vs-new-regime': dynamic(() => import('@/components/calculators/categories/tax/OldVsNewRegime').then(m => ({ default: m.OldVsNewRegime }))),
+
+  // Currency
+  'currency-converter': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.CurrencyConverter }))),
+  'crypto-profit-loss': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.CryptoProfitLoss }))),
+  'forex-margin': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.ForexMargin }))),
+  'bitcoin-converter': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.BitcoinConverter }))),
+  'exchange-rate-impact': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.ExchangeRateImpact }))),
+  'import-export-duty': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.ImportExportDuty }))),
+  'gold-silver-price': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.GoldSilverPrice }))),
+  'international-transfer': dynamic(() => import('@/components/calculators/categories/currency/CurrencyCalculators').then(m => ({ default: m.InternationalTransfer }))),
+
+  // Banking
+  'savings-account-interest': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.SavingsAccountInterest }))),
+  'deposit-maturity': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.DepositMaturity }))),
+  'interest-rate-comparison': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.InterestRateComparison }))),
+  'deposit-growth': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.DepositGrowth }))),
+  'bank-charges': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.BankChargesCalculator }))),
+  'atm-withdrawal-charges': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.ATMWithdrawalCalculator }))),
+  'loan-against-fd': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.LoanAgainstFD }))),
+  'money-market-calculator': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.MoneyMarketCalculator }))),
+  'rd-planner': dynamic(() => import('@/components/calculators/categories/banking/BankingCalculators').then(m => ({ default: m.RDPlanner }))),
+  'credit-card-payoff': dynamic(() => import('@/components/calculators/categories/credit-card/CreditCardPayoff').then(m => ({ default: m.CreditCardPayoff }))),
+  'ssy-calculator': dynamic(() => import('@/components/calculators/categories/banking/SSYCalculator').then(m => ({ default: m.SSYCalculator }))),
+  'scss-calculator': dynamic(() => import('@/components/calculators/categories/banking/SCSSCalculator').then(m => ({ default: m.SCSSCalculator }))),
+
+  // Business
+  'profit-margin': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.ProfitMarginCalculator }))),
+  'break-even-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.BreakEvenCalculator }))),
+  'discount-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.DiscountCalculator }))),
+  'roas-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.ROASCalculator }))),
+  'working-capital': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.WorkingCapital }))),
+  'markup-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.MarkupCalculator }))),
+  'commission-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.CommissionCalculator }))),
+  'startup-runway': dynamic(() => import('@/components/calculators/categories/business/StartupRunway').then(m => ({ default: m.StartupRunway }))),
+  'freelance-tax': dynamic(() => import('@/components/calculators/categories/business/FreelanceTax').then(m => ({ default: m.FreelanceTax }))),
+  'inventory-turnover': dynamic(() => import('@/components/calculators/categories/business/InventoryTurnover').then(m => ({ default: m.InventoryTurnover }))),
+  'operating-margin': dynamic(() => import('@/components/calculators/categories/business/OperatingMargin').then(m => ({ default: m.OperatingMargin }))),
+
+  // Misc
+  'tip-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.TipCalculator }))),
+  'age-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.AgeCalculator }))),
+  'date-difference': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.DateDifferenceCalculator }))),
+  'date-plus-duration': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.DatePlusDurationCalculator }))),
+  'percentage-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.PercentageCalculator }))),
+  'fuel-cost-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.FuelCostCalculator }))),
+  'bmi-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.BMICalculator }))),
+  'emergency-fund': dynamic(() => import('@/components/calculators/categories/misc/EmergencyFund').then(m => ({ default: m.EmergencyFund }))),
+  'life-insurance-calculator': dynamic(() => import('@/components/calculators/categories/insurance/LifeInsuranceCalculator').then(m => ({ default: m.LifeInsuranceCalculator }))),
+
+  // Health Calculators
+  'bmr-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.BMRCalculator }))),
+  'body-fat-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.BodyFatCalculator }))),
+  'calorie-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.CalorieCalculator }))),
+  'ideal-weight-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.IdealWeightCalculator }))),
+  'macro-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.MacroCalculator }))),
+  'tdee-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.TDEECalculator }))),
+  'water-intake-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.WaterIntakeCalculator }))),
+  'lean-body-mass': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.LeanBodyMassCalculator }))),
+  'waist-hip-ratio': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.WaistHipRatioCalculator }))),
+  'protein-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.ProteinCalculator }))),
+  'calories-burned': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.CaloriesBurnedCalculator }))),
+  'target-heart-rate': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.TargetHeartRateCalculator }))),
+  'sleep-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.SleepCalculator }))),
+}
+
+export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))
