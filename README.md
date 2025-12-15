@@ -86,14 +86,5 @@ MIT License - See LICENSE file for details
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read CONTRIBUTING.md first.
-
-## 📧 Contact
-
-- Website: [calculatorloop.com](https://calculatorloop.com)
-- Email: support@calculatorloop.com
-- Twitter: [@calculatorloop](https://twitter.com/calculatorloop)
-
----
 
 Built with ❤️ by Calculator Loop Team
