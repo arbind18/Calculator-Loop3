@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect, type ReactNode } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import {
   initGA,
@@ -10,7 +10,7 @@ import {
   trackTimeOnPage,
 } from '@/lib/analytics';
 
-export default function AnalyticsProvider({ children }: { children: React.ReactNode }) {
+function AnalyticsProviderInner({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -50,4 +50,12 @@ export default function AnalyticsProvider({ children }: { children: React.ReactN
   }, [pathname, searchParams]);
 
   return <>{children}</>;
+}
+
+export default function AnalyticsProvider({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<>{children}</>}>
+      <AnalyticsProviderInner>{children}</AnalyticsProviderInner>
+    </Suspense>
+  );
 }
