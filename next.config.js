@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+const enableStandalone =
+  process.env.NEXT_OUTPUT === 'standalone' || process.env.NEXT_OUTPUT_STANDALONE === 'true'
+
 const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
@@ -136,7 +139,7 @@ const nextConfig = {
   trailingSlash: false,
 
   // Output optimization
-  output: 'standalone',
+  ...(enableStandalone ? { output: 'standalone' } : {}),
 }
 
 module.exports = nextConfig

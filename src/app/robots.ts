@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://calculatorloop.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
   
   return {
     rules: [
@@ -10,11 +10,13 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [
           '/api/',
-          '/admin/',
           '/_next/',
-          '/private/',
-          '/*.json$',
-          '/auth/',
+          '/login',
+          '/register',
+          '/profile',
+          '/notifications',
+          '/history',
+          '/favorites',
         ],
       },
       {

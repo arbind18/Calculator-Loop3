@@ -1,4 +1,14 @@
+import type { Metadata } from 'next'
 import { CalculationHistory } from "@/components/dashboard/CalculationHistory"
+
+export const metadata: Metadata = {
+  title: 'History - Calculator Loop',
+  description: 'Your calculator history.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default function HistoryPage() {
   return (

@@ -42,15 +42,26 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   return {
     title: `${post.title} - Calculator Loop Blog`,
     description: post.description,
-    keywords: post.tags.join(', '),
+    keywords: post.tags,
     authors: [{ name: post.author.name }],
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.description,
       type: 'article',
+      url: `https://calculatorloop.com/blog/${post.slug}`,
       publishedTime: post.publishedAt,
       authors: [post.author.name],
       tags: post.tags,
+      images: post.image ? [{ url: post.image }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: post.image ? [post.image] : undefined,
     },
   };
 }

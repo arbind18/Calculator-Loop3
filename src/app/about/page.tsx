@@ -1,4 +1,13 @@
 import Link from "next/link"
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'About - Calculator Loop',
+  description: 'Learn about Calculator Loop and our mission to make fast, accurate, free calculators for finance, health, math, and time.',
+  alternates: {
+    canonical: '/about',
+  },
+}
 
 export default function AboutPage() {
   return (

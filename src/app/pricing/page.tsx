@@ -4,10 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { premiumTiers, calculateYearlySavings } from '@/lib/premium';
 import { Check, Star, Zap, Crown } from 'lucide-react';
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Pricing - Calculator Loop',
   description: 'Choose the perfect plan for your needs. Start free or upgrade for advanced features.',
+  alternates: {
+    canonical: '/pricing',
+  },
 };
 
 export default function PricingPage() {

@@ -31,10 +31,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   return {
     title: `${info.tool.title} - Free Online Calculator | Calculator Loop`,
-    description: `${info.tool.description} Accurate, fast, and free online ${info.tool.title} for your financial planning needs.`,
+    description: `${info.tool.description} Accurate, fast, and free online ${info.tool.title} with instant results.`,
     keywords: [info.tool.title, `${info.tool.title} online`, 'financial calculator', 'free calculator', info.categoryName],
     alternates: {
-      canonical: `https://calculatorloop.com/calculator/${id}`
+      canonical: `/calculator/${id}`
     },
     openGraph: {
       title: `${info.tool.title} - Free Online Calculator`,

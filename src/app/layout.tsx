@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://calculatorloop.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'),
   title: {
     default: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, GST, Age & Tax Calculator',
     template: '%s | Calculator Loop',
@@ -83,13 +83,6 @@ export const metadata: Metadata = {
     title: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, Tax',
     description: 'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive tools available.',
     images: ['/twitter-image.png'],
-  },
-  alternates: {
-    canonical: 'https://calculatorloop.com',
-    languages: {
-      'en': 'https://calculatorloop.com',
-      'hi': 'https://calculatorloop.com/hi',
-    },
   },
   verification: {
     google: 'your-google-verification-code',

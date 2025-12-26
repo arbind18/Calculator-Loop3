@@ -3,10 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { allBlogPosts, formatDate } from '@/lib/blogData';
 import { Calendar, Clock, User, ArrowRight, Star } from 'lucide-react';
+import type { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Financial Blog - Calculator Loop',
-  description: 'Expert guides on EMI, loans, investments, and financial planning. Learn how to make smarter money decisions.',
+export const metadata: Metadata = {
+  title: 'Blog - Calculator Loop',
+  description: 'Expert guides on EMI, loans, investments, and planning. Learn how to make smarter decisions with calculators and examples.',
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 export default function BlogPage() {
