@@ -28,7 +28,7 @@ export default function LoginPage() {
       })
 
       if (callback?.error) {
-        toast.error("Invalid credentials")
+        toast.error(callback.error === "CredentialsSignin" ? "Invalid credentials" : callback.error)
       }
 
       if (callback?.ok && !callback?.error) {
