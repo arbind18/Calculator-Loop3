@@ -1,0 +1,96 @@
+{
+  "categoryKey": "health",
+  "summary": {
+    "totalToolsInToolsData": 434,
+    "implementedInRegistry": 434,
+    "missingInRegistry": 0,
+    "advancedImplemented": 1,
+    "basicImplemented": 433,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "biological-time",
+      "subcategoryName": "🧬 Biological & Health Time",
+      "total": 11,
+      "implemented": 11,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 11
+    },
+    {
+      "subcategoryKey": "body-measurements",
+      "subcategoryName": "🔸 Body Measurements",
+      "total": 47,
+      "implemented": 47,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 47
+    },
+    {
+      "subcategoryKey": "disease-risk-prevention",
+      "subcategoryName": "🔸 Disease Risk & Prevention",
+      "total": 49,
+      "implemented": 49,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 49
+    },
+    {
+      "subcategoryKey": "exercise-performance",
+      "subcategoryName": "🔸 Exercise & Performance",
+      "total": 62,
+      "implemented": 62,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 62
+    },
+    {
+      "subcategoryKey": "heart-vital-health",
+      "subcategoryName": "🔸 Heart & Vital Health",
+      "total": 51,
+      "implemented": 51,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 51
+    },
+    {
+      "subcategoryKey": "nutrition-calories",
+      "subcategoryName": "🔸 Nutrition & Calorie Tracking",
+      "total": 55,
+      "implemented": 55,
+      "missing": 0,
+      "advancedImplemented": 1,
+      "basicImplemented": 54
+    },
+    {
+      "subcategoryKey": "pregnancy-fertility",
+      "subcategoryName": "🔸 Pregnancy & Fertility",
+      "total": 58,
+      "implemented": 58,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 58
+    },
+    {
+      "subcategoryKey": "sleep-lifestyle",
+      "subcategoryName": "🔸 Sleep & Lifestyle",
+      "total": 49,
+      "implemented": 49,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 49
+    },
+    {
+      "subcategoryKey": "weight-goal-management",
+      "subcategoryName": "🔸 Weight & Goal Management",
+      "total": 52,
+      "implemented": 52,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 52
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

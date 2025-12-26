@@ -1,42 +1,48 @@
+"use client"
+
 import Link from "next/link"
 import { Calculator, Github, Twitter, Mail, Heart } from "lucide-react"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
+import NewsletterSignup from "@/components/email/NewsletterSignup"
 
 export function Footer() {
+  const { language } = useSettings()
+  const t = getMergedTranslations(language)
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
     calculators: [
-      { label: "Financial", href: "/category/financial" },
-      { label: "Health & Fitness", href: "/category/health" },
-      { label: "Math", href: "/category/math" },
-      { label: "Date & Time", href: "/category/datetime" },
+      { label: t.nav.financial, href: "/category/financial" },
+      { label: t.nav.health, href: "/category/health" },
+      { label: t.nav.math, href: "/category/math" },
+      { label: t.nav.datetime, href: "/category/datetime" },
     ],
     resources: [
-      { label: "Popular Tools", href: "/popular" },
-      { label: "Recent", href: "/recent" },
-      { label: "Favorites", href: "/favorites" },
-      { label: "History", href: "/history" },
+      { label: t.hero.popularTools, href: "/popular" },
+      { label: t.nav.history, href: "/history" },
+      { label: t.nav.favorites, href: "/favorites" },
     ],
     company: [
-      { label: "About Us", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
+      { label: t.footer.aboutUs, href: "/about" },
+      { label: t.footer.contact, href: "/contact" },
+      { label: t.footer.privacyPolicy, href: "/privacy" },
+      { label: t.footer.termsOfService, href: "/terms" },
     ],
   }
 
   return (
     <footer className="w-full border-t border-border/40 bg-background">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary">
               <Calculator className="h-6 w-6" />
               <span>Calculator Hub</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Your one-stop solution for 300+ calculators. Fast, accurate, and easy to use.
+              {t.footer.tagline}
             </p>
             <div className="flex gap-3">
               <a
@@ -62,11 +68,16 @@ export function Footer() {
                 <Mail className="h-4 w-4" />
               </a>
             </div>
+            
+            {/* Newsletter Signup */}
+            <div className="pt-2">
+              <NewsletterSignup variant="footer" />
+            </div>
           </div>
 
           {/* Calculators */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-sm">Calculators</h3>
+            <h3 className="font-semibold text-sm">{t.footer.calculators}</h3>
             <ul className="space-y-2">
               {footerLinks.calculators.map((link) => (
                 <li key={link.href}>
@@ -83,7 +94,7 @@ export function Footer() {
 
           {/* Resources */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-sm">Resources</h3>
+            <h3 className="font-semibold text-sm">{t.footer.resources}</h3>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
@@ -100,7 +111,7 @@ export function Footer() {
 
           {/* Company */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-sm">Company</h3>
+            <h3 className="font-semibold text-sm">{t.footer.company}</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -119,7 +130,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border/40 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground text-center sm:text-left">
-            © {currentYear} Calculator Hub. All rights reserved.
+            © {currentYear} Calculator Hub. {t.footer.rights}
           </p>
           <p className="text-sm text-muted-foreground flex items-center gap-1">
             Made with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by Your Team

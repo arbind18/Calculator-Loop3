@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
-import { PiggyBank, HandCoins, TrendingDown, Percent } from "lucide-react"
+import { PiggyBank, HandCoins, TrendingDown, Percent, TrendingUp } from "lucide-react"
+import { generateReport } from "@/lib/downloadUtils"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import {
   PPFSeoContent,
@@ -279,6 +280,114 @@ export function CompoundInterestInvestment() {
           <ResultCard label="Total Amount" value={`₹${result.amount.toLocaleString('en-IN')}`} type="highlight" />
         </div>
       )}
+    />
+  )
+}
+
+export function DividendYield() {
+  const [sharePrice, setSharePrice] = useState(500)
+  const [dividendPerShare, setDividendPerShare] = useState(20)
+
+  const yieldPercent = (dividendPerShare / sharePrice) * 100
+
+  return (
+    <FinancialCalculatorTemplate
+      title="Dividend Yield Calculator"
+      description="Calculate the dividend yield of a stock."
+      icon={TrendingUp}
+      calculate={() => {}}
+      onDownload={(format) => generateReport(format, 'dividend_yield', ['Item', 'Value'], [['Yield', `${yieldPercent.toFixed(2)}%`]], 'Dividend Report')}
+      inputs={
+        <div className="space-y-4">
+          <InputGroup label="Current Share Price" value={sharePrice} onChange={setSharePrice} prefix="₹" />
+          <InputGroup label="Annual Dividend Per Share" value={dividendPerShare} onChange={setDividendPerShare} prefix="₹" />
+        </div>
+      }
+      result={
+        <div className="p-6 bg-primary/10 rounded-xl text-center">
+          <div className="text-lg text-muted-foreground mb-2">Dividend Yield</div>
+          <div className="text-4xl font-bold text-primary">{yieldPercent.toFixed(2)}%</div>
+        </div>
+      }
+    />
+  )
+}
+
+export function StockReturn() {
+  const [buyPrice, setBuyPrice] = useState(100)
+  const [sellPrice, setSellPrice] = useState(150)
+  const [quantity, setQuantity] = useState(100)
+  const [dividends, setDividends] = useState(0)
+
+  const calculate = () => {
+    const investment = buyPrice * quantity
+    const revenue = sellPrice * quantity
+    const profit = revenue - investment + dividends
+    const roi = (profit / investment) * 100
+    return { profit: Math.round(profit), roi: roi.toFixed(2) }
+  }
+
+  const { profit, roi } = calculate()
+
+  return (
+    <FinancialCalculatorTemplate
+      title="Stock Return Calculator"
+      description="Calculate total profit and ROI from stock trading."
+      icon={TrendingUp}
+      calculate={() => {}}
+      onDownload={(format) => generateReport(format, 'stock_return', ['Item', 'Value'], [['Profit', `₹${profit}`], ['ROI', `${roi}%`]], 'Stock Report')}
+      inputs={
+        <div className="space-y-4">
+          <InputGroup label="Buy Price" value={buyPrice} onChange={setBuyPrice} prefix="₹" />
+          <InputGroup label="Sell Price" value={sellPrice} onChange={setSellPrice} prefix="₹" />
+          <InputGroup label="Quantity" value={quantity} onChange={setQuantity} />
+          <InputGroup label="Total Dividends Received" value={dividends} onChange={setDividends} prefix="₹" />
+        </div>
+      }
+      result={
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div className="p-4 bg-green-50 rounded-lg">
+            <div className="text-sm text-green-600">Total Profit</div>
+            <div className="text-2xl font-bold text-green-700">₹{profit.toLocaleString()}</div>
+          </div>
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <div className="text-sm text-blue-600">ROI</div>
+            <div className="text-2xl font-bold text-blue-700">{roi}%</div>
+          </div>
+        </div>
+      }
+    />
+  )
+}
+
+export function BondYield() {
+  const [faceValue, setFaceValue] = useState(1000)
+  const [couponRate, setCouponRate] = useState(8)
+  const [marketPrice, setMarketPrice] = useState(950)
+
+  const annualCoupon = faceValue * (couponRate / 100)
+  const currentYield = (annualCoupon / marketPrice) * 100
+
+  return (
+    <FinancialCalculatorTemplate
+      title="Bond Yield Calculator"
+      description="Calculate Current Yield of a bond."
+      icon={TrendingUp}
+      calculate={() => {}}
+      onDownload={(format) => generateReport(format, 'bond_yield', ['Item', 'Value'], [['Current Yield', `${currentYield.toFixed(2)}%`]], 'Bond Report')}
+      inputs={
+        <div className="space-y-4">
+          <InputGroup label="Face Value" value={faceValue} onChange={setFaceValue} prefix="₹" />
+          <InputGroup label="Coupon Rate" value={couponRate} onChange={setCouponRate} suffix="%" />
+          <InputGroup label="Current Market Price" value={marketPrice} onChange={setMarketPrice} prefix="₹" />
+        </div>
+      }
+      result={
+        <div className="p-6 bg-primary/10 rounded-xl text-center">
+          <div className="text-lg text-muted-foreground mb-2">Current Yield</div>
+          <div className="text-4xl font-bold text-primary">{currentYield.toFixed(2)}%</div>
+        </div>
+      }
     />
   )
 }

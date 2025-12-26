@@ -8,7 +8,7 @@ export default function AboutPage() {
           <p className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">About</p>
           <h1 className="text-4xl md:text-5xl font-bold">About Calculator Loop</h1>
           <p className="text-muted-foreground max-w-3xl">
-            We built Calculator Loop to make 300+ calculators fast, accurate, and free. Finance, health, math, time—everything in one clean experience.
+            We built Calculator Loop to make calculators fast, accurate, and free. Finance, health, math, time—everything in one clean experience.
           </p>
         </div>
 

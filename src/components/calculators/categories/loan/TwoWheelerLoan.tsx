@@ -1,7 +1,7 @@
-"use client"
+﻿"use client"
 
-import { useState } from "react"
-import { Bike, TrendingUp, PieChart as PieChartIcon } from "lucide-react"
+import { useState, useEffect } from "react"
+import { DollarSign, PieChart as PieChartIcon } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { ChartToggle } from "@/components/calculators/ui/ChartToggle"
 import { 
@@ -9,198 +9,189 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid
 } from "recharts"
 import { generateReport } from "@/lib/downloadUtils"
-import { CarLoanSeoContent } from "@/components/calculators/seo/LoanSeo"
+import { LoanEligibilitySeoContent } from "@/components/calculators/seo/LoanSeo"
+import { calculateLoanEMI, LoanResult } from "@/lib/logic/loan"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
 
 export function TwoWheelerLoan() {
-  const [loanAmount, setLoanAmount] = useState(80000)
-  const [interestRate, setInterestRate] = useState(10)
-  const [tenure, setTenure] = useState(36)
-  const [result, setResult] = useState<any>(null)
+  const { language } = useSettings()
+  const t = getMergedTranslations(language)
+  
+  const [vehiclePrice, setVehiclePrice] = useState(100000)
+  const [downPayment, setDownPayment] = useState(20000)
+  const [interestRate, setInterestRate] = useState(11)
+  const [tenure, setTenure] = useState(3)
+  const [result, setResult] = useState<LoanResult | null>(null)
   const [chartView, setChartView] = useState<'pie' | 'graph'>('pie')
 
-  const calculateEMI = () => {
-    const principal = loanAmount
-    const ratePerMonth = interestRate / 12 / 100
-    const n = tenure
-
-    const emi = principal * ratePerMonth * Math.pow(1 + ratePerMonth, n) / (Math.pow(1 + ratePerMonth, n) - 1)
-    const totalAmount = emi * n
-    const totalInterest = totalAmount - principal
-
-    // Generate Amortization Schedule
-    let balance = principal
-    let totalInterestPaid = 0
-    const schedule = []
-    let currentYear = new Date().getFullYear()
-    
-    for (let i = 1; i <= n; i++) {
-      const interest = balance * ratePerMonth
-      const principalComponent = emi - interest
-      balance = balance - principalComponent
-      totalInterestPaid += interest
-      
-      if (balance < 0) balance = 0
-
-      schedule.push({
-        month: i,
-        year: currentYear + Math.floor((i - 1) / 12),
-        principal: Math.round(principalComponent),
-        interest: Math.round(interest),
-        balance: Math.round(balance),
-        totalPayment: Math.round(emi),
-        cumulativeInterest: Math.round(totalInterestPaid)
-      })
-    }
-
-    setResult({
-      emi: Math.round(emi),
-      totalAmount: Math.round(totalAmount),
-      totalInterest: Math.round(totalInterest),
-      principal: principal,
-      schedule: schedule
+  const handleCalculate = () => {
+    const calculationResult = calculateLoanEMI({
+      loanAmount: vehiclePrice - downPayment,
+      interestRate,
+      tenureMonths: tenure * 12
     })
+    setResult(calculationResult)
   }
 
+  useEffect(() => {
+    handleCalculate()
+  }, [vehiclePrice, downPayment, interestRate, tenure])
+
   const chartData = result ? [
-    { name: 'Principal Amount', value: result.principal, color: '#3b82f6' },
-    { name: 'Total Interest', value: result.totalInterest, color: '#ef4444' },
+    { name: t.loan.principal_amount, value: result.principal, color: '#3b82f6' },
+    { name: t.loan.total_interest, value: result.totalInterest, color: '#ef4444' },
   ] : []
 
   const handleClear = () => {
-    setLoanAmount(0)
-    setInterestRate(0)
-    setTenure(0)
+    setVehiclePrice(100000)
+    setDownPayment(20000)
+    setInterestRate(11)
+    setTenure(3)
     setResult(null)
   }
 
   const handleDownload = (format: string) => {
-    if (!result || !result.schedule) return
+    if (!result) return
 
-    const headers = ['Month', 'Principal', 'Interest', 'Total Payment', 'Balance']
-    const data = result.schedule.map((row: any) => [
-      row.month,
-      row.principal,
-      row.interest,
-      row.totalPayment,
-      row.balance
-    ])
+    const headers = [t.common.result, t.common.value]
+    const data = [
+      [t.loan.loan_amount, result.principal],
+      [t.loan.emi, result.emi],
+      [t.loan.total_interest, result.totalInterest],
+      [t.loan.total_amount, result.totalAmount]
+    ]
 
-    generateReport(format, 'two_wheeler_loan_schedule', headers, data, 'Two Wheeler Loan EMI Schedule', {
-      'Loan Amount': `₹${loanAmount}`,
-      'Interest Rate': `${interestRate}%`,
-      'Tenure': `${tenure} months`
+    generateReport(format, 'two_wheeler_loan', headers, data, t.loan.two_wheeler_loan_title, {
+      [t.loan.vehicle_price]: `₹${vehiclePrice}`,
+      [t.loan.down_payment]: `₹${downPayment}`,
+      [t.loan.interest_rate]: `${interestRate}%`,
+      [t.loan.tenure_years]: `${tenure}`
     })
   }
 
   return (
     <FinancialCalculatorTemplate
-      title="Two Wheeler Loan EMI Calculator"
-      description="Calculate your monthly two wheeler loan EMI and view detailed amortization schedule"
-      icon={Bike}
-      calculate={calculateEMI}
+      title={t.loan.two_wheeler_loan_title}
+      description={t.loan.two_wheeler_loan_desc}
+      icon={DollarSign}
+      calculate={handleCalculate}
       onClear={handleClear}
-      seoContent={<CarLoanSeoContent />}
+      seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
-      values={[loanAmount, interestRate, tenure]}
       inputs={
         <div className="space-y-4">
           <InputGroup
-            label="Loan Amount"
-            value={loanAmount}
-            onChange={setLoanAmount}
+            label={t.loan.vehicle_price}
+            value={vehiclePrice}
+            onChange={setVehiclePrice}
             min={10000}
-            max={500000}
-            step={5000}
+            max={1000000}
+            step={1000}
             prefix="₹"
           />
           <InputGroup
-            label="Interest Rate (p.a.)"
+            label={t.loan.down_payment}
+            value={downPayment}
+            onChange={setDownPayment}
+            min={0}
+            max={vehiclePrice}
+            step={1000}
+            prefix="₹"
+          />
+          <InputGroup
+            label={t.loan.interest_rate}
             value={interestRate}
             onChange={setInterestRate}
-            min={1}
-            max={25}
+            min={0.1}
+            max={30}
             step={0.1}
             suffix="%"
           />
           <InputGroup
-            label="Tenure (Months)"
+            label={t.loan.tenure_years}
             value={tenure}
             onChange={setTenure}
-            min={6}
-            max={60}
-            step={6}
-            helpText={`Duration: ${(tenure / 12).toFixed(1)} Years`}
+            min={1}
+            max={7}
+            step={1}
           />
         </div>
       }
       result={result && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ResultCard
-              label="Monthly EMI"
+              label={t.loan.emi}
               value={`₹${result.emi.toLocaleString()}`}
               type="highlight"
             />
             <ResultCard
-              label="Total Interest"
-              value={`₹${result.totalInterest.toLocaleString()}`}
-              type="warning"
+              label={t.loan.loan_amount}
+              value={`₹${result.principal.toLocaleString()}`}
+              type="highlight"
             />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ResultCard
-              label="Total Amount"
+              label={t.loan.total_amount}
               value={`₹${result.totalAmount.toLocaleString()}`}
               type="default"
             />
+            <ResultCard
+              label={t.loan.total_interest}
+              value={`₹${result.totalInterest.toLocaleString()}`}
+              type="default"
+            />
           </div>
-        </div>
-      )}
-      charts={result && (
-        <div className="space-y-8 w-full">
-          <ChartToggle 
-            view={chartView}
-            onChange={setChartView}
-            options={[
-              { value: 'pie', label: 'Pie Chart', icon: PieChartIcon },
-              { value: 'graph', label: 'Graph', icon: TrendingUp }
-            ]}
-          />
 
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              {chartView === 'pie' ? (
-                <PieChart>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    formatter={(value: number) => `₹${value.toLocaleString()}`}
-                    contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
-                  />
-                  <Legend />
-                </PieChart>
-              ) : (
-                <AreaChart data={result.schedule}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                  <XAxis dataKey="month" className="text-xs" />
-                  <YAxis className="text-xs" tickFormatter={(value) => `₹${(value/1000).toFixed(0)}k`} />
-                  <Tooltip 
-                    formatter={(value: number) => `₹${value.toLocaleString()}`}
-                    contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
-                  />
-                  <Area type="monotone" dataKey="balance" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} />
-                </AreaChart>
-              )}
-            </ResponsiveContainer>
+          <div className="space-y-8 w-full">
+            <ChartToggle
+              view={chartView}
+              onChange={setChartView}
+              options={[
+                { value: 'pie', label: t.common.distribution, icon: PieChartIcon },
+                { value: 'graph', label: t.common.growth_chart, icon: DollarSign }
+              ]}
+            />
+
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                {chartView === 'pie' ? (
+                  <PieChart>
+                    <Pie
+                      data={chartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      formatter={(value: any) => `₹${(value ?? 0).toLocaleString()}`}
+                      contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                    />
+                    <Legend />
+                  </PieChart>
+                ) : (
+                  <AreaChart data={result.schedule}>
+                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                    <XAxis dataKey="year" className="text-xs" />
+                    <YAxis className="text-xs" tickFormatter={(value) => `₹${(value/1000).toFixed(0)}k`} />
+                    <Tooltip 
+                      formatter={(value: any) => `₹${(value ?? 0).toLocaleString()}`}
+                      contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                    />
+                    <Area type="monotone" dataKey="balance" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} />
+                  </AreaChart>
+                )}
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       )}

@@ -1,0 +1,105 @@
+{
+  "categoryKey": "scientific",
+  "summary": {
+    "totalToolsInToolsData": 103,
+    "implementedInRegistry": 103,
+    "missingInRegistry": 0,
+    "advancedImplemented": 0,
+    "basicImplemented": 103,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "astronomy-space",
+      "subcategoryName": "🚀 Astronomy & Space Science",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "chemistry-calculations",
+      "subcategoryName": "🧪 Chemistry Calculators",
+      "total": 15,
+      "implemented": 15,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 15
+    },
+    {
+      "subcategoryKey": "earth-science",
+      "subcategoryName": "🌍 Earth Science & Geology",
+      "total": 7,
+      "implemented": 7,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 7
+    },
+    {
+      "subcategoryKey": "electromagnetism",
+      "subcategoryName": "⚡ Electromagnetism & Circuits",
+      "total": 12,
+      "implemented": 12,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 12
+    },
+    {
+      "subcategoryKey": "fluid-mechanics",
+      "subcategoryName": "💧 Fluid Mechanics & Dynamics",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    },
+    {
+      "subcategoryKey": "optics-waves",
+      "subcategoryName": "🔬 Optics & Wave Physics",
+      "total": 9,
+      "implemented": 9,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 9
+    },
+    {
+      "subcategoryKey": "physics-mechanics",
+      "subcategoryName": "⚛️ Physics & Mechanics",
+      "total": 18,
+      "implemented": 18,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 18
+    },
+    {
+      "subcategoryKey": "quantum-nuclear",
+      "subcategoryName": "☢️ Quantum & Nuclear Physics",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    },
+    {
+      "subcategoryKey": "scientific-notation",
+      "subcategoryName": "🔬 Scientific Tools & Conversions",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    },
+    {
+      "subcategoryKey": "thermodynamics",
+      "subcategoryName": "🌡️ Thermodynamics & Heat Transfer",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

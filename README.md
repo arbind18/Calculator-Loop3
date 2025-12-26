@@ -1,12 +1,12 @@
 # 🧮 Calculator Loop - Next.js Edition
 
-## 300+ Free Online Calculators
+## Free Online Calculators
 
 A modern, fast, and feature-rich calculator hub built with Next.js 14, TypeScript, and Tailwind CSS.
 
 ## ✨ Features
 
-- 🚀 **300+ Calculators** across 10 categories
+- 🚀 **Extensive Calculators** across 10 categories
 - 💨 **Lightning Fast** - Server Components & Static Generation
 - 🎨 **Beautiful UI** - Smooth animations with Framer Motion
 - 🌗 **Dark Mode** - System-aware theme switching

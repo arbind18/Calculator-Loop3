@@ -4,7 +4,9 @@ import { useState } from "react"
 import { Calculator, TrendingUp, PieChart as PieChartIcon } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { ChartToggle } from "@/components/calculators/ui/ChartToggle"
-import { SIPSeoContent } from "@/components/calculators/seo/InvestmentSeo"
+import { ComprehensiveSIPSeo } from "@/components/calculators/seo/ComprehensiveSIPSeo"
+import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
+import { useTranslation } from "@/hooks/useTranslation"
 import { 
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend,
   AreaChart, Area, XAxis, YAxis, CartesianGrid
@@ -14,6 +16,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
 export function SIPCalculator() {
+  const { t, lang } = useTranslation()
   const [monthlyInvestment, setMonthlyInvestment] = useState(5000)
   const [expectedReturn, setExpectedReturn] = useState(12)
   const [timePeriod, setTimePeriod] = useState(10)
@@ -76,12 +79,12 @@ export function SIPCalculator() {
 
     const headers = ['Metric', 'Value']
     const data = [
-      ['Monthly Investment', monthlyInvestment],
-      ['Expected Return', `${expectedReturn}%`],
-      ['Time Period', `${timePeriod} Years`],
-      ['Total Invested', result.totalInvested],
-      ['Est. Returns', result.returns],
-      ['Total Value', result.maturityAmount]
+      [t('investment.monthly_investment') || 'Monthly Investment', monthlyInvestment],
+      [t('investment.expected_return') || 'Expected Return', `${expectedReturn}%`],
+      [t('investment.time_period') || 'Time Period', `${timePeriod} Years`],
+      [t('investment.invested_amount') || 'Total Invested', result.totalInvested],
+      [t('investment.est_returns') || 'Est. Returns', result.returns],
+      [t('investment.total_value') || 'Total Value', result.maturityAmount]
     ]
 
     switch (format) {
@@ -102,7 +105,7 @@ export function SIPCalculator() {
 
       case 'pdf':
         const doc = new jsPDF()
-        doc.text("SIP Calculator Report", 14, 15)
+        doc.text(t('investment.sip_title') || "SIP Calculator", 14, 15)
         
         autoTable(doc, {
           head: [headers],
@@ -128,18 +131,28 @@ export function SIPCalculator() {
 
   return (
     <FinancialCalculatorTemplate
-      title="SIP Calculator"
-      description="Calculate returns on your Systematic Investment Plan"
+      title={t('investment.sip_title')}
+      description={t('investment.sip_desc')}
       icon={TrendingUp}
       calculate={calculate}
       onClear={handleClear}
       onDownload={handleDownload}
       values={[monthlyInvestment, expectedReturn, timePeriod]}
-      seoContent={<SIPSeoContent />}
+      seoContent={
+        lang === 'en' ? (
+          <ComprehensiveSIPSeo />
+        ) : (
+          <SeoContentGenerator
+            title={t('investment.sip_title')}
+            description={t('investment.sip_desc')}
+            categoryName={t('nav.financial')}
+          />
+        )
+      }
       inputs={
-        <div className="space-y-4">
+        <div className="space-y-6">
           <InputGroup
-            label="Monthly Investment"
+            label={t('investment.monthly_investment')}
             value={monthlyInvestment}
             onChange={setMonthlyInvestment}
             min={500}
@@ -148,7 +161,7 @@ export function SIPCalculator() {
             prefix="₹"
           />
           <InputGroup
-            label="Expected Return (p.a)"
+            label={t('investment.expected_return')}
             value={expectedReturn}
             onChange={setExpectedReturn}
             min={1}
@@ -157,121 +170,148 @@ export function SIPCalculator() {
             suffix="%"
           />
           <InputGroup
-            label="Time Period (Years)"
+            label={t('investment.time_period')}
             value={timePeriod}
             onChange={setTimePeriod}
             min={1}
             max={40}
             step={1}
+            suffix="Years"
           />
         </div>
       }
-      result={result && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <ResultCard
-              label="Invested Amount"
-              value={`₹${result.totalInvested.toLocaleString()}`}
-              type="default"
-            />
-            <ResultCard
-              label="Est. Returns"
-              value={`₹${result.returns.toLocaleString()}`}
-              type="highlight"
-            />
-            <ResultCard
-              label="Total Value"
-              value={`₹${result.maturityAmount.toLocaleString()}`}
-              type="highlight"
-            />
+      result={
+        result && (
+          <div className="mt-8 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <ResultCard
+                label={t('investment.invested_amount')}
+                value={result.totalInvested}
+                type="default"
+                prefix="₹"
+                icon={Calculator}
+              />
+              <ResultCard
+                label={t('investment.est_returns')}
+                value={result.returns}
+                type="success"
+                prefix="₹"
+                icon={TrendingUp}
+              />
+              <ResultCard
+                label={t('investment.total_value')}
+                value={result.maturityAmount}
+                type="highlight"
+                prefix="₹"
+                icon={PieChartIcon}
+              />
+            </div>
           </div>
-        </div>
-      )}
-      charts={result && (
-        <div className="space-y-8 w-full">
-          <ChartToggle
-            view={chartView}
-            onChange={setChartView}
-            options={[
-              { value: 'pie', label: 'Breakdown', icon: PieChartIcon },
-              { value: 'graph', label: 'Growth', icon: TrendingUp }
-            ]}
-          />
+        )
+      }
+      charts={
+        result && (
+          <div className="space-y-4">
+            <ChartToggle
+              view={chartView}
+              onChange={setChartView}
+              options={[
+                { value: 'pie', label: 'Breakdown', icon: PieChartIcon },
+                { value: 'graph', label: 'Growth', icon: TrendingUp },
+              ]}
+            />
 
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              {chartView === 'pie' ? (
-                <PieChart>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    formatter={(value: number) => `₹${value.toLocaleString()}`}
-                    contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
-                  />
-                  <Legend verticalAlign="bottom" height={36} />
-                </PieChart>
-              ) : (
-                <AreaChart data={result.schedule}>
-                  <defs>
-                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorInvested" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                  <XAxis 
-                    dataKey="year" 
-                    className="text-xs text-muted-foreground" 
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    className="text-xs text-muted-foreground" 
-                    tickFormatter={(value) => `₹${(value/1000).toFixed(0)}k`}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Tooltip 
-                    formatter={(value: number) => `₹${value.toLocaleString()}`}
-                    contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="value" 
-                    name="Total Value"
-                    stroke="#22c55e" 
-                    fillOpacity={1} 
-                    fill="url(#colorValue)" 
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="invested" 
-                    name="Invested Amount"
-                    stroke="#3b82f6" 
-                    fillOpacity={1} 
-                    fill="url(#colorInvested)" 
-                  />
-                </AreaChart>
-              )}
-            </ResponsiveContainer>
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                {chartView === 'pie' ? (
+                  <PieChart>
+                    <Pie
+                      data={chartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value) => {
+                        const raw = Array.isArray(value) ? value[0] : value
+                        const n = typeof raw === 'number' ? raw : Number(raw ?? 0)
+                        return `₹${(Number.isFinite(n) ? n : 0).toLocaleString()}`
+                      }}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--popover))',
+                        borderColor: 'hsl(var(--border))',
+                        borderRadius: '8px',
+                      }}
+                    />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                ) : (
+                  <AreaChart data={result.schedule}>
+                    <defs>
+                      <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="colorInvested" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                    <XAxis
+                      dataKey="year"
+                      className="text-xs text-muted-foreground"
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      className="text-xs text-muted-foreground"
+                      tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}k`}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <Tooltip
+                      formatter={(value) => {
+                        const raw = Array.isArray(value) ? value[0] : value
+                        const n = typeof raw === 'number' ? raw : Number(raw ?? 0)
+                        return `₹${(Number.isFinite(n) ? n : 0).toLocaleString()}`
+                      }}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--popover))',
+                        borderColor: 'hsl(var(--border))',
+                        borderRadius: '8px',
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="value"
+                      name="Total Value"
+                      stroke="#22c55e"
+                      fillOpacity={1}
+                      fill="url(#colorValue)"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="invested"
+                      name="Invested Amount"
+                      stroke="#3b82f6"
+                      fillOpacity={1}
+                      fill="url(#colorInvested)"
+                    />
+                  </AreaChart>
+                )}
+              </ResponsiveContainer>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     />
   )
 }

@@ -2,8 +2,11 @@
 
 import { useState } from "react"
 import { Activity, Scale, Utensils, Heart, Droplets, Moon, Dumbbell, Ruler, User, TrendingUp, TrendingDown, Minus } from "lucide-react"
+import { ComprehensiveHealthTemplate, HealthResult } from "@/components/calculators/templates/ComprehensiveHealthTemplate"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { ChartToggle } from "@/components/calculators/ui/ChartToggle"
+import { FAQSection, getHealthFAQs } from "@/components/calculators/ui/FAQSection"
+import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import {
   BMRSeoContent,
   BodyFatSeoContent,
@@ -26,7 +29,7 @@ export function BMRCalculator() {
   const [height, setHeight] = useState(170)
   const [age, setAge] = useState(30)
   const [gender, setGender] = useState<'male' | 'female'>('male')
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState<HealthResult | null>(null)
 
   const calculateBMR = () => {
     let bmr = 0
@@ -35,26 +38,60 @@ export function BMRCalculator() {
     } else {
       bmr = 10 * weight + 6.25 * height - 5 * age - 161
     }
+    bmr = Math.round(bmr)
 
     const activityLevels = {
-      sedentary: bmr * 1.2,
-      light: bmr * 1.375,
-      moderate: bmr * 1.55,
-      active: bmr * 1.725,
-      veryActive: bmr * 1.9
+      sedentary: Math.round(bmr * 1.2),
+      light: Math.round(bmr * 1.375),
+      moderate: Math.round(bmr * 1.55),
+      active: Math.round(bmr * 1.725),
+      veryActive: Math.round(bmr * 1.9)
     }
 
-    setResult({ bmr: Math.round(bmr), activityLevels })
+    const healthResult: HealthResult = {
+      primaryMetric: {
+        label: "Basal Metabolic Rate",
+        value: bmr,
+        unit: "calories/day",
+        status: 'normal',
+        description: "The number of calories your body burns at rest.",
+        icon: Activity
+      },
+      metrics: [
+        { label: "Sedentary", value: activityLevels.sedentary, unit: "cal", status: 'normal', icon: User },
+        { label: "Light Exercise", value: activityLevels.light, unit: "cal", status: 'normal', icon: Activity },
+        { label: "Moderate Exercise", value: activityLevels.moderate, unit: "cal", status: 'normal', icon: Activity },
+        { label: "Active", value: activityLevels.active, unit: "cal", status: 'normal', icon: Activity },
+        { label: "Very Active", value: activityLevels.veryActive, unit: "cal", status: 'normal', icon: Activity },
+      ],
+      recommendations: [
+        {
+          title: "Understanding BMR",
+          description: "Your BMR represents the energy needed for basic life-sustaining functions. Do not eat below this amount.",
+          priority: 'high',
+          category: "Nutrition"
+        }
+      ],
+      detailedBreakdown: {
+        "Weight": `${weight} kg`,
+        "Height": `${height} cm`,
+        "Age": `${age} years`,
+        "Gender": gender
+      }
+    }
+
+    setResult(healthResult)
   }
 
   return (
-    <FinancialCalculatorTemplate
+    <ComprehensiveHealthTemplate
       title="BMR Calculator"
       description="Calculate your Basal Metabolic Rate (BMR) and daily calorie needs."
       icon={Activity}
       calculate={calculateBMR}
       values={[weight, height, age, gender]}
-      seoContent={<BMRSeoContent />}
+      seoContent={<SeoContentGenerator title="BMR Calculator" description="Calculate your Basal Metabolic Rate (BMR) and daily calorie needs." categoryName="Health" />}
+      result={result}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -95,42 +132,6 @@ export function BMRCalculator() {
           />
         </div>
       }
-      result={result && (
-        <div className="space-y-6">
-          <ResultCard
-            label="Basal Metabolic Rate"
-            value={result.bmr}
-            subtext="calories/day"
-            type="highlight"
-          />
-
-          <div className="space-y-3">
-            <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">Daily Calorie Needs</h3>
-            <div className="grid grid-cols-1 gap-3">
-              <div className="flex justify-between items-center p-4 bg-secondary/50 rounded-xl border border-border/50">
-                <span className="text-sm">Sedentary</span>
-                <span className="font-bold text-primary">{Math.round(result.activityLevels.sedentary)} cal</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-secondary/50 rounded-xl border border-border/50">
-                <span className="text-sm">Light Exercise</span>
-                <span className="font-bold text-primary">{Math.round(result.activityLevels.light)} cal</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-secondary/50 rounded-xl border border-border/50">
-                <span className="text-sm">Moderate Exercise</span>
-                <span className="font-bold text-primary">{Math.round(result.activityLevels.moderate)} cal</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-secondary/50 rounded-xl border border-border/50">
-                <span className="text-sm">Active</span>
-                <span className="font-bold text-primary">{Math.round(result.activityLevels.active)} cal</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-secondary/50 rounded-xl border border-border/50">
-                <span className="text-sm">Very Active</span>
-                <span className="font-bold text-primary">{Math.round(result.activityLevels.veryActive)} cal</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     />
   )
 }
@@ -165,7 +166,7 @@ export function BodyFatCalculator() {
       icon={Scale}
       calculate={calculateBodyFat}
       values={[weight, height, age, neck, waist, hip, gender]}
-      seoContent={<BodyFatSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('body-fat')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -300,7 +301,7 @@ export function CalorieCalculator() {
       icon={Utensils}
       calculate={calculateCalories}
       values={[weight, height, age, gender, activity, goal]}
-      seoContent={<CalorieSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('calorie')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -437,7 +438,7 @@ export function IdealWeightCalculator() {
       icon={Scale}
       calculate={calculateIdealWeight}
       values={[height, gender]}
-      seoContent={<IdealWeightSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('ideal-weight')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -544,7 +545,7 @@ export function MacroCalculator() {
       icon={Utensils}
       calculate={calculateMacros}
       values={[weight, height, age, gender, activity, goal]}
-      seoContent={<MacroSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('macro')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -680,7 +681,7 @@ export function TDEECalculator() {
       icon={Activity}
       calculate={calculate}
       values={[weight, height, age, gender, activity]}
-      seoContent={<TDEESeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('tdee')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -791,7 +792,7 @@ export function WaterIntakeCalculator() {
       icon={Droplets}
       calculate={calculate}
       values={[weight, activity]}
-      seoContent={<WaterIntakeSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('water')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -867,7 +868,7 @@ export function LeanBodyMassCalculator() {
       icon={Dumbbell}
       calculate={calculate}
       values={[weight, height, gender]}
-      seoContent={<LeanBodyMassSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('lean-body-mass')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -940,7 +941,7 @@ export function WaistHipRatioCalculator() {
       icon={Ruler}
       calculate={calculate}
       values={[waist, hip]}
-      seoContent={<WaistHipRatioSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('waist-hip-ratio')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -1007,7 +1008,7 @@ export function ProteinCalculator() {
       icon={Dumbbell}
       calculate={calculate}
       values={[weight, activity, goal]}
-      seoContent={<ProteinSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('protein')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -1092,7 +1093,7 @@ export function CaloriesBurnedCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[weight, duration, met]}
-      seoContent={<CaloriesBurnedSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('calories-burned')} />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1166,7 +1167,7 @@ export function TargetHeartRateCalculator() {
       icon={Heart}
       calculate={calculate}
       values={[age, resting]}
-      seoContent={<TargetHeartRateSeoContent />}
+      seoContent={<FAQSection faqs={getHealthFAQs('heart-rate')} />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1246,7 +1247,7 @@ export function SleepCalculator() {
       icon={Moon}
       calculate={() => {}} // No explicit calculate button needed as it updates live, but template requires it.
       values={[wakeTime, cycles]}
-      seoContent={<SleepSeoContent />}
+      seoContent={<SeoContentGenerator title="Sleep Calculator" description="Calculate optimal bedtime based on sleep cycles." categoryName="Health" />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

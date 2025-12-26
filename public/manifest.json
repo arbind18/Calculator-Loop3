@@ -1,16 +1,99 @@
 {
-  "name": "Calculator Loop",
+  "name": "Calculator Loop - Free Online Calculators",
   "short_name": "CalcLoop",
-  "description": "300+ Free Online Calculators",
+  "description": "Free Online Calculators for EMI, SIP, BMI, GST, Tax, and more. Works offline!",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
-  "theme_color": "#00D4FF",
+  "theme_color": "#6366f1",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["finance", "utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "EMI Calculator",
+      "short_name": "EMI",
+      "description": "Calculate loan EMI",
+      "url": "/calculator/emi-calculator",
+      "icons": [
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" },
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "SIP Calculator",
+      "short_name": "SIP",
+      "description": "Calculate SIP returns",
+      "url": "/calculator/sip-calculator",
+      "icons": [
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" },
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Tax Calculator",
+      "short_name": "Tax",
+      "description": "Calculate income tax",
+      "url": "/calculator/income-tax",
+      "icons": [
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" },
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "BMI Calculator",
+      "short_name": "BMI",
+      "description": "Calculate BMI",
+      "url": "/calculator/bmi-calculator",
+      "icons": [
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" },
+        { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "lang": "en-IN",
+  "dir": "ltr",
+  "iarc_rating_id": "",
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }

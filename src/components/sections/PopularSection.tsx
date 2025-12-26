@@ -1,79 +1,99 @@
 
-import { Calculator, TrendingUp, Clock, Heart } from "lucide-react"
+"use client"
+
+import Link from "next/link"
+import { Calculator, TrendingUp, Clock, Heart, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
 
 export function PopularSection() {
+  const { language } = useSettings()
+  const t = getMergedTranslations(language)
+
   const popularCalculators = [
     {
-      id: "emi-calculator",
-      name: "EMI Calculator",
-      description: "Calculate your loan EMI with interest rates and tenure",
+      id: "home-loan-emi",
+      name: t.popular.emiCalculator,
+      description: t.popular.emiDescription,
       icon: Calculator,
-      category: "Financial",
+      category: t.nav.financial,
       uses: "125K",
       color: "from-blue-500 to-cyan-500",
+      url: "/calculator/home-loan-emi"
     },
     {
       id: "bmi-calculator",
-      name: "BMI Calculator",
-      description: "Calculate your Body Mass Index and health status",
+      name: t.popular.bmiCalculator,
+      description: t.popular.bmiDescription,
       icon: Heart,
-      category: "Health",
+      category: t.nav.health,
       uses: "98K",
       color: "from-pink-500 to-rose-500",
+      url: "/calculator/bmi-calculator"
     },
     {
       id: "age-calculator",
-      name: "Age Calculator",
-      description: "Calculate exact age in years, months, and days",
+      name: t.popular.ageCalculator,
+      description: t.popular.ageDescription,
       icon: Clock,
-      category: "Date & Time",
+      category: t.nav.datetime,
       uses: "87K",
       color: "from-purple-500 to-indigo-500",
+      url: "/calculator/age-calculator"
     },
     {
       id: "percentage-calculator",
-      name: "Percentage Calculator",
-      description: "Calculate percentages, increase/decrease, and more",
+      name: t.popular.percentageCalculator,
+      description: t.popular.percentageDescription,
       icon: TrendingUp,
-      category: "Math",
+      category: t.nav.math,
       uses: "76K",
       color: "from-green-500 to-emerald-500",
+      url: "/calculator/percentage-calculator"
     },
     {
       id: "gst-calculator",
-      name: "GST Calculator",
-      description: "Calculate GST inclusive and exclusive amounts",
+      name: t.popular.gstCalculator,
+      description: t.popular.gstDescription,
       icon: Calculator,
-      category: "Financial",
+      category: t.nav.financial,
       uses: "65K",
       color: "from-orange-500 to-amber-500",
+      url: "/calculator/gst-calculator"
     },
     {
-      id: "loan-calculator",
-      name: "Loan Calculator",
-      description: "Calculate loan payments and total interest",
-      icon: Calculator,
+      id: "sip-calculator",
+      name: "SIP Calculator",
+      description: "Calculate returns on your monthly investments",
+      icon: TrendingUp,
       category: "Financial",
       uses: "54K",
       color: "from-violet-500 to-purple-500",
+      url: "/calculator/sip-calculator"
     },
   ]
 
   return (
-    <section id="popular" className="w-full py-16 md:py-24 bg-gradient-to-b from-background via-secondary/20 to-background" aria-labelledby="popular-heading">
+    <section id="popular" className="w-full py-16 md:py-24 bg-background relative overflow-hidden" aria-labelledby="popular-heading">
+      {/* Background Decoration */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+      </div>
+
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-4 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-            <TrendingUp className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Most Used</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800">
+            <TrendingUp className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+            <span className="text-sm font-medium text-purple-600 dark:text-purple-400">{t.hero.popularTools}</span>
           </div>
-          <h2 id="popular-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            Popular Calculators
+          <h2 id="popular-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Most Used Calculators
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            The most frequently used calculators by our community
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+            Trusted by thousands of users for daily calculations
           </p>
         </div>
 
@@ -82,46 +102,47 @@ export function PopularSection() {
           {popularCalculators.map((calc, index) => {
             const Icon = calc.icon
             return (
-              <button
+              <Link
                 key={calc.id}
-                className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 text-left animate-fadeInUp"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                href={calc.url}
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-purple-500/50 dark:hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1 flex flex-col h-full"
               >
                 {/* Ranking Badge */}
-                <div className="absolute top-4 right-4 px-2 py-1 rounded-md bg-orange-500 text-white text-xs font-bold shadow-sm">
+                <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-400 group-hover:bg-purple-100 dark:group-hover:bg-purple-900/30 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                   #{index + 1}
                 </div>
 
-                {/* Gradient Background */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${calc.color} opacity-0 group-hover:opacity-5 transition-opacity`} />
-                
-                {/* Content */}
-                <div className="relative space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${calc.color} shadow-lg`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
-                      {calc.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {calc.description}
-                    </p>
-                  </div>
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${calc.color} flex items-center justify-center text-white shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon className="h-6 w-6" />
                 </div>
-              </button>
+
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    <span className="uppercase tracking-wider">{calc.category}</span>
+                    <span>•</span>
+                    <span>{calc.uses} uses</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    {calc.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                    {calc.description}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
+                  Use Calculator <ArrowRight className="ml-1 h-4 w-4" />
+                </div>
+              </Link>
             )
           })}
         </div>
-
-        {/* View All Button */}
-        <div className="flex justify-center mt-12">
-          <Button size="lg" variant="outline" className="gap-2">
-            View All Calculators
-            <TrendingUp className="h-4 w-4" />
+        
+        <div className="mt-12 text-center">
+          <Button variant="outline" size="lg" className="rounded-full px-8 border-2 hover:bg-gray-50 dark:hover:bg-gray-800" asChild>
+            <Link href="/category/financial">
+              View All Calculators
+            </Link>
           </Button>
         </div>
       </div>

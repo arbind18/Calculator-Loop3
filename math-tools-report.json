@@ -1,0 +1,105 @@
+{
+  "categoryKey": "math",
+  "summary": {
+    "totalToolsInToolsData": 310,
+    "implementedInRegistry": 310,
+    "missingInRegistry": 0,
+    "advancedImplemented": 0,
+    "basicImplemented": 310,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "advanced-mathematics",
+      "subcategoryName": "🔸 Advanced Mathematics",
+      "total": 32,
+      "implemented": 32,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 32
+    },
+    {
+      "subcategoryKey": "algebra-equations",
+      "subcategoryName": "🔸 Algebra & Equations",
+      "total": 30,
+      "implemented": 30,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 30
+    },
+    {
+      "subcategoryKey": "basic-arithmetic",
+      "subcategoryName": "🔸 Basic Arithmetic",
+      "total": 30,
+      "implemented": 30,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 30
+    },
+    {
+      "subcategoryKey": "geometry-shapes",
+      "subcategoryName": "🔸 Geometry & Shapes",
+      "total": 32,
+      "implemented": 32,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 32
+    },
+    {
+      "subcategoryKey": "graphs-formulas",
+      "subcategoryName": "🔸 Graphs & Formulas",
+      "total": 32,
+      "implemented": 32,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 32
+    },
+    {
+      "subcategoryKey": "matrices-vectors",
+      "subcategoryName": "🔸 Matrices & Vectors",
+      "total": 32,
+      "implemented": 32,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 32
+    },
+    {
+      "subcategoryKey": "number-systems",
+      "subcategoryName": "🔸 Number Systems & Converters",
+      "total": 32,
+      "implemented": 32,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 32
+    },
+    {
+      "subcategoryKey": "probability-statistics",
+      "subcategoryName": "🔸 Probability & Statistics",
+      "total": 30,
+      "implemented": 30,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 30
+    },
+    {
+      "subcategoryKey": "trigonometry",
+      "subcategoryName": "🔸 Trigonometry",
+      "total": 30,
+      "implemented": 30,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 30
+    },
+    {
+      "subcategoryKey": "unit-conversions",
+      "subcategoryName": "🔸 Unit Conversions",
+      "total": 30,
+      "implemented": 30,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 30
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

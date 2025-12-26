@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Umbrella, ShieldCheck } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { formatCompactNumber } from "@/lib/utils"
+import { LifeInsuranceSeoContent } from "@/components/calculators/seo/InsuranceSeo"
 
 export function LifeInsuranceCalculator() {
   const [annualIncome, setAnnualIncome] = useState(1000000)
@@ -35,6 +36,7 @@ export function LifeInsuranceCalculator() {
       icon={Umbrella}
       calculate={calculateInsurance}
       values={[annualIncome, yearsToSupport, loans, savings]}
+      seoContent={<LifeInsuranceSeoContent />}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Income" value={annualIncome} onChange={setAnnualIncome} prefix="₹" min={0} max={100000000} />

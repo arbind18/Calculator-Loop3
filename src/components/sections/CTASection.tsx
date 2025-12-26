@@ -1,9 +1,16 @@
 
+"use client"
+
 import { Grid3x3 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
 
 export function CTASection() {
+  const { language } = useSettings()
+  const t = getMergedTranslations(language)
+
   return (
     <section className="w-full py-12 md:py-16 bg-[#0A0E27] text-white text-center">
       <div className="container mx-auto px-4">
@@ -13,11 +20,11 @@ export function CTASection() {
           </div>
           
           <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] bg-clip-text text-transparent">
-            Find Your Calculator
+            {t.cta.findCalculator}
           </h2>
           
           <p className="text-muted-foreground">
-            Browse 300+ calculators organized by category. Tap the menu icon to explore all options.
+            {t.cta.browseDescription}
           </p>
 
           <Button 
@@ -26,7 +33,7 @@ export function CTASection() {
             asChild
           >
             <Link href="#categories">
-              Explore Categories
+              {t.cta.exploreCategories}
             </Link>
           </Button>
         </div>

@@ -5,6 +5,7 @@ import { Briefcase, TrendingUp } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { formatCompactNumber } from "@/lib/utils"
 import { NPSSeoContent } from "@/components/calculators/seo/TaxSeo"
+import { FAQSection, getRetirementFAQs } from "@/components/calculators/ui/FAQSection"
 
 export function NPSCalculator() {
   const [monthly, setMonthly] = useState(5000)
@@ -37,7 +38,7 @@ export function NPSCalculator() {
       icon={Briefcase}
       calculate={calculate}
       values={[monthly, age, returns]}
-      seoContent={<NPSSeoContent />}
+      seoContent={<FAQSection faqs={getRetirementFAQs('nps')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Contribution" value={monthly} onChange={setMonthly} prefix="₹" min={500} max={200000} step={500} />

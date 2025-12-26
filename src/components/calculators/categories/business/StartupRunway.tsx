@@ -86,7 +86,13 @@ export function StartupRunway() {
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
               <XAxis dataKey="month" label={{ value: 'Months', position: 'insideBottom', offset: -5 }} />
               <YAxis tickFormatter={(value) => `₹${formatCompactNumber(value)}`} />
-              <Tooltip formatter={(value: number) => `₹${value.toLocaleString()}`} />
+              <Tooltip
+                formatter={(value) => {
+                  const raw = Array.isArray(value) ? value[0] : value
+                  const n = typeof raw === 'number' ? raw : Number(raw ?? 0)
+                  return `₹${(Number.isFinite(n) ? n : 0).toLocaleString()}`
+                }}
+              />
               <Legend />
               <Bar dataKey="balance" name="Cash Balance" fill="#3b82f6" radius={[4, 4, 0, 0]} />
               <Bar dataKey="revenue" name="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />

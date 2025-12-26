@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Coins, TrendingUp, PieChart as PieChartIcon } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { ChartToggle } from "@/components/calculators/ui/ChartToggle"
@@ -9,75 +9,51 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid
 } from "recharts"
 import { generateReport } from "@/lib/downloadUtils"
-import { PersonalLoanSeoContent } from "@/components/calculators/seo/LoanSeo"
+import { GoldLoanSeoContent } from "@/components/calculators/seo/LoanSeo"
+import { calculateLoanEMI, LoanResult } from "@/lib/logic/loan"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
 
 export function GoldLoanEMI() {
+  const { language } = useSettings()
+  const t = getMergedTranslations(language)
+  
   const [loanAmount, setLoanAmount] = useState(300000)
   const [interestRate, setInterestRate] = useState(11)
   const [tenure, setTenure] = useState(12)
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState<LoanResult | null>(null)
   const [chartView, setChartView] = useState<'pie' | 'graph'>('pie')
 
-  const calculateEMI = () => {
-    const principal = loanAmount
-    const ratePerMonth = interestRate / 12 / 100
-    const n = tenure
-
-    const emi = principal * ratePerMonth * Math.pow(1 + ratePerMonth, n) / (Math.pow(1 + ratePerMonth, n) - 1)
-    const totalAmount = emi * n
-    const totalInterest = totalAmount - principal
-
-    // Generate Amortization Schedule
-    let balance = principal
-    let totalInterestPaid = 0
-    const schedule = []
-    let currentYear = new Date().getFullYear()
-    
-    for (let i = 1; i <= n; i++) {
-      const interest = balance * ratePerMonth
-      const principalComponent = emi - interest
-      balance = balance - principalComponent
-      totalInterestPaid += interest
-      
-      if (balance < 0) balance = 0
-
-      schedule.push({
-        month: i,
-        year: currentYear + Math.floor((i - 1) / 12),
-        principal: Math.round(principalComponent),
-        interest: Math.round(interest),
-        balance: Math.round(balance),
-        totalPayment: Math.round(emi),
-        cumulativeInterest: Math.round(totalInterestPaid)
-      })
-    }
-
-    setResult({
-      emi: Math.round(emi),
-      totalAmount: Math.round(totalAmount),
-      totalInterest: Math.round(totalInterest),
-      principal: principal,
-      schedule: schedule
+  const handleCalculate = () => {
+    const calculationResult = calculateLoanEMI({
+      loanAmount,
+      interestRate,
+      tenureMonths: tenure
     })
+    setResult(calculationResult)
   }
 
+  useEffect(() => {
+    handleCalculate()
+  }, [loanAmount, interestRate, tenure])
+
   const chartData = result ? [
-    { name: 'Principal Amount', value: result.principal, color: '#3b82f6' },
-    { name: 'Total Interest', value: result.totalInterest, color: '#ef4444' },
+    { name: t.loan.principal_paid, value: result.principal, color: '#3b82f6' },
+    { name: t.loan.interest_paid, value: result.totalInterest, color: '#ef4444' },
   ] : []
 
   const handleClear = () => {
-    setLoanAmount(0)
-    setInterestRate(0)
-    setTenure(0)
+    setLoanAmount(300000)
+    setInterestRate(11)
+    setTenure(12)
     setResult(null)
   }
 
   const handleDownload = (format: string) => {
     if (!result || !result.schedule) return
 
-    const headers = ['Month', 'Principal', 'Interest', 'Total Payment', 'Balance']
-    const data = result.schedule.map((row: any) => [
+    const headers = [t.loan.remaining_months, t.loan.principal_paid, t.loan.interest_paid, t.loan.total_paid, t.loan.remaining_balance]
+    const data = result.schedule.map((row) => [
       row.month,
       row.principal,
       row.interest,
@@ -85,50 +61,50 @@ export function GoldLoanEMI() {
       row.balance
     ])
 
-    generateReport(format, 'gold_loan_schedule', headers, data, 'Gold Loan EMI Schedule', {
-      'Loan Amount': `₹${loanAmount}`,
-      'Interest Rate': `${interestRate}%`,
-      'Tenure': `${tenure} months`
+    generateReport(format, 'gold_loan_schedule', headers, data, t.loan.gold_loan_title, {
+      [t.loan.loan_amount]: loanAmount,
+      [t.loan.interest_rate]: `${interestRate}%`,
+      [t.loan.tenure_months]: tenure
     })
   }
 
   return (
     <FinancialCalculatorTemplate
-      title="Gold Loan EMI Calculator"
-      description="Calculate your monthly gold loan EMI and view detailed amortization schedule"
+      title={t.loan.gold_loan_title}
+      description={t.loan.gold_loan_desc}
       icon={Coins}
-      calculate={calculateEMI}
+      calculate={handleCalculate}
       onClear={handleClear}
-      seoContent={<PersonalLoanSeoContent />}
+      seoContent={<GoldLoanSeoContent />}
       onDownload={handleDownload}
       inputs={
         <div className="space-y-4">
           <InputGroup
-            label="Loan Amount"
+            label={t.loan.loan_amount}
             value={loanAmount}
             onChange={setLoanAmount}
             min={10000}
             max={5000000}
             step={10000}
-            prefix="₹"
+            prefix="?"
           />
           <InputGroup
-            label="Interest Rate (p.a.)"
+            label={t.loan.interest_rate}
             value={interestRate}
             onChange={setInterestRate}
             min={1}
-            max={25}
+            max={30}
             step={0.1}
             suffix="%"
           />
           <InputGroup
-            label="Tenure (Months)"
+            label={t.loan.tenure_months}
             value={tenure}
             onChange={setTenure}
             min={3}
-            max={36}
+            max={60}
             step={3}
-            helpText={`Duration: ${(tenure / 12).toFixed(1)} Years`}
+            helpText={`${(tenure / 12).toFixed(1)} Years`}
           />
         </div>
       }
@@ -136,17 +112,17 @@ export function GoldLoanEMI() {
         <div className="mt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ResultCard
-              label="Monthly EMI"
+              label={t.loan.emi}
               value={`₹${result.emi.toLocaleString()}`}
               type="highlight"
             />
             <ResultCard
-              label="Total Interest"
+              label={t.loan.interest_paid}
               value={`₹${result.totalInterest.toLocaleString()}`}
               type="warning"
             />
             <ResultCard
-              label="Total Amount"
+              label={t.loan.total_paid}
               value={`₹${result.totalAmount.toLocaleString()}`}
               type="default"
             />
@@ -157,8 +133,8 @@ export function GoldLoanEMI() {
               view={chartView}
               onChange={setChartView}
               options={[
-                { value: 'pie', label: 'Breakdown', icon: PieChartIcon },
-                { value: 'graph', label: 'Amortization', icon: TrendingUp }
+                { value: 'pie', label: t.common.distribution, icon: PieChartIcon },
+                { value: 'graph', label: t.common.growth_chart, icon: TrendingUp }
               ]}
             />
 
@@ -180,7 +156,7 @@ export function GoldLoanEMI() {
                       ))}
                     </Pie>
                     <Tooltip 
-                      formatter={(value: number) => `₹${value.toLocaleString()}`}
+                      formatter={(value: any) => `₹${(value ?? 0).toLocaleString()}`}
                       contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
                     />
                     <Legend />
@@ -189,9 +165,9 @@ export function GoldLoanEMI() {
                   <AreaChart data={result.schedule}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                     <XAxis dataKey="month" className="text-xs" />
-                    <YAxis className="text-xs" tickFormatter={(value) => `₹${(value/1000).toFixed(0)}k`} />
+                    <YAxis className="text-xs" tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}k`} />
                     <Tooltip 
-                      formatter={(value: number) => `₹${value.toLocaleString()}`}
+                      formatter={(value: any) => `₹${(value ?? 0).toLocaleString()}`}
                       contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
                     />
                     <Area type="monotone" dataKey="balance" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} />

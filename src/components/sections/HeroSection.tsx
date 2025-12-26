@@ -5,98 +5,68 @@ import { Button } from "@/components/ui/button"
 import { Calculator, Sparkles, TrendingUp, Zap } from "lucide-react"
 import Link from "next/link"
 import { useSettings } from "@/components/providers/SettingsProvider"
-import { translations, LanguageCode } from "@/lib/translations"
+import { getMergedTranslations } from "@/lib/translations"
+import { SmartSearch } from "@/components/ui/SmartSearch"
 
 export function HeroSection() {
   const { language } = useSettings()
-  const t = translations[language.code as LanguageCode] || translations.en
+  const t = getMergedTranslations(language)
 
   return (
-    <section className="relative w-full py-16 sm:py-20 md:py-32 overflow-hidden" aria-labelledby="hero-heading">
+    <section className="relative w-full pt-8 pb-16 sm:py-24 md:py-32 overflow-hidden bg-background" aria-labelledby="hero-heading">
       {/* Background Effects */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-10 sm:bottom-20 right-5 sm:right-10 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        
+        {/* Gradient Blobs */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-purple-500/10 rounded-[100%] blur-3xl opacity-50" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-pink-500/10 rounded-full blur-3xl opacity-30" />
       </div>
 
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 relative">
+        <div className="flex flex-col items-center text-center space-y-10 max-w-5xl mx-auto">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 animate-fadeIn">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">300+ Calculators Available</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-sm shadow-sm animate-fadeIn hover:scale-105 transition-transform cursor-default">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">100% Free & No Signup Required</span>
           </div>
 
           {/* Heading */}
-          <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight animate-fadeInUp leading-tight px-2 sm:px-0">
-            {t.hero.title}
-          </h1>
+          <div className="space-y-4">
+            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight animate-fadeInUp leading-[1.1] px-2 sm:px-0 bg-gradient-to-r from-[#00D4FF] via-[#8B5CF6] to-[#FF0080] bg-clip-text text-transparent pb-2">
+              {t.hero.title}
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp leading-relaxed px-4 sm:px-0" style={{ animationDelay: "0.1s" }}>
+              {t.hero.subtitle}
+            </p>
+          </div>
 
-          {/* Description */}
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl animate-fadeInUp leading-relaxed px-4 sm:px-0" style={{ animationDelay: "0.1s" }}>
-            {t.hero.subtitle}
-          </p>
+          {/* Smart Search */}
+          <div className="w-full max-w-2xl px-4 sm:px-0 animate-fadeInUp relative z-10" style={{ animationDelay: "0.15s" }}>
+            <div className="p-1 rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 p-[1px]">
+              <div className="bg-white dark:bg-gray-950 rounded-2xl p-2 shadow-xl">
+                <SmartSearch />
+              </div>
+            </div>
+          </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
-            <Button size="xl" variant="gradient" className="gap-2 group" asChild>
+          <div className="flex flex-col sm:flex-row gap-4 animate-fadeInUp pt-4" style={{ animationDelay: "0.2s" }}>
+            <Button size="lg" className="h-12 px-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg shadow-purple-500/25 transition-all hover:scale-105" asChild>
               <Link href="#popular">
-                <Calculator className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+                <Calculator className="mr-2 h-5 w-5" />
                 {t.hero.popularTools}
               </Link>
             </Button>
-            <Button size="xl" variant="outline" className="gap-2" asChild>
+            <Button size="lg" variant="outline" className="h-12 px-8 rounded-full border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105" asChild>
               <Link href="#categories">
-                <TrendingUp className="h-5 w-5" />
+                <TrendingUp className="mr-2 h-5 w-5" />
                 {t.nav.categories}
-              </Link>
-            </Button>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 sm:gap-8 pt-8 w-full max-w-3xl animate-fadeInUp" style={{ animationDelay: "0.3s" }}>
-            <div className="space-y-1 p-3 sm:p-4 rounded-xl bg-gradient-to-br from-primary/10 to-cyan-500/10 border border-primary/20 hover:scale-105 transition-transform">
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">300+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Calculators</div>
-            </div>
-            <div className="space-y-1 p-3 sm:p-4 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 hover:scale-105 transition-transform">
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-500">10+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Categories</div>
-            </div>
-            <div className="space-y-1 p-3 sm:p-4 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:scale-105 transition-transform">
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-500">100%</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Free</div>
-            </div>
-          </div>
-
-          {/* Features Badge */}
-          <div className="flex flex-wrap justify-center gap-3 pt-4 animate-fadeInUp" style={{ animationDelay: "0.4s" }}>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary text-sm">
-              <Zap className="h-4 w-4 text-primary" />
-              Lightning Fast
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary text-sm">
-              <Calculator className="h-4 w-4 text-primary" />
-              Mobile Friendly
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary text-sm">
-              <Sparkles className="h-4 w-4 text-primary" />
-              No Sign-up Required
-            </div>
-          </div>
-
-          {/* Mobile CTA Section - Matches oldui.html */}
-          <div className="md:hidden w-full mt-8 p-6 rounded-2xl bg-gradient-to-br from-[#00D4FF]/10 to-[#8B5CF6]/10 border border-[rgba(255,255,255,0.2)] text-center">
-            <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] bg-clip-text text-transparent">
-              Start Calculating Now
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Access 300+ free calculators for finance, health, math & more.
-            </p>
-            <Button className="w-full bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none" asChild>
-              <Link href="#categories">
-                Explore All Tools
               </Link>
             </Button>
           </div>

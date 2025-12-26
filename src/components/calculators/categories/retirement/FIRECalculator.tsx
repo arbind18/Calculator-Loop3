@@ -8,6 +8,7 @@ import {
 } from "recharts"
 import { formatCompactNumber } from "@/lib/utils"
 import { RetirementSeoContent } from "@/components/calculators/seo/InvestmentSeo"
+import { FAQSection, getRetirementFAQs } from "@/components/calculators/ui/FAQSection"
 
 export function FIRECalculator() {
   const [currentAge, setCurrentAge] = useState(25)
@@ -79,7 +80,7 @@ export function FIRECalculator() {
       icon={Flame}
       calculate={calculateFIRE}
       values={[currentAge, currentSavings, monthlyExpenses, monthlyInvestment, returnRate]}
-      seoContent={<RetirementSeoContent />}
+      seoContent={<FAQSection faqs={getRetirementFAQs('fire')} />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -137,8 +138,12 @@ export function FIRECalculator() {
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
               <XAxis dataKey="age" label={{ value: 'Age', position: 'insideBottom', offset: -5 }} />
               <YAxis tickFormatter={(value) => `₹${formatCompactNumber(value)}`} />
-              <Tooltip 
-                formatter={(value: number) => `₹${value.toLocaleString()}`}
+              <Tooltip
+                formatter={(value) => {
+                  const raw = Array.isArray(value) ? value[0] : value
+                  const n = typeof raw === 'number' ? raw : Number(raw ?? 0)
+                  return `₹${(Number.isFinite(n) ? n : 0).toLocaleString()}`
+                }}
                 labelFormatter={(label) => `Age: ${label}`}
               />
               <Legend />

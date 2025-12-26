@@ -1,16 +1,19 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { AuthProvider } from '@/components/providers/AuthProvider'
 import { SettingsProvider } from '@/components/providers/SettingsProvider'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { AIAssistant } from '@/components/ai/AIAssistant'
+import { OrganizationSchema, WebsiteSchema } from '@/components/seo/AdvancedSchema'
+import { ServiceWorkerRegistration } from '@/lib/serviceWorker'
+import { InstallPrompt } from '@/components/pwa/InstallPrompt'
+import { PushNotificationPrompt } from '@/components/pwa/PushNotificationPrompt'
+import { OfflineIndicator } from '@/components/pwa/OfflineIndicator'
+import ToastProvider from '@/components/providers/ToastProvider'
+import AnalyticsProvider from '@/components/providers/AnalyticsProvider'
+import ClarityScript from '@/components/analytics/ClarityScript'
 import './globals.css'
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-})
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -25,10 +28,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://calculatorloop.com'),
   title: {
-    default: 'Calculator Loop - 300+ Free Online Calculators | EMI, SIP, BMI, GST, Age & Tax Calculator',
+    default: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, GST, Age & Tax Calculator',
     template: '%s | Calculator Loop',
   },
-  description: 'Free online calculator tools for 2025! Calculate EMI, SIP returns, BMI, GST, income tax, loan payments, retirement planning & 300+ more. Fast, accurate & mobile-friendly calculators. No signup required.',
+  description: 'Free online calculator tools for 2025! Calculate EMI, SIP returns, BMI, GST, income tax, loan payments, retirement planning & more. Fast, accurate & mobile-friendly calculators. No signup required.',
   keywords: [
     'online calculator',
     'free calculator 2025',
@@ -62,14 +65,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://calculatorloop.com',
     siteName: 'Calculator Loop',
-    title: 'Calculator Loop - 300+ Free Online Calculators | EMI, SIP, BMI, Tax Calculator',
-    description: 'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. 300+ calculator tools available.',
+    title: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, Tax Calculator',
+    description: 'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive calculator tools available.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Calculator Loop - 300+ Free Online Calculators',
+        alt: 'Calculator Loop - Free Online Calculators',
       },
     ],
   },
@@ -77,8 +80,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@calculatorloop',
     creator: '@calculatorloop',
-    title: 'Calculator Loop - 300+ Free Online Calculators | EMI, SIP, BMI, Tax',
-    description: 'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. 300+ tools available.',
+    title: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, Tax',
+    description: 'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive tools available.',
     images: ['/twitter-image.png'],
   },
   alternates: {
@@ -92,6 +95,16 @@ export const metadata: Metadata = {
     google: 'your-google-verification-code',
     yandex: 'your-yandex-verification-code',
   },
+  icons: {
+    icon: [
+      { url: '/logo.svg', type: 'image/svg+xml' },
+      { url: '/icon', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/logo.svg', type: 'image/svg+xml' },
+      { url: '/apple-icon', type: 'image/png' },
+    ],
+  },
   manifest: '/manifest.json',
 }
 
@@ -104,16 +117,29 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <OrganizationSchema />
+        <WebsiteSchema />
+      </head>
       <body className="min-h-screen antialiased">
+        <ServiceWorkerRegistration />
         <AuthProvider>
           <SettingsProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <div className="relative flex min-h-screen flex-col">
-                <Navbar />
-                <main className="flex-1 pt-20">{children}</main>
-                <Footer />
-              </div>
+              <AnalyticsProvider>
+                <ToastProvider />
+                <ClarityScript />
+                <OfflineIndicator />
+                <InstallPrompt />
+                <PushNotificationPrompt />
+                <div className="relative flex min-h-screen flex-col">
+                  <Navbar />
+                  <main className="flex-1 pt-20">{children}</main>
+                  <Footer />
+                  <AIAssistant />
+                </div>
+              </AnalyticsProvider>
             </ThemeProvider>
           </SettingsProvider>
         </AuthProvider>

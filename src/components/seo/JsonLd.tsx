@@ -5,7 +5,7 @@ export function JsonLd() {
     "name": "Calculator Loop",
     "alternateName": "Calculator Loop - All-in-One Calculator Suite",
     "url": "https://calculatorloop.com/",
-    "description": "300+ Free Online Calculator Tools for Financial Planning, Health Metrics, Math Calculations, and More",
+    "description": "Free Online Calculator Tools for Financial Planning, Health Metrics, Math Calculations, and More",
     "inLanguage": "en-US",
     "potentialAction": {
       "@type": "SearchAction",
@@ -25,7 +25,7 @@ export function JsonLd() {
     "operatingSystem": "All",
     "browserRequirements": "Requires JavaScript. Modern browser recommended.",
     "url": "https://calculatorloop.com/",
-    "description": "Comprehensive online calculator suite with 300+ calculators for financial planning, health metrics, mathematical operations, date-time calculations, and more.",
+    "description": "Comprehensive online calculator suite with extensive collection of calculators for financial planning, health metrics, mathematical operations, date-time calculations, and more.",
     "datePublished": "2024-01-01",
     "dateModified": "2025-11-11",
     "author": {

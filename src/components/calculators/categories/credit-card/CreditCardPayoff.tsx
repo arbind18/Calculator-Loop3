@@ -144,7 +144,13 @@ export function CreditCardPayoff() {
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
               <XAxis dataKey="month" label={{ value: 'Months', position: 'insideBottom', offset: -5 }} />
               <YAxis tickFormatter={(value) => `₹${formatCompactNumber(value)}`} />
-              <Tooltip formatter={(value: number) => `₹${value.toLocaleString()}`} />
+              <Tooltip
+                formatter={(value) => {
+                  const raw = Array.isArray(value) ? value[0] : value
+                  const n = typeof raw === 'number' ? raw : Number(raw ?? 0)
+                  return `₹${(Number.isFinite(n) ? n : 0).toLocaleString()}`
+                }}
+              />
               <Legend />
               <Line 
                 type="monotone" 

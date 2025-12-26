@@ -7,13 +7,13 @@ import { CTASection } from '@/components/sections/CTASection'
 
 export default function HomePage() {
   return (
-    <>
+    <main>
       <HeroSection />
       <RecentSection />
       <PopularSection />
       <CategorySection />
       <FeaturesSection />
       <CTASection />
-    </>
+    </main>
   )
 }

@@ -1,38 +1,104 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
+import { 
+  registrationSchema, 
+  validateAndSanitize,
+} from "@/lib/security/validation"
+import { 
+  getClientIdentifier, 
+  withRateLimit 
+} from "@/lib/security/rateLimit"
+import { hasSqlInjection, hasXssPattern, sanitizeEmail } from "@/lib/security/sanitize"
 
 export async function POST(req: Request) {
   try {
-    const { email, password, name } = await req.json()
-
-    if (!email || !password) {
-      return new NextResponse("Missing email or password", { status: 400 })
+    // Rate limiting
+    const clientId = getClientIdentifier(req)
+    const rateLimit = withRateLimit(clientId, 'register')
+    
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { error: rateLimit.error },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': String(rateLimit.retryAfter),
+          }
+        }
+      )
     }
 
+    const body = await req.json()
+
+    // Validate input
+    const validation = validateAndSanitize(registrationSchema, body)
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: validation.errors },
+        { status: 400 }
+      )
+    }
+
+    const { email, password, name } = validation.data
+
+    // Additional security checks
+    if (hasSqlInjection(email) || hasSqlInjection(name)) {
+      return NextResponse.json(
+        { error: 'Invalid input detected' },
+        { status: 400 }
+      )
+    }
+
+    if (hasXssPattern(name)) {
+      return NextResponse.json(
+        { error: 'Invalid input detected' },
+        { status: 400 }
+      )
+    }
+
+    // Check if user exists
     const exists = await prisma.user.findUnique({
       where: {
-        email,
+        email: sanitizeEmail(email),
       },
     })
 
     if (exists) {
-      return new NextResponse("User already exists", { status: 400 })
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 400 }
+      )
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 12) // Increased rounds for better security
 
+    // Create user
     const user = await prisma.user.create({
       data: {
-        email,
-        name,
+        email: sanitizeEmail(email),
+        name: name.trim(),
         password: hashedPassword,
       },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+      }
     })
 
-    return NextResponse.json(user)
+    return NextResponse.json({
+      success: true,
+      user,
+    })
   } catch (error) {
-    console.log("[REGISTER_ERROR]", error)
-    return new NextResponse("Internal Error", { status: 500 })
+    console.error("[REGISTER_ERROR]", error)
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    )
   }
 }

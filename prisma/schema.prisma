@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -29,12 +29,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -60,6 +60,25 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
+  // Profile Details
+  occupation    String?   // student, businessman, engineer, etc.
+  purpose       String?   // why using calculator
+  age           Int?
+  phone         String?
+  city          String?
+  state         String?
+  country       String?
+  education     String?
+  organization  String?
+  experienceYears Int?
+  goals         String?   // what user wants to achieve (optional)
+  preferredLanguage String?
+
+  // Consent / Preferences (optional)
+  personalizationOptIn Boolean @default(false)
+  adsPersonalizationOptIn Boolean @default(false)
+  
+  // Analytics
   totalCalculations Int      @default(0)
   totalSearches     Int      @default(0)
   themeChanges      Int      @default(0)
@@ -69,6 +88,77 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+  calculations  Calculation[]
+  favorites     Favorite[]
+  savedResults  SavedResult[]
+  apiKeys       ApiKey[]
+  pushSubscriptions PushSubscription[]
+  notifications Notification[]
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String?
+  url       String?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, readAt])
+}
+
+model Calculation {
+  id              String   @id @default(cuid())
+  userId          String
+  calculatorType  String
+  calculatorName  String
+  category        String
+  inputs          String
+  result          String
+  createdAt       DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, createdAt])
+  @@index([calculatorType])
+}
+
+model Favorite {
+  id            String   @id @default(cuid())
+  userId        String
+  calculatorId  String
+  calculatorName String
+  category      String
+  description   String?
+  usageCount    Int      @default(0)
+  lastUsed      DateTime?
+  addedAt       DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, calculatorId])
+  @@index([userId])
+}
+
+model SavedResult {
+  id              String   @id @default(cuid())
+  userId          String
+  calculatorType  String
+  calculatorName  String
+  inputs          String
+  result          String
+  notes           String?
+  tags            String?
+  savedAt         DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, savedAt])
+  @@index([calculatorType])
 }
 
 model VerificationToken {
@@ -77,4 +167,73 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Newsletter {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  subscribedAt DateTime @default(now())
+  active       Boolean  @default(true)
+  
+  @@index([email])
+}
+
+model ApiKey {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  key         String   @unique
+  tier        String   @default("FREE")
+  isActive    Boolean  @default(true)
+  lastUsedAt  DateTime?
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime?
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  usage       ApiUsage[]
+  
+  @@index([userId])
+  @@index([key])
+}
+
+model ApiUsage {
+  id          String   @id @default(cuid())
+  apiKeyId    String
+  endpoint    String
+  method      String
+  statusCode  Int
+  timestamp   DateTime @default(now())
+  ipAddress   String?
+  userAgent   String?
+  
+  apiKey      ApiKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  
+  @@index([apiKeyId, timestamp])
+  @@index([timestamp])
+}
+
+model PushSubscription {
+  id         String   @id @default(cuid())
+  endpoint   String   @unique
+  p256dh     String
+  auth       String
+  userId     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+}
+
+model NotificationEvent {
+  id         String   @id @default(cuid())
+  title      String
+  body       String
+  url        String?
+  icon       String?
+  sentCount  Int      @default(0)
+  errorCount Int      @default(0)
+  createdAt  DateTime @default(now())
 }

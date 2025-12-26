@@ -26,14 +26,17 @@ const currencies: Currency[] = [
 const languages: Language[] = [
   { code: 'en', name: 'English', nativeName: 'English' },
   { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español' },
-  { code: 'fr', name: 'French', nativeName: 'Français' },
+  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' },
+  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
+  { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
+  { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી' },
 ]
 
 interface SettingsContextType {
   currency: Currency
   setCurrency: (code: string) => void
-  language: Language
+  language: string
   setLanguage: (code: string) => void
   availableCurrencies: Currency[]
   availableLanguages: Language[]
@@ -43,10 +46,24 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [currency, setCurrencyState] = useState<Currency>(currencies[0])
-  const [language, setLanguageState] = useState<Language>(languages[0])
+  const [language, setLanguageState] = useState<string>('en')
 
   // Load from local storage on mount
   useEffect(() => {
+    const isValidLang = (code: string | null | undefined): code is string =>
+      !!code && languages.some(l => l.code === code)
+
+    // 1) Read URL locale prefix (highest priority)
+    let pathLang: string | undefined
+    try {
+      const path = window.location.pathname || '/'
+      const maybe = path.split('/')[1]
+      if (isValidLang(maybe)) pathLang = maybe
+    } catch {
+      // ignore
+    }
+
+    // 2) Local storage fallback
     const savedCurrency = localStorage.getItem('calculator-currency')
     const savedLanguage = localStorage.getItem('calculator-language')
 
@@ -55,10 +72,11 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       if (found) setCurrencyState(found)
     }
 
-    if (savedLanguage) {
-      const found = languages.find(l => l.code === savedLanguage)
-      if (found) setLanguageState(found)
-    }
+    const initialLanguage = (pathLang ?? (isValidLang(savedLanguage) ? savedLanguage : 'en'))
+    setLanguageState(initialLanguage)
+    localStorage.setItem('calculator-language', initialLanguage)
+    document.documentElement.lang = initialLanguage
+    document.documentElement.dir = initialLanguage === 'ar' || initialLanguage === 'ur' ? 'rtl' : 'ltr'
   }, [])
 
   const setCurrency = (code: string) => {
@@ -70,11 +88,11 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   }
 
   const setLanguage = (code: string) => {
-    const found = languages.find(l => l.code === code)
-    if (found) {
-      setLanguageState(found)
-      localStorage.setItem('calculator-language', code)
-    }
+    setLanguageState(code)
+    localStorage.setItem('calculator-language', code)
+    // Set document direction for RTL languages (future support)
+    document.documentElement.dir = code === 'ar' || code === 'ur' ? 'rtl' : 'ltr'
+    document.documentElement.lang = code
   }
 
   return (

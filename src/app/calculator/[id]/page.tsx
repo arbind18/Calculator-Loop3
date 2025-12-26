@@ -74,7 +74,11 @@ export default async function CalculatorPage({ params }: { params: Promise<{ id:
           <BackButton />
         </div>
         
-        <CalculatorComponent />
+        <CalculatorComponent 
+          id={id} 
+          title={categoryInfo.tool.title}
+          description={categoryInfo.tool.description}
+        />
         
         <RelatedCalculators 
           currentToolId={id}

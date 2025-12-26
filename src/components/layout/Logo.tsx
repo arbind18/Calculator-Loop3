@@ -1,5 +1,8 @@
+import Image from "next/image"
 import Link from "next/link"
-import { Calculator } from "lucide-react"
+
+const PREFERRED_LOGO_SRC = "/logo.svg"
+const FALLBACK_LOGO_SRC = "/logo.svg"
 
 export function Logo({ mobile = false }: { mobile?: boolean }) {
   if (mobile) {
@@ -8,7 +11,16 @@ export function Logo({ mobile = false }: { mobile?: boolean }) {
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-[#00D4FF] to-[#8B5CF6] rounded-lg blur-sm opacity-75"></div>
           <div className="relative bg-gradient-to-br from-[#00D4FF] to-[#8B5CF6] p-1.5 rounded-lg">
-            <Calculator className="h-4 w-4 text-white" strokeWidth={2.5} />
+            <Image
+              src={PREFERRED_LOGO_SRC}
+              alt="Calculator Loop"
+              width={16}
+              height={16}
+              onError={(e) => {
+                const img = e.currentTarget as unknown as HTMLImageElement
+                img.src = FALLBACK_LOGO_SRC
+              }}
+            />
           </div>
         </div>
         <span className="font-manrope text-lg font-extrabold bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] bg-clip-text text-transparent">
@@ -26,8 +38,18 @@ export function Logo({ mobile = false }: { mobile?: boolean }) {
         <div className="absolute inset-0 bg-gradient-to-br from-[#00D4FF] to-[#8B5CF6] rounded-xl blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
         
         {/* Main icon container */}
-        <div className="relative bg-gradient-to-br from-[#00D4FF] via-[#5B9FFF] to-[#8B5CF6] p-2.5 rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-          <Calculator className="h-6 w-6 text-white" strokeWidth={2.5} />
+        <div className="w-8 h-8 rounded-lg overflow-hidden">
+          <Image
+            src={PREFERRED_LOGO_SRC}
+            alt="Calculator Loop"
+            width={32}
+            height={32}
+            priority
+            onError={(e) => {
+              const img = e.currentTarget as unknown as HTMLImageElement
+              img.src = FALLBACK_LOGO_SRC
+            }}
+          />
         </div>
         
         {/* Corner accent */}
@@ -40,7 +62,7 @@ export function Logo({ mobile = false }: { mobile?: boolean }) {
           Calculator Loop
         </span>
         <span className="text-[10px] font-medium text-muted-foreground group-hover:text-[#00D4FF] transition-colors duration-300">
-          300+ Free Online Tools
+          Free Online Tools
         </span>
       </div>
     </Link>

@@ -100,6 +100,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
     health: 'Health & Fitness',
     math: 'Math Calculators',
     datetime: 'Date & Time',
+    education: 'Education',
+    technology: 'Technology',
+    scientific: 'Science',
+    construction: 'Construction',
+    business: 'Business',
+    everyday: 'Everyday Life'
   }
 
   const categoryData = toolsData[categoryId]

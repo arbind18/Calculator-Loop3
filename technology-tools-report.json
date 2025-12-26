@@ -1,0 +1,105 @@
+{
+  "categoryKey": "technology",
+  "summary": {
+    "totalToolsInToolsData": 98,
+    "implementedInRegistry": 98,
+    "missingInRegistry": 0,
+    "advancedImplemented": 0,
+    "basicImplemented": 98,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "ai-ml",
+      "subcategoryName": "🤖 AI & Machine Learning",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "blockchain-crypto",
+      "subcategoryName": "₿ Blockchain & Cryptocurrency",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    },
+    {
+      "subcategoryKey": "cloud-computing",
+      "subcategoryName": "☁️ Cloud Computing & DevOps",
+      "total": 9,
+      "implemented": 9,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 9
+    },
+    {
+      "subcategoryKey": "iot-hardware",
+      "subcategoryName": "🔌 IoT & Hardware",
+      "total": 7,
+      "implemented": 7,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 7
+    },
+    {
+      "subcategoryKey": "mobile-app",
+      "subcategoryName": "📱 Mobile App Development",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    },
+    {
+      "subcategoryKey": "networking-internet",
+      "subcategoryName": "🌐 Networking & Internet",
+      "total": 12,
+      "implemented": 12,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 12
+    },
+    {
+      "subcategoryKey": "programming-dev",
+      "subcategoryName": "👨‍💻 Programming & Development",
+      "total": 12,
+      "implemented": 12,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 12
+    },
+    {
+      "subcategoryKey": "security-privacy",
+      "subcategoryName": "🔐 Security & Privacy",
+      "total": 11,
+      "implemented": 11,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 11
+    },
+    {
+      "subcategoryKey": "storage-data",
+      "subcategoryName": "💾 Storage & Data Management",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "web-development",
+      "subcategoryName": "💻 Web Development & Performance",
+      "total": 11,
+      "implemented": 11,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 11
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

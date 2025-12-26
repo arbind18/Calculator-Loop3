@@ -141,6 +141,7 @@ const calculatorIconMap: Record<string, any> = {
 interface MobileMenuProps {
   isOpen: boolean
   onClose: () => void
+  onSearchClick: () => void
   activeCategory: string | null
   setActiveCategory: (category: string | null) => void
   expandedSubcategory: string | null
@@ -155,7 +156,8 @@ export function MobileMenu({
   setActiveCategory,
   expandedSubcategory,
   setExpandedSubcategory,
-  categories
+  categories,
+  onSearchClick
 }: MobileMenuProps) {
   const { data: session } = useSession()
   const router = useRouter()
@@ -212,12 +214,13 @@ export function MobileMenu({
 
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Search */}
-          <div className="relative">
+          <div className="relative" onClick={onSearchClick}>
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
+              readOnly
               placeholder="Search calculators..."
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-secondary/50 border border-border focus:border-[#00D4FF] focus:outline-none transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-secondary/50 border border-border focus:border-[#00D4FF] focus:outline-none transition-all cursor-pointer"
             />
           </div>
 

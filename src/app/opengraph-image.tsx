@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Calculator Loop - 300+ Free Online Calculators'
+export const alt = 'Calculator Loop - Free Online Calculators'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -99,7 +99,7 @@ export default async function OgImage() {
               maxWidth: 900,
             }}
           >
-            300+ Free Online Calculators
+            Free Online Calculators
           </div>
 
           {/* Features */}

@@ -1,0 +1,96 @@
+{
+  "categoryKey": "datetime",
+  "summary": {
+    "totalToolsInToolsData": 94,
+    "implementedInRegistry": 94,
+    "missingInRegistry": 0,
+    "advancedImplemented": 1,
+    "basicImplemented": 93,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "calendar-tools",
+      "subcategoryName": "📆 Calendar & Year Tools",
+      "total": 12,
+      "implemented": 12,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 12
+    },
+    {
+      "subcategoryKey": "date-calculation",
+      "subcategoryName": "📅 Date Calculations",
+      "total": 12,
+      "implemented": 12,
+      "missing": 0,
+      "advancedImplemented": 1,
+      "basicImplemented": 11
+    },
+    {
+      "subcategoryKey": "event-planning",
+      "subcategoryName": "🎉 Event & Planning",
+      "total": 9,
+      "implemented": 9,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 9
+    },
+    {
+      "subcategoryKey": "historical-time",
+      "subcategoryName": "📜 Historical & Astronomical",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "special-dates",
+      "subcategoryName": "🎯 Special Dates & Occasions",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "time-conversion",
+      "subcategoryName": "🔄 Time Conversion & Units",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "time-tracking",
+      "subcategoryName": "⏱️ Time Tracking & Management",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "work-productivity",
+      "subcategoryName": "⏰ Work & Productivity",
+      "total": 11,
+      "implemented": 11,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 11
+    },
+    {
+      "subcategoryKey": "world-time",
+      "subcategoryName": "🌍 World Time & Zones",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

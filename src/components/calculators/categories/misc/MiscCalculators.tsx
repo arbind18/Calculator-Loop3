@@ -1,8 +1,10 @@
 ﻿"use client"
 
 import { useState } from "react"
-import { Banknote, Calendar, CalendarDays, Percent, Fuel, Scale, Clock } from "lucide-react"
+import { Banknote, Calendar, CalendarDays, Percent, Fuel, Scale, Clock, Calculator } from "lucide-react"
+import { generateReport } from "@/lib/downloadUtils"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { FAQSection, getMiscFAQs } from "@/components/calculators/ui/FAQSection"
 import {
   TipSeoContent,
   AgeSeoContent,
@@ -32,7 +34,7 @@ export function TipCalculator() {
       icon={Banknote}
       calculate={calculate}
       values={[bill, tip, people]}
-      seoContent={<TipSeoContent />}
+      seoContent={<FAQSection faqs={getMiscFAQs('tip')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Bill Amount" value={bill} onChange={setBill} prefix="₹" min={0} max={100000} />
@@ -84,7 +86,7 @@ export function AgeCalculator() {
       icon={Calendar}
       calculate={calculate}
       values={[dob]}
-      seoContent={<AgeSeoContent />}
+      seoContent={<FAQSection faqs={getMiscFAQs('age')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -140,7 +142,7 @@ export function DateDifferenceCalculator() {
       icon={CalendarDays}
       calculate={calculate}
       values={[from, to]}
-      seoContent={<DateDifferenceSeoContent />}
+      seoContent={<FAQSection faqs={getMiscFAQs('date-difference')} />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -199,7 +201,7 @@ export function PercentageCalculator() {
       icon={Percent}
       calculate={calculate}
       values={[number, percent]}
-      seoContent={<PercentageSeoContent />}
+      seoContent={<FAQSection faqs={getMiscFAQs('percentage')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Number" value={number} onChange={setNumber} min={0} max={1000000} />
@@ -244,7 +246,7 @@ export function FuelCostCalculator() {
       icon={Fuel}
       calculate={calculate}
       values={[distance, mileage, price]}
-      seoContent={<FuelCostSeoContent />}
+      seoContent={<FAQSection faqs={getMiscFAQs('fuel-cost')} />}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Distance" value={distance} onChange={setDistance} suffix="km" min={1} max={10000} />
@@ -337,7 +339,7 @@ export function DatePlusDurationCalculator() {
       icon={Clock}
       calculate={calculate}
       values={[startDate, years, months, days, hours, minutes]}
-      seoContent={<DatePlusDurationSeoContent />}
+      seoContent={<FAQSection faqs={getMiscFAQs('date-plus-duration')} />}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -371,6 +373,71 @@ export function DatePlusDurationCalculator() {
           />
         </div>
       )}
+    />
+  )
+}
+
+export function ElectricityBill() {
+  const [units, setUnits] = useState(250)
+  const [rate, setRate] = useState(7)
+  const [fixedCharge, setFixedCharge] = useState(100)
+
+  const bill = units * rate + fixedCharge
+
+  return (
+    <FinancialCalculatorTemplate
+      title="Electricity Bill Estimator"
+      description="Estimate your monthly electricity bill."
+      icon={Calculator}
+      calculate={() => {}}
+      onDownload={(format) => generateReport(format, 'electricity_bill', ['Item', 'Value'], [['Estimated Bill', `₹${bill}`]], 'Bill Report')}
+      inputs={
+        <div className="space-y-4">
+          <InputGroup label="Units Consumed" value={units} onChange={setUnits} />
+          <InputGroup label="Rate per Unit" value={rate} onChange={setRate} prefix="₹" step={0.1} />
+          <InputGroup label="Fixed Charges" value={fixedCharge} onChange={setFixedCharge} prefix="₹" />
+        </div>
+      }
+      result={
+        <div className="p-6 bg-primary/10 rounded-xl text-center">
+          <div className="text-lg text-muted-foreground mb-2">Estimated Bill</div>
+          <div className="text-4xl font-bold text-primary">₹{bill.toLocaleString()}</div>
+        </div>
+      }
+    />
+  )
+}
+
+export function WaterBill() {
+  const [usage, setUsage] = useState(20) // KL
+  const [rate, setRate] = useState(15) // per KL
+  const [sewerageCharge, setSewerageCharge] = useState(20) // % of water charge
+
+  const waterCharge = usage * rate
+  const sewerage = waterCharge * (sewerageCharge / 100)
+  const total = waterCharge + sewerage
+
+  return (
+    <FinancialCalculatorTemplate
+      title="Water Bill Estimator"
+      description="Estimate your monthly water bill."
+      icon={Calculator}
+      calculate={() => {}}
+      onDownload={(format) => generateReport(format, 'water_bill', ['Item', 'Value'], [['Total Bill', `₹${total}`]], 'Bill Report')}
+      inputs={
+        <div className="space-y-4">
+          <InputGroup label="Water Usage (KL)" value={usage} onChange={setUsage} suffix="KL" />
+          <InputGroup label="Rate per KL" value={rate} onChange={setRate} prefix="₹" />
+          <InputGroup label="Sewerage Charge %" value={sewerageCharge} onChange={setSewerageCharge} suffix="%" />
+        </div>
+      }
+      result={
+        <div className="p-6 bg-primary/10 rounded-xl text-center">
+          <div className="text-lg text-muted-foreground mb-2">Estimated Bill</div>
+          <div className="text-4xl font-bold text-primary">₹{total.toLocaleString()}</div>
+          <p className="text-sm text-muted-foreground mt-2">Includes Sewerage Charge</p>
+        </div>
+      }
     />
   )
 }

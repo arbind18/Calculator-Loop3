@@ -1,42 +1,49 @@
 
+"use client"
+
 import { Zap, Shield, Smartphone, TrendingUp, Heart, Lock } from "lucide-react"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
 
 export function FeaturesSection() {
+  const { language } = useSettings()
+  const t = getMergedTranslations(language)
+
   const features = [
     {
       icon: Zap,
-      title: "Lightning Fast",
-      description: "Instant calculations with optimized algorithms",
+      title: t.features.lightningFast,
+      description: t.features.lightningDescription,
       color: "from-yellow-500 to-orange-500",
     },
     {
       icon: Shield,
-      title: "100% Secure",
-      description: "Your data stays private and secure",
+      title: t.features.secure,
+      description: t.features.secureDescription,
       color: "from-blue-500 to-cyan-500",
     },
     {
       icon: Smartphone,
-      title: "Mobile Friendly",
-      description: "Works perfectly on all devices",
+      title: t.features.mobileFriendly,
+      description: t.features.mobileDescription,
       color: "from-purple-500 to-pink-500",
     },
     {
       icon: TrendingUp,
-      title: "Always Updated",
-      description: "Regular updates with new calculators",
+      title: t.features.alwaysUpdated,
+      description: t.features.updatedDescription,
       color: "from-green-500 to-emerald-500",
     },
     {
       icon: Heart,
-      title: "Free Forever",
-      description: "No subscriptions or hidden fees",
+      title: t.features.freeForever,
+      description: t.features.freeDescription,
       color: "from-red-500 to-pink-500",
     },
     {
       icon: Lock,
-      title: "No Sign-up Required",
-      description: "Start calculating instantly",
+      title: t.features.noSignup,
+      description: t.features.noSignupDescription,
       color: "from-indigo-500 to-purple-500",
     },
   ]
@@ -47,10 +54,10 @@ export function FeaturesSection() {
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-4 mb-12">
           <h2 id="features-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            Why Choose Us?
+            {t.features.whyChooseUs}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            The best calculator platform with features you'll love
+            {t.features.whyChooseDescription}
           </p>
         </div>
 

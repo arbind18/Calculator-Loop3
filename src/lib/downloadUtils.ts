@@ -28,7 +28,14 @@ export const generateReport = async (
       case 'csv': {
         const csvContent = [
           headers.join(','),
-          ...data.map(row => row.join(','))
+          ...data.map(row => row.map(cell => {
+            const cellStr = String(cell)
+            // Escape quotes and wrap in quotes if it contains comma or quotes
+            if (cellStr.includes(',') || cellStr.includes('"')) {
+              return `"${cellStr.replace(/"/g, '""')}"`
+            }
+            return cellStr
+          }).join(','))
         ].join('\n')
         downloadFile(csvContent, `${fullFileName}.csv`, 'text/csv')
         break
@@ -56,22 +63,34 @@ export const generateReport = async (
            doc.setTextColor(0, 0, 0)
         }
 
+        doc.setFontSize(16)
         doc.text(title, 14, 15)
         
         let startY = 25
         if (metadata) {
           doc.setFontSize(10)
           Object.entries(metadata).forEach(([key, value]) => {
-            doc.text(`${key}: ${value}`, 14, startY)
+            // Strip Rupee symbol for PDF compatibility if needed, or ensure font supports it.
+            // jsPDF default font doesn't support ₹. We replace it with 'Rs. '
+            const safeValue = String(value).replace(/₹/g, 'Rs. ')
+            doc.text(`${key}: ${safeValue}`, 14, startY)
             startY += 5
           })
           startY += 5
         }
 
+        // Sanitize data for PDF (remove ₹ symbol)
+        const safeData = data.map(row => row.map(cell => String(cell).replace(/₹/g, 'Rs. ')))
+        const safeHeaders = headers.map(h => h.replace(/₹/g, 'Rs. '))
+
         autoTable(doc, {
-          head: [headers],
-          body: data,
+          head: [safeHeaders],
+          body: safeData,
           startY: startY,
+          theme: 'grid',
+          styles: { fontSize: 8, cellPadding: 2 },
+          headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+          alternateRowStyles: { fillColor: [245, 245, 245] }
         })
         
         if (format === 'pdf-encrypted') {

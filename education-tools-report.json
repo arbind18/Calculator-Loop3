@@ -1,0 +1,69 @@
+{
+  "categoryKey": "education",
+  "summary": {
+    "totalToolsInToolsData": 54,
+    "implementedInRegistry": 54,
+    "missingInRegistry": 0,
+    "advancedImplemented": 0,
+    "basicImplemented": 54,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "academic-grades",
+      "subcategoryName": "🎓 Academic & Grades",
+      "total": 12,
+      "implemented": 12,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 12
+    },
+    {
+      "subcategoryKey": "attendance-tracking",
+      "subcategoryName": "📊 Attendance & Performance",
+      "total": 6,
+      "implemented": 6,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 6
+    },
+    {
+      "subcategoryKey": "college-planning",
+      "subcategoryName": "🏫 College & Career Planning",
+      "total": 11,
+      "implemented": 11,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 11
+    },
+    {
+      "subcategoryKey": "competitive-exams",
+      "subcategoryName": "🎯 Competitive Exams",
+      "total": 9,
+      "implemented": 9,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 9
+    },
+    {
+      "subcategoryKey": "skill-development",
+      "subcategoryName": "💡 Skill & Learning",
+      "total": 6,
+      "implemented": 6,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 6
+    },
+    {
+      "subcategoryKey": "test-preparation",
+      "subcategoryName": "📝 Test & Preparation",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

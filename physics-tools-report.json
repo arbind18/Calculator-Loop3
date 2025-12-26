@@ -1,0 +1,42 @@
+{
+  "categoryKey": "physics",
+  "summary": {
+    "totalToolsInToolsData": 105,
+    "implementedInRegistry": 105,
+    "missingInRegistry": 0,
+    "advancedImplemented": 0,
+    "basicImplemented": 105,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "electricity",
+      "subcategoryName": "🔌 Electricity & Electronics",
+      "total": 35,
+      "implemented": 35,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 35
+    },
+    {
+      "subcategoryKey": "energy-power",
+      "subcategoryName": "⚡ Energy & Power",
+      "total": 35,
+      "implemented": 35,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 35
+    },
+    {
+      "subcategoryKey": "mechanics-motion",
+      "subcategoryName": "⚡ Mechanics & Motion",
+      "total": 35,
+      "implemented": 35,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 35
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

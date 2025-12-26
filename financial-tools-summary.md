@@ -1,0 +1,538 @@
+# Financial Tools Report
+
+## Summary
+
+- totalFinancialToolsInToolsData: 425
+- implementedInRegistry: 425
+- missingInRegistry: 0
+- advancedImplemented: 12
+- basicImplemented: 413
+- registryEntriesWithMissingFiles: 0
+
+## Breakdown (by subcategory)
+
+| subcategoryKey | subcategoryName | total | implemented | missing | advancedImplemented | basicImplemented |
+|---|---|---:|---:|---:|---:|---:|
+| currency | 💱 Currency & Forex Calculators | 52 | 52 | 0 | 4 | 48 |
+| business | 📊 Business & Profitability Calculators | 51 | 51 | 0 | 1 | 50 |
+| investment | 📈 Investment & Returns Calculators | 40 | 40 | 0 | 1 | 39 |
+| banking | 🏦 Banking & Savings Calculators | 40 | 40 | 0 | 2 | 38 |
+| misc | 🧮 Miscellaneous Financial Tools | 39 | 39 | 0 | 2 | 37 |
+| real-estate | 🏠 Real Estate Calculators | 35 | 35 | 0 | 0 | 35 |
+| loan | 💸 Loan & EMI Calculators | 34 | 34 | 0 | 0 | 34 |
+| insurance | 🛡️ Insurance Calculators | 32 | 32 | 0 | 0 | 32 |
+| credit-card | 💳 Credit Card Calculators | 32 | 32 | 0 | 0 | 32 |
+| retirement | 🏖️ Retirement Calculators | 31 | 31 | 0 | 0 | 31 |
+| tax | 🧾 Tax & Income Calculators | 29 | 29 | 0 | 2 | 27 |
+| time-based-finance | 💰 Time-Based Financial | 10 | 10 | 0 | 0 | 10 |
+
+## Advanced (implemented)
+
+- sip-calculator — Advanced SIP Calculator
+- income-tax-calculator — Advanced Income Tax Calculator
+- gst-calculator — GST Calculator
+- staking-rewards-adv — Advanced Staking Rewards
+- mining-roi-adv — Advanced Mining ROI
+- forex-position-sizer — Forex Position Sizer
+- forex-pip-adv — Advanced Pip Calculator
+- deposit-maturity — FD/RD Maturity Calculator
+- rd-planner — RD Installment Planner
+- break-even-calculator — Break-Even Analysis Calculator
+- age-calculator — Age Calculator
+- fuel-cost-calculator — Fuel Cost Calculator
+
+## Basic (implemented)
+
+- personal-loan-emi — Personal Loan EMI Calculator
+- home-loan-emi — Home Loan EMI Calculator
+- car-loan-emi — Car Loan EMI Calculator
+- education-loan-emi — Education Loan EMI Calculator
+- business-loan-emi — Business Loan EMI Calculator
+- gold-loan-emi — Gold Loan EMI Calculator
+- two-wheeler-loan — Two Wheeler Loan Calculator
+- loan-prepayment-impact — Loan Prepayment Impact Calculator
+- loan-eligibility — Loan Eligibility Calculator
+- loan-comparison — Loan Comparison Calculator
+- simple-interest-loan — Simple Interest Loan Calculator
+- compound-interest-loan — Compound Interest Loan Calculator
+- loan-amortization — Loan Amortization Schedule
+- remaining-loan-balance — Remaining Loan Balance Calculator
+- top-up-loan — Top-Up Loan Calculator
+- loan-balance-transfer — Loan Balance Transfer Calculator
+- flat-vs-reducing — Flat vs Reducing Rate Calculator
+- loan-part-payment — Loan Part Payment
+- moratorium-calculator — Moratorium Calculator
+- loan-affordability — Loan Affordability
+- step-up-emi — Step-Up EMI Calculator
+- balloon-payment — Balloon Payment Calculator
+- od-interest — Overdraft Interest
+- loan-settlement — Loan Settlement
+- loan-restructuring — Loan Restructuring
+- loan-default-penalty — Loan Default Penalty
+- guarantor-liability — Guarantor Liability
+- loan-against-property — Loan Against Property
+- car-lease-vs-buy — Car Lease vs Buy
+- zero-cost-emi — Zero Cost EMI Reality
+- payday-loan-apr — Payday Loan APR
+- microfinance-loan — Microfinance Loan
+- education-loan-tax — Education Loan Tax Benefit
+- mudra-loan — Mudra Loan Calculator
+- swp-calculator — SWP Calculator
+- step-up-sip — Step-Up SIP Calculator
+- mutual-fund-returns — Mutual Fund Returns Calculator
+- compound-interest-investment — Compound Interest Calculator
+- cagr-calculator — CAGR Calculator
+- roi-calculator — ROI Calculator
+- fd-calculator — Fixed Deposit Calculator
+- rd-calculator — Recurring Deposit Calculator
+- ppf-calculator — PPF Calculator
+- lumpsum-calculator — Lumpsum Investment Calculator
+- inflation-impact — Inflation Impact on Returns
+- dividend-yield — Dividend Yield Calculator
+- stock-return — Stock Return Calculator
+- bond-yield — Bond Yield Calculator
+- rule-of-72 — Rule of 72
+- real-rate-return — Real Rate of Return
+- cost-of-delay — Cost of Delay
+- asset-allocation — Asset Allocation
+- npv-calculator — Net Present Value (NPV)
+- sharpe-ratio — Sharpe Ratio
+- treynor-ratio — Treynor Ratio
+- alpha-calculator — Jensen's Alpha
+- beta-calculator — Portfolio Beta
+- sip-delay-cost — SIP Delay Cost
+- lumpsum-vs-sip — Lumpsum vs SIP
+- stp-calculator — STP Calculator
+- dividend-reinvestment — Dividend Reinvestment (DRIP)
+- rights-issue — Rights Issue Value
+- sovereign-gold-bond — Sovereign Gold Bond Calculator
+- nps-tier-1-calculator — NPS Tier-1 Calculator
+- elss-calculator — ELSS Calculator
+- index-fund-returns — Index Fund Returns
+- debt-fund-returns — Debt Fund Calculator
+- hybrid-fund-calculator — Hybrid Fund Calculator
+- ulip-calculator — ULIP Calculator
+- etf-returns — ETF Returns Calculator
+- portfolio-rebalancing — Portfolio Rebalancing
+- emergency-fund-calculator — Emergency Fund Calculator
+- goal-based-investment — Goal-Based Investment
+- salary-breakup — Salary Breakup Calculator
+- hra-calculator — HRA Exemption Calculator
+- pf-calculator — PF Calculator
+- gratuity-calculator — Gratuity Calculator
+- tds-calculator — TDS Calculator
+- professional-tax — Professional Tax Calculator
+- advance-tax-calculator — Advance Tax Calculator
+- post-tax-income — Post-Tax Income Calculator
+- capital-gains-tax — Capital Gains Tax (LTCG/STCG)
+- old-vs-new-regime — Old vs New Tax Regime
+- leave-encashment — Leave Encashment Tax
+- vrs-compensation — VRS Tax Exemption
+- 80c-calculator — Section 80C Calculator
+- 80d-calculator — Section 80D (Health)
+- 80g-calculator — Section 80G (Donations)
+- 80tta-calculator — Section 80TTA/TTB
+- capital-gains-indexation — Capital Gains Indexation
+- crypto-tax — Crypto Tax Calculator
+- lottery-tax — Lottery / Winnings Tax
+- gift-tax — Gift Tax Calculator
+- rental-income-tax — Rental Income Tax
+- presumptive-tax — Presumptive Tax (44AD)
+- advance-tax — Advance Tax Calculator
+- surcharge-calculator — Surcharge Calculator
+- marginal-relief — Marginal Relief Calculator
+- 87a-rebate — Section 87A Rebate
+- agri-income-tax — Agricultural Income Tax
+- currency-converter — Currency Converter
+- crypto-profit-loss — Crypto Profit & Loss Calculator
+- forex-margin — Forex Margin Calculator
+- exchange-rate-impact — Exchange Rate Impact Calculator
+- bitcoin-converter — Bitcoin to INR Converter
+- import-export-duty — Import/Export Duty Calculator
+- gold-silver-price — Gold/Silver Price Calculator
+- international-transfer — International Transfer Fee Calculator
+- pip-value — Pip Value Calculator
+- position-size — Position Size Calculator
+- forex-compounding — Forex Compounding Calculator
+- risk-reward-ratio — Risk Reward Ratio
+- pivot-point — Pivot Point Calculator
+- fibonacci-calculator — Fibonacci Retracement
+- crypto-market-cap — Crypto Market Cap
+- crypto-staking — Crypto Staking Rewards
+- mining-profitability — Mining Profitability
+- crypto-dca — Crypto DCA Calculator
+- arbitrage-calculator — Arbitrage Calculator
+- inflation-adjusted-rate — Inflation Adjusted Rate
+- ppp-calculator — Purchasing Power Parity
+- reer-calculator — Real Effective Exchange Rate
+- currency-devaluation — Currency Devaluation
+- travel-budget — Travel Budget Calculator
+- forex-fee-calculator — Foreign Transaction Fee
+- remittance-cost — Remittance Cost Calculator
+- hedging-cost — Hedging Cost Calculator
+- forward-rate — Forward Rate Calculator
+- cross-rate — Cross Rate Calculator
+- currency-strength — Currency Strength Meter
+- volatility-calculator — Volatility Calculator
+- correlation-matrix — Correlation Matrix
+- carry-trade — Carry Trade Calculator
+- interest-rate-parity — Interest Rate Parity
+- big-mac-index — Big Mac Index Calculator
+- gold-silver-ratio — Gold-Silver Ratio
+- platinum-gold-ratio — Platinum-Gold Ratio
+- bitcoin-dominance — Bitcoin Dominance
+- eth-gas-fee — ETH Gas Fee Estimator
+- crypto-burn-rate — Crypto Burn Rate
+- impermanent-loss — Impermanent Loss Calculator
+- yield-farming — Yield Farming Calculator
+- hash-rate-converter — Hash Rate Converter
+- satoshi-converter — Satoshi to BTC
+- wei-converter — Wei to Ether
+- gwei-converter — Gwei to Ether
+- forex-profit — Forex Profit Calculator
+- forex-swap — Forex Swap Calculator
+- hourly-to-annual — Hourly to Annual Salary
+- annual-to-hourly — Annual to Hourly Wage
+- pay-period-calculator — Pay Period Calculator
+- time-value-money — Time Value of Money
+- compound-time — Compound Interest Time
+- payroll-hours — Payroll Hours Calculator
+- time-off-accrual — Time Off Accrual
+- sick-leave-calculator — Sick Leave Calculator
+- contract-duration — Contract Duration Calculator
+- subscription-cost-time — Subscription Cost Over Time
+- savings-account-interest — Savings Account Interest Calculator
+- interest-rate-comparison — Interest Rate Comparison Tool
+- deposit-growth — Deposit Growth Calculator
+- bank-charges — Bank Charges Calculator
+- atm-withdrawal-charges — ATM Withdrawal Charges
+- loan-against-fd — Loan Against FD Calculator
+- money-market-calculator — Money Market Calculator
+- ssy-calculator — Sukanya Samriddhi Yojana (SSY)
+- scss-calculator — Senior Citizen Savings Scheme
+- kvp-calculator — Kisan Vikas Patra (KVP)
+- nsc-calculator — National Savings Certificate
+- pomis-calculator — Post Office MIS
+- locker-rent-calculator — Locker Rent Calculator
+- dd-charges-calculator — DD Charges Calculator
+- neft-rtgs-charges — NEFT/RTGS Charges
+- amb-calculator — Average Monthly Balance
+- cash-deposit-charges — Cash Deposit Charges
+- cheque-bounce-penalty — Cheque Bounce Penalty
+- auto-sweep-calculator — Auto-Sweep Calculator
+- fd-premature-penalty — FD Premature Penalty
+- rd-delay-penalty — RD Delay Penalty
+- senior-citizen-fd-extra — Senior Citizen FD Benefit
+- effective-yield-calculator — Effective Yield Calculator
+- cash-denomination-counter — Cash Denomination Counter
+- simple-vs-compound — Simple vs Compound Interest
+- rule-of-72-banking — Rule of 72 (Doubling)
+- debit-card-emi — Debit Card EMI Calculator
+- sweep-in-calculator — Sweep-In Account Calculator
+- fd-ladder-calculator — FD Ladder Calculator
+- foreign-currency-account — Foreign Currency Account
+- tax-saving-fd — Tax Saving FD Calculator
+- cumulative-vs-non-cumulative — Cumulative vs Non-Cumulative FD
+- bank-fd-vs-post-office — Bank FD vs Post Office FD
+- quarterly-interest-calculator — Quarterly Interest Calculator
+- monthly-interest-calculator — Monthly Interest Calculator
+- annual-interest-calculator — Annual Interest Calculator
+- overdraft-protection-cost — Overdraft Protection Cost
+- multi-currency-account — Multi-Currency Account
+- life-insurance-calculator — Life Insurance Calculator
+- term-insurance — Term Insurance Premium
+- human-life-value — Human Life Value (HLV)
+- health-insurance — Health Insurance Premium
+- motor-insurance — Motor Insurance Calculator
+- ulip-calculator — ULIP Returns Calculator
+- endowment-policy — Endowment Policy Calculator
+- child-plan — Child Education Plan
+- ncb-calculator — No Claim Bonus (NCB)
+- insurance-gst — Insurance GST Calculator
+- term-vs-invest — Term Insurance vs Investment
+- pli-calculator — Postal Life Insurance (PLI)
+- travel-insurance-cost — Travel Insurance Cost
+- home-insurance-calculator — Home Insurance Calculator
+- critical-illness-cover — Critical Illness Cover
+- cyber-insurance-calculator — Cyber Insurance Calculator
+- surrender-value-calculator — Policy Surrender Value
+- pet-insurance-calculator — Pet Insurance Calculator
+- bicycle-insurance-calculator — Bicycle Insurance
+- mobile-insurance-calculator — Mobile Insurance
+- wedding-insurance-calculator — Wedding Insurance
+- group-health-insurance — Group Health Insurance
+- keyman-insurance — Keyman Insurance
+- marine-insurance — Marine / Transit Insurance
+- fire-insurance — Fire Insurance
+- burglary-insurance — Burglary Insurance
+- public-liability — Public Liability Insurance
+- workmens-compensation — Workmen's Compensation
+- directors-officers-liability — Directors & Officers (D&O)
+- professional-indemnity — Professional Indemnity
+- crop-insurance — Crop Insurance (PMFBY)
+- shopkeepers-insurance — Shopkeeper's Insurance
+- rent-vs-buy — Rent vs Buy Calculator
+- rental-yield — Rental Yield Calculator
+- home-affordability — Home Affordability Calculator
+- stamp-duty — Stamp Duty Calculator
+- construction-cost — Construction Cost Calculator
+- land-area-converter — Land Area Converter
+- property-capital-gains — Property Capital Gains
+- property-tax — Property Tax Estimator
+- pre-emi-calculator — Pre-EMI Calculator
+- plot-loan — Plot Loan EMI
+- interior-design-cost — Interior Design Cost
+- down-payment-goal — Down Payment Goal
+- home-loan-balance-transfer — Home Loan Balance Transfer
+- pmay-subsidy — PMAY Subsidy Calculator
+- carpet-area-calculator — Carpet Area Calculator
+- fsi-calculator — FSI / FAR Calculator
+- rental-agreement-cost — Rental Agreement Cost
+- paint-cost-calculator — Painting Cost Estimator
+- flooring-cost-calculator — Flooring Cost Calculator
+- false-ceiling-cost — False Ceiling Cost
+- modular-kitchen-cost — Modular Kitchen Cost
+- wardrobe-cost-calculator — Wardrobe Cost Calculator
+- solar-rooftop-calculator — Solar Rooftop Calculator
+- bricks-calculator — Bricks Calculator
+- cement-calculator — Cement Calculator
+- water-tank-capacity — Water Tank Capacity
+- electrical-wiring-cost — Electrical Wiring Cost
+- plumbing-cost-calculator — Plumbing Cost Estimator
+- bathroom-renovation-cost — Bathroom Renovation Cost
+- staircase-calculator — Staircase Calculator
+- septic-tank-size — Septic Tank Size
+- rainwater-harvesting — Rainwater Harvesting
+- fence-cost-calculator — Fencing Cost Calculator
+- driveway-cost-calculator — Driveway Cost Calculator
+- pool-cost-calculator — Swimming Pool Cost
+- credit-card-payoff — Credit Card Payoff Calculator
+- credit-card-min-due — Minimum Due Calculator
+- balance-transfer — Balance Transfer Calculator
+- credit-card-emi — Credit Card EMI Calculator
+- cc-interest — Credit Card Interest
+- min-payment-warning — Minimum Payment Warning
+- credit-utilization — Credit Utilization Ratio
+- reward-points — Reward Points Value
+- forex-fee — Forex Transaction Fee
+- cash-advance-fee — Cash Advance Fee
+- card-vs-loan — Card vs Personal Loan
+- annual-fee-breakeven — Annual Fee Breakeven
+- debt-snowball — Debt Snowball Calculator
+- debt-avalanche — Debt Avalanche Calculator
+- late-payment-fee — Late Payment Fee Estimator
+- over-limit-fee — Over Limit Fee Calculator
+- cc-eligibility — Credit Card Eligibility
+- fuel-surcharge-waiver — Fuel Surcharge Waiver
+- airport-lounge-value — Airport Lounge Value
+- cashback-calculator — Annual Cashback Calculator
+- miles-to-cash — Miles/Points Value
+- cc-against-fd — Credit Card Against FD
+- forex-markup — Foreign Currency Markup
+- billing-cycle — Billing Cycle & Due Date
+- limit-increase — Credit Limit Increase Estimator
+- card-upgrade — Card Upgrade Evaluator
+- cash-withdrawal-cost — Cash Withdrawal Cost
+- cc-insurance-cost — Credit Shield Insurance Cost
+- addon-card-limit — Add-on Card Limit Setter
+- min-due-trap — Minimum Due Trap Warning
+- no-cost-emi — No Cost EMI Real Cost
+- annual-fee-waiver — Annual Fee Waiver Tracker
+- fire-calculator — FIRE Calculator
+- nps-calculator — NPS Calculator
+- retirement-corpus — Retirement Corpus Calculator
+- atal-pension-yojana — Atal Pension Yojana (APY)
+- corpus-longevity — Corpus Longevity Calculator
+- nps-withdrawal — NPS Withdrawal Calculator
+- epf-calculator — EPF Calculator
+- vpf-calculator — VPF Calculator
+- inflation-pension — Inflation Adjusted Pension
+- superannuation-calculator — Superannuation Calculator
+- post-retirement-budget — Post-Retirement Budget
+- swp-tax-calculator — SWP Tax Calculator
+- nps-tier2 — NPS Tier 2 Calculator
+- retirement-shortfall — Retirement Shortfall
+- fire-calculator-pro — FIRE Calculator (Early Retirement)
+- gratuity-retirement — Gratuity Calculator
+- leave-encashment-retirement — Leave Encashment Calculator
+- vrs-retirement — VRS Compensation Calculator
+- scss-retirement — SCSS Calculator
+- pmvvy-scheme — PMVVY Calculator
+- reverse-mortgage — Reverse Mortgage Estimator
+- medical-inflation — Medical Inflation Projector
+- bucket-strategy — Retirement Bucket Allocator
+- annuity-yield — Annuity Yield Calculator
+- life-expectancy — Life Expectancy Estimator
+- travel-fund — Retirement Travel Fund
+- legacy-planner — Legacy & Inheritance Planner
+- care-cost — Assisted Living Cost Estimator
+- pension-tax — Pension Tax Estimator
+- eps-pension — EPS 95 Pension Calculator
+- health-premium-projector — Retirement Health Premium
+- profit-margin — Profit Margin Calculator
+- discount-calculator — Discount Calculator
+- roas-calculator — ROAS Calculator
+- working-capital — Working Capital Calculator
+- markup-calculator — Markup Calculator
+- commission-calculator — Commission Calculator
+- startup-runway — Startup Runway Calculator
+- freelance-tax — Freelance Tax (44ADA)
+- inventory-turnover — Inventory Turnover Ratio
+- operating-margin — Operating Margin Calculator
+- depreciation-calculator — Depreciation Calculator
+- cash-flow-calculator — Cash Flow Calculator
+- burn-rate-calculator — Burn Rate Calculator
+- sales-tax-calculator — Sales Tax Calculator
+- payroll-calculator — Payroll Calculator
+- overtime-calculator — Overtime Pay Calculator
+- profit-split-calculator — Profit Split Calculator
+- roi-percentage — ROI Percentage Calculator
+- conversion-rate — Conversion Rate Calculator
+- average-order-value — Average Order Value (AOV)
+- churn-rate — Churn Rate Calculator
+- ltv-cac-ratio — LTV:CAC Ratio
+- monthly-recurring-revenue — MRR Calculator
+- annual-recurring-revenue — ARR Calculator
+- gross-margin-calculator — Gross Margin Calculator
+- net-margin-calculator — Net Margin Calculator
+- ebitda-calculator — EBITDA Calculator
+- revenue-growth-rate — Revenue Growth Rate
+- employee-productivity — Employee Productivity Calculator
+- cost-per-hire — Cost Per Hire
+- inventory-days — Days Inventory Outstanding
+- accounts-receivable-days — Days Sales Outstanding
+- accounts-payable-days — Days Payable Outstanding
+- cash-conversion-cycle — Cash Conversion Cycle
+- return-on-assets — Return on Assets (ROA)
+- return-on-equity — Return on Equity (ROE)
+- asset-turnover-ratio — Asset Turnover Ratio
+- equity-multiplier — Equity Multiplier
+- times-interest-earned — Times Interest Earned
+- free-cash-flow — Free Cash Flow
+- contribution-margin — Contribution Margin
+- variable-cost-per-unit — Variable Cost Per Unit
+- fixed-cost-analysis — Fixed Cost Analysis
+- operating-leverage — Operating Leverage
+- financial-leverage — Financial Leverage
+- safety-margin — Margin of Safety
+- payback-period — Payback Period
+- internal-rate-return — Internal Rate of Return (IRR)
+- profitability-index — Profitability Index
+- economic-value-added — Economic Value Added (EVA)
+- percentage-calculator — Percentage Calculator
+- tip-calculator — Tip Calculator
+- date-difference — Date Difference Calculator
+- date-plus-duration — Date + Duration Calculator
+- electricity-bill — Electricity Bill Calculator
+- water-bill — Water Bill Calculator
+- bmi-calculator — BMI Calculator
+- emergency-fund — Emergency Fund Calculator
+- net-worth — Net Worth Calculator
+- savings-goal — Savings Goal Calculator
+- budget-planner — Budget Planner (50/30/20)
+- unit-converter — Unit Converter
+- temperature-converter — Temperature Converter
+- sales-tax-calculator — Sales Tax Calculator
+- electricity-bill-calculator — Electricity Bill Calculator
+- data-usage-calculator — Data Usage Calculator
+- download-time-calculator — Download Time Calculator
+- password-strength-calculator — Password Strength
+- aspect-ratio-calculator — Aspect Ratio Calculator
+- pixels-to-rem-calculator — Pixels to REM
+- golden-ratio-calculator — Golden Ratio Calculator
+- time-duration-calculator — Time Duration Calculator
+- age-difference-calculator — Age Difference Calculator
+- zodiac-sign-calculator — Zodiac Sign Calculator
+- love-calculator — Love Calculator
+- grade-calculator — Grade Calculator
+- gpa-calculator — GPA Calculator
+- speed-converter — Speed Converter
+- volume-converter — Volume Converter
+- area-converter — Area Converter
+- time-converter — Time Converter
+- pressure-converter — Pressure Converter
+- power-converter — Power Converter
+- energy-converter — Energy Converter
+- data-storage-converter — Data Storage Converter
+- cooking-converter — Cooking Converter
+- roman-numeral-converter — Roman Numeral Converter
+
+## Not working (missing in calculatorRegistry → 404)
+
+
+## Duplicates
+
+- duplicateFinanceIds: 2
+- duplicateFinanceTitles: 5
+- idsInMultipleCategories: 113
+
+### Duplicate IDs (within finance)
+
+- ulip-calculator — occurrences: 2 (e.g. investment)
+- sales-tax-calculator — occurrences: 2 (e.g. business)
+
+### Duplicate Titles (within finance, normalized)
+
+- emergency fund calculator — occurrences: 2 (ids: emergency-fund-calculator, emergency-fund)
+- gratuity calculator — occurrences: 2 (ids: gratuity-calculator, gratuity-retirement)
+- advance tax calculator — occurrences: 2 (ids: advance-tax-calculator, advance-tax)
+- sales tax calculator — occurrences: 2 (ids: sales-tax-calculator)
+- electricity bill calculator — occurrences: 2 (ids: electricity-bill, electricity-bill-calculator)
+
+### IDs reused across multiple categories
+
+- discount-calculator — categories: business, everyday, financial
+- overtime-calculator — categories: datetime, everyday, financial
+- percentage-calculator — categories: education, financial, math
+- age-calculator — categories: datetime, everyday, financial
+- unit-converter — categories: everyday, financial, scientific
+- temperature-converter — categories: everyday, financial, math
+- speed-converter — categories: everyday, financial, math
+- volume-converter — categories: everyday, financial, math
+- entropy-calculator — categories: physics, scientific, technology
+- roi-calculator — categories: construction, financial
+- dividend-yield — categories: business, financial
+- currency-converter — categories: everyday, financial
+- mining-profitability — categories: financial, technology
+- travel-insurance-cost — categories: everyday, financial
+- mobile-insurance-calculator — categories: everyday, financial
+- construction-cost — categories: construction, financial
+- carpet-area-calculator — categories: everyday, financial
+- cement-calculator — categories: construction, financial
+- staircase-calculator — categories: construction, financial
+- rainwater-harvesting — categories: construction, financial
+- profit-margin — categories: business, financial
+- break-even-calculator — categories: business, financial
+- roas-calculator — categories: business, financial
+- working-capital — categories: business, financial
+- markup-calculator — categories: business, financial
+- commission-calculator — categories: business, financial
+- startup-runway — categories: business, financial
+- freelance-tax — categories: business, financial
+- inventory-turnover — categories: business, financial
+- operating-margin — categories: business, financial
+- sales-tax-calculator — categories: everyday, financial
+- conversion-rate — categories: business, financial
+- average-order-value — categories: business, financial
+- ltv-cac-ratio — categories: business, financial
+- ebitda-calculator — categories: business, financial
+- cash-conversion-cycle — categories: business, financial
+- return-on-assets — categories: business, financial
+- return-on-equity — categories: business, financial
+- times-interest-earned — categories: business, financial
+- free-cash-flow — categories: business, financial
+- contribution-margin — categories: business, financial
+- operating-leverage — categories: business, financial
+- financial-leverage — categories: business, financial
+- payback-period — categories: business, financial
+- economic-value-added — categories: business, financial
+- tip-calculator — categories: everyday, financial
+- date-difference — categories: datetime, financial
+- fuel-cost-calculator — categories: everyday, financial
+- bmi-calculator — categories: financial, health
+- budget-planner — categories: construction, financial
+
+
+## Broken registry entries (import file missing)
+
+- None

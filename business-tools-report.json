@@ -1,0 +1,60 @@
+{
+  "categoryKey": "business",
+  "summary": {
+    "totalToolsInToolsData": 155,
+    "implementedInRegistry": 155,
+    "missingInRegistry": 0,
+    "advancedImplemented": 1,
+    "basicImplemented": 154,
+    "registryEntriesWithMissingFiles": 0
+  },
+  "subcategoryBreakdown": [
+    {
+      "subcategoryKey": "customer-metrics",
+      "subcategoryName": "👥 Customer & Sales Metrics",
+      "total": 45,
+      "implemented": 45,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 45
+    },
+    {
+      "subcategoryKey": "financial-ratios",
+      "subcategoryName": "📊 Financial Ratios",
+      "total": 45,
+      "implemented": 45,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 45
+    },
+    {
+      "subcategoryKey": "operational-metrics",
+      "subcategoryName": "⚙️ Operational Metrics",
+      "total": 10,
+      "implemented": 10,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 10
+    },
+    {
+      "subcategoryKey": "profit-analysis",
+      "subcategoryName": "💰 Profit & Margin Analysis",
+      "total": 47,
+      "implemented": 47,
+      "missing": 0,
+      "advancedImplemented": 1,
+      "basicImplemented": 46
+    },
+    {
+      "subcategoryKey": "valuation-metrics",
+      "subcategoryName": "💎 Valuation & Growth",
+      "total": 8,
+      "implemented": 8,
+      "missing": 0,
+      "advancedImplemented": 0,
+      "basicImplemented": 8
+    }
+  ],
+  "missingInRegistry": [],
+  "brokenRegistryEntries": []
+}

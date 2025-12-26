@@ -5,6 +5,7 @@ import { Palmtree, TrendingUp } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { formatCompactNumber } from "@/lib/utils"
 import { RetirementSeoContent } from "@/components/calculators/seo/InvestmentSeo"
+import { FAQSection, getRetirementFAQs } from "@/components/calculators/ui/FAQSection"
 
 export function RetirementCorpus() {
   const [currentAge, setCurrentAge] = useState(30)
@@ -44,7 +45,7 @@ export function RetirementCorpus() {
       icon={Palmtree}
       calculate={calculate}
       values={[currentAge, retirementAge, monthlyExpense, inflation]}
-      seoContent={<RetirementSeoContent />}
+      seoContent={<FAQSection faqs={getRetirementFAQs('retirement-corpus')} />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
