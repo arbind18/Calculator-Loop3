@@ -1,7 +1,8 @@
 // Email service using Resend
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize with a dummy key if missing to prevent build failures
+const resend = new Resend(process.env.RESEND_API_KEY || 're_123456789');
 
 export interface SendEmailOptions {
   to: string | string[];
