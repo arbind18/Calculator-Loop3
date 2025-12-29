@@ -2,9 +2,12 @@ export type Lang = 'en' | 'hi';
 
 type Rational = { num: bigint; den: bigint };
 
+type Complex = { re: Rational; im: Rational };
+
 type ParsedNumber =
   | { kind: 'int'; value: bigint; raw: string }
-  | { kind: 'rat'; value: Rational; raw: string };
+  | { kind: 'rat'; value: Rational; raw: string }
+  | { kind: 'complex'; value: Complex; raw: string };
 
 const normalize = (s: string) =>
   s
@@ -43,6 +46,19 @@ const reduceRational = (r: Rational): Rational => {
   return { num: num / g, den: den / g };
 };
 
+const addR = (a: Rational, b: Rational): Rational => reduceRational({ num: a.num * b.den + b.num * a.den, den: a.den * b.den });
+const subR = (a: Rational, b: Rational): Rational => reduceRational({ num: a.num * b.den - b.num * a.den, den: a.den * b.den });
+const mulR = (a: Rational, b: Rational): Rational => reduceRational({ num: a.num * b.num, den: a.den * b.den });
+const divR = (a: Rational, b: Rational): Rational | null => {
+  if (b.num === 0n) return null;
+  return reduceRational({ num: a.num * b.den, den: a.den * b.num });
+};
+const negR = (a: Rational): Rational => ({ num: -a.num, den: a.den });
+
+const isZeroR = (a: Rational) => a.num === 0n;
+const isOneR = (a: Rational) => a.num === a.den;
+const isMinusOneR = (a: Rational) => a.num === -a.den;
+
 const formatBigInt = (n: bigint) => {
   const s = n.toString();
   // Add commas for readability (simple grouping)
@@ -69,12 +85,85 @@ const safeParseBigInt = (raw: string): bigint | null => {
   }
 };
 
+const parseRationalToken = (raw: string | undefined | null): Rational | null => {
+  if (!raw) return null;
+  const s = raw.replace(/\s+/g, '').trim();
+  if (!s) return null;
+  const parts = s.split('/');
+  if (parts.length === 1) {
+    const n = safeParseBigInt(parts[0]!);
+    if (n === null) return null;
+    return { num: n, den: 1n };
+  }
+  if (parts.length === 2) {
+    const n = safeParseBigInt(parts[0]!);
+    const d = safeParseBigInt(parts[1]!);
+    if (n === null || d === null || d === 0n) return null;
+    return reduceRational({ num: n, den: d });
+  }
+  return null;
+};
+
+const makeComplex = (re: Rational, im: Rational): Complex => ({ re: reduceRational(re), im: reduceRational(im) });
+
+const formatComplex = (z: Complex) => {
+  const re = reduceRational(z.re);
+  const im = reduceRational(z.im);
+
+  if (isZeroR(im)) return formatRational(re);
+
+  const imAbs = reduceRational({ num: abs(im.num), den: im.den });
+  const imCoeff = isOneR(imAbs) ? '' : formatRational(imAbs);
+  const imPart = `${imCoeff}i`;
+
+  if (isZeroR(re)) {
+    if (im.num < 0n) return `-${imPart}`;
+    return imPart;
+  }
+
+  const sign = im.num < 0n ? ' - ' : ' + ';
+  return `${formatRational(re)}${sign}${imPart}`;
+};
+
 const parseNumbers = (message: string): ParsedNumber[] => {
   const text = message;
 
+  // Complex numbers: a+bi, a-bi, +i, -i, 3i, 2/3 i, 5 + i
+  // We only accept i (not j). This is offline-math-safe and avoids matching words like "pi" or "integral".
+  const complex: ParsedNumber[] = [];
+  const usedRanges: Array<{ start: number; end: number }> = [];
+
+  const complexRe = /([+-]?\d+(?:\s*\/\s*[+-]?\d+)?)?\s*([+-])\s*([+-]?\d+(?:\s*\/\s*[+-]?\d+)?)?\s*i(?![a-zA-Z])/gi;
+  let cm: RegExpExecArray | null;
+  while ((cm = complexRe.exec(text))) {
+    const reTok = cm[1];
+    const sign = cm[2];
+    const imTok = cm[3];
+
+    const re = parseRationalToken(reTok) ?? { num: 0n, den: 1n };
+    const baseIm = parseRationalToken(imTok) ?? { num: 1n, den: 1n };
+    const im = sign === '-' ? negR(baseIm) : baseIm;
+
+    complex.push({ kind: 'complex', value: makeComplex(re, im), raw: cm[0] });
+    usedRanges.push({ start: cm.index, end: cm.index + cm[0].length });
+  }
+
+  const pureImagRe = /([+-]?\d+(?:\s*\/\s*[+-]?\d+)?)?\s*i(?![a-zA-Z])/gi;
+  let pm: RegExpExecArray | null;
+  while ((pm = pureImagRe.exec(text))) {
+    // Skip if already part of a+bi match range
+    const idx = pm.index;
+    if (usedRanges.some((r) => idx >= r.start && idx < r.end)) continue;
+    const tok = pm[1];
+    // If token is undefined, it might be just "i"; but also could be empty string due to regex.
+    const im = parseRationalToken(tok) ?? { num: 1n, den: 1n };
+    const z = makeComplex({ num: 0n, den: 1n }, im);
+    complex.push({ kind: 'complex', value: z, raw: pm[0] });
+    usedRanges.push({ start: pm.index, end: pm.index + pm[0].length });
+  }
+
   // First capture fractions a/b
   const fractions: ParsedNumber[] = [];
-  const usedRanges: Array<{ start: number; end: number }> = [];
 
   const fracRe = /(-?\d+)\s*\/\s*(-?\d+)/g;
   let fm: RegExpExecArray | null;
@@ -98,7 +187,7 @@ const parseNumbers = (message: string): ParsedNumber[] => {
     ints.push({ kind: 'int', value: v, raw: im[0] });
   }
 
-  return [...fractions, ...ints];
+  return [...complex, ...fractions, ...ints];
 };
 
 const integerSqrt = (n: bigint) => {
@@ -449,6 +538,34 @@ const buildAnalyzeOne = (n: ParsedNumber, lang: Lang) => {
     ].join('\n');
   }
 
+  if (n.kind === 'complex') {
+    const z = n.value;
+    const re = reduceRational(z.re);
+    const im = reduceRational(z.im);
+    const isPureReal = isZeroR(im);
+    const isPureImag = isZeroR(re);
+
+    if (lang === 'hi') {
+      return [
+        `**${n.raw}**`,
+        `- Type: Complex = ${formatComplex(z)}`,
+        `- Real part (Re): ${formatRational(re)}`,
+        `- Imag part (Im): ${formatRational(im)}`,
+        `- Pure real? ${isPureReal ? 'Haan' : 'Nahi'}`,
+        `- Pure imaginary? ${isPureImag ? 'Haan' : 'Nahi'}`,
+      ].join('\n');
+    }
+
+    return [
+      `**${n.raw}**`,
+      `- Type: Complex = ${formatComplex(z)}`,
+      `- Real part (Re): ${formatRational(re)}`,
+      `- Imag part (Im): ${formatRational(im)}`,
+      `- Pure real? ${isPureReal ? 'Yes' : 'No'}`,
+      `- Pure imaginary? ${isPureImag ? 'Yes' : 'No'}`,
+    ].join('\n');
+  }
+
   const v = n.value;
   const c = classifyInteger(v);
   const digits = abs(v).toString().length;
@@ -511,8 +628,77 @@ const computeBinaryOp = (
 ): { title: string; result: string; steps: string[] } | null => {
   const toRational = (x: ParsedNumber): Rational => {
     if (x.kind === 'int') return { num: x.value, den: 1n };
-    return x.value;
+    if (x.kind === 'rat') return x.value;
+    // Complex cannot be reduced to rational
+    return { num: 0n, den: 1n };
   };
+
+  const toComplex = (x: ParsedNumber): Complex => {
+    if (x.kind === 'complex') return x.value;
+    if (x.kind === 'int') return makeComplex({ num: x.value, den: 1n }, { num: 0n, den: 1n });
+    return makeComplex(x.value, { num: 0n, den: 1n });
+  };
+
+  const anyComplex = a.kind === 'complex' || b.kind === 'complex';
+  if (anyComplex) {
+    const za = toComplex(a);
+    const zb = toComplex(b);
+    const steps: string[] = [];
+
+    steps.push(`a = ${formatComplex(za)}`);
+    steps.push(`b = ${formatComplex(zb)}`);
+
+    if (op === 'add') {
+      const z = makeComplex(addR(za.re, zb.re), addR(za.im, zb.im));
+      steps.push('Rule: (a+bi)+(c+di)=(a+c)+(b+d)i');
+      return { title: 'Complex Addition', result: formatComplex(z), steps };
+    }
+
+    if (op === 'sub') {
+      const z = makeComplex(subR(za.re, zb.re), subR(za.im, zb.im));
+      steps.push('Rule: (a+bi)−(c+di)=(a−c)+(b−d)i');
+      return { title: 'Complex Subtraction', result: formatComplex(z), steps };
+    }
+
+    if (op === 'mul') {
+      // (a+bi)(c+di) = (ac-bd) + (ad+bc)i
+      const ac = mulR(za.re, zb.re);
+      const bd = mulR(za.im, zb.im);
+      const ad = mulR(za.re, zb.im);
+      const bc = mulR(za.im, zb.re);
+      const z = makeComplex(subR(ac, bd), addR(ad, bc));
+      steps.push('Rule: (a+bi)(c+di)=(ac−bd)+(ad+bc)i');
+      return { title: 'Complex Multiplication', result: formatComplex(z), steps };
+    }
+
+    if (op === 'div') {
+      // (a+bi)/(c+di) = ((a+bi)(c-di)) / (c^2+d^2)
+      const c2 = mulR(zb.re, zb.re);
+      const d2 = mulR(zb.im, zb.im);
+      const denom = addR(c2, d2);
+      if (denom.num === 0n) return null;
+
+      // numerator = (a+bi)(c-di)
+      const c = zb.re;
+      const d = zb.im;
+      const cNegD = makeComplex(c, negR(d));
+
+      const ac = mulR(za.re, cNegD.re);
+      const bd = mulR(za.im, cNegD.im);
+      const ad = mulR(za.re, cNegD.im);
+      const bc = mulR(za.im, cNegD.re);
+      const num = makeComplex(subR(ac, bd), addR(ad, bc));
+
+      const re = divR(num.re, denom);
+      const im = divR(num.im, denom);
+      if (!re || !im) return null;
+
+      const z = makeComplex(re, im);
+      steps.push('Rule: (a+bi)/(c+di) = ((a+bi)(c−di)) / (c^2+d^2)');
+      steps.push(`Denominator: c^2+d^2 = ${formatRational(denom)}`);
+      return { title: 'Complex Division', result: formatComplex(z), steps };
+    }
+  }
 
   const ra = reduceRational(toRational(a));
   const rb = reduceRational(toRational(b));
@@ -569,6 +755,7 @@ const computeBinaryOp = (
 
 export const tryBuildNumberTutorResponse = (message: string, lang: Lang): string | null => {
   const q = normalize(message);
+  const t0 = Date.now();
 
   const aboutNumbers = hasAny(q, [
     'sankhya',
@@ -610,7 +797,9 @@ export const tryBuildNumberTutorResponse = (message: string, lang: Lang): string
   if (parsed.length === 0) {
     const guide = buildGeneralGuide(lang);
     const demo = wantsDemo ? `\n\n${buildBigNumberDemo(lang)}` : '';
-    return `${guide}${demo}`;
+    const elapsed = Date.now() - t0;
+    const timeLine = `\n\n${lang === 'hi' ? 'Time' : 'Time'}: ${elapsed} ms`;
+    return `${guide}${demo}${timeLine}`;
   }
 
   // Operation intent
@@ -734,7 +923,8 @@ export const tryBuildNumberTutorResponse = (message: string, lang: Lang): string
 
   // If nothing got appended (rare), fall back to guide
   if (lines.length === 0) {
-    return buildGeneralGuide(lang);
+    const elapsed = Date.now() - t0;
+    return `${buildGeneralGuide(lang)}\n\n${lang === 'hi' ? 'Time' : 'Time'}: ${elapsed} ms`;
   }
 
   // Append a small prompt for next
@@ -745,6 +935,10 @@ export const tryBuildNumberTutorResponse = (message: string, lang: Lang): string
     lines.push('### ✅ Next');
     lines.push("- Send 1–2 numbers and say: 'add/subtract/multiply/divide/analyze/sqrt/cube root/prime check'");
   }
+
+  const elapsed = Date.now() - t0;
+  lines.push('');
+  lines.push(`${lang === 'hi' ? 'Time taken' : 'Time taken'}: ${elapsed} ms`);
 
   return lines.join('\n');
 };
