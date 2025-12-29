@@ -1,5 +1,7 @@
 "use client"
 
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Zap, Activity, Gauge, Battery, Lightbulb, Wind, Atom, Copy, Check, RefreshCw, Sparkles, BarChart3, TrendingUp } from 'lucide-react';
 import { FinancialCalculatorTemplate } from '@/components/calculators/templates/FinancialCalculatorTemplate';
@@ -1417,15 +1419,24 @@ export const GenericPhysicsTool = ({ id }: { id: string }) => {
                           value={inputs[input.name] ?? ''}
                           onChange={(e) => setInputs(prev => ({ ...prev, [input.name]: input.type === 'number' ? Number(e.target.value) : e.target.value }))}
                           placeholder={input.placeholder || 'Enter value...'}
-                          className={`${input.prefix ? 'pl-8' : ''} ${input.suffix ? 'pr-12' : ''} focus:ring-2 focus:ring-purple-500`}
+                          className={`${input.prefix ? 'pl-8' : ''} ${input.type === 'number' ? (input.suffix ? 'pr-20' : 'pr-12') : (input.suffix ? 'pr-12' : '')} focus:ring-2 focus:ring-purple-500`}
                           min={input.type === 'number' ? input.min : undefined}
                           step={input.type === 'number' ? (input.step ?? 'any') : undefined}
                         />
                         {input.suffix && (
-                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
+                          <span className={`absolute top-1/2 -translate-y-1/2 text-muted-foreground font-medium ${input.type === 'number' ? 'right-10' : 'right-3'}`}>
                             {input.suffix}
                           </span>
                         )}
+                        {input.type === 'number' ? (
+                          <VoiceNumberButton
+                            label={input.label}
+                            onValueAction={(v) => setInputs(prev => ({ ...prev, [input.name]: v }))}
+                            min={typeof input.min === 'number' ? input.min : undefined}
+                            max={typeof input.max === 'number' ? input.max : undefined}
+                            className="absolute right-2 top-1/2 -translate-y-1/2"
+                          />
+                        ) : null}
                       </div>
                     )}
                   </div>

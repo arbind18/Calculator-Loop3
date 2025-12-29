@@ -67,8 +67,19 @@ export function filterScheduleByYearRange<T extends { year?: number }>(
   customEndYear?: number
 ): T[] {
   if (range === "all") return schedule
-  if (range === "1yr") return schedule.filter((r) => (r.year ?? 0) >= 1 && (r.year ?? 0) <= 1)
-  if (range === "5yr") return schedule.filter((r) => (r.year ?? 0) >= 1 && (r.year ?? 0) <= 5)
+
+  const getYearIndex = (row: any): number => {
+    const month = typeof row?.month === "number" && Number.isFinite(row.month) ? row.month : undefined
+    if (month) return Math.floor((month - 1) / 12) + 1
+
+    const year = typeof row?.year === "number" && Number.isFinite(row.year) ? row.year : 0
+    // If 'year' is a calendar year (e.g. 2025), treat it as the first year bucket.
+    if (year >= 1900) return 1
+    return year
+  }
+
+  if (range === "1yr") return schedule.filter((r) => getYearIndex(r) >= 1 && getYearIndex(r) <= 1)
+  if (range === "5yr") return schedule.filter((r) => getYearIndex(r) >= 1 && getYearIndex(r) <= 5)
 
   const start = typeof customStartYear === "number" && Number.isFinite(customStartYear) ? customStartYear : 1
   const end = typeof customEndYear === "number" && Number.isFinite(customEndYear) ? customEndYear : start
@@ -76,7 +87,7 @@ export function filterScheduleByYearRange<T extends { year?: number }>(
   const normalizedEnd = Math.max(1, Math.max(start, end))
 
   return schedule.filter((r) => {
-    const y = r.year ?? 0
+    const y = getYearIndex(r)
     return y >= normalizedStart && y <= normalizedEnd
   })
 }

@@ -85,6 +85,22 @@ export function LoanRestructuringCalculator() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[outstanding, currentRate, currentTenure, newRate, newTenure, processingFee]}
+      onClear={() => {
+        setOutstanding(12_00_000)
+        setCurrentRate(11)
+        setCurrentTenure(48)
+        setNewRate(9.5)
+        setNewTenure(60)
+        setProcessingFee(5_000)
+      }}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals[0] ?? 12_00_000))
+        setCurrentRate(Number(vals[1] ?? 11))
+        setCurrentTenure(Number(vals[2] ?? 48))
+        setNewRate(Number(vals[3] ?? 9.5))
+        setNewTenure(Number(vals[4] ?? 60))
+        setProcessingFee(Number(vals[5] ?? 5_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Amount" value={outstanding} onChange={setOutstanding} min={0} max={1e12} step={1000} prefix="₹" />
@@ -136,6 +152,18 @@ export function LoanDefaultPenalty() {
       icon={FileWarning}
       calculate={() => {}}
       values={[overdueAmount, penaltyRateAnnual, daysLate, fixedFee]}
+      onClear={() => {
+        setOverdueAmount(25_000)
+        setPenaltyRateAnnual(24)
+        setDaysLate(20)
+        setFixedFee(500)
+      }}
+      onRestoreAction={(vals) => {
+        setOverdueAmount(Number(vals[0] ?? 25_000))
+        setPenaltyRateAnnual(Number(vals[1] ?? 24))
+        setDaysLate(Number(vals[2] ?? 20))
+        setFixedFee(Number(vals[3] ?? 500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Overdue Amount" value={overdueAmount} onChange={setOverdueAmount} min={0} max={1e10} step={100} prefix="₹" />
@@ -174,6 +202,18 @@ export function GuarantorLiability() {
       icon={Scale}
       calculate={() => {}}
       values={[outstanding, guaranteePct, expectedRecoveryPct, legalCosts]}
+      onClear={() => {
+        setOutstanding(8_00_000)
+        setGuaranteePct(100)
+        setExpectedRecoveryPct(30)
+        setLegalCosts(25_000)
+      }}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals[0] ?? 8_00_000))
+        setGuaranteePct(Number(vals[1] ?? 100))
+        setExpectedRecoveryPct(Number(vals[2] ?? 30))
+        setLegalCosts(Number(vals[3] ?? 25_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Loan" value={outstanding} onChange={setOutstanding} min={0} max={1e12} step={1000} prefix="₹" />
@@ -213,6 +253,18 @@ export function LoanAgainstProperty() {
       icon={Landmark}
       calculate={() => {}}
       values={[propertyValue, ltvPct, rate, tenure]}
+      onClear={() => {
+        setPropertyValue(80_00_000)
+        setLtvPct(60)
+        setRate(10)
+        setTenure(180)
+      }}
+      onRestoreAction={(vals) => {
+        setPropertyValue(Number(vals[0] ?? 80_00_000))
+        setLtvPct(Number(vals[1] ?? 60))
+        setRate(Number(vals[2] ?? 10))
+        setTenure(Number(vals[3] ?? 180))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Property Value" value={propertyValue} onChange={setPropertyValue} min={0} max={1e13} step={1000} prefix="₹" />
@@ -270,6 +322,26 @@ export function CarLeaseVsBuy() {
       icon={Car}
       calculate={() => {}}
       values={[carPrice, downPayment, loanRate, loanMonths, leaseMonthly, leaseMonths, leaseFees, expectedResaleValue]}
+      onClear={() => {
+        setCarPrice(10_00_000)
+        setDownPayment(2_00_000)
+        setLoanRate(9.5)
+        setLoanMonths(60)
+        setLeaseMonthly(22_000)
+        setLeaseMonths(36)
+        setLeaseFees(15_000)
+        setExpectedResaleValue(5_00_000)
+      }}
+      onRestoreAction={(vals) => {
+        setCarPrice(Number(vals[0] ?? 10_00_000))
+        setDownPayment(Number(vals[1] ?? 2_00_000))
+        setLoanRate(Number(vals[2] ?? 9.5))
+        setLoanMonths(Number(vals[3] ?? 60))
+        setLeaseMonthly(Number(vals[4] ?? 22_000))
+        setLeaseMonths(Number(vals[5] ?? 36))
+        setLeaseFees(Number(vals[6] ?? 15_000))
+        setExpectedResaleValue(Number(vals[7] ?? 5_00_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Car Price" value={carPrice} onChange={setCarPrice} min={0} max={1e13} step={1000} prefix="₹" />
@@ -326,6 +398,16 @@ export function ZeroCostEMICalculator() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[productPrice, upfrontDiscount, tenureMonths]}
+      onClear={() => {
+        setProductPrice(50_000)
+        setUpfrontDiscount(2_500)
+        setTenureMonths(12)
+      }}
+      onRestoreAction={(vals) => {
+        setProductPrice(Number(vals[0] ?? 50_000))
+        setUpfrontDiscount(Number(vals[1] ?? 2_500))
+        setTenureMonths(Number(vals[2] ?? 12))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Product Price" value={productPrice} onChange={setProductPrice} min={0} max={1e12} step={100} prefix="₹" />
@@ -366,6 +448,16 @@ export function PaydayLoanAPR() {
       icon={FileWarning}
       calculate={() => {}}
       values={[loanAmount, fee, termDays]}
+      onClear={() => {
+        setLoanAmount(10_000)
+        setFee(500)
+        setTermDays(14)
+      }}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals[0] ?? 10_000))
+        setFee(Number(vals[1] ?? 500))
+        setTermDays(Number(vals[2] ?? 14))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Loan Amount" value={loanAmount} onChange={setLoanAmount} min={0} max={1e9} step={100} prefix="₹" />
@@ -402,6 +494,16 @@ export function MicrofinanceLoan() {
       icon={Landmark}
       calculate={() => {}}
       values={[principal, weeklyInstallment, weeks]}
+      onClear={() => {
+        setPrincipal(30_000)
+        setWeeklyInstallment(750)
+        setWeeks(52)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 30_000))
+        setWeeklyInstallment(Number(vals[1] ?? 750))
+        setWeeks(Number(vals[2] ?? 52))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Principal" value={principal} onChange={setPrincipal} min={0} max={1e9} step={100} prefix="₹" />
@@ -436,6 +538,14 @@ export function EducationLoanTaxBenefit() {
       icon={Scale}
       calculate={() => {}}
       values={[annualInterestPaid, marginalTaxRate]}
+      onClear={() => {
+        setAnnualInterestPaid(1_20_000)
+        setMarginalTaxRate(30)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualInterestPaid(Number(vals[0] ?? 1_20_000))
+        setMarginalTaxRate(Number(vals[1] ?? 30))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Interest Paid" value={annualInterestPaid} onChange={setAnnualInterestPaid} min={0} max={1e12} step={100} prefix="₹" />
@@ -466,6 +576,16 @@ export function MudraLoanCalculator() {
       icon={Landmark}
       calculate={() => {}}
       values={[loanAmount, rate, tenure]}
+      onClear={() => {
+        setLoanAmount(2_00_000)
+        setRate(12)
+        setTenure(36)
+      }}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals[0] ?? 2_00_000))
+        setRate(Number(vals[1] ?? 12))
+        setTenure(Number(vals[2] ?? 36))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Loan Amount" value={loanAmount} onChange={setLoanAmount} min={0} max={1e12} step={1000} prefix="₹" />

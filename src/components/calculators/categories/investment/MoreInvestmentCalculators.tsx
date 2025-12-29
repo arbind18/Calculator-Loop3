@@ -37,6 +37,15 @@ export function PPFCalculator() {
       icon={PiggyBank}
       calculate={calculate}
       values={[yearly, years]}
+      onClear={() => {
+        setYearly(100000)
+        setYears(15)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setYearly(Number(vals?.[0] ?? 100000))
+        setYears(Number(vals?.[1] ?? 15))
+      }}
       seoContent={<PPFSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -94,6 +103,17 @@ export function LumpsumCalculator() {
       icon={HandCoins}
       calculate={calculate}
       values={[amount, years, returns]}
+      onClear={() => {
+        setAmount(500000)
+        setYears(10)
+        setReturns(12)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 500000))
+        setYears(Number(vals?.[1] ?? 10))
+        setReturns(Number(vals?.[2] ?? 12))
+      }}
       seoContent={<LumpsumSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -159,6 +179,17 @@ export function InflationImpact() {
       icon={TrendingDown}
       calculate={calculate}
       values={[amount, years, inflation]}
+      onClear={() => {
+        setAmount(100000)
+        setYears(10)
+        setInflation(6)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 100000))
+        setYears(Number(vals?.[1] ?? 10))
+        setInflation(Number(vals?.[2] ?? 6))
+      }}
       seoContent={<InflationSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -229,6 +260,19 @@ export function CompoundInterestInvestment() {
       icon={Percent}
       calculate={calculate}
       values={[principal, rate, years, frequency]}
+      onClear={() => {
+        setPrincipal(100000)
+        setRate(8)
+        setYears(5)
+        setFrequency(12)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 100000))
+        setRate(Number(vals?.[1] ?? 8))
+        setYears(Number(vals?.[2] ?? 5))
+        setFrequency(Number(vals?.[3] ?? 12))
+      }}
       seoContent={<CompoundInterestSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -296,6 +340,15 @@ export function DividendYield() {
       description="Calculate the dividend yield of a stock."
       icon={TrendingUp}
       calculate={() => {}}
+      values={[sharePrice, dividendPerShare]}
+      onClear={() => {
+        setSharePrice(500)
+        setDividendPerShare(20)
+      }}
+      onRestoreAction={(vals) => {
+        setSharePrice(Number(vals?.[0] ?? 500))
+        setDividendPerShare(Number(vals?.[1] ?? 20))
+      }}
       onDownload={(format) => generateReport(format, 'dividend_yield', ['Item', 'Value'], [['Yield', `${yieldPercent.toFixed(2)}%`]], 'Dividend Report')}
       inputs={
         <div className="space-y-4">
@@ -335,6 +388,19 @@ export function StockReturn() {
       description="Calculate total profit and ROI from stock trading."
       icon={TrendingUp}
       calculate={() => {}}
+      values={[buyPrice, sellPrice, quantity, dividends]}
+      onClear={() => {
+        setBuyPrice(100)
+        setSellPrice(150)
+        setQuantity(100)
+        setDividends(0)
+      }}
+      onRestoreAction={(vals) => {
+        setBuyPrice(Number(vals?.[0] ?? 100))
+        setSellPrice(Number(vals?.[1] ?? 150))
+        setQuantity(Number(vals?.[2] ?? 100))
+        setDividends(Number(vals?.[3] ?? 0))
+      }}
       onDownload={(format) => generateReport(format, 'stock_return', ['Item', 'Value'], [['Profit', `₹${profit}`], ['ROI', `${roi}%`]], 'Stock Report')}
       inputs={
         <div className="space-y-4">
@@ -374,6 +440,17 @@ export function BondYield() {
       description="Calculate Current Yield of a bond."
       icon={TrendingUp}
       calculate={() => {}}
+      values={[faceValue, couponRate, marketPrice]}
+      onClear={() => {
+        setFaceValue(1000)
+        setCouponRate(8)
+        setMarketPrice(950)
+      }}
+      onRestoreAction={(vals) => {
+        setFaceValue(Number(vals?.[0] ?? 1000))
+        setCouponRate(Number(vals?.[1] ?? 8))
+        setMarketPrice(Number(vals?.[2] ?? 950))
+      }}
       onDownload={(format) => generateReport(format, 'bond_yield', ['Item', 'Value'], [['Current Yield', `${currentYield.toFixed(2)}%`]], 'Bond Report')}
       inputs={
         <div className="space-y-4">

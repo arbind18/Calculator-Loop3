@@ -36,6 +36,19 @@ export function LifeInsuranceCalculator() {
       icon={Umbrella}
       calculate={calculateInsurance}
       values={[annualIncome, yearsToSupport, loans, savings]}
+      onClear={() => {
+        setResult(null)
+        setAnnualIncome(1000000)
+        setYearsToSupport(15)
+        setLoans(2000000)
+        setSavings(500000)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualIncome(Number(vals?.[0] ?? 1000000))
+        setYearsToSupport(Number(vals?.[1] ?? 15))
+        setLoans(Number(vals?.[2] ?? 2000000))
+        setSavings(Number(vals?.[3] ?? 500000))
+      }}
       seoContent={<LifeInsuranceSeoContent />}
       inputs={
         <div className="space-y-6">

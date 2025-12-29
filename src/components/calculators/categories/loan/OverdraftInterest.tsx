@@ -76,7 +76,14 @@ export function OverdraftInterest() {
       description={t.loan.overdraft_interest_desc}
       icon={DollarSign}
       calculate={handleCalculate}
+      values={[limit, utilized, interestRate, days]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setLimit(Number(vals?.[0] ?? 500000))
+        setUtilized(Number(vals?.[1] ?? 200000))
+        setInterestRate(Number(vals?.[2] ?? 12))
+        setDays(Number(vals?.[3] ?? 30))
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

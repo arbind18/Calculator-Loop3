@@ -13,16 +13,16 @@ export const customKnowledge: KnowledgeItem[] = [
     id: 'greeting',
     patterns: ['hello', 'hi', 'hey', 'namaste', 'kaise ho', 'how are you'],
     answer: {
-      en: "Hello! I am your financial assistant. Ask me about loans, investments, or tax planning.",
-      hi: "Namaste! Main aapka financial assistant hoon. Aap mujhse loan, investment ya tax ke baare mein pooch sakte hain."
+      en: "Hello! I’m your AI assistant for Calculator Loop. Ask me about any category—finance, health, math, education, construction, technology, and more.",
+      hi: "Namaste! Main Calculator Loop ka AI assistant hoon. Aap kisi bhi category (finance, health, math, education, construction, technology, etc.) ke calculator ya formula ke baare mein pooch sakte hain."
     }
   },
   {
     id: 'who_are_you',
     patterns: ['who are you', 'tum kaun ho', 'kya karte ho', 'what do you do'],
     answer: {
-      en: "I am an AI assistant for Calculator Loop. I help you find the right financial calculators and answer your queries.",
-      hi: "Main Calculator Loop ka AI assistant hoon. Main aapko sahi financial calculator dhundne aur aapke sawalon ke jawab dene mein madad karta hoon."
+      en: "I’m the AI assistant for Calculator Loop. I help you find the right calculator, explain formulas, and calculate results when you share the values.",
+      hi: "Main Calculator Loop ka AI assistant hoon. Main aapko sahi calculator dhoondhne, formulas samjhane, aur values dene par calculation karke result batane mein madad karta hoon."
     }
   },
   {

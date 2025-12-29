@@ -114,6 +114,16 @@ export function AdvancedSIPCalculator() {
       description="Calculate SIP returns with Step-Up, Inflation Adjustment, and Taxation."
       icon={Calculator}
       calculate={calculate}
+      values={[
+        monthlyInvestment,
+        expectedReturn,
+        timePeriod,
+        stepUpRate,
+        adjustForInflation,
+        inflationRate,
+        includeTax,
+        chartView
+      ]}
       onDownload={handleDownload}
       onClear={() => {
         setMonthlyInvestment(5000)
@@ -121,7 +131,22 @@ export function AdvancedSIPCalculator() {
         setTimePeriod(10)
         setStepUpRate(0)
         setAdjustForInflation(false)
+        setInflationRate(6)
         setIncludeTax(false)
+        setChartView('pie')
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const restoredChartView = vals[7] === 'pie' || vals[7] === 'graph' ? (vals[7] as 'pie' | 'graph') : 'pie'
+        setMonthlyInvestment(Number(vals[0] ?? 5000))
+        setExpectedReturn(Number(vals[1] ?? 12))
+        setTimePeriod(Number(vals[2] ?? 10))
+        setStepUpRate(Number(vals[3] ?? 0))
+        setAdjustForInflation(Boolean(vals[4] ?? false))
+        setInflationRate(Number(vals[5] ?? 6))
+        setIncludeTax(Boolean(vals[6] ?? false))
+        setChartView(restoredChartView)
+        setResult(null)
       }}
       seoContent={<SIPSeoContent />}
       inputs={

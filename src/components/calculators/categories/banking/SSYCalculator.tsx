@@ -127,11 +127,26 @@ export function SSYCalculator() {
       description="Calculate returns for your daughter's future under the SSY scheme with detailed yearly schedule."
       icon={Baby}
       calculate={calculateSSY}
+      values={[yearlyInvestment, childAge, startYear, interestRate, showSchedule, chartView]}
       onDownload={handleDownload}
       onClear={() => {
         setYearlyInvestment(150000)
         setChildAge(5)
         setStartYear(new Date().getFullYear())
+        setInterestRate(8.2)
+        setShowSchedule(false)
+        setChartView('growth')
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const restoredChartView = vals[5] === 'growth' || vals[5] === 'breakdown' ? (vals[5] as 'growth' | 'breakdown') : 'growth'
+        setYearlyInvestment(Number(vals[0] ?? 150000))
+        setChildAge(Number(vals[1] ?? 5))
+        setStartYear(Number(vals[2] ?? new Date().getFullYear()))
+        setInterestRate(Number(vals[3] ?? 8.2))
+        setShowSchedule(Boolean(vals[4] ?? false))
+        setChartView(restoredChartView)
+        setResult(null)
       }}
       inputs={
         <div className="space-y-6">

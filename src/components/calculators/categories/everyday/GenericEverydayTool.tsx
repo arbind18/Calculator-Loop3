@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Calculator, Activity, Sparkles, TrendingUp, Coffee, DollarSign, Utensils, ShoppingCart, Zap, Copy, Check, BarChart3, Lightbulb, Sliders, BookmarkPlus, Download, RefreshCw } from 'lucide-react';
 import { FinancialCalculatorTemplate } from '@/components/calculators/templates/FinancialCalculatorTemplate';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
 interface EverydayInput {
   name: string;
@@ -4716,11 +4717,21 @@ export function GenericEverydayTool({ id }: { id: string }) {
                     placeholder={inp.placeholder}
                     min={inp.min}
                     max={inp.max}
-                    className={`w-full p-3.5 rounded-xl bg-gradient-to-r ${theme.gradient} border-2 border-transparent hover:border-primary/30 focus:border-primary/50 outline-none transition-all duration-300 font-medium shadow-sm hover:shadow-md`}
+                    className={`w-full p-3.5 ${inp.type === 'number' ? 'pr-12' : ''} rounded-xl bg-gradient-to-r ${theme.gradient} border-2 border-transparent hover:border-primary/30 focus:border-primary/50 outline-none transition-all duration-300 font-medium shadow-sm hover:shadow-md`}
                   />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Sparkles className="w-4 h-4 text-primary/50" />
-                  </div>
+                  {inp.type === 'number' ? (
+                    <VoiceNumberButton
+                      label={inp.label}
+                      onValueAction={(v) => setInputValues({ ...inputValues, [inp.name]: String(v) })}
+                      min={typeof inp.min === 'number' ? inp.min : undefined}
+                      max={typeof inp.max === 'number' ? inp.max : undefined}
+                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                    />
+                  ) : (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Sparkles className="w-4 h-4 text-primary/50" />
+                    </div>
+                  )}
                 </div>
               )}
             </div>

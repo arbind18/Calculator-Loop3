@@ -32,6 +32,15 @@ export function KisanVikasPatra() {
       description="Calculate when your investment will double under KVP scheme."
       icon={Landmark}
       calculate={() => {}}
+      values={[investment, interestRate]}
+      onClear={() => {
+        setInvestment(10000)
+        setInterestRate(7.5)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestment(Number(vals?.[0] ?? 10000))
+        setInterestRate(Number(vals?.[1] ?? 7.5))
+      }}
       onDownload={(format) => generateReport(format, 'kvp_report', ['Item', 'Value'], [['Maturity Amount', `₹${maturityAmount}`], ['Time to Double', `${months} Months`]], 'KVP Report')}
       inputs={
         <div className="space-y-4">
@@ -75,6 +84,17 @@ export function NationalSavingsCertificate() {
       description="Calculate maturity amount for NSC investments."
       icon={Landmark}
       calculate={() => {}}
+      values={[investment, interestRate, years]}
+      onClear={() => {
+        setInvestment(10000)
+        setInterestRate(7.7)
+        setYears(5)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestment(Number(vals?.[0] ?? 10000))
+        setInterestRate(Number(vals?.[1] ?? 7.7))
+        setYears(Number(vals?.[2] ?? 5))
+      }}
       onDownload={(format) => generateReport(format, 'nsc_report', ['Item', 'Value'], [['Maturity Amount', `₹${maturityAmount}`]], 'NSC Report')}
       inputs={
         <div className="space-y-4">
@@ -111,6 +131,15 @@ export function PostOfficeMIS() {
       description="Calculate monthly income from Post Office Monthly Income Scheme."
       icon={Calendar}
       calculate={() => {}}
+      values={[investment, interestRate]}
+      onClear={() => {
+        setInvestment(100000)
+        setInterestRate(7.4)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestment(Number(vals?.[0] ?? 100000))
+        setInterestRate(Number(vals?.[1] ?? 7.4))
+      }}
       onDownload={(format) => generateReport(format, 'pomis_report', ['Item', 'Value'], [['Monthly Income', `₹${monthlyIncome}`]], 'POMIS Report')}
       inputs={
         <div className="space-y-4">

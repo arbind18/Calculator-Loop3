@@ -182,28 +182,30 @@ export function PersonalLoanEMI() {
   const renderMonthlySchedule = (schedule: LoanResult["schedule"]) => {
     if (!schedule?.length) return null
     return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t.loan.remaining_months}</TableHead>
-            <TableHead>{t.loan.principal_paid}</TableHead>
-            <TableHead>{t.loan.interest_paid}</TableHead>
-            <TableHead>{t.loan.total_paid}</TableHead>
-            <TableHead>{t.loan.remaining_balance}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {schedule.map((row) => (
-            <TableRow key={row.month}>
-              <TableCell>{row.month}</TableCell>
-              <TableCell>{`₹${(row.principal ?? 0).toLocaleString()}`}</TableCell>
-              <TableCell>{`₹${(row.interest ?? 0).toLocaleString()}`}</TableCell>
-              <TableCell>{`₹${(row.totalPayment ?? 0).toLocaleString()}`}</TableCell>
-              <TableCell>{`₹${(row.balance ?? 0).toLocaleString()}`}</TableCell>
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[720px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t.loan.remaining_months}</TableHead>
+              <TableHead>{t.loan.principal_paid}</TableHead>
+              <TableHead>{t.loan.interest_paid}</TableHead>
+              <TableHead>{t.loan.total_paid}</TableHead>
+              <TableHead>{t.loan.remaining_balance}</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {schedule.map((row) => (
+              <TableRow key={row.month}>
+                <TableCell>{row.month}</TableCell>
+                <TableCell>{`₹${(row.principal ?? 0).toLocaleString()}`}</TableCell>
+                <TableCell>{`₹${(row.interest ?? 0).toLocaleString()}`}</TableCell>
+                <TableCell>{`₹${(row.totalPayment ?? 0).toLocaleString()}`}</TableCell>
+                <TableCell>{`₹${(row.balance ?? 0).toLocaleString()}`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     )
   }
 
@@ -212,28 +214,30 @@ export function PersonalLoanEMI() {
     const yearly = aggregateLoanScheduleByYear(schedule)
 
     return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Year</TableHead>
-            <TableHead>{t.loan.principal_paid}</TableHead>
-            <TableHead>{t.loan.interest_paid}</TableHead>
-            <TableHead>{t.loan.total_paid}</TableHead>
-            <TableHead>{t.loan.remaining_balance}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {yearly.map((row) => (
-            <TableRow key={row.year}>
-              <TableCell>{row.year}</TableCell>
-              <TableCell>{`₹${Math.round(row.principalPaid).toLocaleString()}`}</TableCell>
-              <TableCell>{`₹${Math.round(row.interestPaid).toLocaleString()}`}</TableCell>
-              <TableCell>{`₹${Math.round(row.totalPaid).toLocaleString()}`}</TableCell>
-              <TableCell>{`₹${Math.round(row.endingBalance).toLocaleString()}`}</TableCell>
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[720px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Year</TableHead>
+              <TableHead>{t.loan.principal_paid}</TableHead>
+              <TableHead>{t.loan.interest_paid}</TableHead>
+              <TableHead>{t.loan.total_paid}</TableHead>
+              <TableHead>{t.loan.remaining_balance}</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {yearly.map((row) => (
+              <TableRow key={row.year}>
+                <TableCell>{row.year}</TableCell>
+                <TableCell>{`₹${Math.round(row.principalPaid).toLocaleString()}`}</TableCell>
+                <TableCell>{`₹${Math.round(row.interestPaid).toLocaleString()}`}</TableCell>
+                <TableCell>{`₹${Math.round(row.totalPaid).toLocaleString()}`}</TableCell>
+                <TableCell>{`₹${Math.round(row.endingBalance).toLocaleString()}`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     )
   }
 
@@ -244,6 +248,15 @@ export function PersonalLoanEMI() {
       icon={DollarSign}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[loanAmount, interestRate, tenure]}
+      onRestoreAction={(vals) => {
+        const nextAmount = Number(vals?.[0])
+        const nextRate = Number(vals?.[1])
+        const nextTenure = Number(vals?.[2])
+        if (Number.isFinite(nextAmount)) setLoanAmount(nextAmount)
+        if (Number.isFinite(nextRate)) setInterestRate(nextRate)
+        if (Number.isFinite(nextTenure)) setTenure(nextTenure)
+      }}
       seoContent={<PersonalLoanSeoContent />}
       onDownload={handleDownload}
       inputs={

@@ -45,6 +45,19 @@ export function RetirementCorpus() {
       icon={Palmtree}
       calculate={calculate}
       values={[currentAge, retirementAge, monthlyExpense, inflation]}
+      onClear={() => {
+        setResult(null)
+        setCurrentAge(30)
+        setRetirementAge(60)
+        setMonthlyExpense(30000)
+        setInflation(6)
+      }}
+      onRestoreAction={(vals) => {
+        setCurrentAge(Number(vals?.[0] ?? 30))
+        setRetirementAge(Number(vals?.[1] ?? 60))
+        setMonthlyExpense(Number(vals?.[2] ?? 30000))
+        setInflation(Number(vals?.[3] ?? 6))
+      }}
       seoContent={<FAQSection faqs={getRetirementFAQs('retirement-corpus')} />}
       inputs={
         <div className="space-y-6">

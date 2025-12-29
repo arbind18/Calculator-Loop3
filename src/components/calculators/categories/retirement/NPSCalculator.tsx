@@ -38,6 +38,17 @@ export function NPSCalculator() {
       icon={Briefcase}
       calculate={calculate}
       values={[monthly, age, returns]}
+      onClear={() => {
+        setResult(null)
+        setMonthly(5000)
+        setAge(30)
+        setReturns(10)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthly(Number(vals?.[0] ?? 5000))
+        setAge(Number(vals?.[1] ?? 30))
+        setReturns(Number(vals?.[2] ?? 10))
+      }}
       seoContent={<FAQSection faqs={getRetirementFAQs('nps')} />}
       inputs={
         <div className="space-y-6">

@@ -38,6 +38,23 @@ export function TermInsurancePremium() {
       icon={Shield}
       calculate={() => {}} // Auto-calculated
       seoContent={<TermInsuranceSeoContent />}
+      values={[age, coverage, term, smoker, gender]}
+      onClear={() => {
+        setAge(30)
+        setCoverage(10000000)
+        setTerm(30)
+        setSmoker(false)
+        setGender('male')
+      }}
+      onRestoreAction={(vals) => {
+        setAge(Number(vals?.[0] ?? 30))
+        setCoverage(Number(vals?.[1] ?? 10000000))
+        setTerm(Number(vals?.[2] ?? 30))
+        setSmoker(Boolean(vals?.[3] ?? false))
+
+        const g = vals?.[4]
+        setGender(g === 'female' ? 'female' : 'male')
+      }}
       onDownload={(format) => {
         generateReport(format, 'term_insurance', 
           ['Type', 'Amount'], 
@@ -110,6 +127,21 @@ export function HumanLifeValue() {
       description="Calculate the insurance cover you need based on your future income potential."
       icon={Activity}
       calculate={() => {}}
+      values={[currentIncome, expenses, age, retirementAge]}
+      onClear={() => {
+        setCurrentIncome(1000000)
+        setExpenses(300000)
+        setAge(30)
+        setRetirementAge(60)
+        setInflation(6)
+        setExpectedReturn(8)
+      }}
+      onRestoreAction={(vals) => {
+        setCurrentIncome(Number(vals?.[0] ?? 1000000))
+        setExpenses(Number(vals?.[1] ?? 300000))
+        setAge(Number(vals?.[2] ?? 30))
+        setRetirementAge(Number(vals?.[3] ?? 60))
+      }}
       onDownload={(format) => {
         generateReport(format, 'hlv_report', ['Item', 'Value'], [['Human Life Value', `₹${hlv}`]], 'HLV Report')
       }}
@@ -161,6 +193,17 @@ export function HealthInsurancePremium() {
       description="Estimate health insurance premium for family floater plans."
       icon={Heart}
       calculate={() => {}}
+      values={[age, members, coverage]}
+      onClear={() => {
+        setAge(30)
+        setMembers(2)
+        setCoverage(500000)
+      }}
+      onRestoreAction={(vals) => {
+        setAge(Number(vals?.[0] ?? 30))
+        setMembers(Number(vals?.[1] ?? 2))
+        setCoverage(Number(vals?.[2] ?? 500000))
+      }}
       onDownload={(format) => generateReport(format, 'health_insurance', ['Item', 'Value'], [['Estimated Premium', `₹${premium}`]], 'Health Insurance Report')}
       inputs={
         <div className="space-y-4">

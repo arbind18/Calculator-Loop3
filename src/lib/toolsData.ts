@@ -1,3 +1,5 @@
+import financialToolsReport from '../../financial-tools-report.json';
+
 export interface Tool {
   id: string;
   title: string;
@@ -13,513 +15,67 @@ export interface Subcategory {
   calculators: Tool[];
 }
 
-export interface CategoryData {
+export interface Category {
   subcategories: Record<string, Subcategory>;
 }
 
-export const toolsData: Record<string, CategoryData> = {
-  financial: {
-    subcategories: {
-      'loan': {
-        name: '💸 Loan & EMI Calculators',
-        icon: 'fas fa-hand-holding-usd',
-        calculators: [
-          { id: 'personal-loan-emi', title: 'Personal Loan EMI Calculator', description: 'Calculate your Personal Loan EMI instantly. Check monthly installments, total interest, and amortization schedule with our free online tool.', icon: 'fas fa-user-tie', action: 'Calculate Now' },
-          { id: 'home-loan-emi', title: 'Home Loan EMI Calculator', description: 'Calculate home loan monthly installments.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'car-loan-emi', title: 'Car Loan EMI Calculator', description: 'Calculate car loan EMI and interest.', icon: 'fas fa-car', action: 'Calculate Now' },
-          { id: 'education-loan-emi', title: 'Education Loan EMI Calculator', description: 'Calculate education loan payments.', icon: 'fas fa-graduation-cap', action: 'Calculate Now' },
-          { id: 'business-loan-emi', title: 'Business Loan EMI Calculator', description: 'Calculate business loan installments.', icon: 'fas fa-briefcase', action: 'Calculate Now' },
-          { id: 'gold-loan-emi', title: 'Gold Loan EMI Calculator', description: 'Calculate EMI for gold-backed loans.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'two-wheeler-loan', title: 'Two Wheeler Loan Calculator', description: 'Calculate bike loan EMI.', icon: 'fas fa-motorcycle', action: 'Calculate Now' },
-          { id: 'loan-prepayment-impact', title: 'Loan Prepayment Impact Calculator', description: 'See impact of prepaying loans.', icon: 'fas fa-forward', action: 'Calculate Now' },
-          { id: 'loan-eligibility', title: 'Loan Eligibility Calculator', description: 'Check maximum loan eligibility.', icon: 'fas fa-check-circle', action: 'Calculate Now' },
-          { id: 'loan-comparison', title: 'Loan Comparison Calculator', description: 'Compare multiple loan offers.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'simple-interest-loan', title: 'Simple Interest Loan Calculator', description: 'Calculate simple interest on loans.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'compound-interest-loan', title: 'Compound Interest Loan Calculator', description: 'Calculate compound interest loans.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'loan-amortization', title: 'Loan Amortization Schedule', description: 'View detailed loan payment schedule.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
-          { id: 'remaining-loan-balance', title: 'Remaining Loan Balance Calculator', description: 'Calculate outstanding loan amount.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'top-up-loan', title: 'Top-Up Loan Calculator', description: 'Calculate top-up loan on existing EMI.', icon: 'fas fa-arrow-up', action: 'Calculate Now' },
-          { id: 'loan-balance-transfer', title: 'Loan Balance Transfer Calculator', description: 'Check savings on transferring loan.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'flat-vs-reducing', title: 'Flat vs Reducing Rate Calculator', description: 'Compare Flat Rate vs Reducing Balance loans.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'loan-part-payment', title: 'Loan Part Payment', description: 'Impact of part payment on loan.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'moratorium-calculator', title: 'Moratorium Calculator', description: 'Calculate interest during moratorium.', icon: 'fas fa-pause-circle', action: 'Calculate Now' },
-          { id: 'loan-affordability', title: 'Loan Affordability', description: 'Check maximum loan eligibility.', icon: 'fas fa-wallet', action: 'Calculate Now' },
-          { id: 'step-up-emi', title: 'Step-Up EMI Calculator', description: 'Calculate increasing EMI plan.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'balloon-payment', title: 'Balloon Payment Calculator', description: 'Calculate lump sum payment at end.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'od-interest', title: 'Overdraft Interest', description: 'Calculate interest on overdraft.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'loan-settlement', title: 'Loan Settlement', description: 'Calculate savings on settlement.', icon: 'fas fa-handshake', action: 'Calculate Now' },
-          { id: 'loan-restructuring', title: 'Loan Restructuring', description: 'Calculate new EMI after restructuring.', icon: 'fas fa-sync-alt', action: 'Calculate Now' },
-          { id: 'loan-default-penalty', title: 'Loan Default Penalty', description: 'Estimate charges for missing EMI.', icon: 'fas fa-exclamation-triangle', action: 'Calculate Now' },
-          { id: 'guarantor-liability', title: 'Guarantor Liability', description: 'Check liability if borrower defaults.', icon: 'fas fa-user-shield', action: 'Calculate Now' },
-          { id: 'loan-against-property', title: 'Loan Against Property', description: 'Calculate LAP eligibility and EMI.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'car-lease-vs-buy', title: 'Car Lease vs Buy', description: 'Compare buying vs leasing a car.', icon: 'fas fa-car', action: 'Calculate Now' },
-          { id: 'zero-cost-emi', title: 'Zero Cost EMI Reality', description: 'Find hidden interest in No Cost EMI.', icon: 'fas fa-search-dollar', action: 'Calculate Now' },
-          { id: 'payday-loan-apr', title: 'Payday Loan APR', description: 'Calculate annual interest on short loans.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'microfinance-loan', title: 'Microfinance Loan', description: 'Calculate weekly installments.', icon: 'fas fa-users', action: 'Calculate Now' },
-          { id: 'education-loan-tax', title: 'Education Loan Tax Benefit', description: 'Calculate 80E tax savings.', icon: 'fas fa-graduation-cap', action: 'Calculate Now' },
-          { id: 'mudra-loan', title: 'Mudra Loan Calculator', description: 'Calculate PMMY loan EMI.', icon: 'fas fa-file-invoice', action: 'Calculate Now' }
-        ]
-      },
-      'investment': {
-        name: '📈 Investment & Returns Calculators',
-        icon: 'fas fa-chart-line',
-        calculators: [
-          { id: 'sip-calculator', title: 'Advanced SIP Calculator', description: 'Calculate SIP returns with Inflation Adjustment and detailed charts.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'swp-calculator', title: 'SWP Calculator', description: 'Plan your systematic withdrawals for retirement.', icon: 'fas fa-arrow-down', action: 'Calculate Now' },
-          { id: 'step-up-sip', title: 'Step-Up SIP Calculator', description: 'Calculate returns with annual investment increase.', icon: 'fas fa-layer-group', action: 'Calculate Now' },
-          { id: 'mutual-fund-returns', title: 'Mutual Fund Returns Calculator', description: 'Calculate mutual fund investment returns.', icon: 'fas fa-briefcase', action: 'Calculate Now' },
-          { id: 'compound-interest-investment', title: 'Compound Interest Calculator', description: 'Calculate compound investment growth.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'cagr-calculator', title: 'CAGR Calculator', description: 'Calculate Compound Annual Growth Rate.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'roi-calculator', title: 'ROI Calculator', description: 'Calculate return on investment.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'fd-calculator', title: 'Fixed Deposit Calculator', description: 'Calculate FD maturity amount.', icon: 'fas fa-university', action: 'Calculate Now' },
-          { id: 'rd-calculator', title: 'Recurring Deposit Calculator', description: 'Calculate RD returns.', icon: 'fas fa-redo-alt', action: 'Calculate Now' },
-          { id: 'ppf-calculator', title: 'PPF Calculator', description: 'Calculate Public Provident Fund maturity.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
-          { id: 'lumpsum-calculator', title: 'Lumpsum Investment Calculator', description: 'Calculate one-time investment returns.', icon: 'fas fa-hand-holding-usd', action: 'Calculate Now' },
-          { id: 'inflation-impact', title: 'Inflation Impact on Returns', description: 'Calculate real returns after inflation.', icon: 'fas fa-chart-line-down', action: 'Calculate Now' },
-          { id: 'dividend-yield', title: 'Dividend Yield Calculator', description: 'Calculate stock dividend yield.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'stock-return', title: 'Stock Return Calculator', description: 'Calculate profit and ROI.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
-          { id: 'bond-yield', title: 'Bond Yield Calculator', description: 'Calculate bond current yield.', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: 'rule-of-72', title: 'Rule of 72', description: 'Years to double your money.', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },
-          { id: 'real-rate-return', title: 'Real Rate of Return', description: 'Inflation-adjusted return.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'cost-of-delay', title: 'Cost of Delay', description: 'Cost of delaying investment.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'asset-allocation', title: 'Asset Allocation', description: 'Equity vs Debt split.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'npv-calculator', title: 'Net Present Value (NPV)', description: 'Value of future cash flows.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
-          { id: 'sharpe-ratio', title: 'Sharpe Ratio', description: 'Measure risk-adjusted return.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'treynor-ratio', title: 'Treynor Ratio', description: 'Measure excess return per unit of risk.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'alpha-calculator', title: 'Jensen\'s Alpha', description: 'Calculate excess return over benchmark.', icon: 'fas fa-bullseye', action: 'Calculate Now' },
-          { id: 'beta-calculator', title: 'Portfolio Beta', description: 'Calculate portfolio volatility.', icon: 'fas fa-wave-square', action: 'Calculate Now' },
-          { id: 'sip-delay-cost', title: 'SIP Delay Cost', description: 'Cost of delaying SIP.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'lumpsum-vs-sip', title: 'Lumpsum vs SIP', description: 'Compare investment strategies.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'stp-calculator', title: 'STP Calculator', description: 'Systematic Transfer Plan returns.', icon: 'fas fa-sync', action: 'Calculate Now' },
-          { id: 'dividend-reinvestment', title: 'Dividend Reinvestment (DRIP)', description: 'Power of reinvesting dividends.', icon: 'fas fa-recycle', action: 'Calculate Now' },
-          { id: 'rights-issue', title: 'Rights Issue Value', description: 'Calculate value of rights entitlement.', icon: 'fas fa-certificate', action: 'Calculate Now' },
-          { id: 'sovereign-gold-bond', title: 'Sovereign Gold Bond Calculator', description: 'Calculate SGB returns with interest.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'nps-tier-1-calculator', title: 'NPS Tier-1 Calculator', description: 'Calculate NPS retirement corpus.', icon: 'fas fa-user-shield', action: 'Calculate Now' },
-          { id: 'elss-calculator', title: 'ELSS Calculator', description: 'Calculate ELSS returns with tax savings.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'index-fund-returns', title: 'Index Fund Returns', description: 'Calculate passive investment returns.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'debt-fund-returns', title: 'Debt Fund Calculator', description: 'Calculate returns from debt mutual funds.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'hybrid-fund-calculator', title: 'Hybrid Fund Calculator', description: 'Calculate balanced fund returns.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'ulip-calculator', title: 'ULIP Calculator', description: 'Calculate ULIP maturity value.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'etf-returns', title: 'ETF Returns Calculator', description: 'Calculate exchange-traded fund returns.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'portfolio-rebalancing', title: 'Portfolio Rebalancing', description: 'Calculate required adjustments.', icon: 'fas fa-sync-alt', action: 'Calculate Now' },
-          { id: 'emergency-fund-calculator', title: 'Emergency Fund Calculator', description: 'Calculate required emergency corpus.', icon: 'fas fa-first-aid', action: 'Calculate Now' },
-          { id: 'goal-based-investment', title: 'Goal-Based Investment', description: 'Calculate monthly SIP for goals.', icon: 'fas fa-bullseye', action: 'Calculate Now' }
-        ]
-      },
-      'tax': {
-        name: '🧾 Tax & Income Calculators',
-        icon: 'fas fa-file-invoice-dollar',
-        calculators: [
-          { id: 'income-tax-calculator', title: 'Advanced Income Tax Calculator', description: 'Calculate tax for FY 2024-25 with Old vs New Regime comparison and detailed deductions.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'salary-breakup', title: 'Salary Breakup Calculator', description: 'Calculate CTC vs in-hand salary.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'hra-calculator', title: 'HRA Exemption Calculator', description: 'Calculate House Rent Allowance exemption with Metro/Non-Metro logic.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'pf-calculator', title: 'PF Calculator', description: 'Calculate Provident Fund maturity.', icon: 'fas fa-wallet', action: 'Calculate Now' },
-          { id: 'gratuity-calculator', title: 'Gratuity Calculator', description: 'Calculate gratuity amount on retirement.', icon: 'fas fa-gift', action: 'Calculate Now' },
-          { id: 'tds-calculator', title: 'TDS Calculator', description: 'Calculate Tax Deducted at Source.', icon: 'fas fa-receipt', action: 'Calculate Now' },
-          { id: 'gst-calculator', title: 'GST Calculator', description: 'Calculate GST inclusive/exclusive prices.', icon: 'fas fa-file-invoice', action: 'Calculate Now' },
-          { id: 'professional-tax', title: 'Professional Tax Calculator', description: 'Calculate professional tax deductions.', icon: 'fas fa-briefcase', action: 'Calculate Now' },
-          { id: 'advance-tax-calculator', title: 'Advance Tax Calculator', description: 'Calculate quarterly advance tax.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
-          { id: 'post-tax-income', title: 'Post-Tax Income Calculator', description: 'Calculate income after all taxes.', icon: 'fas fa-hand-holding-usd', action: 'Calculate Now' },
-          { id: 'capital-gains-tax', title: 'Capital Gains Tax (LTCG/STCG)', description: 'Calculate tax on stocks, property, and gold with Indexation benefits.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'old-vs-new-regime', title: 'Old vs New Tax Regime', description: 'Compare regimes and find the breakeven deduction amount.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'leave-encashment', title: 'Leave Encashment Tax', description: 'Calculate tax exemption on leave.', icon: 'fas fa-suitcase', action: 'Calculate Now' },
-          { id: 'vrs-compensation', title: 'VRS Tax Exemption', description: 'Calculate tax on VRS amount.', icon: 'fas fa-handshake', action: 'Calculate Now' },
-          { id: '80c-calculator', title: 'Section 80C Calculator', description: 'Calculate 80C deductions (EPF, PPF, ELSS).', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: '80d-calculator', title: 'Section 80D (Health)', description: 'Calculate health insurance deduction.', icon: 'fas fa-heartbeat', action: 'Calculate Now' },
-          { id: '80g-calculator', title: 'Section 80G (Donations)', description: 'Calculate donation tax benefits.', icon: 'fas fa-hand-holding-heart', action: 'Calculate Now' },
-          { id: '80tta-calculator', title: 'Section 80TTA/TTB', description: 'Deduction on savings interest.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'capital-gains-indexation', title: 'Capital Gains Indexation', description: 'Calculate indexed cost of acquisition.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'crypto-tax', title: 'Crypto Tax Calculator', description: 'Calculate 30% tax on VDA.', icon: 'fab fa-bitcoin', action: 'Calculate Now' },
-          { id: 'lottery-tax', title: 'Lottery / Winnings Tax', description: 'Calculate tax on winnings.', icon: 'fas fa-dice', action: 'Calculate Now' },
-          { id: 'gift-tax', title: 'Gift Tax Calculator', description: 'Check if gift is taxable.', icon: 'fas fa-gift', action: 'Calculate Now' },
-          { id: 'rental-income-tax', title: 'Rental Income Tax', description: 'Calculate tax on house property.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'presumptive-tax', title: 'Presumptive Tax (44AD)', description: 'Calculate presumptive business tax.', icon: 'fas fa-briefcase', action: 'Calculate Now' },
-          { id: 'advance-tax', title: 'Advance Tax Calculator', description: 'Calculate advance tax installments.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
-          { id: 'surcharge-calculator', title: 'Surcharge Calculator', description: 'Calculate surcharge on high income.', icon: 'fas fa-plus-circle', action: 'Calculate Now' },
-          { id: 'marginal-relief', title: 'Marginal Relief Calculator', description: 'Check marginal relief eligibility.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: '87a-rebate', title: 'Section 87A Rebate', description: 'Check zero tax eligibility.', icon: 'fas fa-check-circle', action: 'Calculate Now' },
-          { id: 'agri-income-tax', title: 'Agricultural Income Tax', description: 'Impact of agri income on tax.', icon: 'fas fa-tractor', action: 'Calculate Now' }
-        ]
-      },
-      'currency': {
-        name: '💱 Currency & Forex Calculators',
-        icon: 'fas fa-exchange-alt',
-        calculators: [
-          { id: 'currency-converter', title: 'Currency Converter', description: 'Convert between world currencies.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'crypto-profit-loss', title: 'Crypto Profit & Loss Calculator', description: 'Calculate cryptocurrency trading P&L.', icon: 'fab fa-bitcoin', action: 'Calculate Now' },
-          { id: 'forex-margin', title: 'Forex Margin Calculator', description: 'Calculate forex trading margin.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'exchange-rate-impact', title: 'Exchange Rate Impact Calculator', description: 'Calculate currency fluctuation impact.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'bitcoin-converter', title: 'Bitcoin to INR Converter', description: 'Convert Bitcoin to Indian Rupees.', icon: 'fab fa-bitcoin', action: 'Calculate Now' },
-          { id: 'import-export-duty', title: 'Import/Export Duty Calculator', description: 'Calculate customs duties.', icon: 'fas fa-ship', action: 'Calculate Now' },
-          { id: 'gold-silver-price', title: 'Gold/Silver Price Calculator', description: 'Calculate precious metal prices.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'international-transfer', title: 'International Transfer Fee Calculator', description: 'Calculate wire transfer costs.', icon: 'fas fa-paper-plane', action: 'Calculate Now' },
-          { id: 'pip-value', title: 'Pip Value Calculator', description: 'Calculate value of a pip in forex.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
-          { id: 'position-size', title: 'Position Size Calculator', description: 'Calculate optimal forex position size.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'forex-compounding', title: 'Forex Compounding Calculator', description: 'Calculate account growth.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'risk-reward-ratio', title: 'Risk Reward Ratio', description: 'Calculate trade risk vs reward.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'pivot-point', title: 'Pivot Point Calculator', description: 'Calculate support and resistance levels.', icon: 'fas fa-crosshairs', action: 'Calculate Now' },
-          { id: 'fibonacci-calculator', title: 'Fibonacci Retracement', description: 'Calculate Fibonacci levels.', icon: 'fas fa-ruler-vertical', action: 'Calculate Now' },
-          { id: 'crypto-market-cap', title: 'Crypto Market Cap', description: 'Calculate cryptocurrency market cap.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'crypto-staking', title: 'Crypto Staking Rewards', description: 'Estimate staking returns.', icon: 'fas fa-hand-holding-usd', action: 'Calculate Now' },
-          { id: 'mining-profitability', title: 'Mining Profitability', description: 'Estimate crypto mining profits.', icon: 'fas fa-server', action: 'Calculate Now' },
-          { id: 'crypto-dca', title: 'Crypto DCA Calculator', description: 'Simulate Dollar Cost Averaging.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'arbitrage-calculator', title: 'Arbitrage Calculator', description: 'Calculate arbitrage profits.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'inflation-adjusted-rate', title: 'Inflation Adjusted Rate', description: 'Project future exchange rates.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'ppp-calculator', title: 'Purchasing Power Parity', description: 'Calculate implied exchange rates.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'reer-calculator', title: 'Real Effective Exchange Rate', description: 'Calculate REER index.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'currency-devaluation', title: 'Currency Devaluation', description: 'Calculate currency depreciation.', icon: 'fas fa-arrow-down', action: 'Calculate Now' },
-          { id: 'travel-budget', title: 'Travel Budget Calculator', description: 'Plan travel budget with FX rates.', icon: 'fas fa-plane', action: 'Calculate Now' },
-          { id: 'forex-fee-calculator', title: 'Foreign Transaction Fee', description: 'Calculate total transaction costs.', icon: 'fas fa-credit-card', action: 'Calculate Now' },
-          { id: 'remittance-cost', title: 'Remittance Cost Calculator', description: 'Calculate cost of sending money.', icon: 'fas fa-paper-plane', action: 'Calculate Now' },
-          { id: 'hedging-cost', title: 'Hedging Cost Calculator', description: 'Calculate cost of hedging FX risk.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'forward-rate', title: 'Forward Rate Calculator', description: 'Calculate forward exchange rates.', icon: 'fas fa-forward', action: 'Calculate Now' },
-          { id: 'cross-rate', title: 'Cross Rate Calculator', description: 'Calculate cross currency rates.', icon: 'fas fa-random', action: 'Calculate Now' },
-          { id: 'currency-strength', title: 'Currency Strength Meter', description: 'Gauge relative currency strength.', icon: 'fas fa-tachometer-alt', action: 'Calculate Now' },
-          { id: 'volatility-calculator', title: 'Volatility Calculator', description: 'Calculate historical volatility.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'correlation-matrix', title: 'Correlation Matrix', description: 'Check currency correlations.', icon: 'fas fa-th', action: 'Calculate Now' },
-          { id: 'carry-trade', title: 'Carry Trade Calculator', description: 'Calculate carry trade returns.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'interest-rate-parity', title: 'Interest Rate Parity', description: 'Check arbitrage opportunities.', icon: 'fas fa-equals', action: 'Calculate Now' },
-          { id: 'big-mac-index', title: 'Big Mac Index Calculator', description: 'Compare purchasing power.', icon: 'fas fa-hamburger', action: 'Calculate Now' },
-          { id: 'gold-silver-ratio', title: 'Gold-Silver Ratio', description: 'Calculate gold/silver price ratio.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'platinum-gold-ratio', title: 'Platinum-Gold Ratio', description: 'Calculate platinum/gold price ratio.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'bitcoin-dominance', title: 'Bitcoin Dominance', description: 'Calculate BTC market dominance.', icon: 'fab fa-bitcoin', action: 'Calculate Now' },
-          { id: 'eth-gas-fee', title: 'ETH Gas Fee Estimator', description: 'Estimate Ethereum transaction fees.', icon: 'fas fa-gas-pump', action: 'Calculate Now' },
-          { id: 'crypto-burn-rate', title: 'Crypto Burn Rate', description: 'Track token burn rate.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'impermanent-loss', title: 'Impermanent Loss Calculator', description: 'Calculate liquidity pool loss.', icon: 'fas fa-water', action: 'Calculate Now' },
-          { id: 'yield-farming', title: 'Yield Farming Calculator', description: 'Estimate yield farming returns.', icon: 'fas fa-tractor', action: 'Calculate Now' },
-          { id: 'staking-rewards-adv', title: 'Advanced Staking Rewards', description: 'Detailed staking return calc.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'mining-roi-adv', title: 'Advanced Mining ROI', description: 'Detailed mining profitability.', icon: 'fas fa-server', action: 'Calculate Now' },
-          { id: 'hash-rate-converter', title: 'Hash Rate Converter', description: 'Convert hash rate units.', icon: 'fas fa-tachometer-alt', action: 'Calculate Now' },
-          { id: 'satoshi-converter', title: 'Satoshi to BTC', description: 'Convert Satoshis to Bitcoin.', icon: 'fab fa-bitcoin', action: 'Calculate Now' },
-          { id: 'wei-converter', title: 'Wei to Ether', description: 'Convert Wei to Ether.', icon: 'fab fa-ethereum', action: 'Calculate Now' },
-          { id: 'gwei-converter', title: 'Gwei to Ether', description: 'Convert Gwei to Ether.', icon: 'fab fa-ethereum', action: 'Calculate Now' },
-          { id: 'forex-position-sizer', title: 'Forex Position Sizer', description: 'Calculate exact lot size.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'forex-profit', title: 'Forex Profit Calculator', description: 'Calculate potential profit.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'forex-swap', title: 'Forex Swap Calculator', description: 'Calculate overnight swap fees.', icon: 'fas fa-sync', action: 'Calculate Now' },
-          { id: 'forex-pip-adv', title: 'Advanced Pip Calculator', description: 'Calculate pip value accurately.', icon: 'fas fa-crosshairs', action: 'Calculate Now' }
-        ]
-      },
-      'time-based-finance': {
-        name: '💰 Time-Based Financial',
-        icon: 'fas fa-coins',
-        calculators: [
-          { id: 'hourly-to-annual', title: 'Hourly to Annual Salary', description: 'Convert hourly wage to yearly salary.', icon: 'fas fa-rupee-sign', action: 'Calculate Now' },
-          { id: 'annual-to-hourly', title: 'Annual to Hourly Wage', description: 'Convert yearly salary to hourly rate.', icon: 'fas fa-calculator', action: 'Calculate Now' },
-          { id: 'pay-period-calculator', title: 'Pay Period Calculator', description: 'Calculate bi-weekly, monthly pay amounts.', icon: 'fas fa-money-check', action: 'Calculate Now' },
-          { id: 'time-value-money', title: 'Time Value of Money', description: 'Calculate present/future value of money.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'compound-time', title: 'Compound Interest Time', description: 'Calculate time to reach savings goal.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
-          { id: 'payroll-hours', title: 'Payroll Hours Calculator', description: 'Calculate total payroll hours and cost.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'time-off-accrual', title: 'Time Off Accrual', description: 'Calculate vacation/PTO accrual over time.', icon: 'fas fa-umbrella-beach', action: 'Calculate Now' },
-          { id: 'sick-leave-calculator', title: 'Sick Leave Calculator', description: 'Calculate sick leave balance and accrual.', icon: 'fas fa-medkit', action: 'Calculate Now' },
-          { id: 'contract-duration', title: 'Contract Duration Calculator', description: 'Calculate contract period and renewals.', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: 'subscription-cost-time', title: 'Subscription Cost Over Time', description: 'Calculate total subscription cost lifetime.', icon: 'fas fa-credit-card', action: 'Calculate Now' },
-        ]
-      },
-      'banking': {
-        name: '🏦 Banking & Savings Calculators',
-        icon: 'fas fa-university',
-        calculators: [
-          { id: 'savings-account-interest', title: 'Savings Account Interest Calculator', description: 'Calculate savings account interest.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
-          { id: 'deposit-maturity', title: 'FD/RD Maturity Calculator', description: 'Calculate deposit maturity amounts.', icon: 'fas fa-certificate', action: 'Calculate Now' },
-          { id: 'interest-rate-comparison', title: 'Interest Rate Comparison Tool', description: 'Compare bank interest rates.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'deposit-growth', title: 'Deposit Growth Calculator', description: 'Calculate savings growth over time.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'rd-planner', title: 'RD Installment Planner', description: 'Plan recurring deposit schedule.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
-          { id: 'bank-charges', title: 'Bank Charges Calculator', description: 'Calculate bank penalty charges.', icon: 'fas fa-exclamation-triangle', action: 'Calculate Now' },
-          { id: 'atm-withdrawal-charges', title: 'ATM Withdrawal Charges', description: 'Calculate ATM transaction fees.', icon: 'fas fa-credit-card', action: 'Calculate Now' },
-          { id: 'loan-against-fd', title: 'Loan Against FD Calculator', description: 'Calculate loan against fixed deposit.', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: 'money-market-calculator', title: 'Money Market Calculator', description: 'Calculate money market returns.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'ssy-calculator', title: 'Sukanya Samriddhi Yojana (SSY)', description: 'Calculate returns for girl child scheme.', icon: 'fas fa-child', action: 'Calculate Now' },
-          { id: 'scss-calculator', title: 'Senior Citizen Savings Scheme', description: 'Calculate quarterly interest for seniors.', icon: 'fas fa-user-clock', action: 'Calculate Now' },
-          { id: 'kvp-calculator', title: 'Kisan Vikas Patra (KVP)', description: 'Calculate KVP doubling time.', icon: 'fas fa-seedling', action: 'Calculate Now' },
-          { id: 'nsc-calculator', title: 'National Savings Certificate', description: 'Calculate NSC maturity amount.', icon: 'fas fa-certificate', action: 'Calculate Now' },
-          { id: 'pomis-calculator', title: 'Post Office MIS', description: 'Calculate monthly income from POMIS.', icon: 'fas fa-envelope', action: 'Calculate Now' },
-          { id: 'locker-rent-calculator', title: 'Locker Rent Calculator', description: 'Estimate annual safe deposit locker rent.', icon: 'fas fa-lock', action: 'Calculate Now' },
-          { id: 'dd-charges-calculator', title: 'DD Charges Calculator', description: 'Calculate fees for Demand Draft.', icon: 'fas fa-file-invoice', action: 'Calculate Now' },
-          { id: 'neft-rtgs-charges', title: 'NEFT/RTGS Charges', description: 'Calculate transfer fees.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'amb-calculator', title: 'Average Monthly Balance', description: 'Check minimum balance requirement.', icon: 'fas fa-calculator', action: 'Calculate Now' },
-          { id: 'cash-deposit-charges', title: 'Cash Deposit Charges', description: 'Fees for excess cash deposit.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'cheque-bounce-penalty', title: 'Cheque Bounce Penalty', description: 'Estimate fine for dishonored cheque.', icon: 'fas fa-times-circle', action: 'Calculate Now' },
-          { id: 'auto-sweep-calculator', title: 'Auto-Sweep Calculator', description: 'Extra interest from auto-sweep.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'fd-premature-penalty', title: 'FD Premature Penalty', description: 'Calculate loss on early withdrawal.', icon: 'fas fa-exclamation-circle', action: 'Calculate Now' },
-          { id: 'rd-delay-penalty', title: 'RD Delay Penalty', description: 'Fine for late RD installments.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'senior-citizen-fd-extra', title: 'Senior Citizen FD Benefit', description: 'Calculate extra interest for seniors.', icon: 'fas fa-user-plus', action: 'Calculate Now' },
-          { id: 'effective-yield-calculator', title: 'Effective Yield Calculator', description: 'Calculate actual annual return.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'cash-denomination-counter', title: 'Cash Denomination Counter', description: 'Count total cash value.', icon: 'fas fa-money-bill', action: 'Calculate Now' },
-          { id: 'simple-vs-compound', title: 'Simple vs Compound Interest', description: 'Compare interest types.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
-          { id: 'rule-of-72-banking', title: 'Rule of 72 (Doubling)', description: 'Years to double money.', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },
-          { id: 'debit-card-emi', title: 'Debit Card EMI Calculator', description: 'Calculate EMI on Debit Card.', icon: 'fas fa-credit-card', action: 'Calculate Now' },
-          { id: 'sweep-in-calculator', title: 'Sweep-In Account Calculator', description: 'Calculate extra interest from sweep-in facility.', icon: 'fas fa-arrow-right', action: 'Calculate Now' },
-          { id: 'fd-ladder-calculator', title: 'FD Ladder Calculator', description: 'Optimize fixed deposits with laddering strategy.', icon: 'fas fa-layer-group', action: 'Calculate Now' },
-          { id: 'foreign-currency-account', title: 'Foreign Currency Account', description: 'Calculate returns on FCNR deposits.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'tax-saving-fd', title: 'Tax Saving FD Calculator', description: 'Calculate 5-year tax-saving FD returns.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'cumulative-vs-non-cumulative', title: 'Cumulative vs Non-Cumulative FD', description: 'Compare FD interest payout options.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'bank-fd-vs-post-office', title: 'Bank FD vs Post Office FD', description: 'Compare returns between bank and post office.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'quarterly-interest-calculator', title: 'Quarterly Interest Calculator', description: 'Calculate quarterly compounded interest.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
-          { id: 'monthly-interest-calculator', title: 'Monthly Interest Calculator', description: 'Calculate monthly compounded interest.', icon: 'fas fa-calendar', action: 'Calculate Now' },
-          { id: 'annual-interest-calculator', title: 'Annual Interest Calculator', description: 'Calculate annual compounded interest.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
-          { id: 'overdraft-protection-cost', title: 'Overdraft Protection Cost', description: 'Calculate cost of OD facility.', icon: 'fas fa-shield', action: 'Calculate Now' },
-          { id: 'multi-currency-account', title: 'Multi-Currency Account', description: 'Manage multiple foreign currencies.', icon: 'fas fa-money-bill-alt', action: 'Calculate Now' }
-        ]
-      },
-      'insurance': {
-        name: '🛡️ Insurance Calculators',
-        icon: 'fas fa-shield-alt',
-        calculators: [
-          { id: 'life-insurance-calculator', title: 'Life Insurance Calculator', description: 'Calculate required life insurance coverage.', icon: 'fas fa-user-shield', action: 'Calculate Now' },
-          { id: 'term-insurance', title: 'Term Insurance Premium', description: 'Estimate term life insurance premium.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'human-life-value', title: 'Human Life Value (HLV)', description: 'Calculate required insurance cover.', icon: 'fas fa-user-shield', action: 'Calculate Now' },
-          { id: 'health-insurance', title: 'Health Insurance Premium', description: 'Estimate family floater premium.', icon: 'fas fa-heartbeat', action: 'Calculate Now' },
-          { id: 'motor-insurance', title: 'Motor Insurance Calculator', description: 'Estimate car/bike insurance premium.', icon: 'fas fa-car-crash', action: 'Calculate Now' },
-          { id: 'ulip-calculator', title: 'ULIP Returns Calculator', description: 'Calculate returns on Unit Linked Insurance Plans.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'endowment-policy', title: 'Endowment Policy Calculator', description: 'Calculate maturity amount of endowment plans.', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: 'child-plan', title: 'Child Education Plan', description: 'Plan for your child\'s future education costs.', icon: 'fas fa-child', action: 'Calculate Now' },
-          { id: 'ncb-calculator', title: 'No Claim Bonus (NCB)', description: 'Calculate NCB discount on insurance renewal.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'insurance-gst', title: 'Insurance GST Calculator', description: 'Calculate GST on insurance premiums.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'term-vs-invest', title: 'Term Insurance vs Investment', description: 'Compare Term Plan + SIP vs Endowment Plan.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'pli-calculator', title: 'Postal Life Insurance (PLI)', description: 'Calculate premium and maturity for PLI.', icon: 'fas fa-envelope', action: 'Calculate Now' },
-          { id: 'travel-insurance-cost', title: 'Travel Insurance Cost', description: 'Estimate travel insurance premium.', icon: 'fas fa-plane', action: 'Calculate Now' },
-          { id: 'home-insurance-calculator', title: 'Home Insurance Calculator', description: 'Estimate property insurance premium.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'critical-illness-cover', title: 'Critical Illness Cover', description: 'Recommended cover for critical illnesses.', icon: 'fas fa-procedures', action: 'Calculate Now' },
-          { id: 'cyber-insurance-calculator', title: 'Cyber Insurance Calculator', description: 'Estimate premium for cyber fraud cover.', icon: 'fas fa-user-secret', action: 'Calculate Now' },
-          { id: 'surrender-value-calculator', title: 'Policy Surrender Value', description: 'Estimate surrender value of endowment policy.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'pet-insurance-calculator', title: 'Pet Insurance Calculator', description: 'Estimate insurance for your furry friend.', icon: 'fas fa-paw', action: 'Calculate Now' },
-          { id: 'bicycle-insurance-calculator', title: 'Bicycle Insurance', description: 'Protect your cycle against theft/damage.', icon: 'fas fa-bicycle', action: 'Calculate Now' },
-          { id: 'mobile-insurance-calculator', title: 'Mobile Insurance', description: 'Screen damage and theft protection cost.', icon: 'fas fa-mobile-alt', action: 'Calculate Now' },
-          { id: 'wedding-insurance-calculator', title: 'Wedding Insurance', description: 'Cover against cancellation/postponement.', icon: 'fas fa-glass-cheers', action: 'Calculate Now' },
-          { id: 'group-health-insurance', title: 'Group Health Insurance', description: 'Estimate premium for employee health cover.', icon: 'fas fa-users', action: 'Calculate Now' },
-          { id: 'keyman-insurance', title: 'Keyman Insurance', description: 'Calculate insurance cover for key employees.', icon: 'fas fa-user-tie', action: 'Calculate Now' },
-          { id: 'marine-insurance', title: 'Marine / Transit Insurance', description: 'Estimate premium for goods in transit.', icon: 'fas fa-ship', action: 'Calculate Now' },
-          { id: 'fire-insurance', title: 'Fire Insurance', description: 'Protect property against fire hazards.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'burglary-insurance', title: 'Burglary Insurance', description: 'Cover against theft and burglary.', icon: 'fas fa-mask', action: 'Calculate Now' },
-          { id: 'public-liability', title: 'Public Liability Insurance', description: 'Cover third-party injury/damage claims.', icon: 'fas fa-gavel', action: 'Calculate Now' },
-          { id: 'workmens-compensation', title: 'Workmen\'s Compensation', description: 'Cover employee injury/death at work.', icon: 'fas fa-hard-hat', action: 'Calculate Now' },
-          { id: 'directors-officers-liability', title: 'Directors & Officers (D&O)', description: 'Liability cover for company directors.', icon: 'fas fa-briefcase', action: 'Calculate Now' },
-          { id: 'professional-indemnity', title: 'Professional Indemnity', description: 'Liability cover for professionals.', icon: 'fas fa-user-md', action: 'Calculate Now' },
-          { id: 'crop-insurance', title: 'Crop Insurance (PMFBY)', description: 'Calculate farmer\'s share of premium.', icon: 'fas fa-seedling', action: 'Calculate Now' },
-          { id: 'shopkeepers-insurance', title: 'Shopkeeper\'s Insurance', description: 'Comprehensive cover for shops.', icon: 'fas fa-store', action: 'Calculate Now' }
-        ]
-      },
-      'real-estate': {
-        name: '🏠 Real Estate Calculators',
-        icon: 'fas fa-home',
-        calculators: [
-          { id: 'rent-vs-buy', title: 'Rent vs Buy Calculator', description: 'Decide whether to rent or buy a home.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'rental-yield', title: 'Rental Yield Calculator', description: 'Calculate gross and net rental yield.', icon: 'fas fa-building', action: 'Calculate Now' },
-          { id: 'home-affordability', title: 'Home Affordability Calculator', description: 'Estimate how much house you can afford.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'stamp-duty', title: 'Stamp Duty Calculator', description: 'Calculate stamp duty and registration charges.', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: 'construction-cost', title: 'Construction Cost Calculator', description: 'Estimate cost to build a house.', icon: 'fas fa-hard-hat', action: 'Calculate Now' },
-          { id: 'land-area-converter', title: 'Land Area Converter', description: 'Convert land units (Sq.ft, Acre, Hectare).', icon: 'fas fa-ruler-combined', action: 'Calculate Now' },
-          { id: 'property-capital-gains', title: 'Property Capital Gains', description: 'Calculate LTCG on property sale.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'property-tax', title: 'Property Tax Estimator', description: 'Estimate annual property tax.', icon: 'fas fa-building', action: 'Calculate Now' },
-          { id: 'pre-emi-calculator', title: 'Pre-EMI Calculator', description: 'Calculate interest paid before possession.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'plot-loan', title: 'Plot Loan EMI', description: 'Calculate EMI for land purchase loan.', icon: 'fas fa-map-marked-alt', action: 'Calculate Now' },
-          { id: 'interior-design-cost', title: 'Interior Design Cost', description: 'Estimate cost of furnishing your home.', icon: 'fas fa-couch', action: 'Calculate Now' },
-          { id: 'down-payment-goal', title: 'Down Payment Goal', description: 'Plan savings for home down payment.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
-          { id: 'home-loan-balance-transfer', title: 'Home Loan Balance Transfer', description: 'Check savings by switching loan.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'pmay-subsidy', title: 'PMAY Subsidy Calculator', description: 'Check eligibility for PMAY subsidy.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'carpet-area-calculator', title: 'Carpet Area Calculator', description: 'Convert Super Built-up to Carpet Area.', icon: 'fas fa-ruler-combined', action: 'Calculate Now' },
-          { id: 'fsi-calculator', title: 'FSI / FAR Calculator', description: 'Calculate permissible built-up area.', icon: 'fas fa-building', action: 'Calculate Now' },
-          { id: 'rental-agreement-cost', title: 'Rental Agreement Cost', description: 'Estimate stamp duty and registration.', icon: 'fas fa-file-contract', action: 'Calculate Now' },
-          { id: 'paint-cost-calculator', title: 'Painting Cost Estimator', description: 'Estimate cost to paint your home.', icon: 'fas fa-paint-roller', action: 'Calculate Now' },
-          { id: 'flooring-cost-calculator', title: 'Flooring Cost Calculator', description: 'Estimate cost for new flooring.', icon: 'fas fa-th', action: 'Calculate Now' },
-          { id: 'false-ceiling-cost', title: 'False Ceiling Cost', description: 'Estimate Gypsum/POP ceiling cost.', icon: 'fas fa-layer-group', action: 'Calculate Now' },
-          { id: 'modular-kitchen-cost', title: 'Modular Kitchen Cost', description: 'Estimate cost of modular kitchen.', icon: 'fas fa-utensils', action: 'Calculate Now' },
-          { id: 'wardrobe-cost-calculator', title: 'Wardrobe Cost Calculator', description: 'Estimate cost of making wardrobes.', icon: 'fas fa-door-closed', action: 'Calculate Now' },
-          { id: 'solar-rooftop-calculator', title: 'Solar Rooftop Calculator', description: 'Estimate solar plant capacity and cost.', icon: 'fas fa-solar-panel', action: 'Calculate Now' },
-          { id: 'bricks-calculator', title: 'Bricks Calculator', description: 'Calculate number of bricks for a wall.', icon: 'fas fa-cubes', action: 'Calculate Now' },
-          { id: 'cement-calculator', title: 'Cement Calculator', description: 'Estimate cement bags for slab casting.', icon: 'fas fa-cube', action: 'Calculate Now' },
-          { id: 'water-tank-capacity', title: 'Water Tank Capacity', description: 'Calculate required water tank size.', icon: 'fas fa-tint', action: 'Calculate Now' },
-          { id: 'electrical-wiring-cost', title: 'Electrical Wiring Cost', description: 'Estimate electrical work cost.', icon: 'fas fa-bolt', action: 'Calculate Now' },
-          { id: 'plumbing-cost-calculator', title: 'Plumbing Cost Estimator', description: 'Estimate plumbing work cost.', icon: 'fas fa-faucet', action: 'Calculate Now' },
-          { id: 'bathroom-renovation-cost', title: 'Bathroom Renovation Cost', description: 'Estimate full bathroom renovation.', icon: 'fas fa-bath', action: 'Calculate Now' },
-          { id: 'staircase-calculator', title: 'Staircase Calculator', description: 'Calculate number of steps required.', icon: 'fas fa-sort-amount-up', action: 'Calculate Now' },
-          { id: 'septic-tank-size', title: 'Septic Tank Size', description: 'Calculate required septic tank volume.', icon: 'fas fa-toilet', action: 'Calculate Now' },
-          { id: 'rainwater-harvesting', title: 'Rainwater Harvesting', description: 'Calculate water collection potential.', icon: 'fas fa-cloud-rain', action: 'Calculate Now' },
-          { id: 'fence-cost-calculator', title: 'Fencing Cost Calculator', description: 'Estimate perimeter fencing cost.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'driveway-cost-calculator', title: 'Driveway Cost Calculator', description: 'Estimate driveway paving cost.', icon: 'fas fa-road', action: 'Calculate Now' },
-          { id: 'pool-cost-calculator', title: 'Swimming Pool Cost', description: 'Estimate pool construction cost.', icon: 'fas fa-swimming-pool', action: 'Calculate Now' }
-        ]
-      },
-      'credit-card': {
-        name: '💳 Credit Card Calculators',
-        icon: 'fas fa-credit-card',
-        calculators: [
-          { id: 'credit-card-payoff', title: 'Credit Card Payoff Calculator', description: 'Calculate time to pay off credit card debt.', icon: 'fas fa-credit-card', action: 'Calculate Now' },
-          { id: 'credit-card-min-due', title: 'Minimum Due Calculator', description: 'Time to clear debt paying minimum due.', icon: 'fas fa-exclamation-circle', action: 'Calculate Now' },
-          { id: 'balance-transfer', title: 'Balance Transfer Calculator', description: 'Calculate savings on balance transfer.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'credit-card-emi', title: 'Credit Card EMI Calculator', description: 'Calculate EMI for credit card purchases.', icon: 'fas fa-credit-card', action: 'Calculate Now' },
-          { id: 'cc-interest', title: 'Credit Card Interest', description: 'Calculate total interest payable.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'min-payment-warning', title: 'Minimum Payment Warning', description: 'See the danger of paying only minimums.', icon: 'fas fa-exclamation-triangle', action: 'Calculate Now' },
-          { id: 'credit-utilization', title: 'Credit Utilization Ratio', description: 'Check your credit health score.', icon: 'fas fa-tachometer-alt', action: 'Calculate Now' },
-          { id: 'reward-points', title: 'Reward Points Value', description: 'Calculate value of your points.', icon: 'fas fa-gift', action: 'Calculate Now' },
-          { id: 'forex-fee', title: 'Forex Transaction Fee', description: 'Calculate cost of international usage.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'cash-advance-fee', title: 'Cash Advance Fee', description: 'Calculate cost of withdrawing cash.', icon: 'fas fa-money-bill', action: 'Calculate Now' },
-          { id: 'card-vs-loan', title: 'Card vs Personal Loan', description: 'Compare interest costs.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'annual-fee-breakeven', title: 'Annual Fee Breakeven', description: 'Is the annual fee worth it?', icon: 'fas fa-calculator', action: 'Calculate Now' },
-          { id: 'debt-snowball', title: 'Debt Snowball Calculator', description: 'Plan debt payoff: Smallest balance first.', icon: 'fas fa-sort-amount-down', action: 'Calculate Now' },
-          { id: 'debt-avalanche', title: 'Debt Avalanche Calculator', description: 'Plan debt payoff: Highest interest first.', icon: 'fas fa-sort-amount-up', action: 'Calculate Now' },
-          { id: 'late-payment-fee', title: 'Late Payment Fee Estimator', description: 'Estimate charges for missing due date.', icon: 'fas fa-exclamation-circle', action: 'Calculate Now' },
-          { id: 'over-limit-fee', title: 'Over Limit Fee Calculator', description: 'Estimate charges for exceeding credit limit.', icon: 'fas fa-ban', action: 'Calculate Now' },
-          { id: 'cc-eligibility', title: 'Credit Card Eligibility', description: 'Estimate potential credit limit.', icon: 'fas fa-check-circle', action: 'Calculate Now' },
-          { id: 'fuel-surcharge-waiver', title: 'Fuel Surcharge Waiver', description: 'Calculate savings on fuel transactions.', icon: 'fas fa-gas-pump', action: 'Calculate Now' },
-          { id: 'airport-lounge-value', title: 'Airport Lounge Value', description: 'Calculate value of free lounge visits.', icon: 'fas fa-plane', action: 'Calculate Now' },
-          { id: 'cashback-calculator', title: 'Annual Cashback Calculator', description: 'Estimate yearly cashback earnings.', icon: 'fas fa-gift', action: 'Calculate Now' },
-          { id: 'miles-to-cash', title: 'Miles/Points Value', description: 'Convert reward points to cash value.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'cc-against-fd', title: 'Credit Card Against FD', description: 'Estimate limit for secured credit card.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'forex-markup', title: 'Foreign Currency Markup', description: 'Calculate extra cost on international spends.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'billing-cycle', title: 'Billing Cycle & Due Date', description: 'Understand your interest-free period.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
-          { id: 'limit-increase', title: 'Credit Limit Increase Estimator', description: 'Estimate new limit after income hike.', icon: 'fas fa-arrow-up', action: 'Calculate Now' },
-          { id: 'card-upgrade', title: 'Card Upgrade Evaluator', description: 'Decide if a premium card upgrade is worth the fee.', icon: 'fas fa-level-up-alt', action: 'Calculate Now' },
-          { id: 'cash-withdrawal-cost', title: 'Cash Withdrawal Cost', description: 'Calculate the high cost of ATM cash withdrawals.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'cc-insurance-cost', title: 'Credit Shield Insurance Cost', description: 'Estimate cost of credit protection.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'addon-card-limit', title: 'Add-on Card Limit Setter', description: 'Set safe limits for family members.', icon: 'fas fa-users', action: 'Calculate Now' },
-          { id: 'min-due-trap', title: 'Minimum Due Trap Warning', description: 'See interest cost if paying only minimum.', icon: 'fas fa-exclamation-triangle', action: 'Calculate Now' },
-          { id: 'no-cost-emi', title: 'No Cost EMI Real Cost', description: 'Find the hidden costs in No Cost EMI.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'annual-fee-waiver', title: 'Annual Fee Waiver Tracker', description: 'Track spend needed to waive fee.', icon: 'fas fa-gift', action: 'Calculate Now' }
-        ]
-      },
-      'retirement': {
-        name: '🏖️ Retirement Calculators',
-        icon: 'fas fa-umbrella-beach',
-        calculators: [
-          { id: 'fire-calculator', title: 'FIRE Calculator', description: 'Plan your Financial Independence & Early Retirement.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'nps-calculator', title: 'NPS Calculator', description: 'Calculate National Pension Scheme returns.', icon: 'fas fa-umbrella-beach', action: 'Calculate Now' },
-          { id: 'retirement-corpus', title: 'Retirement Corpus Calculator', description: 'Calculate retirement savings needed.', icon: 'fas fa-user-clock', action: 'Calculate Now' },
-          { id: 'atal-pension-yojana', title: 'Atal Pension Yojana (APY)', description: 'Calculate APY monthly contribution.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
-          { id: 'corpus-longevity', title: 'Corpus Longevity Calculator', description: 'How long will your corpus last?', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },
-          { id: 'nps-withdrawal', title: 'NPS Withdrawal Calculator', description: 'Calculate NPS lump sum and annuity.', icon: 'fas fa-hand-holding-usd', action: 'Calculate Now' },
-          { id: 'epf-calculator', title: 'EPF Calculator', description: 'Calculate Employee Provident Fund corpus.', icon: 'fas fa-building', action: 'Calculate Now' },
-          { id: 'vpf-calculator', title: 'VPF Calculator', description: 'Calculate Voluntary Provident Fund returns.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
-          { id: 'inflation-pension', title: 'Inflation Adjusted Pension', description: 'Real value of future pension.', icon: 'fas fa-chart-line-down', action: 'Calculate Now' },
-          { id: 'superannuation-calculator', title: 'Superannuation Calculator', description: 'Calculate corporate pension corpus.', icon: 'fas fa-briefcase', action: 'Calculate Now' },
-          { id: 'post-retirement-budget', title: 'Post-Retirement Budget', description: 'Estimate monthly expenses after retirement.', icon: 'fas fa-wallet', action: 'Calculate Now' },
-          { id: 'swp-tax-calculator', title: 'SWP Tax Calculator', description: 'Estimate tax on SWP withdrawals.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'nps-tier2', title: 'NPS Tier 2 Calculator', description: 'Calculate returns on NPS Tier 2.', icon: 'fas fa-coins', action: 'Calculate Now' },
-          { id: 'retirement-shortfall', title: 'Retirement Shortfall', description: 'Check if you are on track.', icon: 'fas fa-exclamation-circle', action: 'Calculate Now' },
-          { id: 'fire-calculator-pro', title: 'FIRE Calculator (Early Retirement)', description: 'Plan your Financial Independence, Retire Early journey.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'gratuity-retirement', title: 'Gratuity Calculator', description: 'Calculate gratuity benefit amount.', icon: 'fas fa-gift', action: 'Calculate Now' },
-          { id: 'leave-encashment-retirement', title: 'Leave Encashment Calculator', description: 'Estimate value of unused leaves.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
-          { id: 'vrs-retirement', title: 'VRS Compensation Calculator', description: 'Estimate Voluntary Retirement Scheme payout.', icon: 'fas fa-handshake', action: 'Calculate Now' },
-          { id: 'scss-retirement', title: 'SCSS Calculator', description: 'Calculate Senior Citizen Savings Scheme returns.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'pmvvy-scheme', title: 'PMVVY Calculator', description: 'Pradhan Mantri Vaya Vandana Yojana pension.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'reverse-mortgage', title: 'Reverse Mortgage Estimator', description: 'Estimate monthly income from property.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'medical-inflation', title: 'Medical Inflation Projector', description: 'Project future healthcare costs.', icon: 'fas fa-heartbeat', action: 'Calculate Now' },
-          { id: 'bucket-strategy', title: 'Retirement Bucket Allocator', description: 'Allocate corpus into time-based buckets.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'annuity-yield', title: 'Annuity Yield Calculator', description: 'Calculate effective return on annuity.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'life-expectancy', title: 'Life Expectancy Estimator', description: 'Estimate longevity for planning.', icon: 'fas fa-heart', action: 'Calculate Now' },
-          { id: 'travel-fund', title: 'Retirement Travel Fund', description: 'Plan your post-retirement adventures.', icon: 'fas fa-plane', action: 'Calculate Now' },
-          { id: 'legacy-planner', title: 'Legacy & Inheritance Planner', description: 'Plan wealth distribution.', icon: 'fas fa-users', action: 'Calculate Now' },
-          { id: 'care-cost', title: 'Assisted Living Cost Estimator', description: 'Plan for long-term care needs.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'pension-tax', title: 'Pension Tax Estimator', description: 'Estimate tax on pension income.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'eps-pension', title: 'EPS 95 Pension Calculator', description: 'Calculate Employee Pension Scheme payout.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'health-premium-projector', title: 'Retirement Health Premium', description: 'Project health insurance cost at retirement.', icon: 'fas fa-chart-line', action: 'Calculate Now' }
-        ]
-      },
-      'business': {
-        name: '📊 Business & Profitability Calculators',
-        icon: 'fas fa-chart-pie',
-        calculators: [
-          { id: 'profit-margin', title: 'Profit Margin Calculator', description: 'Calculate gross and net profit margins.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'break-even-calculator', title: 'Break-Even Analysis Calculator', description: 'Calculate break-even point.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'discount-calculator', title: 'Discount Calculator', description: 'Calculate discount amounts.', icon: 'fas fa-tags', action: 'Calculate Now' },
-          { id: 'roas-calculator', title: 'ROAS Calculator', description: 'Calculate return on ad spend.', icon: 'fas fa-calculator', action: 'Calculate Now' },
-          { id: 'working-capital', title: 'Working Capital Calculator', description: 'Calculate working capital.', icon: 'fas fa-boxes', action: 'Calculate Now' },
-          { id: 'markup-calculator', title: 'Markup Calculator', description: 'Calculate markup on products.', icon: 'fas fa-bullhorn', action: 'Calculate Now' },
-          { id: 'commission-calculator', title: 'Commission Calculator', description: 'Calculate sales commission.', icon: 'fas fa-building', action: 'Calculate Now' },
-          { id: 'startup-runway', title: 'Startup Runway Calculator', description: 'Calculate how long your cash will last.', icon: 'fas fa-plane-departure', action: 'Calculate Now' },
-          { id: 'freelance-tax', title: 'Freelance Tax (44ADA)', description: 'Calculate presumptive tax for professionals.', icon: 'fas fa-laptop-code', action: 'Calculate Now' },
-          { id: 'inventory-turnover', title: 'Inventory Turnover Ratio', description: 'Measure inventory efficiency.', icon: 'fas fa-boxes', action: 'Calculate Now' },
-          { id: 'operating-margin', title: 'Operating Margin Calculator', description: 'Calculate operating profit margin.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'depreciation-calculator', title: 'Depreciation Calculator', description: 'Calculate asset depreciation.', icon: 'fas fa-arrow-down', action: 'Calculate Now' },
-          { id: 'cash-flow-calculator', title: 'Cash Flow Calculator', description: 'Calculate net cash flow.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'burn-rate-calculator', title: 'Burn Rate Calculator', description: 'Calculate startup runway.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'sales-tax-calculator', title: 'Sales Tax Calculator', description: 'Calculate applicable sales taxes.', icon: 'fas fa-receipt', action: 'Calculate Now' },
-          { id: 'payroll-calculator', title: 'Payroll Calculator', description: 'Calculate employee net pay and deductions.', icon: 'fas fa-users', action: 'Calculate Now' },
-          { id: 'overtime-calculator', title: 'Overtime Pay Calculator', description: 'Calculate overtime wages.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'profit-split-calculator', title: 'Profit Split Calculator', description: 'Distribute profit among partners.', icon: 'fas fa-handshake', action: 'Calculate Now' },
-          { id: 'roi-percentage', title: 'ROI Percentage Calculator', description: 'Calculate return on investment percentage.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'conversion-rate', title: 'Conversion Rate Calculator', description: 'Calculate sales conversion metrics.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'average-order-value', title: 'Average Order Value (AOV)', description: 'Calculate average transaction value.', icon: 'fas fa-shopping-cart', action: 'Calculate Now' },
-          { id: 'churn-rate', title: 'Churn Rate Calculator', description: 'Calculate customer retention rate.', icon: 'fas fa-user-minus', action: 'Calculate Now' },
-          { id: 'ltv-cac-ratio', title: 'LTV:CAC Ratio', description: 'Calculate customer lifetime value to acquisition cost ratio.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'monthly-recurring-revenue', title: 'MRR Calculator', description: 'Calculate monthly recurring revenue.', icon: 'fas fa-sync-alt', action: 'Calculate Now' },
-          { id: 'annual-recurring-revenue', title: 'ARR Calculator', description: 'Calculate annual recurring revenue.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
-          { id: 'gross-margin-calculator', title: 'Gross Margin Calculator', description: 'Calculate gross profit margin percentage.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'net-margin-calculator', title: 'Net Margin Calculator', description: 'Calculate net profit margin.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'ebitda-calculator', title: 'EBITDA Calculator', description: 'Calculate earnings before interest, taxes, depreciation.', icon: 'fas fa-calculator', action: 'Calculate Now' },
-          { id: 'revenue-growth-rate', title: 'Revenue Growth Rate', description: 'Calculate year-over-year revenue growth.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
-          { id: 'employee-productivity', title: 'Employee Productivity Calculator', description: 'Calculate revenue per employee.', icon: 'fas fa-user-clock', action: 'Calculate Now' },
-          { id: 'cost-per-hire', title: 'Cost Per Hire', description: 'Calculate recruitment cost per employee.', icon: 'fas fa-user-plus', action: 'Calculate Now' },
-          { id: 'inventory-days', title: 'Days Inventory Outstanding', description: 'Calculate inventory holding period.', icon: 'fas fa-warehouse', action: 'Calculate Now' },
-          { id: 'accounts-receivable-days', title: 'Days Sales Outstanding', description: 'Calculate average collection period.', icon: 'fas fa-file-invoice-dollar', action: 'Calculate Now' },
-          { id: 'accounts-payable-days', title: 'Days Payable Outstanding', description: 'Calculate payment period to suppliers.', icon: 'fas fa-money-check', action: 'Calculate Now' },
-          { id: 'cash-conversion-cycle', title: 'Cash Conversion Cycle', description: 'Calculate time to convert inventory to cash.', icon: 'fas fa-sync', action: 'Calculate Now' },
-          { id: 'return-on-assets', title: 'Return on Assets (ROA)', description: 'Calculate profitability relative to assets.', icon: 'fas fa-building', action: 'Calculate Now' },
-          { id: 'return-on-equity', title: 'Return on Equity (ROE)', description: 'Calculate return on shareholders equity.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'asset-turnover-ratio', title: 'Asset Turnover Ratio', description: 'Measure efficiency in using assets.', icon: 'fas fa-sync-alt', action: 'Calculate Now' },
-          { id: 'equity-multiplier', title: 'Equity Multiplier', description: 'Measure financial leverage.', icon: 'fas fa-layer-group', action: 'Calculate Now' },
-          { id: 'times-interest-earned', title: 'Times Interest Earned', description: 'Calculate ability to pay interest.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'free-cash-flow', title: 'Free Cash Flow', description: 'Calculate cash available after capex.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'contribution-margin', title: 'Contribution Margin', description: 'Calculate per-unit profit contribution.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'variable-cost-per-unit', title: 'Variable Cost Per Unit', description: 'Calculate per-unit variable costs.', icon: 'fas fa-calculator', action: 'Calculate Now' },
-          { id: 'fixed-cost-analysis', title: 'Fixed Cost Analysis', description: 'Analyze fixed cost structure.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
-          { id: 'operating-leverage', title: 'Operating Leverage', description: 'Calculate impact of sales on profit.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'financial-leverage', title: 'Financial Leverage', description: 'Measure debt impact on returns.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'safety-margin', title: 'Margin of Safety', description: 'Calculate cushion above break-even.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'payback-period', title: 'Payback Period', description: 'Calculate time to recover investment.', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },
-          { id: 'internal-rate-return', title: 'Internal Rate of Return (IRR)', description: 'Calculate investment profitability rate.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-          { id: 'profitability-index', title: 'Profitability Index', description: 'Measure benefit-cost ratio.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'economic-value-added', title: 'Economic Value Added (EVA)', description: 'Calculate true economic profit.', icon: 'fas fa-dollar-sign', action: 'Calculate Now' }
-        ]
-      },
-      'misc': {
-        name: '🧮 Miscellaneous Financial Tools',
-        icon: 'fas fa-calculator',
-        calculators: [
-          { id: 'percentage-calculator', title: 'Percentage Calculator', description: 'Calculate percentages easily.', icon: 'fas fa-percent', action: 'Calculate Now' },
-          { id: 'tip-calculator', title: 'Tip Calculator', description: 'Calculate tips and split bills.', icon: 'fas fa-receipt', action: 'Calculate Now' },
-          { id: 'age-calculator', title: 'Age Calculator', description: 'Calculate age from date of birth.', icon: 'fas fa-birthday-cake', action: 'Calculate Now' },
-          { id: 'date-difference', title: 'Date Difference Calculator', description: 'Calculate difference between dates.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
-          { id: 'date-plus-duration', title: 'Date + Duration Calculator', description: 'Add or subtract time from a date.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'fuel-cost-calculator', title: 'Fuel Cost Calculator', description: 'Calculate trip fuel costs.', icon: 'fas fa-gas-pump', action: 'Calculate Now' },
-          { id: 'electricity-bill', title: 'Electricity Bill Calculator', description: 'Estimate monthly electricity cost.', icon: 'fas fa-bolt', action: 'Calculate Now' },
-          { id: 'water-bill', title: 'Water Bill Calculator', description: 'Estimate monthly water usage cost.', icon: 'fas fa-water', action: 'Calculate Now' },
-          { id: 'bmi-calculator', title: 'BMI Calculator', description: 'Calculate Body Mass Index.', icon: 'fas fa-weight', action: 'Calculate Now' },
-          { id: 'emergency-fund', title: 'Emergency Fund Calculator', description: 'Calculate required safety net amount.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'net-worth', title: 'Net Worth Calculator', description: 'Calculate your total net worth.', icon: 'fas fa-wallet', action: 'Calculate Now' },
-          { id: 'savings-goal', title: 'Savings Goal Calculator', description: 'Calculate monthly savings for a goal.', icon: 'fas fa-bullseye', action: 'Calculate Now' },
-          { id: 'budget-planner', title: 'Budget Planner (50/30/20)', description: 'Plan your monthly budget.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
-          { id: 'unit-converter', title: 'Unit Converter', description: 'Convert length and weight units.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
-          { id: 'temperature-converter', title: 'Temperature Converter', description: 'Convert Celsius, Fahrenheit, Kelvin.', icon: 'fas fa-thermometer-half', action: 'Calculate Now' },
-          { id: 'sales-tax-calculator', title: 'Sales Tax Calculator', description: 'Calculate sales tax and total.', icon: 'fas fa-receipt', action: 'Calculate Now' },
-          { id: 'electricity-bill-calculator', title: 'Electricity Bill Calculator', description: 'Estimate monthly electricity cost.', icon: 'fas fa-bolt', action: 'Calculate Now' },
-          { id: 'data-usage-calculator', title: 'Data Usage Calculator', description: 'Estimate daily data consumption.', icon: 'fas fa-wifi', action: 'Calculate Now' },
-          { id: 'download-time-calculator', title: 'Download Time Calculator', description: 'Estimate download duration.', icon: 'fas fa-download', action: 'Calculate Now' },
-          { id: 'password-strength-calculator', title: 'Password Strength', description: 'Check password security.', icon: 'fas fa-lock', action: 'Calculate Now' },
-          { id: 'aspect-ratio-calculator', title: 'Aspect Ratio Calculator', description: 'Calculate image aspect ratio.', icon: 'fas fa-image', action: 'Calculate Now' },
-          { id: 'pixels-to-rem-calculator', title: 'Pixels to REM', description: 'Convert px to rem units.', icon: 'fas fa-font', action: 'Calculate Now' },
-          { id: 'golden-ratio-calculator', title: 'Golden Ratio Calculator', description: 'Calculate golden ratio values.', icon: 'fas fa-star', action: 'Calculate Now' },
-          { id: 'time-duration-calculator', title: 'Time Duration Calculator', description: 'Calculate time between two times.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'age-difference-calculator', title: 'Age Difference Calculator', description: 'Calculate age gap.', icon: 'fas fa-user-friends', action: 'Calculate Now' },
-          { id: 'zodiac-sign-calculator', title: 'Zodiac Sign Calculator', description: 'Find your zodiac sign.', icon: 'fas fa-star', action: 'Calculate Now' },
-          { id: 'love-calculator', title: 'Love Calculator', description: 'Calculate compatibility score.', icon: 'fas fa-heart', action: 'Calculate Now' },
-          { id: 'grade-calculator', title: 'Grade Calculator', description: 'Calculate letter grade.', icon: 'fas fa-graduation-cap', action: 'Calculate Now' },
-          { id: 'gpa-calculator', title: 'GPA Calculator', description: 'Calculate Grade Point Average.', icon: 'fas fa-graduation-cap', action: 'Calculate Now' },
-          { id: 'speed-converter', title: 'Speed Converter', description: 'Convert speed units.', icon: 'fas fa-tachometer-alt', action: 'Calculate Now' },
-          { id: 'volume-converter', title: 'Volume Converter', description: 'Convert volume units.', icon: 'fas fa-cube', action: 'Calculate Now' },
-          { id: 'area-converter', title: 'Area Converter', description: 'Convert area units.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
-          { id: 'time-converter', title: 'Time Converter', description: 'Convert time units.', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },
-          { id: 'pressure-converter', title: 'Pressure Converter', description: 'Convert pressure units.', icon: 'fas fa-compress-arrows-alt', action: 'Calculate Now' },
-          { id: 'power-converter', title: 'Power Converter', description: 'Convert power units.', icon: 'fas fa-plug', action: 'Calculate Now' },
-          { id: 'energy-converter', title: 'Energy Converter', description: 'Convert energy units.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'data-storage-converter', title: 'Data Storage Converter', description: 'Convert byte units.', icon: 'fas fa-database', action: 'Calculate Now' },
-          { id: 'cooking-converter', title: 'Cooking Converter', description: 'Convert cooking units.', icon: 'fas fa-utensils', action: 'Calculate Now' },
-          { id: 'roman-numeral-converter', title: 'Roman Numeral Converter', description: 'Convert numbers to Roman.', icon: 'fas fa-font', action: 'Calculate Now' }
+type FinancialReportItem = {
+  id: string;
+  title: string;
+  subcategoryKey: string;
+  subcategoryName: string;
+};
 
-        ]
+const collectToolIds = (data: Record<string, Category>): Set<string> => {
+  const ids = new Set<string>();
+  for (const category of Object.values(data)) {
+    for (const subcategory of Object.values(category.subcategories)) {
+      for (const tool of subcategory.calculators) {
+        ids.add(tool.id);
       }
     }
-  },
+  }
+  return ids;
+};
+
+const buildFinancialCategory = (excludeIds: Set<string>): Category => {
+  const report = financialToolsReport as unknown as {
+    basicImplemented: FinancialReportItem[];
+    advancedImplemented: FinancialReportItem[];
+  };
+
+  const items = [...(report.basicImplemented || []), ...(report.advancedImplemented || [])];
+  const seenIds = new Set<string>();
+  const subcategories: Record<string, Subcategory> = {};
+
+  for (const item of items) {
+    if (!item?.id || !item?.subcategoryKey) continue;
+    if (excludeIds.has(item.id)) continue;
+    if (seenIds.has(item.id)) continue;
+    seenIds.add(item.id);
+
+    const existing = subcategories[item.subcategoryKey];
+    if (!existing) {
+      subcategories[item.subcategoryKey] = {
+        name: item.subcategoryName || item.subcategoryKey,
+        icon: 'fas fa-calculator',
+        calculators: [],
+      };
+    }
+
+    subcategories[item.subcategoryKey].calculators.push({
+      id: item.id,
+      title: item.title || item.id,
+      description: item.title ? `${item.title}.` : 'Calculator',
+      icon: 'fas fa-calculator',
+      action: 'Calculate Now',
+    });
+  }
+
+  return { subcategories };
+};
+
+const baseToolsData: Record<string, Category> = {
   health: {
     subcategories: {
       'body-measurements': {
@@ -565,11 +121,6 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'suprailiac-skinfold', title: 'Suprailiac Skinfold Calculator', description: 'Measure suprailiac skinfold for fat distribution.', icon: 'fas fa-ruler', action: 'Calculate Now' },
           { id: 'abdominal-skinfold', title: 'Abdominal Skinfold Measure', description: 'Track abdominal skinfold thickness for body fat.', icon: 'fas fa-ruler', action: 'Calculate Now' },
           { id: 'thigh-skinfold', title: 'Thigh Skinfold Calculator', description: 'Estimate body fat from thigh skinfold measurement.', icon: 'fas fa-ruler', action: 'Calculate Now' },
-          { id: 'finger-ring-size', title: 'Finger Ring Size Calculator', description: 'Determine your ring size.', icon: 'fas fa-ring', action: 'Calculate Now' },
-          { id: 'shoe-size-converter', title: 'Shoe Size Converter', description: 'Convert shoe sizes across regions.', icon: 'fas fa-shoe-prints', action: 'Calculate Now' },
-          { id: 'bra-size-calculator', title: 'Bra Size Calculator', description: 'Calculate correct bra size.', icon: 'fas fa-female', action: 'Calculate Now' },
-          { id: 'hat-size-calculator', title: 'Hat Size Calculator', description: 'Determine your hat size.', icon: 'fas fa-hat-cowboy', action: 'Calculate Now' },
-          { id: 'glove-size-calculator', title: 'Glove Size Calculator', description: 'Determine your glove size.', icon: 'fas fa-mitten', action: 'Calculate Now' },
           { id: 'frame-size-calculator', title: 'Frame Size Calculator', description: 'Determine body frame size from wrist.', icon: 'fas fa-ruler-horizontal', action: 'Calculate Now' },
           { id: 'tibia-length-height', title: 'Tibia Length Height Estimator', description: 'Estimate height from tibia length.', icon: 'fas fa-ruler-vertical', action: 'Calculate Now' },
           { id: 'ulna-length-height', title: 'Ulna Length Height Estimator', description: 'Estimate height from ulna length.', icon: 'fas fa-ruler', action: 'Calculate Now' }
@@ -1698,8 +1249,9 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'cagr-calculator-business', title: 'CAGR Calculator', description: 'Calculate Compound Annual Growth Rate.', icon: 'fas fa-chart-area', action: 'Calculate Now' },
           { id: 'operating-cash-flow', title: 'Operating Cash Flow', description: 'Calculate cash generated from operations.', icon: 'fas fa-money-bill', action: 'Calculate Now' },
           { id: 'free-cash-flow', title: 'Free Cash Flow', description: 'Calculate cash available for distribution.', icon: 'fas fa-hand-holding-usd', action: 'Calculate Now' },
-          { id: 'burn-rate', title: 'Burn Rate Calculator', description: 'Calculate monthly cash consumption.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'runway-calculator', title: 'Runway Calculator', description: 'Calculate months until cash runs out.', icon: 'fas fa-plane-departure', action: 'Calculate Now' },
+          { id: 'burn-rate-calculator', title: 'Burn Rate Calculator', description: 'Calculate monthly cash consumption.', icon: 'fas fa-fire', action: 'Calculate Now' },
+          { id: 'startup-runway', title: 'Startup Runway Calculator', description: 'Calculate months until cash runs out.', icon: 'fas fa-plane-departure', action: 'Calculate Now' },
+          { id: 'freelance-tax', title: 'Freelance Tax (44ADA)', description: 'Calculate presumptive tax for professionals.', icon: 'fas fa-laptop-code', action: 'Calculate Now' },
           { id: 'customer-profitability', title: 'Customer Profitability', description: 'Calculate profit per customer.', icon: 'fas fa-user-check', action: 'Calculate Now' },
           { id: 'product-profitability', title: 'Product Profitability', description: 'Calculate profit per product line.', icon: 'fas fa-box-open', action: 'Calculate Now' },
           { id: 'price-elasticity', title: 'Price Elasticity of Demand', description: 'Calculate sensitivity to price changes.', icon: 'fas fa-ruble-sign', action: 'Calculate Now' },
@@ -1719,7 +1271,7 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'eoq-calculator', title: 'EOQ Calculator', description: 'Calculate Economic Order Quantity.', icon: 'fas fa-boxes', action: 'Calculate Now' },
           { id: 'reorder-point', title: 'Reorder Point Calculator', description: 'Calculate when to restock.', icon: 'fas fa-bell', action: 'Calculate Now' },
           { id: 'safety-stock', title: 'Safety Stock Calculator', description: 'Calculate buffer inventory.', icon: 'fas fa-shield-alt', action: 'Calculate Now' },
-          { id: 'stock-turnover', title: 'Stock Turnover Ratio', description: 'Calculate inventory efficiency.', icon: 'fas fa-sync', action: 'Calculate Now' },
+          { id: 'inventory-turnover', title: 'Inventory Turnover Ratio', description: 'Measure inventory efficiency.', icon: 'fas fa-sync', action: 'Calculate Now' },
           { id: 'days-sales-inventory', title: 'Days Sales in Inventory', description: 'Calculate average days to sell.', icon: 'fas fa-calendar-day', action: 'Calculate Now' },
           { id: 'receivables-turnover', title: 'Receivables Turnover', description: 'Calculate collection efficiency.', icon: 'fas fa-hand-holding-usd', action: 'Calculate Now' },
           { id: 'days-sales-outstanding', title: 'Days Sales Outstanding', description: 'Calculate average collection period.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
@@ -1869,6 +1421,7 @@ export const toolsData: Record<string, CategoryData> = {
         icon: 'fas fa-utensils',
         calculators: [
           { id: 'tip-calculator', title: 'Tip Calculator', description: 'Calculate tips and split bills.', icon: 'fas fa-hand-holding-heart', action: 'Calculate Now' },
+          { id: 'cooking-converter', title: 'Cooking Converter', description: 'Convert common cooking measurements and units.', icon: 'fas fa-utensils', action: 'Calculate Now' },
           { id: 'recipe-converter', title: 'Recipe Converter', description: 'Convert recipe quantities.', icon: 'fas fa-book-open', action: 'Calculate Now' },
           { id: 'serving-size-calculator', title: 'Serving Size Calculator', description: 'Adjust recipe for different servings.', icon: 'fas fa-users', action: 'Calculate Now' },
           { id: 'cooking-time-calculator', title: 'Cooking Time Calculator', description: 'Calculate cooking times for recipes.', icon: 'fas fa-clock', action: 'Calculate Now' },
@@ -1878,19 +1431,7 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'food-waste-calculator', title: 'Food Waste Calculator', description: 'Calculate food waste cost.', icon: 'fas fa-trash-alt', action: 'Calculate Now' },
         ]
       },
-      'conversion-tools': {
-        name: '🔄 Conversion Tools',
-        icon: 'fas fa-exchange-alt',
-        calculators: [
-          { id: 'unit-converter', title: 'Unit Converter', description: 'Convert between different units.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
-          { id: 'temperature-converter', title: 'Temperature Converter', description: 'Convert Celsius, Fahrenheit, Kelvin.', icon: 'fas fa-thermometer-half', action: 'Calculate Now' },
-          { id: 'currency-converter', title: 'Currency Converter', description: 'Convert between currencies.', icon: 'fas fa-money-bill-wave', action: 'Calculate Now' },
-          { id: 'length-converter', title: 'Length Converter', description: 'Convert meters, feet, inches, etc.', icon: 'fas fa-ruler', action: 'Calculate Now' },
-          { id: 'weight-converter', title: 'Weight Converter', description: 'Convert kg, lb, oz, etc.', icon: 'fas fa-weight', action: 'Calculate Now' },
-          { id: 'volume-converter', title: 'Volume Converter', description: 'Convert liters, gallons, cups, etc.', icon: 'fas fa-flask', action: 'Calculate Now' },
-          { id: 'speed-converter', title: 'Speed Converter', description: 'Convert km/h, mph, m/s, etc.', icon: 'fas fa-tachometer-alt', action: 'Calculate Now' },
-        ]
-      },
+
       'shopping-budgeting': {
         name: '🛒 Shopping & Budgeting',
         icon: 'fas fa-shopping-cart',
@@ -1901,25 +1442,30 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'budget-calculator', title: 'Budget Calculator', description: 'Plan and track your budget.', icon: 'fas fa-wallet', action: 'Calculate Now' },
           { id: 'savings-goal-calculator', title: 'Savings Goal Calculator', description: 'Calculate monthly savings needed.', icon: 'fas fa-piggy-bank', action: 'Calculate Now' },
           { id: 'cost-per-use-calculator', title: 'Cost Per Use Calculator', description: 'Calculate cost per use of items.', icon: 'fas fa-calculator', action: 'Calculate Now' },
+          { id: 'diaper-cost-calculator', title: 'Diaper Cost Calculator', description: 'Calculate diaper expenses.', icon: 'fas fa-baby', action: 'Calculate Now' },
+          { id: 'baby-food-calculator', title: 'Baby Food Calculator', description: 'Calculate food expenses.', icon: 'fas fa-utensils', action: 'Calculate Now' },
+          { id: 'child-education-cost-calculator', title: 'Child Education Cost', description: 'Estimate school fees.', icon: 'fas fa-school', action: 'Calculate Now' },
+          { id: 'daycare-cost-calculator', title: 'Daycare Cost Calculator', description: 'Calculate childcare cost.', icon: 'fas fa-home', action: 'Calculate Now' },
+          { id: 'baby-product-budget', title: 'Baby Product Budget', description: 'Calculate baby item costs.', icon: 'fas fa-shopping-cart', action: 'Calculate Now' },
+          { id: 'formula-milk-calculator', title: 'Formula Milk Calculator', description: 'Calculate formula cost.', icon: 'fas fa-baby-carriage', action: 'Calculate Now' },
         ]
       },
-      'time-productivity': {
-        name: '⏰ Time & Productivity',
+      'productivity': {
+        name: '⏰ Productivity Tools',
         icon: 'fas fa-clock',
         calculators: [
           { id: 'pomodoro-timer-calculator', title: 'Pomodoro Timer Calculator', description: 'Calculate work session time and breaks.', icon: 'fas fa-stopwatch', action: 'Calculate Now' },
-          { id: 'time-zone-converter', title: 'Time Zone Converter', description: 'Convert time between zones.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'meeting-time-finder', title: 'Meeting Time Finder', description: 'Find best meeting time across zones.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
           { id: 'work-hours-calculator', title: 'Work Hours Calculator', description: 'Track and calculate work hours.', icon: 'fas fa-business-time', action: 'Calculate Now' },
           { id: 'overtime-calculator', title: 'Overtime Calculator', description: 'Calculate overtime pay.', icon: 'fas fa-clock', action: 'Calculate Now' },
           { id: 'break-time-calculator', title: 'Break Time Calculator', description: 'Calculate optimal break times.', icon: 'fas fa-coffee', action: 'Calculate Now' },
           { id: 'deadline-calculator', title: 'Deadline Calculator', description: 'Calculate days until deadline.', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },
-          { id: 'age-calculator', title: 'Age Calculator', description: 'Calculate age and date difference.', icon: 'fas fa-birthday-cake', action: 'Calculate Now' },
-          { id: 'day-counter', title: 'Day Counter', description: 'Count days between dates.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
-          { id: 'hour-to-day-converter', title: 'Hour to Day Converter', description: 'Convert hours to days.', icon: 'fas fa-exchange-alt', action: 'Calculate Now' },
           { id: 'shift-schedule-calculator', title: 'Shift Schedule Calculator', description: 'Calculate shift timings.', icon: 'fas fa-user-clock', action: 'Calculate Now' },
           { id: 'time-card-calculator', title: 'Time Card Calculator', description: 'Calculate timecard hours.', icon: 'fas fa-id-card', action: 'Calculate Now' },
           { id: 'productivity-score-calculator', title: 'Productivity Score', description: 'Calculate your productivity.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
+          { id: 'timesheet-calculator', title: 'Timesheet Calculator', description: 'Calculate hours from clock in/out times.', icon: 'fas fa-file-invoice', action: 'Calculate Now' },
+          { id: 'billable-hours', title: 'Billable Hours Calculator', description: 'Calculate billable time for invoicing.', icon: 'fas fa-dollar-sign', action: 'Calculate Now' },
+          { id: 'lunch-break-optimizer', title: 'Lunch Break Optimizer', description: 'Calculate optimal break timing.', icon: 'fas fa-utensils', action: 'Calculate Now' },
+          { id: 'work-efficiency', title: 'Work Efficiency Calculator', description: 'Calculate productivity percentage.', icon: 'fas fa-percentage', action: 'Calculate Now' },
         ]
       },
       'travel-transportation': {
@@ -1984,6 +1530,17 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'prepaid-vs-postpaid', title: 'Prepaid vs Postpaid', description: 'Compare plan costs.', icon: 'fas fa-balance-scale', action: 'Calculate Now' },
         ]
       },
+      'clothing-accessories': {
+        name: '👗 Clothing & Accessories',
+        icon: 'fas fa-tshirt',
+        calculators: [
+          { id: 'finger-ring-size', title: 'Finger Ring Size Calculator', description: 'Determine your ring size.', icon: 'fas fa-ring', action: 'Calculate Now' },
+          { id: 'shoe-size-converter', title: 'Shoe Size Converter', description: 'Convert shoe sizes across regions.', icon: 'fas fa-shoe-prints', action: 'Calculate Now' },
+          { id: 'bra-size-calculator', title: 'Bra Size Calculator', description: 'Calculate correct bra size.', icon: 'fas fa-female', action: 'Calculate Now' },
+          { id: 'hat-size-calculator', title: 'Hat Size Calculator', description: 'Determine your hat size.', icon: 'fas fa-hat-cowboy', action: 'Calculate Now' },
+          { id: 'glove-size-calculator', title: 'Glove Size Calculator', description: 'Determine your glove size.', icon: 'fas fa-mitten', action: 'Calculate Now' },
+        ]
+      },
       'wedding-events': {
         name: '💍 Wedding & Events',
         icon: 'fas fa-ring',
@@ -2000,24 +1557,7 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'gift-registry-calculator', title: 'Gift Registry Calculator', description: 'Track wedding gifts.', icon: 'fas fa-gift', action: 'Calculate Now' },
         ]
       },
-      'parenting-baby': {
-        name: '👶 Parenting & Baby',
-        icon: 'fas fa-baby',
-        calculators: [
-          { id: 'baby-due-date-calculator', title: 'Baby Due Date Calculator', description: 'Calculate delivery date.', icon: 'fas fa-calendar-check', action: 'Calculate Now' },
-          { id: 'baby-growth-tracker', title: 'Baby Growth Tracker', description: 'Track baby development.', icon: 'fas fa-child', action: 'Calculate Now' },
-          { id: 'diaper-cost-calculator', title: 'Diaper Cost Calculator', description: 'Calculate diaper expenses.', icon: 'fas fa-baby', action: 'Calculate Now' },
-          { id: 'baby-food-calculator', title: 'Baby Food Calculator', description: 'Calculate food expenses.', icon: 'fas fa-utensils', action: 'Calculate Now' },
-          { id: 'baby-sleep-schedule', title: 'Baby Sleep Schedule', description: 'Track sleep patterns.', icon: 'fas fa-bed', action: 'Calculate Now' },
-          { id: 'vaccination-schedule-calculator', title: 'Vaccination Schedule', description: 'Track vaccination dates.', icon: 'fas fa-syringe', action: 'Calculate Now' },
-          { id: 'child-education-cost-calculator', title: 'Child Education Cost', description: 'Estimate school fees.', icon: 'fas fa-school', action: 'Calculate Now' },
-          { id: 'daycare-cost-calculator', title: 'Daycare Cost Calculator', description: 'Calculate childcare cost.', icon: 'fas fa-home', action: 'Calculate Now' },
-          { id: 'baby-product-budget', title: 'Baby Product Budget', description: 'Calculate baby item costs.', icon: 'fas fa-shopping-cart', action: 'Calculate Now' },
-          { id: 'formula-milk-calculator', title: 'Formula Milk Calculator', description: 'Calculate formula cost.', icon: 'fas fa-baby-carriage', action: 'Calculate Now' },
-          { id: 'baby-milestone-tracker', title: 'Baby Milestone Tracker', description: 'Track development milestones.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'baby-name-numerology', title: 'Baby Name Numerology', description: 'Calculate name numerology.', icon: 'fas fa-calculator', action: 'Calculate Now' },
-        ]
-      },
+
     }
   },
   education: {
@@ -2150,23 +1690,7 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'quarter-calculator', title: 'Quarter Calculator', description: 'Calculate fiscal quarters and dates.', icon: 'fas fa-calendar-alt', action: 'Calculate Now' },
         ]
       },
-      'work-productivity': {
-        name: '⏰ Work & Productivity',
-        icon: 'fas fa-user-clock',
-        calculators: [
-          { id: 'work-hours-calculator', title: 'Work Hours Calculator', description: 'Calculate total work hours and overtime.', icon: 'fas fa-business-time', action: 'Calculate Now' },
-          { id: 'timesheet-calculator', title: 'Timesheet Calculator', description: 'Calculate hours from clock in/out times.', icon: 'fas fa-file-invoice', action: 'Calculate Now' },
-          { id: 'overtime-calculator', title: 'Overtime Calculator', description: 'Calculate overtime hours and pay.', icon: 'fas fa-clock', action: 'Calculate Now' },
-          { id: 'shift-calculator', title: 'Shift Calculator', description: 'Calculate shift duration and break times.', icon: 'fas fa-user-clock', action: 'Calculate Now' },
-          { id: 'break-time-calculator', title: 'Break Time Calculator', description: 'Calculate mandatory breaks for work hours.', icon: 'fas fa-coffee', action: 'Calculate Now' },
-          { id: 'pomodoro-calculator', title: 'Pomodoro Timer Calculator', description: 'Calculate work sessions with 25-min intervals.', icon: 'fas fa-stopwatch', action: 'Calculate Now' },
-          { id: 'productivity-tracker', title: 'Productivity Time Tracker', description: 'Track and analyze productive hours.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
-          { id: 'billable-hours', title: 'Billable Hours Calculator', description: 'Calculate billable time for invoicing.', icon: 'fas fa-dollar-sign', action: 'Calculate Now' },
-          { id: 'time-tracking', title: 'Time Tracking Calculator', description: 'Track project time and hours.', icon: 'fas fa-tasks', action: 'Calculate Now' },
-          { id: 'lunch-break-optimizer', title: 'Lunch Break Optimizer', description: 'Calculate optimal break timing.', icon: 'fas fa-utensils', action: 'Calculate Now' },
-          { id: 'work-efficiency', title: 'Work Efficiency Calculator', description: 'Calculate productivity percentage.', icon: 'fas fa-percentage', action: 'Calculate Now' },
-        ]
-      },
+
       'event-planning': {
         name: '🎉 Event & Planning',
         icon: 'fas fa-calendar-star',
@@ -2433,30 +1957,7 @@ export const toolsData: Record<string, CategoryData> = {
   },
   scientific: {
     subcategories: {
-      'physics-mechanics': {
-        name: '⚛️ Physics & Mechanics',
-        icon: 'fas fa-atom',
-        calculators: [
-          { id: 'velocity-calculator', title: 'Velocity Calculator', description: 'Calculate velocity, speed, and displacement.', icon: 'fas fa-tachometer-alt', action: 'Calculate Now' },
-          { id: 'acceleration-calculator', title: 'Acceleration Calculator', description: 'Calculate linear and angular acceleration.', icon: 'fas fa-rocket', action: 'Calculate Now' },
-          { id: 'force-calculator', title: 'Force Calculator', description: 'Calculate force using Newton\'s laws (F=ma).', icon: 'fas fa-hand-rock', action: 'Calculate Now' },
-          { id: 'kinetic-energy-calculator', title: 'Kinetic Energy Calculator', description: 'Calculate kinetic energy (KE = ½mv²).', icon: 'fas fa-bolt', action: 'Calculate Now' },
-          { id: 'potential-energy-calculator', title: 'Potential Energy Calculator', description: 'Calculate gravitational potential energy.', icon: 'fas fa-arrow-up', action: 'Calculate Now' },
-          { id: 'work-calculator', title: 'Work Calculator', description: 'Calculate work done by force (W = F×d).', icon: 'fas fa-tools', action: 'Calculate Now' },
-          { id: 'power-calculator', title: 'Power Calculator', description: 'Calculate power output (P = W/t).', icon: 'fas fa-plug', action: 'Calculate Now' },
-          { id: 'momentum-calculator', title: 'Momentum Calculator', description: 'Calculate linear momentum (p = mv).', icon: 'fas fa-running', action: 'Calculate Now' },
-          { id: 'projectile-motion', title: 'Projectile Motion Calculator', description: 'Calculate trajectory, range, and time of flight.', icon: 'fas fa-baseball-ball', action: 'Calculate Now' },
-          { id: 'friction-force', title: 'Friction Force Calculator', description: 'Calculate static and kinetic friction.', icon: 'fas fa-grip-lines', action: 'Calculate Now' },
-          { id: 'torque-calculator', title: 'Torque Calculator', description: 'Calculate rotational force (τ = r×F).', icon: 'fas fa-sync-alt', action: 'Calculate Now' },
-          { id: 'angular-momentum', title: 'Angular Momentum Calculator', description: 'Calculate angular momentum (L = Iω).', icon: 'fas fa-circle-notch', action: 'Calculate Now' },
-          { id: 'centripetal-force', title: 'Centripetal Force Calculator', description: 'Calculate force for circular motion.', icon: 'fas fa-spinner', action: 'Calculate Now' },
-          { id: 'gravitational-force', title: 'Gravitational Force Calculator', description: 'Calculate force between two masses.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'escape-velocity', title: 'Escape Velocity Calculator', description: 'Calculate velocity to escape planetary gravity.', icon: 'fas fa-rocket', action: 'Calculate Now' },
-          { id: 'orbital-velocity', title: 'Orbital Velocity Calculator', description: 'Calculate speed for stable orbit.', icon: 'fas fa-satellite', action: 'Calculate Now' },
-          { id: 'pendulum-period', title: 'Pendulum Period Calculator', description: 'Calculate simple pendulum oscillation period.', icon: 'fas fa-hourglass', action: 'Calculate Now' },
-          { id: 'spring-constant', title: 'Spring Constant Calculator', description: 'Calculate spring force using Hooke\'s Law.', icon: 'fas fa-compress-arrows-alt', action: 'Calculate Now' },
-        ]
-      },
+
       'chemistry-calculations': {
         name: '🧪 Chemistry Calculators',
         icon: 'fas fa-flask',
@@ -2478,97 +1979,12 @@ export const toolsData: Record<string, CategoryData> = {
           { id: 'titration-calculator', title: 'Titration Calculator', description: 'Calculate endpoint and equivalence point.', icon: 'fas fa-tint', action: 'Calculate Now' },
         ]
       },
-      'astronomy-space': {
-        name: '🚀 Astronomy & Space Science',
-        icon: 'fas fa-rocket',
-        calculators: [
-          { id: 'astronomical-calculator', title: 'Astronomical Unit Calculator', description: 'Convert astronomical distances (AU, ly, pc).', icon: 'fas fa-ruler', action: 'Calculate Now' },
-          { id: 'light-year-calculator', title: 'Light Year Calculator', description: 'Convert light years to km and miles.', icon: 'fas fa-star', action: 'Calculate Now' },
-          { id: 'planet-weight-calculator', title: 'Planet Weight Calculator', description: 'Calculate weight on different planets.', icon: 'fas fa-globe', action: 'Calculate Now' },
-          { id: 'schwarzschild-radius', title: 'Schwarzschild Radius Calculator', description: 'Calculate black hole event horizon.', icon: 'fas fa-circle', action: 'Calculate Now' },
-          { id: 'hubble-law', title: 'Hubble\'s Law Calculator', description: 'Calculate galaxy recession velocity.', icon: 'fas fa-expand-arrows-alt', action: 'Calculate Now' },
-          { id: 'stellar-luminosity', title: 'Stellar Luminosity Calculator', description: 'Calculate star brightness and magnitude.', icon: 'fas fa-sun', action: 'Calculate Now' },
-          { id: 'planetary-mass', title: 'Planetary Mass Calculator', description: 'Calculate mass from orbital data.', icon: 'fas fa-meteor', action: 'Calculate Now' },
-          { id: 'redshift-calculator', title: 'Redshift Calculator', description: 'Calculate cosmological redshift (z).', icon: 'fas fa-arrow-right', action: 'Calculate Now' },
-          { id: 'stellar-parallax', title: 'Stellar Parallax Calculator', description: 'Calculate star distance from parallax.', icon: 'fas fa-ruler-triangle', action: 'Calculate Now' },
-          { id: 'kepler-third-law', title: 'Kepler\'s Third Law Calculator', description: 'Calculate orbital period and radius.', icon: 'fas fa-satellite-dish', action: 'Calculate Now' },
-        ]
-      },
-      'thermodynamics': {
-        name: '🌡️ Thermodynamics & Heat Transfer',
-        icon: 'fas fa-fire-alt',
-        calculators: [
-          { id: 'heat-transfer-calculator', title: 'Heat Transfer Calculator', description: 'Calculate heat conduction, convection, radiation.', icon: 'fas fa-fire', action: 'Calculate Now' },
-          { id: 'specific-heat-calculator', title: 'Specific Heat Calculator', description: 'Calculate heat capacity (Q = mcΔT).', icon: 'fas fa-thermometer-half', action: 'Calculate Now' },
-          { id: 'carnot-efficiency', title: 'Carnot Efficiency Calculator', description: 'Calculate theoretical engine efficiency.', icon: 'fas fa-cogs', action: 'Calculate Now' },
-          { id: 'thermal-expansion', title: 'Thermal Expansion Calculator', description: 'Calculate linear and volumetric expansion.', icon: 'fas fa-expand', action: 'Calculate Now' },
-          { id: 'stefan-boltzmann', title: 'Stefan-Boltzmann Law Calculator', description: 'Calculate blackbody radiation.', icon: 'fas fa-sun', action: 'Calculate Now' },
-          { id: 'fourier-law', title: 'Fourier\'s Law Calculator', description: 'Calculate heat conduction rate.', icon: 'fas fa-wave-square', action: 'Calculate Now' },
-          { id: 'first-law-thermodynamics', title: 'First Law of Thermodynamics', description: 'Calculate internal energy change (ΔU).', icon: 'fas fa-fire-alt', action: 'Calculate Now' },
-          { id: 'second-law-thermodynamics', title: 'Second Law Calculator', description: 'Calculate entropy and reversibility.', icon: 'fas fa-arrow-circle-right', action: 'Calculate Now' },
-        ]
-      },
-      'electromagnetism': {
-        name: '⚡ Electromagnetism & Circuits',
-        icon: 'fas fa-bolt',
-        calculators: [
-          { id: 'ohms-law-calculator', title: 'Ohm\'s Law Calculator', description: 'Calculate voltage, current, resistance (V=IR).', icon: 'fas fa-bolt', action: 'Calculate Now' },
-          { id: 'power-electric-calculator', title: 'Electric Power Calculator', description: 'Calculate electrical power (P = VI).', icon: 'fas fa-plug', action: 'Calculate Now' },
-          { id: 'capacitance-calculator', title: 'Capacitance Calculator', description: 'Calculate capacitor charge and energy.', icon: 'fas fa-battery-full', action: 'Calculate Now' },
-          { id: 'inductance-calculator', title: 'Inductance Calculator', description: 'Calculate inductor energy and reactance.', icon: 'fas fa-magnet', action: 'Calculate Now' },
-          { id: 'coulomb-law', title: 'Coulomb\'s Law Calculator', description: 'Calculate electrostatic force.', icon: 'fas fa-atom', action: 'Calculate Now' },
-          { id: 'electric-field', title: 'Electric Field Calculator', description: 'Calculate electric field strength.', icon: 'fas fa-broadcast-tower', action: 'Calculate Now' },
-          { id: 'magnetic-field', title: 'Magnetic Field Calculator', description: 'Calculate magnetic flux density.', icon: 'fas fa-magnet', action: 'Calculate Now' },
-          { id: 'faraday-law', title: 'Faraday\'s Law Calculator', description: 'Calculate induced EMF.', icon: 'fas fa-wave-square', action: 'Calculate Now' },
-          { id: 'lenz-law', title: 'Lenz\'s Law Calculator', description: 'Calculate induced current direction.', icon: 'fas fa-redo', action: 'Calculate Now' },
-          { id: 'rc-circuit', title: 'RC Circuit Calculator', description: 'Calculate resistor-capacitor time constant.', icon: 'fas fa-project-diagram', action: 'Calculate Now' },
-          { id: 'rl-circuit', title: 'RL Circuit Calculator', description: 'Calculate resistor-inductor time constant.', icon: 'fas fa-project-diagram', action: 'Calculate Now' },
-          { id: 'rlc-circuit', title: 'RLC Circuit Calculator', description: 'Calculate resonance frequency.', icon: 'fas fa-wave-square', action: 'Calculate Now' },
-        ]
-      },
-      'optics-waves': {
-        name: '🔬 Optics & Wave Physics',
-        icon: 'fas fa-eye',
-        calculators: [
-          { id: 'wavelength-frequency', title: 'Wavelength-Frequency Calculator', description: 'Calculate wavelength and frequency (c = λf).', icon: 'fas fa-wave-square', action: 'Calculate Now' },
-          { id: 'snells-law', title: 'Snell\'s Law Calculator', description: 'Calculate refraction angle and index.', icon: 'fas fa-prism', action: 'Calculate Now' },
-          { id: 'lens-formula', title: 'Lens Formula Calculator', description: 'Calculate focal length and image distance.', icon: 'fas fa-glasses', action: 'Calculate Now' },
-          { id: 'mirror-formula', title: 'Mirror Formula Calculator', description: 'Calculate curved mirror properties.', icon: 'fas fa-mirror', action: 'Calculate Now' },
-          { id: 'magnification-calculator', title: 'Magnification Calculator', description: 'Calculate linear and angular magnification.', icon: 'fas fa-search-plus', action: 'Calculate Now' },
-          { id: 'doppler-effect', title: 'Doppler Effect Calculator', description: 'Calculate frequency shift for moving sources.', icon: 'fas fa-broadcast-tower', action: 'Calculate Now' },
-          { id: 'diffraction-grating', title: 'Diffraction Grating Calculator', description: 'Calculate wavelength from grating equation.', icon: 'fas fa-grip-lines', action: 'Calculate Now' },
-          { id: 'brewster-angle', title: 'Brewster\'s Angle Calculator', description: 'Calculate polarization angle.', icon: 'fas fa-angle-right', action: 'Calculate Now' },
-          { id: 'critical-angle', title: 'Critical Angle Calculator', description: 'Calculate total internal reflection angle.', icon: 'fas fa-angle-double-right', action: 'Calculate Now' },
-        ]
-      },
-      'quantum-nuclear': {
-        name: '☢️ Quantum & Nuclear Physics',
-        icon: 'fas fa-radiation',
-        calculators: [
-          { id: 'de-broglie-wavelength', title: 'de Broglie Wavelength Calculator', description: 'Calculate matter wave wavelength.', icon: 'fas fa-atom', action: 'Calculate Now' },
-          { id: 'planck-equation', title: 'Planck\'s Equation Calculator', description: 'Calculate photon energy (E = hf).', icon: 'fas fa-lightbulb', action: 'Calculate Now' },
-          { id: 'photoelectric-effect', title: 'Photoelectric Effect Calculator', description: 'Calculate electron kinetic energy.', icon: 'fas fa-sun', action: 'Calculate Now' },
-          { id: 'compton-scattering', title: 'Compton Scattering Calculator', description: 'Calculate wavelength shift in scattering.', icon: 'fas fa-random', action: 'Calculate Now' },
-          { id: 'heisenberg-uncertainty', title: 'Heisenberg Uncertainty Calculator', description: 'Calculate position-momentum uncertainty.', icon: 'fas fa-question-circle', action: 'Calculate Now' },
-          { id: 'radioactive-decay', title: 'Radioactive Decay Calculator', description: 'Calculate half-life and decay constant.', icon: 'fas fa-radiation-alt', action: 'Calculate Now' },
-          { id: 'nuclear-binding-energy', title: 'Nuclear Binding Energy Calculator', description: 'Calculate mass defect and binding energy.', icon: 'fas fa-compress-arrows-alt', action: 'Calculate Now' },
-          { id: 'einstein-mass-energy', title: 'Mass-Energy Equivalence (E=mc²)', description: 'Calculate energy from mass.', icon: 'fas fa-bolt', action: 'Calculate Now' },
-        ]
-      },
-      'fluid-mechanics': {
-        name: '💧 Fluid Mechanics & Dynamics',
-        icon: 'fas fa-water',
-        calculators: [
-          { id: 'bernoulli-equation', title: 'Bernoulli\'s Equation Calculator', description: 'Calculate fluid flow energy.', icon: 'fas fa-water', action: 'Calculate Now' },
-          { id: 'reynolds-number', title: 'Reynolds Number Calculator', description: 'Calculate flow regime (laminar/turbulent).', icon: 'fas fa-tint', action: 'Calculate Now' },
-          { id: 'viscosity-calculator', title: 'Viscosity Calculator', description: 'Calculate dynamic and kinematic viscosity.', icon: 'fas fa-oil-can', action: 'Calculate Now' },
-          { id: 'buoyancy-force', title: 'Buoyancy Force Calculator', description: 'Calculate Archimedes principle force.', icon: 'fas fa-ship', action: 'Calculate Now' },
-          { id: 'flow-rate-calculator', title: 'Flow Rate Calculator', description: 'Calculate volumetric and mass flow rate.', icon: 'fas fa-faucet', action: 'Calculate Now' },
-          { id: 'pressure-depth', title: 'Pressure at Depth Calculator', description: 'Calculate hydrostatic pressure.', icon: 'fas fa-water', action: 'Calculate Now' },
-          { id: 'torricelli-theorem', title: 'Torricelli\'s Theorem Calculator', description: 'Calculate efflux velocity.', icon: 'fas fa-tint-slash', action: 'Calculate Now' },
-          { id: 'surface-tension', title: 'Surface Tension Calculator', description: 'Calculate capillary action and tension.', icon: 'fas fa-droplet', action: 'Calculate Now' },
-        ]
-      },
+
+
+
+
+
+
       'scientific-notation': {
         name: '🔬 Scientific Tools & Conversions',
         icon: 'fas fa-microscope',
@@ -2598,4 +2014,9 @@ export const toolsData: Record<string, CategoryData> = {
       },
     }
   }
+};
+
+export const toolsData: Record<string, Category> = {
+  financial: buildFinancialCategory(collectToolIds(baseToolsData)),
+  ...baseToolsData,
 };

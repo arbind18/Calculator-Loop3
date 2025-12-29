@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
 interface CalculatorConfig {
   id: string;
@@ -563,14 +564,32 @@ export default function GenericTechnologyTool({ id, title, description }: Generi
                       ))}
                     </select>
                   ) : (
-                    <Input
-                      id={input.name}
-                      type={input.type}
-                      placeholder={input.placeholder}
-                      value={inputs[input.name] || ''}
-                      onChange={(e) => handleInputChange(input.name, input.type === 'number' ? Number(e.target.value) : e.target.value)}
-                      className="border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500"
-                    />
+                    input.type === 'number' ? (
+                      <div className="relative">
+                        <Input
+                          id={input.name}
+                          type={input.type}
+                          placeholder={input.placeholder}
+                          value={inputs[input.name] || ''}
+                          onChange={(e) => handleInputChange(input.name, Number(e.target.value))}
+                          className="pr-12 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                        <VoiceNumberButton
+                          label={input.label}
+                          onValueAction={(v) => handleInputChange(input.name, v)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2"
+                        />
+                      </div>
+                    ) : (
+                      <Input
+                        id={input.name}
+                        type={input.type}
+                        placeholder={input.placeholder}
+                        value={inputs[input.name] || ''}
+                        onChange={(e) => handleInputChange(input.name, e.target.value)}
+                        className="border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500"
+                      />
+                    )
                   )}
                 </div>
               ))}

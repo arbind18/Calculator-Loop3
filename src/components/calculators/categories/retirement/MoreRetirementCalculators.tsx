@@ -40,6 +40,15 @@ export function AtalPensionYojana() {
       description="Calculate monthly contribution for guaranteed pension under APY scheme."
       icon={TrendingUp}
       calculate={() => {}}
+      values={[age, pensionAmount]}
+      onClear={() => {
+        setAge(25)
+        setPensionAmount(5000)
+      }}
+      onRestoreAction={(vals) => {
+        setAge(Number(vals?.[0] ?? 25))
+        setPensionAmount(Number(vals?.[1] ?? 5000))
+      }}
       onDownload={(format) => {
         generateReport(format, 'apy_report', 
           ['Metric', 'Value'], 
@@ -120,6 +129,19 @@ export function InflationAdjustedWithdrawal() {
       description="How long will your retirement corpus last with inflation-adjusted withdrawals?"
       icon={Clock}
       calculate={() => {}}
+      values={[corpus, monthlyWithdrawal, inflation, returnRate]}
+      onClear={() => {
+        setCorpus(10000000)
+        setMonthlyWithdrawal(50000)
+        setInflation(6)
+        setReturnRate(8)
+      }}
+      onRestoreAction={(vals) => {
+        setCorpus(Number(vals?.[0] ?? 10000000))
+        setMonthlyWithdrawal(Number(vals?.[1] ?? 50000))
+        setInflation(Number(vals?.[2] ?? 6))
+        setReturnRate(Number(vals?.[3] ?? 8))
+      }}
       onDownload={(format) => {
         generateReport(format, 'corpus_longevity', ['Metric', 'Value'], [['Years Lasting', `${yearsLasting} Years`]], 'Corpus Report')
       }}
@@ -162,6 +184,15 @@ export function NPSWithdrawal() {
       description="Calculate Lump Sum and Monthly Pension from your NPS maturity corpus."
       icon={TrendingUp}
       calculate={() => {}}
+      values={[corpus, annuityRate]}
+      onClear={() => {
+        setCorpus(5000000)
+        setAnnuityRate(6)
+      }}
+      onRestoreAction={(vals) => {
+        setCorpus(Number(vals?.[0] ?? 5000000))
+        setAnnuityRate(Number(vals?.[1] ?? 6))
+      }}
       onDownload={(format) => generateReport(format, 'nps_withdrawal', ['Item', 'Value'], [['Lump Sum', `₹${lumpSum}`], ['Monthly Pension', `₹${monthlyPension}`]], 'NPS Report')}
       inputs={
         <div className="space-y-4">

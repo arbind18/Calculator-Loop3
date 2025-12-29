@@ -77,6 +77,17 @@ export function StepUpEMI() {
       icon={DollarSign}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[loanAmount, interestRate, tenure, stepUpPercent]}
+      onRestoreAction={(vals) => {
+        const nextAmount = Number(vals?.[0])
+        const nextRate = Number(vals?.[1])
+        const nextTenure = Number(vals?.[2])
+        const nextStep = Number(vals?.[3])
+        if (Number.isFinite(nextAmount)) setLoanAmount(nextAmount)
+        if (Number.isFinite(nextRate)) setInterestRate(nextRate)
+        if (Number.isFinite(nextTenure)) setTenure(nextTenure)
+        if (Number.isFinite(nextStep)) setStepUpPercent(nextStep)
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

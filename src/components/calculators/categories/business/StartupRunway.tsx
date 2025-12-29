@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Rocket, AlertTriangle } from "lucide-react"
+import { Rocket } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend 
@@ -55,6 +55,20 @@ export function StartupRunway() {
       icon={Rocket}
       calculate={calculateRunway}
       values={[cashBalance, monthlyBurn, monthlyRevenue, growthRate]}
+      onClear={() => {
+        setCashBalance(5000000)
+        setMonthlyBurn(500000)
+        setMonthlyRevenue(100000)
+        setGrowthRate(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setCashBalance(Number(vals[0] ?? 5000000))
+        setMonthlyBurn(Number(vals[1] ?? 500000))
+        setMonthlyRevenue(Number(vals[2] ?? 100000))
+        setGrowthRate(Number(vals[3] ?? 5))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

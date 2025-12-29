@@ -17,6 +17,7 @@ import {
   InputGroup,
   ResultCard
 } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { generateReport } from "@/lib/downloadUtils"
 
 const toMoneyINR = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`
 
@@ -53,6 +54,14 @@ export function RuleOf72Calculator() {
       icon={Percent}
       calculate={calculate}
       values={[rate]}
+      onClear={() => {
+        setRate(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setRate(Number(vals[0] ?? 10))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Return Rate" value={rate} onChange={setRate} min={0.1} max={50} step={0.1} suffix="%" />
@@ -89,6 +98,16 @@ export function RealRateReturnCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[nominal, inflation]}
+      onClear={() => {
+        setNominal(12)
+        setInflation(6)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setNominal(Number(vals[0] ?? 12))
+        setInflation(Number(vals[1] ?? 6))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Nominal Return" value={nominal} onChange={setNominal} min={-50} max={100} step={0.1} suffix="%" />
@@ -133,6 +152,22 @@ export function CostOfDelayCalculator() {
       icon={Target}
       calculate={calculate}
       values={[initial, monthly, returnRate, years, delayMonths]}
+      onClear={() => {
+        setInitial(100000)
+        setMonthly(10000)
+        setReturnRate(12)
+        setYears(10)
+        setDelayMonths(12)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInitial(Number(vals[0] ?? 100000))
+        setMonthly(Number(vals[1] ?? 10000))
+        setReturnRate(Number(vals[2] ?? 12))
+        setYears(Number(vals[3] ?? 10))
+        setDelayMonths(Number(vals[4] ?? 12))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Initial Investment" value={initial} onChange={setInitial} min={0} max={100000000} step={1000} prefix="₹" />
@@ -188,6 +223,22 @@ export function AssetAllocationCalculator() {
       icon={PieChart}
       calculate={calculate}
       values={[equity, debt, gold, cash, portfolio]}
+      onClear={() => {
+        setEquity(60)
+        setDebt(30)
+        setGold(10)
+        setCash(0)
+        setPortfolio(1000000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setEquity(Number(vals[0] ?? 60))
+        setDebt(Number(vals[1] ?? 30))
+        setGold(Number(vals[2] ?? 10))
+        setCash(Number(vals[3] ?? 0))
+        setPortfolio(Number(vals[4] ?? 1000000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Portfolio Value" value={portfolio} onChange={setPortfolio} min={0} max={1000000000} step={10000} prefix="₹" />
@@ -245,6 +296,26 @@ export function NPVCalculator() {
       icon={CalculatorIcon}
       calculate={calculate}
       values={[discountRate, initialOutflow, cf1, cf2, cf3, cf4, cf5]}
+      onClear={() => {
+        setDiscountRate(12)
+        setInitialOutflow(100000)
+        setCf1(30000)
+        setCf2(30000)
+        setCf3(30000)
+        setCf4(30000)
+        setCf5(30000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setDiscountRate(Number(vals[0] ?? 12))
+        setInitialOutflow(Number(vals[1] ?? 100000))
+        setCf1(Number(vals[2] ?? 30000))
+        setCf2(Number(vals[3] ?? 30000))
+        setCf3(Number(vals[4] ?? 30000))
+        setCf4(Number(vals[5] ?? 30000))
+        setCf5(Number(vals[6] ?? 30000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Discount Rate" value={discountRate} onChange={setDiscountRate} min={-50} max={100} step={0.1} suffix="%" />
@@ -290,6 +361,18 @@ export function SharpeRatioCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[portfolioReturn, riskFree, stdDev]}
+      onClear={() => {
+        setPortfolioReturn(14)
+        setRiskFree(6)
+        setStdDev(18)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPortfolioReturn(Number(vals[0] ?? 14))
+        setRiskFree(Number(vals[1] ?? 6))
+        setStdDev(Number(vals[2] ?? 18))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Portfolio Return" value={portfolioReturn} onChange={setPortfolioReturn} min={-50} max={100} step={0.1} suffix="%" />
@@ -324,6 +407,18 @@ export function TreynorRatioCalculator() {
       icon={BarChart3}
       calculate={calculate}
       values={[portfolioReturn, riskFree, beta]}
+      onClear={() => {
+        setPortfolioReturn(14)
+        setRiskFree(6)
+        setBeta(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPortfolioReturn(Number(vals[0] ?? 14))
+        setRiskFree(Number(vals[1] ?? 6))
+        setBeta(Number(vals[2] ?? 1))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Portfolio Return" value={portfolioReturn} onChange={setPortfolioReturn} min={-50} max={100} step={0.1} suffix="%" />
@@ -356,6 +451,20 @@ export function AlphaCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[portfolioReturn, marketReturn, riskFree, beta]}
+      onClear={() => {
+        setPortfolioReturn(14)
+        setMarketReturn(12)
+        setRiskFree(6)
+        setBeta(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPortfolioReturn(Number(vals[0] ?? 14))
+        setMarketReturn(Number(vals[1] ?? 12))
+        setRiskFree(Number(vals[2] ?? 6))
+        setBeta(Number(vals[3] ?? 1))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Portfolio Return" value={portfolioReturn} onChange={setPortfolioReturn} min={-50} max={100} step={0.1} suffix="%" />
@@ -398,6 +507,18 @@ export function BetaCalculator() {
       icon={BarChart3}
       calculate={calculate}
       values={[correlation, portfolioVol, marketVol]}
+      onClear={() => {
+        setCorrelation(0.8)
+        setPortfolioVol(18)
+        setMarketVol(16)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setCorrelation(Number(vals[0] ?? 0.8))
+        setPortfolioVol(Number(vals[1] ?? 18))
+        setMarketVol(Number(vals[2] ?? 16))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Correlation (ρ)" value={correlation} onChange={setCorrelation} min={-1} max={1} step={0.01} />
@@ -415,14 +536,72 @@ export function SIPDelayCostCalculator() {
   const [returnRate, setReturnRate] = useState(12)
   const [years, setYears] = useState(10)
   const [delayMonths, setDelayMonths] = useState(12)
-  const [result, setResult] = useState<{ startNow: number; delayed: number; loss: number } | null>(null)
+  const [result, setResult] = useState<{
+    startNow: number;
+    delayed: number;
+    loss: number;
+    schedule: Array<{ year: number; startNow: number; delayed: number; loss: number }>;
+  } | null>(null)
 
   const calculate = () => {
-    const months = Math.round(years * 12)
+    const months = Math.max(0, Math.round(years * 12))
     const delay = Math.max(0, Math.round(delayMonths))
-    const startNow = fvSIP(monthly, returnRate, months)
-    const delayed = fvSIP(monthly, returnRate, Math.max(0, months - delay))
-    setResult({ startNow, delayed, loss: startNow - delayed })
+    const rm = (returnRate / 100) / 12
+
+    let startNowBal = 0
+    let delayedBal = 0
+    const schedule: Array<{ year: number; startNow: number; delayed: number; loss: number }> = []
+
+    for (let m = 1; m <= months; m++) {
+      // Start now: contribute each month then earn returns
+      startNowBal += monthly
+      startNowBal += startNowBal * rm
+
+      // Delayed: contribute only after the delay, then earn returns
+      if (m > delay) {
+        delayedBal += monthly
+      }
+      delayedBal += delayedBal * rm
+
+      if (m % 12 === 0 || m === months) {
+        const y = Math.ceil(m / 12)
+        schedule.push({
+          year: y,
+          startNow: Math.round(startNowBal),
+          delayed: Math.round(delayedBal),
+          loss: Math.round(startNowBal - delayedBal)
+        })
+      }
+    }
+
+    const startNow = schedule.length ? schedule[schedule.length - 1].startNow : 0
+    const delayed = schedule.length ? schedule[schedule.length - 1].delayed : 0
+    setResult({ startNow, delayed, loss: startNow - delayed, schedule })
+  }
+
+  const handleDownload = (format: string, options?: any) => {
+    if (!result) return
+    let scheduleData = [...result.schedule]
+
+    if (options?.scheduleRange === '1yr') {
+      scheduleData = scheduleData.slice(0, 1)
+    } else if (options?.scheduleRange === '5yr') {
+      scheduleData = scheduleData.slice(0, 5)
+    } else if (options?.scheduleRange === 'custom' && options.customRangeStart && options.customRangeEnd) {
+      const start = Math.max(0, options.customRangeStart - 1)
+      const end = Math.min(scheduleData.length, options.customRangeEnd)
+      scheduleData = scheduleData.slice(start, end)
+    }
+
+    const headers = ['Year', 'Corpus (Start Now)', 'Corpus (Delayed)', 'Loss']
+    const data = scheduleData.map((row) => [row.year, row.startNow, row.delayed, row.loss])
+
+    generateReport(format, 'sip_delay_cost_report', headers, data, 'SIP Delay Cost Report', {
+      'Monthly SIP Amount': `₹${monthly}`,
+      'Expected Annual Return': `${returnRate}%`,
+      'Total Investment Period': `${years} years`,
+      'Delay': `${delayMonths} months`
+    })
   }
 
   return (
@@ -431,7 +610,22 @@ export function SIPDelayCostCalculator() {
       description="Compare SIP corpus if you start now vs after a delay."
       icon={Target}
       calculate={calculate}
+      onDownload={handleDownload}
       values={[monthly, returnRate, years, delayMonths]}
+      onClear={() => {
+        setMonthly(10000)
+        setReturnRate(12)
+        setYears(10)
+        setDelayMonths(12)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthly(Number(vals[0] ?? 10000))
+        setReturnRate(Number(vals[1] ?? 12))
+        setYears(Number(vals[2] ?? 10))
+        setDelayMonths(Number(vals[3] ?? 12))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly SIP Amount" value={monthly} onChange={setMonthly} min={0} max={1000000} step={500} prefix="₹" />
@@ -449,6 +643,30 @@ export function SIPDelayCostCalculator() {
           </div>
         )
       }
+      schedule={
+        result && (
+          <table className="min-w-[720px] w-full text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left p-3">Year</th>
+                <th className="text-right p-3">Start Now</th>
+                <th className="text-right p-3">Delayed</th>
+                <th className="text-right p-3">Loss</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.schedule.map((row) => (
+                <tr key={row.year} className="border-b last:border-b-0">
+                  <td className="p-3">{row.year}</td>
+                  <td className="p-3 text-right">₹{row.startNow.toLocaleString("en-IN")}</td>
+                  <td className="p-3 text-right">₹{row.delayed.toLocaleString("en-IN")}</td>
+                  <td className="p-3 text-right">₹{Math.max(0, row.loss).toLocaleString("en-IN")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
     />
   )
 }
@@ -458,12 +676,60 @@ export function LumpsumVsSIPCalculator() {
   const [sip, setSip] = useState(10000)
   const [returnRate, setReturnRate] = useState(12)
   const [years, setYears] = useState(10)
-  const [result, setResult] = useState<{ fvLump: number; fvSip: number } | null>(null)
+  const [result, setResult] = useState<{
+    fvLump: number;
+    fvSip: number;
+    breakEvenYear: number | null;
+    schedule: Array<{ year: number; fvLump: number; fvSip: number; diff: number }>;
+  } | null>(null)
 
   const calculate = () => {
-    const fvLump = fvLumpsum(lumpsum, returnRate, years)
-    const fvSipValue = fvSIP(sip, returnRate, Math.round(years * 12))
-    setResult({ fvLump, fvSip: fvSipValue })
+    const y = Math.max(0, Math.round(years))
+    const schedule: Array<{ year: number; fvLump: number; fvSip: number; diff: number }> = []
+    let breakEvenYear: number | null = null
+
+    for (let year = 1; year <= y; year++) {
+      const fvLump = fvLumpsum(lumpsum, returnRate, year)
+      const fvSipValue = fvSIP(sip, returnRate, Math.round(year * 12))
+      const diff = fvSipValue - fvLump
+      schedule.push({ year, fvLump, fvSip: fvSipValue, diff })
+      if (breakEvenYear === null && diff >= 0) {
+        breakEvenYear = year
+      }
+    }
+
+    const last = schedule.length ? schedule[schedule.length - 1] : { fvLump: 0, fvSip: 0 }
+    setResult({
+      fvLump: last.fvLump,
+      fvSip: last.fvSip,
+      breakEvenYear,
+      schedule
+    })
+  }
+
+  const handleDownload = (format: string, options?: any) => {
+    if (!result) return
+    let scheduleData = [...result.schedule]
+
+    if (options?.scheduleRange === '1yr') {
+      scheduleData = scheduleData.slice(0, 1)
+    } else if (options?.scheduleRange === '5yr') {
+      scheduleData = scheduleData.slice(0, 5)
+    } else if (options?.scheduleRange === 'custom' && options.customRangeStart && options.customRangeEnd) {
+      const start = Math.max(0, options.customRangeStart - 1)
+      const end = Math.min(scheduleData.length, options.customRangeEnd)
+      scheduleData = scheduleData.slice(start, end)
+    }
+
+    const headers = ['Year', 'Lumpsum Value', 'SIP Value', 'SIP - Lumpsum']
+    const data = scheduleData.map((row) => [row.year, Math.round(row.fvLump), Math.round(row.fvSip), Math.round(row.diff)])
+
+    generateReport(format, 'lumpsum_vs_sip_report', headers, data, 'Lumpsum vs SIP Report', {
+      'Lumpsum Amount': `₹${lumpsum}`,
+      'Monthly SIP': `₹${sip}`,
+      'Expected Annual Return': `${returnRate}%`,
+      'Time Period': `${years} years`
+    })
   }
 
   return (
@@ -472,7 +738,22 @@ export function LumpsumVsSIPCalculator() {
       description="Compare future value of a lumpsum investment vs a monthly SIP."
       icon={TrendingUp}
       calculate={calculate}
+      onDownload={handleDownload}
       values={[lumpsum, sip, returnRate, years]}
+      onClear={() => {
+        setLumpsum(500000)
+        setSip(10000)
+        setReturnRate(12)
+        setYears(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setLumpsum(Number(vals[0] ?? 500000))
+        setSip(Number(vals[1] ?? 10000))
+        setReturnRate(Number(vals[2] ?? 12))
+        setYears(Number(vals[3] ?? 10))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Lumpsum Amount" value={lumpsum} onChange={setLumpsum} min={0} max={100000000} step={1000} prefix="₹" />
@@ -483,10 +764,39 @@ export function LumpsumVsSIPCalculator() {
       }
       result={
         result && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ResultCard label="Lumpsum Future Value" value={toMoneyINR(result.fvLump)} type="highlight" />
             <ResultCard label="SIP Future Value" value={toMoneyINR(result.fvSip)} />
+            <ResultCard
+              label="Break-even (SIP ≥ Lumpsum)"
+              value={result.breakEvenYear ? `${result.breakEvenYear} years` : "Not reached"}
+              type={result.breakEvenYear ? "success" : "warning"}
+            />
           </div>
+        )
+      }
+      schedule={
+        result && (
+          <table className="min-w-[720px] w-full text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left p-3">Year</th>
+                <th className="text-right p-3">Lumpsum Value</th>
+                <th className="text-right p-3">SIP Value</th>
+                <th className="text-right p-3">SIP - Lumpsum</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.schedule.map((row) => (
+                <tr key={row.year} className="border-b last:border-b-0">
+                  <td className="p-3">{row.year}</td>
+                  <td className="p-3 text-right">₹{Math.round(row.fvLump).toLocaleString("en-IN")}</td>
+                  <td className="p-3 text-right">₹{Math.round(row.fvSip).toLocaleString("en-IN")}</td>
+                  <td className="p-3 text-right">₹{Math.round(row.diff).toLocaleString("en-IN")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )
       }
     />
@@ -525,6 +835,22 @@ export function STPCalculator() {
       icon={RefreshCw}
       calculate={calculate}
       values={[initial, monthlyTransfer, sourceReturn, targetReturn, months]}
+      onClear={() => {
+        setInitial(500000)
+        setMonthlyTransfer(25000)
+        setSourceReturn(6)
+        setTargetReturn(12)
+        setMonths(24)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInitial(Number(vals[0] ?? 500000))
+        setMonthlyTransfer(Number(vals[1] ?? 25000))
+        setSourceReturn(Number(vals[2] ?? 6))
+        setTargetReturn(Number(vals[3] ?? 12))
+        setMonths(Number(vals[4] ?? 24))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Initial Amount (Source)" value={initial} onChange={setInitial} min={0} max={100000000} step={1000} prefix="₹" />
@@ -568,6 +894,20 @@ export function DividendReinvestmentCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, dividendYield, priceGrowth, years]}
+      onClear={() => {
+        setPrincipal(500000)
+        setDividendYield(2)
+        setPriceGrowth(10)
+        setYears(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 500000))
+        setDividendYield(Number(vals[1] ?? 2))
+        setPriceGrowth(Number(vals[2] ?? 10))
+        setYears(Number(vals[3] ?? 10))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Initial Investment" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -611,6 +951,20 @@ export function RightsIssueCalculator() {
       icon={CalculatorIcon}
       calculate={calculate}
       values={[currentPrice, subscriptionPrice, existingShares, ratioExistingPerNew]}
+      onClear={() => {
+        setCurrentPrice(200)
+        setSubscriptionPrice(150)
+        setExistingShares(100)
+        setRatioExistingPerNew(4)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setCurrentPrice(Number(vals[0] ?? 200))
+        setSubscriptionPrice(Number(vals[1] ?? 150))
+        setExistingShares(Number(vals[2] ?? 100))
+        setRatioExistingPerNew(Number(vals[3] ?? 4))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Current Share Price" value={currentPrice} onChange={setCurrentPrice} min={0} max={100000} step={1} prefix="₹" />
@@ -653,6 +1007,20 @@ export function SovereignGoldBondCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[principal, goldAppreciation, interestRate, years]}
+      onClear={() => {
+        setPrincipal(200000)
+        setGoldAppreciation(8)
+        setInterestRate(2.5)
+        setYears(8)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 200000))
+        setGoldAppreciation(Number(vals[1] ?? 8))
+        setInterestRate(Number(vals[2] ?? 2.5))
+        setYears(Number(vals[3] ?? 8))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Investment Amount" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -694,6 +1062,18 @@ export function NPSTier1Calculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[monthly, returnRate, years]}
+      onClear={() => {
+        setMonthly(5000)
+        setReturnRate(10)
+        setYears(25)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthly(Number(vals[0] ?? 5000))
+        setReturnRate(Number(vals[1] ?? 10))
+        setYears(Number(vals[2] ?? 25))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Contribution" value={monthly} onChange={setMonthly} min={0} max={1000000} step={100} prefix="₹" />
@@ -733,6 +1113,18 @@ export function ELSSCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[monthly, returnRate, years]}
+      onClear={() => {
+        setMonthly(5000)
+        setReturnRate(12)
+        setYears(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthly(Number(vals[0] ?? 5000))
+        setReturnRate(Number(vals[1] ?? 12))
+        setYears(Number(vals[2] ?? 10))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Investment" value={monthly} onChange={setMonthly} min={0} max={150000} step={500} prefix="₹" />
@@ -778,6 +1170,20 @@ function SimpleFundReturnsTemplate(props: {
       icon={props.icon}
       calculate={calculate}
       values={[principal, monthly, rate, years]}
+      onClear={() => {
+        setPrincipal(100000)
+        setMonthly(0)
+        setRate(props.defaultRate)
+        setYears(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 100000))
+        setMonthly(Number(vals[1] ?? 0))
+        setRate(Number(vals[2] ?? props.defaultRate))
+        setYears(Number(vals[3] ?? 10))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Initial Investment" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -867,6 +1273,20 @@ export function ULIPCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[yearlyPremium, years, grossReturn, charges]}
+      onClear={() => {
+        setYearlyPremium(100000)
+        setYears(15)
+        setGrossReturn(10)
+        setCharges(2)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setYearlyPremium(Number(vals[0] ?? 100000))
+        setYears(Number(vals[1] ?? 15))
+        setGrossReturn(Number(vals[2] ?? 10))
+        setCharges(Number(vals[3] ?? 2))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Yearly Premium" value={yearlyPremium} onChange={setYearlyPremium} min={0} max={10000000} step={1000} prefix="₹" />
@@ -938,6 +1358,26 @@ export function PortfolioRebalancingCalculator() {
       icon={PieChart}
       calculate={calculate}
       values={[portfolioValue, eqNow, debtNow, goldNow, eqTarget, debtTarget, goldTarget]}
+      onClear={() => {
+        setPortfolioValue(1000000)
+        setEqNow(60)
+        setDebtNow(30)
+        setGoldNow(10)
+        setEqTarget(50)
+        setDebtTarget(40)
+        setGoldTarget(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPortfolioValue(Number(vals[0] ?? 1000000))
+        setEqNow(Number(vals[1] ?? 60))
+        setDebtNow(Number(vals[2] ?? 30))
+        setGoldNow(Number(vals[3] ?? 10))
+        setEqTarget(Number(vals[4] ?? 50))
+        setDebtTarget(Number(vals[5] ?? 40))
+        setGoldTarget(Number(vals[6] ?? 10))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Portfolio Value" value={portfolioValue} onChange={setPortfolioValue} min={0} max={1000000000} step={10000} prefix="₹" />
@@ -988,6 +1428,18 @@ export function EmergencyFundCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[monthlyExpenses, months, currentSavings]}
+      onClear={() => {
+        setMonthlyExpenses(50000)
+        setMonths(6)
+        setCurrentSavings(100000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyExpenses(Number(vals[0] ?? 50000))
+        setMonths(Number(vals[1] ?? 6))
+        setCurrentSavings(Number(vals[2] ?? 100000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Expenses" value={monthlyExpenses} onChange={setMonthlyExpenses} min={0} max={10000000} step={1000} prefix="₹" />
@@ -1012,53 +1464,160 @@ export function GoalBasedInvestmentCalculator() {
   const [years, setYears] = useState(10)
   const [returnRate, setReturnRate] = useState(12)
   const [initial, setInitial] = useState(0)
-  const [result, setResult] = useState<{ requiredMonthly: number; currentPlanFV: number } | null>(null)
+  const [inflationRate, setInflationRate] = useState(6)
+  const [result, setResult] = useState<{
+    futureGoal: number;
+    requiredMonthly: number;
+    projectedFV: number;
+    surplusOrShortfall: number;
+    schedule: Array<{ year: number; invested: number; value: number; shortfall: number }>;
+  } | null>(null)
 
   const calculate = () => {
-    const months = Math.round(years * 12)
-    const r = returnRate / 100 / 12
+    const y = Math.max(0, Math.round(years))
+    const months = Math.max(0, Math.round(y * 12))
+    const rm = (returnRate / 100) / 12
 
-    const fvInitial = fvLumpsum(initial, returnRate, years)
-    const remainingGoal = Math.max(0, goalAmount - fvInitial)
+    // Inflate the goal amount to future value if inflationRate > 0
+    const futureGoal = goalAmount * Math.pow(1 + (inflationRate / 100), y)
 
-    if (months <= 0) {
-      setResult({ requiredMonthly: 0, currentPlanFV: fvInitial })
-      return
-    }
+    // Compute required monthly SIP (ordinary annuity FV) to bridge gap after initial investment
+    const fvInitial = fvLumpsum(initial, returnRate, y)
+    const remainingGoal = Math.max(0, futureGoal - fvInitial)
 
     let requiredMonthly = 0
-    if (r === 0) {
+    if (months <= 0) {
+      requiredMonthly = 0
+    } else if (rm === 0) {
       requiredMonthly = remainingGoal / months
     } else {
-      // FV of ordinary annuity: PMT * (( (1+r)^n - 1 ) / r)
-      requiredMonthly = remainingGoal / (((Math.pow(1 + r, months) - 1) / r) || 1)
+      requiredMonthly = remainingGoal / (((Math.pow(1 + rm, months) - 1) / rm) || 1)
     }
 
-    const currentPlanFV = fvInitial + fvSIP(requiredMonthly, returnRate, months)
-    setResult({ requiredMonthly, currentPlanFV })
+    // Build a yearly schedule by simulating month-by-month
+    let balance = initial
+    const schedule: Array<{ year: number; invested: number; value: number; shortfall: number }> = []
+
+    for (let m = 1; m <= months; m++) {
+      balance += requiredMonthly
+      balance += balance * rm
+
+      if (m % 12 === 0 || m === months) {
+        const year = Math.ceil(m / 12)
+        const invested = initial + requiredMonthly * m
+        const value = Math.round(balance)
+        const shortfall = Math.max(0, Math.round(futureGoal - balance))
+        schedule.push({ year, invested: Math.round(invested), value, shortfall })
+      }
+    }
+
+    const projectedFV = schedule.length ? schedule[schedule.length - 1].value : Math.round(fvInitial)
+    const surplusOrShortfall = Math.round(projectedFV - futureGoal)
+    setResult({
+      futureGoal: Math.round(futureGoal),
+      requiredMonthly: Math.round(requiredMonthly),
+      projectedFV,
+      surplusOrShortfall,
+      schedule
+    })
+  }
+
+  const handleDownload = (format: string, options?: any) => {
+    if (!result) return
+    let scheduleData = [...result.schedule]
+
+    if (options?.scheduleRange === '1yr') {
+      scheduleData = scheduleData.slice(0, 1)
+    } else if (options?.scheduleRange === '5yr') {
+      scheduleData = scheduleData.slice(0, 5)
+    } else if (options?.scheduleRange === 'custom' && options.customRangeStart && options.customRangeEnd) {
+      const start = Math.max(0, options.customRangeStart - 1)
+      const end = Math.min(scheduleData.length, options.customRangeEnd)
+      scheduleData = scheduleData.slice(start, end)
+    }
+
+    const headers = ['Year', 'Total Invested', 'Projected Value', 'Shortfall vs Goal']
+    const data = scheduleData.map((row) => [row.year, row.invested, row.value, row.shortfall])
+
+    generateReport(format, 'goal_based_investment_report', headers, data, 'Goal-Based Investment Report', {
+      'Goal Amount (Today)': `₹${goalAmount}`,
+      'Goal Inflation (p.a)': `${inflationRate}%`,
+      'Time to Goal': `${years} years`,
+      'Expected Annual Return': `${returnRate}%`,
+      'Initial Investment': `₹${initial}`,
+      'Inflation-adjusted Future Goal': `₹${result.futureGoal}`
+    })
   }
 
   return (
     <FinancialCalculatorTemplate
       title="Goal-Based Investment Calculator"
-      description="Estimate required monthly investment to reach a future goal (simplified)."
+      description="Estimate required monthly investment to reach a future goal (with optional inflation adjustment)."
       icon={Target}
       calculate={calculate}
-      values={[goalAmount, years, returnRate, initial]}
+      onDownload={handleDownload}
+      values={[goalAmount, years, returnRate, initial, inflationRate]}
+      onClear={() => {
+        setGoalAmount(5000000)
+        setYears(10)
+        setReturnRate(12)
+        setInitial(0)
+        setInflationRate(6)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setGoalAmount(Number(vals[0] ?? 5000000))
+        setYears(Number(vals[1] ?? 10))
+        setReturnRate(Number(vals[2] ?? 12))
+        setInitial(Number(vals[3] ?? 0))
+        setInflationRate(Number(vals[4] ?? 6))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Goal Amount" value={goalAmount} onChange={setGoalAmount} min={0} max={1000000000} step={10000} prefix="₹" />
           <InputGroup label="Time to Goal" value={years} onChange={setYears} min={1} max={50} step={1} suffix=" years" />
           <InputGroup label="Expected Annual Return" value={returnRate} onChange={setReturnRate} min={0} max={30} step={0.1} suffix="%" />
+          <InputGroup label="Goal Inflation (Optional)" value={inflationRate} onChange={setInflationRate} min={0} max={20} step={0.1} suffix="%" />
           <InputGroup label="Initial Investment (Optional)" value={initial} onChange={setInitial} min={0} max={1000000000} step={1000} prefix="₹" />
         </div>
       }
       result={
         result && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ResultCard label="Required Monthly Investment" value={toMoneyINR(result.requiredMonthly)} type="highlight" />
-            <ResultCard label="Projected Value (with required SIP)" value={toMoneyINR(result.currentPlanFV)} type="success" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <ResultCard label="Inflation-adjusted Goal" value={toMoneyINR(result.futureGoal)} type="highlight" />
+            <ResultCard label="Required Monthly Investment" value={toMoneyINR(result.requiredMonthly)} type="success" />
+            <ResultCard label="Projected Value" value={toMoneyINR(result.projectedFV)} />
+            <ResultCard
+              label="Surplus / Shortfall"
+              value={toMoneyINR(Math.abs(result.surplusOrShortfall))}
+              type={result.surplusOrShortfall >= 0 ? "success" : "warning"}
+            />
           </div>
+        )
+      }
+      schedule={
+        result && (
+          <table className="min-w-[720px] w-full text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left p-3">Year</th>
+                <th className="text-right p-3">Total Invested</th>
+                <th className="text-right p-3">Projected Value</th>
+                <th className="text-right p-3">Shortfall vs Goal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.schedule.map((row) => (
+                <tr key={row.year} className="border-b last:border-b-0">
+                  <td className="p-3">{row.year}</td>
+                  <td className="p-3 text-right">₹{row.invested.toLocaleString("en-IN")}</td>
+                  <td className="p-3 text-right">₹{row.value.toLocaleString("en-IN")}</td>
+                  <td className="p-3 text-right">₹{row.shortfall.toLocaleString("en-IN")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )
       }
     />

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Calendar, Clock, Cake } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { AgeSeoContent } from "@/components/calculators/seo/MiscSeo"
+import { VoiceDateInput } from "@/components/ui/VoiceDateInput"
 
 export function AdvancedAgeCalculator() {
   const [dob, setDob] = useState('2000-01-01')
@@ -80,17 +81,12 @@ export function AdvancedAgeCalculator() {
       seoContent={<AgeSeoContent />}
       inputs={
         <div className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">Date of Birth</label>
-            <div className="relative">
-              <input 
-                type="date" 
-                value={dob} 
-                onChange={(e) => setDob(e.target.value)} 
-                className="w-full p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
-              />
-            </div>
-          </div>
+          <VoiceDateInput
+            label="Date of Birth"
+            value={dob}
+            onChangeAction={setDob}
+            inputClassName="p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
+          />
         </div>
       }
       result={result && !result.error && (

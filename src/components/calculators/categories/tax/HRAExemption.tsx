@@ -25,10 +25,20 @@ export function HRAExemption() {
         description={t('tax.hra_desc')}
         icon={Building2}
         calculate={() => {}}
+        values={[basicSalary, da, hraReceived, rentPaid, isMetro]}
         onClear={() => {
           setBasicSalary(600000)
+          setDa(0)
           setHraReceived(240000)
           setRentPaid(180000)
+          setIsMetro("non-metro")
+        }}
+        onRestoreAction={(vals) => {
+          setBasicSalary(Number(vals?.[0] ?? 600000))
+          setDa(Number(vals?.[1] ?? 0))
+          setHraReceived(Number(vals?.[2] ?? 240000))
+          setRentPaid(Number(vals?.[3] ?? 180000))
+          setIsMetro(String(vals?.[4] ?? "non-metro"))
         }}
         inputs={
           <div className="space-y-6">

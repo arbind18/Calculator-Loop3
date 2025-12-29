@@ -59,7 +59,13 @@ export function FlatVsReducing() {
       description={t.loan.flat_vs_reducing_desc}
       icon={Percent}
       calculate={handleCalculate}
+      values={[loanAmount, flatRate, tenure]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals?.[0] ?? 100000))
+        setFlatRate(Number(vals?.[1] ?? 10))
+        setTenure(Number(vals?.[2] ?? 3))
+      }}
       onDownload={handleDownload}
       inputs={
         <div className="space-y-4">

@@ -208,6 +208,27 @@ export function PipValueCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[pair, accountCurrency, price, pipSize, sizeMode, customUnits, quoteToAccountRate, pips]}
+      onClear={() => {
+        setPair("EURUSD")
+        setAccountCurrency("USD")
+        setPrice(1.1)
+        setPipSize(getDefaultPipSize("EURUSD"))
+        setSizeMode("standard")
+        setCustomUnits(100000)
+        setQuoteToAccountRate(83.12)
+        setPips(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPair(String(vals?.[0] ?? "EURUSD"))
+        setAccountCurrency(String(vals?.[1] ?? "USD"))
+        setPrice(Number(vals?.[2] ?? 1.1))
+        setPipSize(Number(vals?.[3] ?? getDefaultPipSize("EURUSD")))
+        setSizeMode(((vals?.[4] ?? "standard") as any) as "standard" | "mini" | "micro" | "custom")
+        setCustomUnits(Number(vals?.[5] ?? 100000))
+        setQuoteToAccountRate(Number(vals?.[6] ?? 83.12))
+        setPips(Number(vals?.[7] ?? 10))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -447,6 +468,27 @@ export function ForexPositionSizeCalculator() {
       icon={Calculator}
       calculate={calculate}
       values={[pair, accountCurrency, price, pipSize, quoteToAccountRate, accountBalance, riskPercent, stopLossPips]}
+      onClear={() => {
+        setPair("EURUSD")
+        setAccountCurrency("USD")
+        setPrice(1.1)
+        setPipSize(getDefaultPipSize("EURUSD"))
+        setQuoteToAccountRate(83.12)
+        setAccountBalance(10000)
+        setRiskPercent(1)
+        setStopLossPips(20)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPair(String(vals?.[0] ?? "EURUSD"))
+        setAccountCurrency(String(vals?.[1] ?? "USD"))
+        setPrice(Number(vals?.[2] ?? 1.1))
+        setPipSize(Number(vals?.[3] ?? getDefaultPipSize("EURUSD")))
+        setQuoteToAccountRate(Number(vals?.[4] ?? 83.12))
+        setAccountBalance(Number(vals?.[5] ?? 10000))
+        setRiskPercent(Number(vals?.[6] ?? 1))
+        setStopLossPips(Number(vals?.[7] ?? 20))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -642,6 +684,21 @@ export function ForexCompoundingCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[initialCapital, returnPerPeriod, periods, contribution, contributionAtStart]}
+      onClear={() => {
+        setInitialCapital(10000)
+        setReturnPerPeriod(5)
+        setPeriods(12)
+        setContribution(0)
+        setContributionAtStart("start")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInitialCapital(Number(vals?.[0] ?? 10000))
+        setReturnPerPeriod(Number(vals?.[1] ?? 5))
+        setPeriods(Number(vals?.[2] ?? 12))
+        setContribution(Number(vals?.[3] ?? 0))
+        setContributionAtStart((String(vals?.[4] ?? "start") as any) as "start" | "end")
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -825,6 +882,24 @@ export function ForexRiskRewardRatio() {
       icon={ArrowUpDown}
       calculate={calculate}
       values={[direction, entry, stopLoss, takeProfit, accountBalance, riskPercent]}
+      onClear={() => {
+        setDirection("long")
+        setEntry(1.1)
+        setStopLoss(1.095)
+        setTakeProfit(1.11)
+        setAccountBalance(10000)
+        setRiskPercent(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const d = String(vals?.[0] ?? "long")
+        setDirection(d === "short" ? "short" : "long")
+        setEntry(Number(vals?.[1] ?? 1.1))
+        setStopLoss(Number(vals?.[2] ?? 1.095))
+        setTakeProfit(Number(vals?.[3] ?? 1.11))
+        setAccountBalance(Number(vals?.[4] ?? 10000))
+        setRiskPercent(Number(vals?.[5] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1000,6 +1075,22 @@ export function ForexPivotPointCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[method, high, low, close, decimals]}
+      onClear={() => {
+        setMethod("classic")
+        setHigh(1.12)
+        setLow(1.09)
+        setClose(1.1)
+        setDecimals(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const m = String(vals?.[0] ?? "classic")
+        setMethod((m === "fibonacci" || m === "woodie" || m === "camarilla" ? m : "classic") as any)
+        setHigh(Number(vals?.[1] ?? 1.12))
+        setLow(Number(vals?.[2] ?? 1.09))
+        setClose(Number(vals?.[3] ?? 1.1))
+        setDecimals(Number(vals?.[4] ?? 5))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1099,6 +1190,17 @@ export function FibonacciRetracementCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[swingHigh, swingLow, decimals]}
+      onClear={() => {
+        setSwingHigh(1.12)
+        setSwingLow(1.09)
+        setDecimals(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSwingHigh(Number(vals?.[0] ?? 1.12))
+        setSwingLow(Number(vals?.[1] ?? 1.09))
+        setDecimals(Number(vals?.[2] ?? 5))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1194,6 +1296,29 @@ export function ForexProfitCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[pair, direction, units, entry, exit, accountCurrency, quoteToAccountRate, pipSize]}
+      onClear={() => {
+        setPair("EURUSD")
+        setDirection("buy")
+        setUnits(100000)
+        setEntry(1.1)
+        setExit(1.105)
+        setAccountCurrency("USD")
+        setQuoteToAccountRate(83.12)
+        setPipSize(getDefaultPipSize("EURUSD"))
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const nextPair = String(vals?.[0] ?? "EURUSD")
+        setPair(nextPair)
+        const side = String(vals?.[1] ?? "buy")
+        setDirection(side === "sell" ? "sell" : "buy")
+        setUnits(Number(vals?.[2] ?? 100000))
+        setEntry(Number(vals?.[3] ?? 1.1))
+        setExit(Number(vals?.[4] ?? 1.105))
+        setAccountCurrency(String(vals?.[5] ?? "USD"))
+        setQuoteToAccountRate(Number(vals?.[6] ?? 83.12))
+        setPipSize(Number(vals?.[7] ?? getDefaultPipSize(nextPair)))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1325,6 +1450,26 @@ export function ForexSwapCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[direction, units, swapPerDay, daysHeld, tripleSwapDayCount, swapCurrency, toAccountRate]}
+      onClear={() => {
+        setDirection("long")
+        setUnits(100000)
+        setSwapPerDay(-3.5)
+        setDaysHeld(7)
+        setTripleSwapDayCount(1)
+        setSwapCurrency("USD")
+        setToAccountRate(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const d = String(vals?.[0] ?? "long")
+        setDirection(d === "short" ? "short" : "long")
+        setUnits(Number(vals?.[1] ?? 100000))
+        setSwapPerDay(Number(vals?.[2] ?? -3.5))
+        setDaysHeld(Number(vals?.[3] ?? 7))
+        setTripleSwapDayCount(Number(vals?.[4] ?? 1))
+        setSwapCurrency(String(vals?.[5] ?? "USD"))
+        setToAccountRate(Number(vals?.[6] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1460,6 +1605,32 @@ export function ForexPositionSizerAdvanced() {
       icon={Calculator}
       calculate={calculate}
       values={[pair, accountCurrency, price, pipSize, quoteToAccountRate, accountBalance, stopLossPips, riskA, riskB, riskC]}
+      onClear={() => {
+        setPair("EURUSD")
+        setAccountCurrency("USD")
+        setPrice(1.1)
+        setPipSize(getDefaultPipSize("EURUSD"))
+        setQuoteToAccountRate(83.12)
+        setAccountBalance(10000)
+        setStopLossPips(20)
+        setRiskA(0.5)
+        setRiskB(1)
+        setRiskC(2)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const nextPair = String(vals?.[0] ?? "EURUSD")
+        setPair(nextPair)
+        setAccountCurrency(String(vals?.[1] ?? "USD"))
+        setPrice(Number(vals?.[2] ?? 1.1))
+        setPipSize(Number(vals?.[3] ?? getDefaultPipSize(nextPair)))
+        setQuoteToAccountRate(Number(vals?.[4] ?? 83.12))
+        setAccountBalance(Number(vals?.[5] ?? 10000))
+        setStopLossPips(Number(vals?.[6] ?? 20))
+        setRiskA(Number(vals?.[7] ?? 0.5))
+        setRiskB(Number(vals?.[8] ?? 1))
+        setRiskC(Number(vals?.[9] ?? 2))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1582,6 +1753,20 @@ export function CryptoMarketCapCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[price, circulatingSupply, totalSupply, currency]}
+      onClear={() => {
+        setPrice(100)
+        setCirculatingSupply(1000000)
+        setTotalSupply(1000000)
+        setCurrency("USD")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrice(Number(vals?.[0] ?? 100))
+        setCirculatingSupply(Number(vals?.[1] ?? 1000000))
+        setTotalSupply(Number(vals?.[2] ?? 1000000))
+        const c = String(vals?.[3] ?? "USD")
+        setCurrency(c === "INR" || c === "EUR" ? c : "USD")
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1679,6 +1864,25 @@ export function CryptoStakingCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, apr, durationDays, compounding, extraContribution, contribFrequency]}
+      onClear={() => {
+        setPrincipal(1000)
+        setApr(12)
+        setDurationDays(365)
+        setCompounding("daily")
+        setExtraContribution(0)
+        setContribFrequency("monthly")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 1000))
+        setApr(Number(vals?.[1] ?? 12))
+        setDurationDays(Number(vals?.[2] ?? 365))
+        const comp = String(vals?.[3] ?? "daily")
+        setCompounding((comp === "weekly" || comp === "monthly" || comp === "none" ? comp : "daily") as any)
+        setExtraContribution(Number(vals?.[4] ?? 0))
+        const cf = String(vals?.[5] ?? "monthly")
+        setContribFrequency((cf === "weekly" ? "weekly" : "monthly") as any)
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1773,6 +1977,23 @@ export function CryptoMiningProfitability() {
       icon={Activity}
       calculate={calculate}
       values={[dailyCoins, coinPrice, poolFee, powerWatts, electricityCost, hardwareCost]}
+      onClear={() => {
+        setDailyCoins(0.0005)
+        setCoinPrice(100000)
+        setPoolFee(1)
+        setPowerWatts(1200)
+        setElectricityCost(0.12)
+        setHardwareCost(2000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setDailyCoins(Number(vals?.[0] ?? 0.0005))
+        setCoinPrice(Number(vals?.[1] ?? 100000))
+        setPoolFee(Number(vals?.[2] ?? 1))
+        setPowerWatts(Number(vals?.[3] ?? 1200))
+        setElectricityCost(Number(vals?.[4] ?? 0.12))
+        setHardwareCost(Number(vals?.[5] ?? 2000))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1858,6 +2079,22 @@ export function DollarCostAveragingCrypto() {
       icon={TrendingUp}
       calculate={calculate}
       values={[investmentPerPeriod, periods, frequency, startPrice, endPrice]}
+      onClear={() => {
+        setInvestmentPerPeriod(100)
+        setPeriods(12)
+        setFrequency("monthly")
+        setStartPrice(100)
+        setEndPrice(150)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestmentPerPeriod(Number(vals?.[0] ?? 100))
+        setPeriods(Number(vals?.[1] ?? 12))
+        const f = String(vals?.[2] ?? "monthly")
+        setFrequency((f === "weekly" ? "weekly" : "monthly") as any)
+        setStartPrice(Number(vals?.[3] ?? 100))
+        setEndPrice(Number(vals?.[4] ?? 150))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1951,6 +2188,25 @@ export function ArbitrageCalculator() {
       icon={ArrowUpDown}
       calculate={calculate}
       values={[buyPrice, sellPrice, quantity, buyFeePct, sellFeePct, withdrawFeeCoin, fixedNetworkFee]}
+      onClear={() => {
+        setBuyPrice(100)
+        setSellPrice(102)
+        setQuantity(1)
+        setBuyFeePct(0.1)
+        setSellFeePct(0.1)
+        setWithdrawFeeCoin(0.001)
+        setFixedNetworkFee(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBuyPrice(Number(vals?.[0] ?? 100))
+        setSellPrice(Number(vals?.[1] ?? 102))
+        setQuantity(Number(vals?.[2] ?? 1))
+        setBuyFeePct(Number(vals?.[3] ?? 0.1))
+        setSellFeePct(Number(vals?.[4] ?? 0.1))
+        setWithdrawFeeCoin(Number(vals?.[5] ?? 0.001))
+        setFixedNetworkFee(Number(vals?.[6] ?? 0))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -2020,6 +2276,17 @@ export function InflationAdjustedExchangeRate() {
       icon={Activity}
       calculate={calculate}
       values={[nominalChangePercent, domesticInflation, foreignInflation]}
+      onClear={() => {
+        setNominalChangePercent(2)
+        setDomesticInflation(6)
+        setForeignInflation(2)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setNominalChangePercent(Number(vals?.[0] ?? 2))
+        setDomesticInflation(Number(vals?.[1] ?? 6))
+        setForeignInflation(Number(vals?.[2] ?? 2))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -2074,6 +2341,17 @@ export function PurchasingPowerParity() {
       icon={TrendingUp}
       calculate={calculate}
       values={[domesticBasketPrice, foreignBasketPrice, marketRate]}
+      onClear={() => {
+        setDomesticBasketPrice(100)
+        setForeignBasketPrice(1.25)
+        setMarketRate(83)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setDomesticBasketPrice(Number(vals?.[0] ?? 100))
+        setForeignBasketPrice(Number(vals?.[1] ?? 1.25))
+        setMarketRate(Number(vals?.[2] ?? 83))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -2136,6 +2414,19 @@ export function RealEffectiveExchangeRate() {
       icon={Activity}
       calculate={calculate}
       values={[neerIndex, domesticCpiIndex, foreignCpiIndex, base]}
+      onClear={() => {
+        setNeerIndex(100)
+        setDomesticCpiIndex(100)
+        setForeignCpiIndex(100)
+        setBase(100)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setNeerIndex(Number(vals?.[0] ?? 100))
+        setDomesticCpiIndex(Number(vals?.[1] ?? 100))
+        setForeignCpiIndex(Number(vals?.[2] ?? 100))
+        setBase(Number(vals?.[3] ?? 100))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2183,6 +2474,15 @@ export function CurrencyDevaluationCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[oldRate, newRate]}
+      onClear={() => {
+        setOldRate(83)
+        setNewRate(86)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setOldRate(Number(vals?.[0] ?? 83))
+        setNewRate(Number(vals?.[1] ?? 86))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2249,6 +2549,27 @@ export function TravelBudgetCalculator() {
       icon={Calculator}
       calculate={calculate}
       values={[days, dailySpend, flightCost, accommodationPerNight, localTransport, visaInsurance, bufferPercent, fxRate]}
+      onClear={() => {
+        setDays(7)
+        setDailySpend(50)
+        setFlightCost(0)
+        setAccommodationPerNight(60)
+        setLocalTransport(100)
+        setVisaInsurance(0)
+        setBufferPercent(10)
+        setFxRate(83)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setDays(Number(vals?.[0] ?? 7))
+        setDailySpend(Number(vals?.[1] ?? 50))
+        setFlightCost(Number(vals?.[2] ?? 0))
+        setAccommodationPerNight(Number(vals?.[3] ?? 60))
+        setLocalTransport(Number(vals?.[4] ?? 100))
+        setVisaInsurance(Number(vals?.[5] ?? 0))
+        setBufferPercent(Number(vals?.[6] ?? 10))
+        setFxRate(Number(vals?.[7] ?? 83))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2352,6 +2673,30 @@ export function ForexFeeCalculator() {
       icon={ArrowUpDown}
       calculate={calculate}
       values={[pair, accountCurrency, price, pipSize, lots, spreadPips, slippagePips, commissionPerLotRoundTrip, quoteToAccountRate]}
+      onClear={() => {
+        setPair("EURUSD")
+        setAccountCurrency("USD")
+        setPrice(1.1)
+        setPipSize(getDefaultPipSize("EURUSD"))
+        setLots(1)
+        setSpreadPips(1.2)
+        setSlippagePips(0)
+        setCommissionPerLotRoundTrip(0)
+        setQuoteToAccountRate(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const nextPair = String(vals?.[0] ?? "EURUSD")
+        setPair(nextPair)
+        setAccountCurrency(String(vals?.[1] ?? "USD"))
+        setPrice(Number(vals?.[2] ?? 1.1))
+        setPipSize(Number(vals?.[3] ?? getDefaultPipSize(nextPair)))
+        setLots(Number(vals?.[4] ?? 1))
+        setSpreadPips(Number(vals?.[5] ?? 1.2))
+        setSlippagePips(Number(vals?.[6] ?? 0))
+        setCommissionPerLotRoundTrip(Number(vals?.[7] ?? 0))
+        setQuoteToAccountRate(Number(vals?.[8] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2458,6 +2803,21 @@ export function RemittanceCostCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[sendAmount, fixedFee, percentFee, midRate, providerRate]}
+      onClear={() => {
+        setSendAmount(1000)
+        setFixedFee(5)
+        setPercentFee(1)
+        setMidRate(1)
+        setProviderRate(0.98)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSendAmount(Number(vals?.[0] ?? 1000))
+        setFixedFee(Number(vals?.[1] ?? 5))
+        setPercentFee(Number(vals?.[2] ?? 1))
+        setMidRate(Number(vals?.[3] ?? 1))
+        setProviderRate(Number(vals?.[4] ?? 0.98))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -2547,6 +2907,21 @@ export function HedgingCostCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[exposureForeign, spotRate, forwardRate, hedgeRatioPercent, bankFeePercent]}
+      onClear={() => {
+        setExposureForeign(100000)
+        setSpotRate(83)
+        setForwardRate(84)
+        setHedgeRatioPercent(100)
+        setBankFeePercent(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setExposureForeign(Number(vals?.[0] ?? 100000))
+        setSpotRate(Number(vals?.[1] ?? 83))
+        setForwardRate(Number(vals?.[2] ?? 84))
+        setHedgeRatioPercent(Number(vals?.[3] ?? 100))
+        setBankFeePercent(Number(vals?.[4] ?? 0))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -2621,7 +2996,23 @@ export function ForwardRateCalculator() {
       description="Compute forward FX rate from interest rate parity (domestic vs foreign rates)."
       icon={ArrowUpDown}
       calculate={calculate}
-      values={[spot, domesticRate, foreignRate, days]}
+      values={[spot, domesticRate, foreignRate, days, mode]}
+      onClear={() => {
+        setSpot(1.1)
+        setDomesticRate(6)
+        setForeignRate(3)
+        setDays(90)
+        setMode("simple")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSpot(Number(vals?.[0] ?? 1.1))
+        setDomesticRate(Number(vals?.[1] ?? 6))
+        setForeignRate(Number(vals?.[2] ?? 3))
+        setDays(Number(vals?.[3] ?? 90))
+        const m = String(vals?.[4] ?? "simple")
+        setMode((m === "continuous" ? "continuous" : "simple") as any)
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2722,6 +3113,19 @@ export function CrossRateCalculator() {
       icon={ArrowUpDown}
       calculate={calculate}
       values={[pair1, rate1, pair2, rate2]}
+      onClear={() => {
+        setPair1("EURUSD")
+        setRate1(1.1)
+        setPair2("USDJPY")
+        setRate2(150)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPair1(String(vals?.[0] ?? "EURUSD"))
+        setRate1(Number(vals?.[1] ?? 1.1))
+        setPair2(String(vals?.[2] ?? "USDJPY"))
+        setRate2(Number(vals?.[3] ?? 150))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2813,6 +3217,27 @@ export function CurrencyStrengthCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[eurUsd, gbpUsd, jpyUsd, audUsd, cadUsd, chfUsd, nzdUsd, inrUsd]}
+      onClear={() => {
+        setEurUsd(0)
+        setGbpUsd(0)
+        setJpyUsd(0)
+        setAudUsd(0)
+        setCadUsd(0)
+        setChfUsd(0)
+        setNzdUsd(0)
+        setInrUsd(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setEurUsd(Number(vals?.[0] ?? 0))
+        setGbpUsd(Number(vals?.[1] ?? 0))
+        setJpyUsd(Number(vals?.[2] ?? 0))
+        setAudUsd(Number(vals?.[3] ?? 0))
+        setCadUsd(Number(vals?.[4] ?? 0))
+        setChfUsd(Number(vals?.[5] ?? 0))
+        setNzdUsd(Number(vals?.[6] ?? 0))
+        setInrUsd(Number(vals?.[7] ?? 0))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2881,6 +3306,20 @@ export function VolatilityCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[spot, annualVol, days, confidence]}
+      onClear={() => {
+        setSpot(1.1)
+        setAnnualVol(12)
+        setDays(30)
+        setConfidence("68")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSpot(Number(vals?.[0] ?? 1.1))
+        setAnnualVol(Number(vals?.[1] ?? 12))
+        setDays(Number(vals?.[2] ?? 30))
+        const c = String(vals?.[3] ?? "68")
+        setConfidence((c === "95" ? "95" : "68") as any)
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -2958,6 +3397,17 @@ export function CorrelationMatrixCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[seriesA, seriesB, seriesC]}
+      onClear={() => {
+        setSeriesA("0.1, 0.2, -0.1, 0.05")
+        setSeriesB("0.05, 0.1, -0.05, 0.02")
+        setSeriesC("")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSeriesA(String(vals?.[0] ?? "0.1, 0.2, -0.1, 0.05"))
+        setSeriesB(String(vals?.[1] ?? "0.05, 0.1, -0.05, 0.02"))
+        setSeriesC(String(vals?.[2] ?? ""))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4">
@@ -3055,6 +3505,23 @@ export function CarryTradeCalculator() {
       icon={ArrowUpDown}
       calculate={calculate}
       values={[spot, domesticRate, foreignRate, days, expectedSpotEnd, includeFxMove]}
+      onClear={() => {
+        setSpot(1.1)
+        setDomesticRate(6)
+        setForeignRate(3)
+        setDays(90)
+        setExpectedSpotEnd(1.1)
+        setIncludeFxMove(true)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSpot(Number(vals?.[0] ?? 1.1))
+        setDomesticRate(Number(vals?.[1] ?? 6))
+        setForeignRate(Number(vals?.[2] ?? 3))
+        setDays(Number(vals?.[3] ?? 90))
+        setExpectedSpotEnd(Number(vals?.[4] ?? 1.1))
+        setIncludeFxMove(Boolean(vals?.[5] ?? true))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -3134,6 +3601,21 @@ export function InterestRateParityCalculator() {
       icon={ArrowUpDown}
       calculate={calculate}
       values={[spot, forward, domesticRate, foreignRate, days]}
+      onClear={() => {
+        setSpot(1.1)
+        setForward(1.11)
+        setDomesticRate(6)
+        setForeignRate(3)
+        setDays(90)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setSpot(Number(vals?.[0] ?? 1.1))
+        setForward(Number(vals?.[1] ?? 1.11))
+        setDomesticRate(Number(vals?.[2] ?? 6))
+        setForeignRate(Number(vals?.[3] ?? 3))
+        setDays(Number(vals?.[4] ?? 90))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -3187,6 +3669,17 @@ export function BigMacIndexCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[localPrice, usPrice, marketRate]}
+      onClear={() => {
+        setLocalPrice(250)
+        setUsPrice(5.5)
+        setMarketRate(83)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setLocalPrice(Number(vals?.[0] ?? 250))
+        setUsPrice(Number(vals?.[1] ?? 5.5))
+        setMarketRate(Number(vals?.[2] ?? 83))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -3231,6 +3724,17 @@ export function GoldSilverRatioCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[gold, silver, targetRatio]}
+      onClear={() => {
+        setGold(2000)
+        setSilver(25)
+        setTargetRatio(80)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setGold(Number(vals?.[0] ?? 2000))
+        setSilver(Number(vals?.[1] ?? 25))
+        setTargetRatio(Number(vals?.[2] ?? 80))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InputGroup label="Gold price" value={gold} onChange={setGold} min={0.0000001} max={1e12} step={1} />
@@ -3273,6 +3777,17 @@ export function PlatinumGoldRatioCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[platinum, gold, targetRatio]}
+      onClear={() => {
+        setPlatinum(950)
+        setGold(2000)
+        setTargetRatio(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPlatinum(Number(vals?.[0] ?? 950))
+        setGold(Number(vals?.[1] ?? 2000))
+        setTargetRatio(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InputGroup label="Platinum price" value={platinum} onChange={setPlatinum} min={0.0000001} max={1e12} step={1} />
@@ -3310,6 +3825,15 @@ export function BitcoinDominanceCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[btcCap, totalCap]}
+      onClear={() => {
+        setBtcCap(900_000_000_000)
+        setTotalCap(2_000_000_000_000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBtcCap(Number(vals?.[0] ?? 900_000_000_000))
+        setTotalCap(Number(vals?.[1] ?? 2_000_000_000_000))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputGroup label="BTC market cap" value={btcCap} onChange={setBtcCap} min={0} max={1e18} step={1_000_000_000} />
@@ -3343,6 +3867,17 @@ export function EthGasFeeCalculator() {
       icon={Calculator}
       calculate={calculate}
       values={[gasUnits, gasPriceGwei, ethPrice]}
+      onClear={() => {
+        setGasUnits(21000)
+        setGasPriceGwei(20)
+        setEthPrice(2500)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setGasUnits(Number(vals?.[0] ?? 21000))
+        setGasPriceGwei(Number(vals?.[1] ?? 20))
+        setEthPrice(Number(vals?.[2] ?? 2500))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InputGroup label="Gas units" value={gasUnits} onChange={setGasUnits} min={21000} max={1e9} step={1} />
@@ -3389,6 +3924,17 @@ export function CryptoBurnRateCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[burnPerDay, tokenPrice, circulating]}
+      onClear={() => {
+        setBurnPerDay(100000)
+        setTokenPrice(0.05)
+        setCirculating(1_000_000_000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBurnPerDay(Number(vals?.[0] ?? 100000))
+        setTokenPrice(Number(vals?.[1] ?? 0.05))
+        setCirculating(Number(vals?.[2] ?? 1_000_000_000))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InputGroup label="Tokens burned / day" value={burnPerDay} onChange={setBurnPerDay} min={0} max={1e18} step={1000} />
@@ -3447,6 +3993,15 @@ export function ImpermanentLossCalculator() {
       icon={Activity}
       calculate={calculate}
       values={[priceChangePercent, depositUsd]}
+      onClear={() => {
+        setPriceChangePercent(50)
+        setDepositUsd(1000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPriceChangePercent(Number(vals?.[0] ?? 50))
+        setDepositUsd(Number(vals?.[1] ?? 1000))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputGroup label="Price change" value={priceChangePercent} onChange={setPriceChangePercent} min={-99.99} max={100000} step={1} suffix="%" />
@@ -3510,6 +4065,21 @@ export function YieldFarmingCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[depositUsd, apr, compoundsPerYear, platformFeePercent, impermanentLossPercent]}
+      onClear={() => {
+        setDepositUsd(1000)
+        setApr(30)
+        setCompoundsPerYear(365)
+        setPlatformFeePercent(2)
+        setImpermanentLossPercent(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setDepositUsd(Number(vals?.[0] ?? 1000))
+        setApr(Number(vals?.[1] ?? 30))
+        setCompoundsPerYear(Number(vals?.[2] ?? 365))
+        setPlatformFeePercent(Number(vals?.[3] ?? 2))
+        setImpermanentLossPercent(Number(vals?.[4] ?? 0))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <InputGroup label="Deposit (USD)" value={depositUsd} onChange={setDepositUsd} min={0} max={1e12} step={10} prefix="$ " />
@@ -3583,6 +4153,21 @@ export function AdvancedStakingRewardsCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, apr, validatorFeePercent, months, monthlyAdd]}
+      onClear={() => {
+        setPrincipal(1000)
+        setApr(8)
+        setValidatorFeePercent(5)
+        setMonths(12)
+        setMonthlyAdd(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 1000))
+        setApr(Number(vals?.[1] ?? 8))
+        setValidatorFeePercent(Number(vals?.[2] ?? 5))
+        setMonths(Number(vals?.[3] ?? 12))
+        setMonthlyAdd(Number(vals?.[4] ?? 0))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <InputGroup label="Principal" value={principal} onChange={setPrincipal} min={0} max={1e18} step={10} />
@@ -3640,6 +4225,21 @@ export function AdvancedMiningROICalculator() {
       icon={Activity}
       calculate={calculate}
       values={[hardwareCost, dailyRevenue, poolFeePercent, dailyPowerCost, dailyMaintenance]}
+      onClear={() => {
+        setHardwareCost(2000)
+        setDailyRevenue(15)
+        setPoolFeePercent(1)
+        setDailyPowerCost(6)
+        setDailyMaintenance(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setHardwareCost(Number(vals?.[0] ?? 2000))
+        setDailyRevenue(Number(vals?.[1] ?? 15))
+        setPoolFeePercent(Number(vals?.[2] ?? 1))
+        setDailyPowerCost(Number(vals?.[3] ?? 6))
+        setDailyMaintenance(Number(vals?.[4] ?? 0))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <InputGroup label="Hardware cost" value={hardwareCost} onChange={setHardwareCost} min={0} max={1e12} step={10} prefix="$ " />
@@ -3721,6 +4321,17 @@ export function HashRateConverter() {
       icon={Calculator}
       calculate={calculate}
       values={[value, from, to]}
+      onClear={() => {
+        setValue(100)
+        setFrom("TH/s")
+        setTo("GH/s")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setValue(Number(vals?.[0] ?? 100))
+        setFrom(String(vals?.[1] ?? "TH/s"))
+        setTo(String(vals?.[2] ?? "GH/s"))
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <InputGroup label="Value" value={value} onChange={setValue} min={0} max={1e30} step={1} />
@@ -3757,6 +4368,18 @@ export function SatoshiConverter() {
       icon={Calculator}
       calculate={calculate}
       values={[btc, sats, mode]}
+      onClear={() => {
+        setBtc(0.01)
+        setSats(1_000_000)
+        setMode("btcToSats")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBtc(Number(vals?.[0] ?? 0.01))
+        setSats(Number(vals?.[1] ?? 1_000_000))
+        const m = String(vals?.[2] ?? "btcToSats")
+        setMode((m === "satsToBtc" ? "satsToBtc" : "btcToSats") as any)
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -3804,6 +4427,18 @@ export function WeiConverter() {
       icon={Calculator}
       calculate={calculate}
       values={[eth, wei, mode]}
+      onClear={() => {
+        setEth(1)
+        setWei(1e18)
+        setMode("ethToWei")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setEth(Number(vals?.[0] ?? 1))
+        setWei(Number(vals?.[1] ?? 1e18))
+        const m = String(vals?.[2] ?? "ethToWei")
+        setMode((m === "weiToEth" ? "weiToEth" : "ethToWei") as any)
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
@@ -3856,6 +4491,21 @@ export function GweiConverter() {
       icon={Calculator}
       calculate={calculate}
       values={[gwei, eth, wei, mode]}
+      onClear={() => {
+        setGwei(1)
+        setEth(0.000000001)
+        setWei(1e9)
+        setMode("gweiToEth")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setGwei(Number(vals?.[0] ?? 1))
+        setEth(Number(vals?.[1] ?? 0.000000001))
+        setWei(Number(vals?.[2] ?? 1e9))
+        const m = String(vals?.[3] ?? "gweiToEth")
+        const allowed = ["gweiToEth", "ethToGwei", "gweiToWei", "weiToGwei"]
+        setMode((allowed.includes(m) ? (m as any) : "gweiToEth") as any)
+      }}
       inputs={
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="space-y-2">
@@ -3921,6 +4571,23 @@ export function ForexPipAdvancedCalculator() {
       icon={Calculator}
       calculate={calculate}
       values={[pair, accountCurrency, entry, stop, lots, quoteToAccountRate]}
+      onClear={() => {
+        setPair("EURUSD")
+        setAccountCurrency("USD")
+        setEntry(1.1)
+        setStop(1.095)
+        setLots(1)
+        setQuoteToAccountRate(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPair(String(vals?.[0] ?? "EURUSD"))
+        setAccountCurrency(String(vals?.[1] ?? "USD"))
+        setEntry(Number(vals?.[2] ?? 1.1))
+        setStop(Number(vals?.[3] ?? 1.095))
+        setLots(Number(vals?.[4] ?? 1))
+        setQuoteToAccountRate(Number(vals?.[5] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

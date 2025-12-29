@@ -23,6 +23,17 @@ export function RentalYield() {
         description={t('real_estate.rental_yield_desc')}
         icon={Building}
         calculate={() => {}}
+        values={[propertyValue, monthlyRent, annualMaintenance]}
+        onClear={() => {
+          setPropertyValue(5000000)
+          setMonthlyRent(15000)
+          setAnnualMaintenance(20000)
+        }}
+        onRestoreAction={(vals) => {
+          setPropertyValue(Number(vals?.[0] ?? 5000000))
+          setMonthlyRent(Number(vals?.[1] ?? 15000))
+          setAnnualMaintenance(Number(vals?.[2] ?? 20000))
+        }}
         seoContent={<RentalYieldSeoContent />}
         onDownload={(format) => {
           generateReport(format, 'rental_yield', 
@@ -75,6 +86,21 @@ export function HomeAffordability() {
         description={t('real_estate.affordability_desc')}
         icon={Home}
         calculate={() => {}}
+        values={[monthlyIncome, existingEMIs, downPayment, interestRate, tenure]}
+        onClear={() => {
+          setMonthlyIncome(100000)
+          setExistingEMIs(10000)
+          setDownPayment(1000000)
+          setInterestRate(8.5)
+          setTenure(20)
+        }}
+        onRestoreAction={(vals) => {
+          setMonthlyIncome(Number(vals?.[0] ?? 100000))
+          setExistingEMIs(Number(vals?.[1] ?? 10000))
+          setDownPayment(Number(vals?.[2] ?? 1000000))
+          setInterestRate(Number(vals?.[3] ?? 8.5))
+          setTenure(Number(vals?.[4] ?? 20))
+        }}
         seoContent={<HomeAffordabilitySeoContent />}
         onDownload={(format) => {
           generateReport(format, 'home_affordability', ['Item', 'Value'], [[t('real_estate.max_property_value'), `₹${affordability}`]], t('real_estate.affordability_title'))
@@ -115,6 +141,17 @@ export function StampDuty() {
         description={t('real_estate.stamp_duty_desc')}
         icon={DollarSign}
         calculate={() => {}}
+        values={[propertyValue, state, gender]}
+        onClear={() => {
+          setPropertyValue(5000000)
+          setState('Maharashtra')
+          setGender('male')
+        }}
+        onRestoreAction={(vals) => {
+          setPropertyValue(Number(vals?.[0] ?? 5000000))
+          setState(typeof vals?.[1] === 'string' ? (vals[1] as string) : 'Maharashtra')
+          setGender(typeof vals?.[2] === 'string' ? (vals[2] as string) : 'male')
+        }}
         seoContent={<StampDutySeoContent />}
         onDownload={(format) => generateReport(format, 'stamp_duty', ['Item', 'Value'], [[t('real_estate.total_charges'), `₹${total}`]], t('real_estate.stamp_duty_title'))}
         inputs={

@@ -57,6 +57,16 @@ export function ConstructionCostCalculator() {
       icon={Building}
       calculate={() => {}}
       values={[areaSqFt, costPerSqFt, contingencyPct]}
+      onClear={() => {
+        setAreaSqFt(1200)
+        setCostPerSqFt(2000)
+        setContingencyPct(5)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqFt(Number(vals?.[0] ?? 1200))
+        setCostPerSqFt(Number(vals?.[1] ?? 2000))
+        setContingencyPct(Number(vals?.[2] ?? 5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Built-up Area" value={areaSqFt} onChange={setAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -105,6 +115,19 @@ export function LandAreaConverter() {
       icon={Ruler}
       calculate={() => {}}
       values={[value, from, to]}
+      onClear={() => {
+        setValue(1)
+        setFrom("acre")
+        setTo("sq ft")
+      }}
+      onRestoreAction={(vals) => {
+        setValue(Number(vals?.[0] ?? 1))
+
+        const maybeFrom = typeof vals?.[1] === "string" ? (vals[1] as string) : "acre"
+        const maybeTo = typeof vals?.[2] === "string" ? (vals[2] as string) : "sq ft"
+        setFrom((maybeFrom in units ? maybeFrom : "acre") as any)
+        setTo((maybeTo in units ? maybeTo : "sq ft") as any)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Value" value={value} onChange={setValue} min={0} max={1e18} step={0.01} />
@@ -165,6 +188,18 @@ export function PropertyCapitalGains() {
       icon={IndianRupee}
       calculate={() => {}}
       values={[purchasePrice, salePrice, improvementCost, taxRatePct]}
+      onClear={() => {
+        setPurchasePrice(50_00_000)
+        setSalePrice(75_00_000)
+        setImprovementCost(0)
+        setTaxRatePct(20)
+      }}
+      onRestoreAction={(vals) => {
+        setPurchasePrice(Number(vals?.[0] ?? 50_00_000))
+        setSalePrice(Number(vals?.[1] ?? 75_00_000))
+        setImprovementCost(Number(vals?.[2] ?? 0))
+        setTaxRatePct(Number(vals?.[3] ?? 20))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Purchase Price" value={purchasePrice} onChange={setPurchasePrice} min={0} max={1e12} step={1000} prefix="₹" />
@@ -198,6 +233,14 @@ export function PropertyTaxCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[propertyValue, taxRatePct]}
+      onClear={() => {
+        setPropertyValue(60_00_000)
+        setTaxRatePct(0.5)
+      }}
+      onRestoreAction={(vals) => {
+        setPropertyValue(Number(vals?.[0] ?? 60_00_000))
+        setTaxRatePct(Number(vals?.[1] ?? 0.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Property Value" value={propertyValue} onChange={setPropertyValue} min={0} max={1e12} step={1000} prefix="₹" />
@@ -227,6 +270,16 @@ export function PreEMICalculator() {
       icon={CalculatorIcon}
       calculate={() => {}}
       values={[loanAmount, disbursedPct, annualRate]}
+      onClear={() => {
+        setLoanAmount(40_00_000)
+        setDisbursedPct(50)
+        setAnnualRate(9)
+      }}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals?.[0] ?? 40_00_000))
+        setDisbursedPct(Number(vals?.[1] ?? 50))
+        setAnnualRate(Number(vals?.[2] ?? 9))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Loan Amount" value={loanAmount} onChange={setLoanAmount} min={0} max={1e12} step={1000} prefix="₹" />
@@ -258,6 +311,16 @@ export function PlotLoanCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[principal, rate, tenureYears]}
+      onClear={() => {
+        setPrincipal(25_00_000)
+        setRate(9)
+        setTenureYears(15)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 25_00_000))
+        setRate(Number(vals?.[1] ?? 9))
+        setTenureYears(Number(vals?.[2] ?? 15))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Loan Amount" value={principal} onChange={setPrincipal} min={0} max={1e12} step={1000} prefix="₹" />
@@ -289,6 +352,14 @@ export function InteriorDesignCost() {
       icon={Building}
       calculate={() => {}}
       values={[areaSqFt, costPerSqFt]}
+      onClear={() => {
+        setAreaSqFt(900)
+        setCostPerSqFt(1200)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqFt(Number(vals?.[0] ?? 900))
+        setCostPerSqFt(Number(vals?.[1] ?? 1200))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Area" value={areaSqFt} onChange={setAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -320,6 +391,18 @@ export function DownPaymentGoal() {
       icon={IndianRupee}
       calculate={() => {}}
       values={[propertyPrice, downPaymentPct, saved, monthlySavings]}
+      onClear={() => {
+        setPropertyPrice(80_00_000)
+        setDownPaymentPct(20)
+        setSaved(5_00_000)
+        setMonthlySavings(50_000)
+      }}
+      onRestoreAction={(vals) => {
+        setPropertyPrice(Number(vals?.[0] ?? 80_00_000))
+        setDownPaymentPct(Number(vals?.[1] ?? 20))
+        setSaved(Number(vals?.[2] ?? 5_00_000))
+        setMonthlySavings(Number(vals?.[3] ?? 50_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Property Price" value={propertyPrice} onChange={setPropertyPrice} min={0} max={1e12} step={1000} prefix="₹" />
@@ -366,6 +449,20 @@ export function HomeLoanBalanceTransfer() {
       icon={Home}
       calculate={() => {}}
       values={[principal, currentRate, newRate, tenureYears, processingFeePct]}
+      onClear={() => {
+        setPrincipal(40_00_000)
+        setCurrentRate(9.5)
+        setNewRate(8.5)
+        setTenureYears(15)
+        setProcessingFeePct(0.5)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 40_00_000))
+        setCurrentRate(Number(vals?.[1] ?? 9.5))
+        setNewRate(Number(vals?.[2] ?? 8.5))
+        setTenureYears(Number(vals?.[3] ?? 15))
+        setProcessingFeePct(Number(vals?.[4] ?? 0.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Principal" value={principal} onChange={setPrincipal} min={0} max={1e12} step={1000} prefix="₹" />
@@ -406,6 +503,14 @@ export function PMAYSubsidyCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[eligibleLoan, subsidyPct]}
+      onClear={() => {
+        setEligibleLoan(6_00_000)
+        setSubsidyPct(6.5)
+      }}
+      onRestoreAction={(vals) => {
+        setEligibleLoan(Number(vals?.[0] ?? 6_00_000))
+        setSubsidyPct(Number(vals?.[1] ?? 6.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Eligible Loan Amount" value={eligibleLoan} onChange={setEligibleLoan} min={0} max={1e12} step={1000} prefix="₹" />
@@ -438,6 +543,14 @@ export function CarpetAreaCalculator() {
       icon={Ruler}
       calculate={() => {}}
       values={[superBuiltUpSqFt, loadingPct]}
+      onClear={() => {
+        setSuperBuiltUpSqFt(1200)
+        setLoadingPct(30)
+      }}
+      onRestoreAction={(vals) => {
+        setSuperBuiltUpSqFt(Number(vals?.[0] ?? 1200))
+        setLoadingPct(Number(vals?.[1] ?? 30))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Super Built-up Area" value={superBuiltUpSqFt} onChange={setSuperBuiltUpSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -468,6 +581,16 @@ export function FSICalculator() {
       icon={Ruler}
       calculate={() => {}}
       values={[plotAreaSqFt, fsi, plannedBuiltUpSqFt]}
+      onClear={() => {
+        setPlotAreaSqFt(2000)
+        setFsi(1.5)
+        setPlannedBuiltUpSqFt(2500)
+      }}
+      onRestoreAction={(vals) => {
+        setPlotAreaSqFt(Number(vals?.[0] ?? 2000))
+        setFsi(Number(vals?.[1] ?? 1.5))
+        setPlannedBuiltUpSqFt(Number(vals?.[2] ?? 2500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Plot Area" value={plotAreaSqFt} onChange={setPlotAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -506,6 +629,18 @@ export function RentalAgreementCost() {
       icon={IndianRupee}
       calculate={() => {}}
       values={[monthlyRent, months, stampDutyPct, registrationFee]}
+      onClear={() => {
+        setMonthlyRent(20_000)
+        setMonths(11)
+        setStampDutyPct(0.25)
+        setRegistrationFee(1000)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyRent(Number(vals?.[0] ?? 20_000))
+        setMonths(Number(vals?.[1] ?? 11))
+        setStampDutyPct(Number(vals?.[2] ?? 0.25))
+        setRegistrationFee(Number(vals?.[3] ?? 1000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Rent" value={monthlyRent} onChange={setMonthlyRent} min={0} max={1e9} step={100} prefix="₹" />
@@ -545,6 +680,18 @@ export function PaintCostCalculator() {
       icon={Building}
       calculate={() => {}}
       values={[areaSqFt, coverageSqFtPerL, paintCostPerL, labourCostPerSqFt]}
+      onClear={() => {
+        setAreaSqFt(1500)
+        setCoverageSqFtPerL(80)
+        setPaintCostPerL(350)
+        setLabourCostPerSqFt(12)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqFt(Number(vals?.[0] ?? 1500))
+        setCoverageSqFtPerL(Number(vals?.[1] ?? 80))
+        setPaintCostPerL(Number(vals?.[2] ?? 350))
+        setLabourCostPerSqFt(Number(vals?.[3] ?? 12))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Paintable Area" value={areaSqFt} onChange={setAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -578,6 +725,14 @@ export function FlooringCostCalculator() {
       icon={Ruler}
       calculate={() => {}}
       values={[areaSqFt, costPerSqFt]}
+      onClear={() => {
+        setAreaSqFt(1000)
+        setCostPerSqFt(150)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqFt(Number(vals?.[0] ?? 1000))
+        setCostPerSqFt(Number(vals?.[1] ?? 150))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Area" value={areaSqFt} onChange={setAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -602,6 +757,14 @@ export function FalseCeilingCost() {
       icon={Building}
       calculate={() => {}}
       values={[areaSqFt, costPerSqFt]}
+      onClear={() => {
+        setAreaSqFt(500)
+        setCostPerSqFt(120)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqFt(Number(vals?.[0] ?? 500))
+        setCostPerSqFt(Number(vals?.[1] ?? 120))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Ceiling Area" value={areaSqFt} onChange={setAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -630,6 +793,16 @@ export function ModularKitchenCost() {
       icon={Home}
       calculate={() => {}}
       values={[lengthFt, costPerRunningFt, appliancesCost]}
+      onClear={() => {
+        setLengthFt(12)
+        setCostPerRunningFt(20_000)
+        setAppliancesCost(0)
+      }}
+      onRestoreAction={(vals) => {
+        setLengthFt(Number(vals?.[0] ?? 12))
+        setCostPerRunningFt(Number(vals?.[1] ?? 20_000))
+        setAppliancesCost(Number(vals?.[2] ?? 0))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Kitchen Length" value={lengthFt} onChange={setLengthFt} min={0} max={500} step={0.5} suffix=" ft" />
@@ -655,6 +828,14 @@ export function WardrobeCostCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[lengthFt, costPerRunningFt]}
+      onClear={() => {
+        setLengthFt(8)
+        setCostPerRunningFt(15_000)
+      }}
+      onRestoreAction={(vals) => {
+        setLengthFt(Number(vals?.[0] ?? 8))
+        setCostPerRunningFt(Number(vals?.[1] ?? 15_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Wardrobe Length" value={lengthFt} onChange={setLengthFt} min={0} max={500} step={0.5} suffix=" ft" />
@@ -692,6 +873,20 @@ export function SolarRooftopCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[systemKW, costPerKW, subsidyPct, sunHoursPerDay, tariff]}
+      onClear={() => {
+        setSystemKW(3)
+        setCostPerKW(55_000)
+        setSubsidyPct(20)
+        setSunHoursPerDay(4)
+        setTariff(8)
+      }}
+      onRestoreAction={(vals) => {
+        setSystemKW(Number(vals?.[0] ?? 3))
+        setCostPerKW(Number(vals?.[1] ?? 55_000))
+        setSubsidyPct(Number(vals?.[2] ?? 20))
+        setSunHoursPerDay(Number(vals?.[3] ?? 4))
+        setTariff(Number(vals?.[4] ?? 8))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="System Size" value={systemKW} onChange={setSystemKW} min={0} max={1000} step={0.1} suffix=" kW" />
@@ -736,6 +931,18 @@ export function BricksCalculator() {
       icon={Building}
       calculate={() => {}}
       values={[wallAreaSqFt, bricksPerSqFt, wastagePct, costPerBrick]}
+      onClear={() => {
+        setWallAreaSqFt(1000)
+        setBricksPerSqFt(7)
+        setWastagePct(5)
+        setCostPerBrick(10)
+      }}
+      onRestoreAction={(vals) => {
+        setWallAreaSqFt(Number(vals?.[0] ?? 1000))
+        setBricksPerSqFt(Number(vals?.[1] ?? 7))
+        setWastagePct(Number(vals?.[2] ?? 5))
+        setCostPerBrick(Number(vals?.[3] ?? 10))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Wall Area" value={wallAreaSqFt} onChange={setWallAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -772,6 +979,16 @@ export function CementCalculator() {
       icon={Building}
       calculate={() => {}}
       values={[volumeM3, bagsPerM3, bagPrice]}
+      onClear={() => {
+        setVolumeM3(5)
+        setBagsPerM3(7)
+        setBagPrice(420)
+      }}
+      onRestoreAction={(vals) => {
+        setVolumeM3(Number(vals?.[0] ?? 5))
+        setBagsPerM3(Number(vals?.[1] ?? 7))
+        setBagPrice(Number(vals?.[2] ?? 420))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Concrete Volume" value={volumeM3} onChange={setVolumeM3} min={0} max={1e7} step={0.1} suffix=" m³" />
@@ -803,6 +1020,16 @@ export function WaterTankCapacity() {
       icon={CalculatorIcon}
       calculate={() => {}}
       values={[lengthM, widthM, heightM]}
+      onClear={() => {
+        setLengthM(2)
+        setWidthM(2)
+        setHeightM(1.5)
+      }}
+      onRestoreAction={(vals) => {
+        setLengthM(Number(vals?.[0] ?? 2))
+        setWidthM(Number(vals?.[1] ?? 2))
+        setHeightM(Number(vals?.[2] ?? 1.5))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -830,6 +1057,14 @@ export function ElectricalWiringCost() {
       icon={Home}
       calculate={() => {}}
       values={[areaSqFt, costPerSqFt]}
+      onClear={() => {
+        setAreaSqFt(1200)
+        setCostPerSqFt(150)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqFt(Number(vals?.[0] ?? 1200))
+        setCostPerSqFt(Number(vals?.[1] ?? 150))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Area" value={areaSqFt} onChange={setAreaSqFt} min={0} max={10_000_000} step={1} suffix=" sq ft" />
@@ -854,6 +1089,14 @@ export function PlumbingCostCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[bathrooms, costPerBathroom]}
+      onClear={() => {
+        setBathrooms(2)
+        setCostPerBathroom(60_000)
+      }}
+      onRestoreAction={(vals) => {
+        setBathrooms(Number(vals?.[0] ?? 2))
+        setCostPerBathroom(Number(vals?.[1] ?? 60_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Bathrooms" value={bathrooms} onChange={setBathrooms} min={0} max={50} step={1} />
@@ -878,6 +1121,14 @@ export function BathroomRenovationCost() {
       icon={Home}
       calculate={() => {}}
       values={[bathrooms, costPerBathroom]}
+      onClear={() => {
+        setBathrooms(1)
+        setCostPerBathroom(1_50_000)
+      }}
+      onRestoreAction={(vals) => {
+        setBathrooms(Number(vals?.[0] ?? 1))
+        setCostPerBathroom(Number(vals?.[1] ?? 1_50_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Bathrooms" value={bathrooms} onChange={setBathrooms} min={0} max={50} step={1} />
@@ -908,6 +1159,16 @@ export function StaircaseCalculator() {
       icon={Ruler}
       calculate={() => {}}
       values={[floorHeightMm, riserMm, treadMm]}
+      onClear={() => {
+        setFloorHeightMm(3000)
+        setRiserMm(170)
+        setTreadMm(250)
+      }}
+      onRestoreAction={(vals) => {
+        setFloorHeightMm(Number(vals?.[0] ?? 3000))
+        setRiserMm(Number(vals?.[1] ?? 170))
+        setTreadMm(Number(vals?.[2] ?? 250))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Floor Height" value={floorHeightMm} onChange={setFloorHeightMm} min={0} max={100_000} step={1} suffix=" mm" />
@@ -945,6 +1206,18 @@ export function SepticTankSize() {
       icon={Home}
       calculate={() => {}}
       values={[users, litersPerPersonPerDay, retentionDays, safetyPct]}
+      onClear={() => {
+        setUsers(5)
+        setLitersPerPersonPerDay(120)
+        setRetentionDays(2)
+        setSafetyPct(20)
+      }}
+      onRestoreAction={(vals) => {
+        setUsers(Number(vals?.[0] ?? 5))
+        setLitersPerPersonPerDay(Number(vals?.[1] ?? 120))
+        setRetentionDays(Number(vals?.[2] ?? 2))
+        setSafetyPct(Number(vals?.[3] ?? 20))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Number of Users" value={users} onChange={setUsers} min={0} max={200} step={1} />
@@ -983,6 +1256,18 @@ export function RainwaterHarvesting() {
       icon={Home}
       calculate={() => {}}
       values={[roofAreaSqM, rainfallMm, runoffCoefficient, efficiencyPct]}
+      onClear={() => {
+        setRoofAreaSqM(100)
+        setRainfallMm(800)
+        setRunoffCoefficient(0.85)
+        setEfficiencyPct(80)
+      }}
+      onRestoreAction={(vals) => {
+        setRoofAreaSqM(Number(vals?.[0] ?? 100))
+        setRainfallMm(Number(vals?.[1] ?? 800))
+        setRunoffCoefficient(Number(vals?.[2] ?? 0.85))
+        setEfficiencyPct(Number(vals?.[3] ?? 80))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Roof Area" value={roofAreaSqM} onChange={setRoofAreaSqM} min={0} max={1e7} step={0.1} suffix=" m²" />
@@ -1009,6 +1294,14 @@ export function FenceCostCalculator() {
       icon={Ruler}
       calculate={() => {}}
       values={[perimeterM, costPerM]}
+      onClear={() => {
+        setPerimeterM(120)
+        setCostPerM(800)
+      }}
+      onRestoreAction={(vals) => {
+        setPerimeterM(Number(vals?.[0] ?? 120))
+        setCostPerM(Number(vals?.[1] ?? 800))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Perimeter" value={perimeterM} onChange={setPerimeterM} min={0} max={1e7} step={0.1} suffix=" m" />
@@ -1033,6 +1326,14 @@ export function DrivewayCostCalculator() {
       icon={Ruler}
       calculate={() => {}}
       values={[areaSqM, costPerSqM]}
+      onClear={() => {
+        setAreaSqM(50)
+        setCostPerSqM(1500)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqM(Number(vals?.[0] ?? 50))
+        setCostPerSqM(Number(vals?.[1] ?? 1500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Driveway Area" value={areaSqM} onChange={setAreaSqM} min={0} max={1e7} step={0.1} suffix=" m²" />
@@ -1061,6 +1362,16 @@ export function PoolCostCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[areaSqM, costPerSqM, extraFixedCost]}
+      onClear={() => {
+        setAreaSqM(25)
+        setCostPerSqM(12_000)
+        setExtraFixedCost(0)
+      }}
+      onRestoreAction={(vals) => {
+        setAreaSqM(Number(vals?.[0] ?? 25))
+        setCostPerSqM(Number(vals?.[1] ?? 12_000))
+        setExtraFixedCost(Number(vals?.[2] ?? 0))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Pool Surface Area" value={areaSqM} onChange={setAreaSqM} min={0} max={1e6} step={0.1} suffix=" m²" />

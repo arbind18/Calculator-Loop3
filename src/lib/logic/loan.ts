@@ -68,6 +68,93 @@ export const calculateLoanEMI = (input: LoanInput): LoanResult => {
   };
 };
 
+export interface LoanPrepaymentImpactInput extends LoanInput {
+  prepaymentAmount: number;
+}
+
+export interface LoanPrepaymentImpactResult {
+  original: LoanResult;
+  withPrepayment: LoanResult;
+  interestSaved: number;
+  monthsSaved: number;
+}
+
+/**
+ * Simulates a one-time lump-sum prepayment at month 1 while keeping EMI constant.
+ * This typically reduces tenure (months) and total interest.
+ */
+export const calculateLoanPrepaymentImpact = (
+  input: LoanPrepaymentImpactInput
+): LoanPrepaymentImpactResult => {
+  const { loanAmount, interestRate, tenureMonths, prepaymentAmount } = input;
+
+  const original = calculateLoanEMI({ loanAmount, interestRate, tenureMonths });
+
+  const principal = loanAmount;
+  const ratePerMonth = interestRate / 12 / 100;
+  const emi = original.emi;
+
+  const extra = Math.max(0, Math.min(prepaymentAmount, principal));
+  let balance = principal;
+  let totalInterestPaid = 0;
+  const schedule: AmortizationScheduleItem[] = [];
+  const currentYear = new Date().getFullYear();
+
+  let months = 0;
+  // Cap iterations to avoid infinite loops (e.g. extremely small EMI)
+  while (balance > 0 && months < Math.max(tenureMonths * 2, 360)) {
+    months++;
+
+    const interest = balance * ratePerMonth;
+    let principalComponent = emi - interest;
+
+    if (principalComponent <= 0) {
+      // If EMI cannot even cover interest, fall back to original (no progress possible).
+      return {
+        original,
+        withPrepayment: original,
+        interestSaved: 0,
+        monthsSaved: 0,
+      };
+    }
+
+    let extraPayment = months === 1 ? extra : 0;
+
+    if (principalComponent + extraPayment > balance) {
+      principalComponent = balance;
+      extraPayment = 0;
+    }
+
+    balance = balance - principalComponent - extraPayment;
+    totalInterestPaid += interest;
+
+    if (balance < 0) balance = 0;
+
+    schedule.push({
+      month: months,
+      year: currentYear + Math.floor((months - 1) / 12),
+      principal: Math.round(principalComponent + extraPayment),
+      interest: Math.round(interest),
+      balance: Math.round(balance),
+      totalPayment: Math.round(emi + extraPayment),
+      cumulativeInterest: Math.round(totalInterestPaid),
+    });
+  }
+
+  const withPrepayment: LoanResult = {
+    emi: Math.round(emi),
+    totalAmount: Math.round(principal + totalInterestPaid),
+    totalInterest: Math.round(totalInterestPaid),
+    principal,
+    schedule,
+  };
+
+  const interestSaved = Math.max(0, Math.round(original.totalInterest - withPrepayment.totalInterest));
+  const monthsSaved = Math.max(0, (original.schedule?.length ?? tenureMonths) - (withPrepayment.schedule?.length ?? months));
+
+  return { original, withPrepayment, interestSaved, monthsSaved };
+};
+
 export interface HomeLoanInput extends LoanInput {
   showPrepayment: boolean;
   monthlyExtra: number;

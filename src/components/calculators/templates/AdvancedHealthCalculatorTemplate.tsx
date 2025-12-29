@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { toast } from "react-hot-toast"
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -690,9 +691,16 @@ export function InputGroup({
 }) {
   return (
     <div className="space-y-2">
-      <Label className="text-sm font-medium">{label}</Label>
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium">{label}</label>
+        <div className="text-sm font-semibold text-primary">
+          {prefix}
+          {value}
+          {suffix}
+        </div>
+      </div>
+
       <div className="flex items-center gap-3">
-        {prefix && <span className="text-sm text-muted-foreground">{prefix}</span>}
         <input
           type="range"
           min={min}
@@ -702,22 +710,31 @@ export function InputGroup({
           onChange={(e) => onChangeAction(Number(e.target.value))}
           className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         />
-        <div className="flex items-center gap-1 min-w-[80px]">
-          <input
-            type="number"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={(e) => onChangeAction(Number(e.target.value))}
-            className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background"
-          />
+
+        <div className="flex items-center gap-1 min-w-[100px]">
+          <div className="relative w-full">
+            <input
+              type="number"
+              min={min}
+              max={max}
+              step={step}
+              value={value}
+              onChange={(e) => onChangeAction(Number(e.target.value))}
+              className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background"
+            />
+            <VoiceNumberButton
+              label={label}
+              onValueAction={onChangeAction}
+              min={min}
+              max={max}
+              className="absolute right-1 top-1/2 -translate-y-1/2"
+            />
+          </div>
           {suffix && <span className="text-sm text-muted-foreground whitespace-nowrap">{suffix}</span>}
         </div>
       </div>
-      {description && (
-        <p className="text-xs text-muted-foreground">{description}</p>
-      )}
+
+      {description && <p className="text-xs text-muted-foreground">{description}</p>}
     </div>
   )
 }

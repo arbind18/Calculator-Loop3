@@ -79,7 +79,34 @@ export function FIRECalculator() {
       description="Plan your early retirement. Calculate your 'FIRE Number' and find out exactly when you can stop working."
       icon={Flame}
       calculate={calculateFIRE}
-      values={[currentAge, currentSavings, monthlyExpenses, monthlyInvestment, returnRate]}
+      values={[
+        currentAge,
+        currentSavings,
+        monthlyExpenses,
+        monthlyInvestment,
+        returnRate,
+        inflationRate,
+        withdrawalRate,
+      ]}
+      onClear={() => {
+        setResult(null)
+        setCurrentAge(25)
+        setCurrentSavings(500000)
+        setMonthlyExpenses(30000)
+        setMonthlyInvestment(20000)
+        setReturnRate(10)
+        setInflationRate(6)
+        setWithdrawalRate(4)
+      }}
+      onRestoreAction={(vals) => {
+        setCurrentAge(Number(vals?.[0] ?? 25))
+        setCurrentSavings(Number(vals?.[1] ?? 500000))
+        setMonthlyExpenses(Number(vals?.[2] ?? 30000))
+        setMonthlyInvestment(Number(vals?.[3] ?? 20000))
+        setReturnRate(Number(vals?.[4] ?? 10))
+        setInflationRate(Number(vals?.[5] ?? 6))
+        setWithdrawalRate(Number(vals?.[6] ?? 4))
+      }}
       seoContent={<FAQSection faqs={getRetirementFAQs('fire')} />}
       inputs={
         <div className="space-y-6">

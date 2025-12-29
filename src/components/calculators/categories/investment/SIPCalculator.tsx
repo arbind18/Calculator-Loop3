@@ -138,6 +138,11 @@ export function SIPCalculator() {
       onClear={handleClear}
       onDownload={handleDownload}
       values={[monthlyInvestment, expectedReturn, timePeriod]}
+      onRestoreAction={(vals) => {
+        setMonthlyInvestment(Number(vals?.[0] ?? 0))
+        setExpectedReturn(Number(vals?.[1] ?? 0))
+        setTimePeriod(Number(vals?.[2] ?? 0))
+      }}
       seoContent={
         lang === 'en' ? (
           <ComprehensiveSIPSeo />

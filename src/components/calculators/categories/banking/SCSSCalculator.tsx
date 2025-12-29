@@ -37,6 +37,16 @@ export function SCSSCalculator() {
       icon={User}
       calculate={calculateSCSS}
       values={[investment, interestRate]}
+      onClear={() => {
+        setInvestment(1500000)
+        setInterestRate(8.2)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestment(Number(vals[0] ?? 1500000))
+        setInterestRate(Number(vals[1] ?? 8.2))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Investment Amount" value={investment} onChange={setInvestment} prefix="₹" min={1000} max={3000000} helpText="Max ₹30 Lakhs" />

@@ -1,6 +1,8 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
+
+import React, { useState, useEffect, useMemo } from 'react';
 import { Calculator, TrendingUp, DollarSign, PieChart, BarChart, Activity, Users, Briefcase, Zap, Copy, Check, Lightbulb, RefreshCw, Sparkles, BarChart3 } from 'lucide-react';
 import { FinancialCalculatorTemplate } from '@/components/calculators/templates/FinancialCalculatorTemplate';
 import { Label } from '@/components/ui/label';
@@ -4620,7 +4622,7 @@ const getCategoryTheme = () => ({
 export const GenericBusinessTool = ({ id }: { id: string }) => {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
 
-  const config = getToolConfig(id);
+  const config = useMemo(() => getToolConfig(id), [id]);
   const theme = getCategoryTheme();
   const [inputs, setInputs] = useState<Record<string, any>>({});
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -4635,7 +4637,7 @@ export const GenericBusinessTool = ({ id }: { id: string }) => {
     });
     setInputs(defaults);
     setResult(null);
-  }, [id, config.inputs]);
+  }, [id, config]);
 
   // Auto-calculate with debounce
   useEffect(() => {
@@ -4665,7 +4667,7 @@ export const GenericBusinessTool = ({ id }: { id: string }) => {
   };
 
   const applyPreset = (values: Record<string, any>) => {
-    setInputs({ ...inputs, ...values });
+    setInputs(prev => ({ ...prev, ...values }));
   };
 
   return (
@@ -4772,15 +4774,24 @@ export const GenericBusinessTool = ({ id }: { id: string }) => {
                           value={inputs[input.name] ?? ''}
                           onChange={(e) => setInputs(prev => ({ ...prev, [input.name]: input.type === 'number' ? Number(e.target.value) : e.target.value }))}
                           placeholder={input.placeholder || 'Enter value...'}
-                          className={`${input.prefix ? 'pl-8' : ''} ${input.suffix ? 'pr-12' : ''} focus:ring-2 focus:ring-amber-500`}
+                          className={`${input.prefix ? 'pl-8' : ''} ${input.type === 'number' ? (input.suffix ? 'pr-20' : 'pr-12') : (input.suffix ? 'pr-12' : '')} focus:ring-2 focus:ring-amber-500`}
                           min={input.type === 'number' ? 0 : undefined}
                           step={input.type === 'number' ? 'any' : undefined}
                         />
                         {input.suffix && (
-                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
+                          <span className={`absolute top-1/2 -translate-y-1/2 text-muted-foreground font-medium ${input.type === 'number' ? 'right-10' : 'right-3'}`}>
                             {input.suffix}
                           </span>
                         )}
+                        {input.type === 'number' ? (
+                          <VoiceNumberButton
+                            label={input.label}
+                            onValueAction={(v) => setInputs(prev => ({ ...prev, [input.name]: v }))}
+                            min={typeof input.min === 'number' ? input.min : undefined}
+                            max={typeof input.max === 'number' ? input.max : undefined}
+                            className="absolute right-2 top-1/2 -translate-y-1/2"
+                          />
+                        ) : null}
                       </div>
                     )}
                   </div>

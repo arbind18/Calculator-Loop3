@@ -75,7 +75,14 @@ export function CompoundInterestLoan() {
       description={t.loan.compound_interest_loan_desc}
       icon={DollarSign}
       calculate={handleCalculate}
+      values={[principal, rate, time, frequency]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 100000))
+        setRate(Number(vals?.[1] ?? 10))
+        setTime(Number(vals?.[2] ?? 5))
+        setFrequency(Number(vals?.[3] ?? 12))
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

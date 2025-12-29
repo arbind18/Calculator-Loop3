@@ -69,7 +69,17 @@ export function InsuranceGSTCalculator() {
       description="Calculate GST amount on an insurance premium (exclusive or inclusive)."
       icon={Briefcase}
       calculate={() => {}}
-      values={[premium, gstRatePct]}
+      values={[premium, gstRatePct, isInclusive]}
+      onClear={() => {
+        setPremium(10_000)
+        setGstRatePct(18)
+        setIsInclusive(false)
+      }}
+      onRestoreAction={(vals) => {
+        setPremium(Number(vals?.[0] ?? 10_000))
+        setGstRatePct(Number(vals?.[1] ?? 18))
+        setIsInclusive(Boolean(vals?.[2] ?? false))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Premium Amount" value={premium} onChange={setPremium} min={0} max={1e10} step={100} prefix="₹" />
@@ -117,6 +127,18 @@ export function MotorInsuranceCalculator() {
       icon={Car}
       calculate={() => {}}
       values={[vehicleValue, baseRatePct, claimFreeYears, addOnCost]}
+      onClear={() => {
+        setVehicleValue(8_00_000)
+        setBaseRatePct(2.5)
+        setClaimFreeYears(2)
+        setAddOnCost(2_500)
+      }}
+      onRestoreAction={(vals) => {
+        setVehicleValue(Number(vals?.[0] ?? 8_00_000))
+        setBaseRatePct(Number(vals?.[1] ?? 2.5))
+        setClaimFreeYears(Number(vals?.[2] ?? 2))
+        setAddOnCost(Number(vals?.[3] ?? 2_500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Vehicle Value (IDV)" value={vehicleValue} onChange={setVehicleValue} min={0} max={1e10} step={1000} prefix="₹" />
@@ -157,6 +179,16 @@ export function EndowmentCalculator() {
       icon={Shield}
       calculate={() => {}}
       values={[monthlyPremium, termYears, assumedReturn]}
+      onClear={() => {
+        setMonthlyPremium(3000)
+        setTermYears(20)
+        setAssumedReturn(6)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyPremium(Number(vals?.[0] ?? 3000))
+        setTermYears(Number(vals?.[1] ?? 20))
+        setAssumedReturn(Number(vals?.[2] ?? 6))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Premium" value={monthlyPremium} onChange={setMonthlyPremium} min={0} max={1e8} step={100} prefix="₹" />
@@ -193,6 +225,16 @@ export function ChildPlanCalculator() {
       icon={HeartPulse}
       calculate={() => {}}
       values={[monthlyInvestment, years, assumedReturn]}
+      onClear={() => {
+        setMonthlyInvestment(2000)
+        setYears(15)
+        setAssumedReturn(8)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyInvestment(Number(vals?.[0] ?? 2000))
+        setYears(Number(vals?.[1] ?? 15))
+        setAssumedReturn(Number(vals?.[2] ?? 8))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Investment" value={monthlyInvestment} onChange={setMonthlyInvestment} min={0} max={1e8} step={100} prefix="₹" />
@@ -229,6 +271,14 @@ export function NCBCalculator() {
       icon={Car}
       calculate={() => {}}
       values={[basePremium, claimFreeYears]}
+      onClear={() => {
+        setBasePremium(12_000)
+        setClaimFreeYears(3)
+      }}
+      onRestoreAction={(vals) => {
+        setBasePremium(Number(vals?.[0] ?? 12_000))
+        setClaimFreeYears(Number(vals?.[1] ?? 3))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Base Premium" value={basePremium} onChange={setBasePremium} min={0} max={1e8} step={100} prefix="₹" />
@@ -264,6 +314,16 @@ export function TermVsInvestCalculator() {
       icon={Umbrella}
       calculate={() => {}}
       values={[annualTermPremium, years, annualInvestmentReturn]}
+      onClear={() => {
+        setAnnualTermPremium(12_000)
+        setYears(25)
+        setAnnualInvestmentReturn(10)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualTermPremium(Number(vals?.[0] ?? 12_000))
+        setYears(Number(vals?.[1] ?? 25))
+        setAnnualInvestmentReturn(Number(vals?.[2] ?? 10))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Term Premium" value={annualTermPremium} onChange={setAnnualTermPremium} min={0} max={1e9} step={100} prefix="₹" />
@@ -300,6 +360,16 @@ export function PLICalculator() {
       icon={Shield}
       calculate={() => {}}
       values={[sumAssured, termYears, ratePerThousand]}
+      onClear={() => {
+        setSumAssured(5_00_000)
+        setTermYears(20)
+        setRatePerThousand(5)
+      }}
+      onRestoreAction={(vals) => {
+        setSumAssured(Number(vals?.[0] ?? 5_00_000))
+        setTermYears(Number(vals?.[1] ?? 20))
+        setRatePerThousand(Number(vals?.[2] ?? 5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Sum Assured" value={sumAssured} onChange={setSumAssured} min={0} max={1e10} step={1000} prefix="₹" />
@@ -337,6 +407,18 @@ export function TravelInsuranceCost() {
       icon={Plane}
       calculate={() => {}}
       values={[days, age, coverage, riskMultiplier]}
+      onClear={() => {
+        setDays(7)
+        setAge(30)
+        setCoverage(5_00_000)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setDays(Number(vals?.[0] ?? 7))
+        setAge(Number(vals?.[1] ?? 30))
+        setCoverage(Number(vals?.[2] ?? 5_00_000))
+        setRiskMultiplier(Number(vals?.[3] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Trip Days" value={days} onChange={setDays} min={1} max={365} step={1} />
@@ -368,6 +450,16 @@ export function HomeInsuranceCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[homeValue, coveragePct, ratePct]}
+      onClear={() => {
+        setHomeValue(60_00_000)
+        setCoveragePct(80)
+        setRatePct(0.2)
+      }}
+      onRestoreAction={(vals) => {
+        setHomeValue(Number(vals?.[0] ?? 60_00_000))
+        setCoveragePct(Number(vals?.[1] ?? 80))
+        setRatePct(Number(vals?.[2] ?? 0.2))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Home Value" value={homeValue} onChange={setHomeValue} min={0} max={1e12} step={1000} prefix="₹" />
@@ -403,6 +495,16 @@ export function CriticalIllnessCover() {
       icon={HeartPulse}
       calculate={() => {}}
       values={[age, cover, smoker]}
+      onClear={() => {
+        setAge(35)
+        setCover(10_00_000)
+        setSmoker(false)
+      }}
+      onRestoreAction={(vals) => {
+        setAge(Number(vals?.[0] ?? 35))
+        setCover(Number(vals?.[1] ?? 10_00_000))
+        setSmoker(Boolean(vals?.[2] ?? false))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Age" value={age} onChange={setAge} min={0} max={100} step={1} />
@@ -442,6 +544,16 @@ export function CyberInsuranceCalculator() {
       icon={Smartphone}
       calculate={() => {}}
       values={[cover, devices, riskMultiplier]}
+      onClear={() => {
+        setCover(5_00_000)
+        setDevices(3)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setCover(Number(vals?.[0] ?? 5_00_000))
+        setDevices(Number(vals?.[1] ?? 3))
+        setRiskMultiplier(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Cover Amount" value={cover} onChange={setCover} min={0} max={1e9} step={10_000} prefix="₹" />
@@ -475,6 +587,18 @@ export function SurrenderValueCalculator() {
       icon={Shield}
       calculate={() => {}}
       values={[annualPremium, yearsPaid, policyTermYears, surrenderFactorPct]}
+      onClear={() => {
+        setAnnualPremium(30_000)
+        setYearsPaid(5)
+        setPolicyTermYears(20)
+        setSurrenderFactorPct(30)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualPremium(Number(vals?.[0] ?? 30_000))
+        setYearsPaid(Number(vals?.[1] ?? 5))
+        setPolicyTermYears(Number(vals?.[2] ?? 20))
+        setSurrenderFactorPct(Number(vals?.[3] ?? 30))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Premium" value={annualPremium} onChange={setAnnualPremium} min={0} max={1e9} step={100} prefix="₹" />
@@ -513,6 +637,16 @@ export function PetInsuranceCalculator() {
       icon={HeartPulse}
       calculate={() => {}}
       values={[petAge, cover, riskMultiplier]}
+      onClear={() => {
+        setPetAge(3)
+        setCover(50_000)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setPetAge(Number(vals?.[0] ?? 3))
+        setCover(Number(vals?.[1] ?? 50_000))
+        setRiskMultiplier(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Pet Age" value={petAge} onChange={setPetAge} min={0} max={30} step={1} suffix=" years" />
@@ -542,6 +676,14 @@ export function BicycleInsuranceCalculator() {
       icon={Package}
       calculate={() => {}}
       values={[bikeValue, theftAddOn]}
+      onClear={() => {
+        setBikeValue(40_000)
+        setTheftAddOn(true)
+      }}
+      onRestoreAction={(vals) => {
+        setBikeValue(Number(vals?.[0] ?? 40_000))
+        setTheftAddOn(Boolean(vals?.[1] ?? true))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Bicycle Value" value={bikeValue} onChange={setBikeValue} min={0} max={1e8} step={100} prefix="₹" />
@@ -574,6 +716,14 @@ export function MobileInsuranceCalculator() {
       icon={Smartphone}
       calculate={() => {}}
       values={[phoneValue, ratePct]}
+      onClear={() => {
+        setPhoneValue(30_000)
+        setRatePct(4)
+      }}
+      onRestoreAction={(vals) => {
+        setPhoneValue(Number(vals?.[0] ?? 30_000))
+        setRatePct(Number(vals?.[1] ?? 4))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Phone Value" value={phoneValue} onChange={setPhoneValue} min={0} max={1e9} step={100} prefix="₹" />
@@ -598,6 +748,14 @@ export function WeddingInsuranceCalculator() {
       icon={Umbrella}
       calculate={() => {}}
       values={[weddingBudget, ratePct]}
+      onClear={() => {
+        setWeddingBudget(10_00_000)
+        setRatePct(1.5)
+      }}
+      onRestoreAction={(vals) => {
+        setWeddingBudget(Number(vals?.[0] ?? 10_00_000))
+        setRatePct(Number(vals?.[1] ?? 1.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Wedding Budget" value={weddingBudget} onChange={setWeddingBudget} min={0} max={1e12} step={1000} prefix="₹" />
@@ -629,6 +787,18 @@ export function GroupHealthInsurancePremium() {
       icon={Briefcase}
       calculate={() => {}}
       values={[employees, sumInsuredPerEmployee, basePremiumPerEmployee, dependentMultiplier]}
+      onClear={() => {
+        setEmployees(25)
+        setSumInsuredPerEmployee(2_00_000)
+        setBasePremiumPerEmployee(2500)
+        setDependentMultiplier(1.2)
+      }}
+      onRestoreAction={(vals) => {
+        setEmployees(Number(vals?.[0] ?? 25))
+        setSumInsuredPerEmployee(Number(vals?.[1] ?? 2_00_000))
+        setBasePremiumPerEmployee(Number(vals?.[2] ?? 2500))
+        setDependentMultiplier(Number(vals?.[3] ?? 1.2))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Employees" value={employees} onChange={setEmployees} min={1} max={1000000} step={1} />
@@ -665,6 +835,16 @@ export function KeymanInsuranceCalculator() {
       icon={Briefcase}
       calculate={() => {}}
       values={[cover, age, termYears]}
+      onClear={() => {
+        setCover(50_00_000)
+        setAge(40)
+        setTermYears(10)
+      }}
+      onRestoreAction={(vals) => {
+        setCover(Number(vals?.[0] ?? 50_00_000))
+        setAge(Number(vals?.[1] ?? 40))
+        setTermYears(Number(vals?.[2] ?? 10))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Cover Amount" value={cover} onChange={setCover} min={0} max={1e12} step={100000} prefix="₹" />
@@ -694,6 +874,16 @@ export function MarineInsuranceCalculator() {
       icon={Package}
       calculate={() => {}}
       values={[cargoValue, ratePct, riskMultiplier]}
+      onClear={() => {
+        setCargoValue(20_00_000)
+        setRatePct(0.8)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setCargoValue(Number(vals?.[0] ?? 20_00_000))
+        setRatePct(Number(vals?.[1] ?? 0.8))
+        setRiskMultiplier(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Cargo Value" value={cargoValue} onChange={setCargoValue} min={0} max={1e12} step={1000} prefix="₹" />
@@ -723,6 +913,16 @@ export function FireInsuranceCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[propertyValue, ratePct, riskMultiplier]}
+      onClear={() => {
+        setPropertyValue(80_00_000)
+        setRatePct(0.15)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setPropertyValue(Number(vals?.[0] ?? 80_00_000))
+        setRatePct(Number(vals?.[1] ?? 0.15))
+        setRiskMultiplier(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Property Value" value={propertyValue} onChange={setPropertyValue} min={0} max={1e12} step={1000} prefix="₹" />
@@ -748,6 +948,14 @@ export function BurglaryInsuranceCalculator() {
       icon={Home}
       calculate={() => {}}
       values={[contentsValue, ratePct]}
+      onClear={() => {
+        setContentsValue(10_00_000)
+        setRatePct(0.25)
+      }}
+      onRestoreAction={(vals) => {
+        setContentsValue(Number(vals?.[0] ?? 10_00_000))
+        setRatePct(Number(vals?.[1] ?? 0.25))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Contents Value" value={contentsValue} onChange={setContentsValue} min={0} max={1e12} step={1000} prefix="₹" />
@@ -776,6 +984,16 @@ export function PublicLiabilityInsurance() {
       icon={Umbrella}
       calculate={() => {}}
       values={[coverage, ratePct, riskMultiplier]}
+      onClear={() => {
+        setCoverage(1_00_00_000)
+        setRatePct(0.08)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setCoverage(Number(vals?.[0] ?? 1_00_00_000))
+        setRatePct(Number(vals?.[1] ?? 0.08))
+        setRiskMultiplier(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Coverage Limit" value={coverage} onChange={setCoverage} min={0} max={1e13} step={10000} prefix="₹" />
@@ -805,6 +1023,16 @@ export function WorkmensCompensation() {
       icon={Briefcase}
       calculate={() => {}}
       values={[employees, avgMonthlyWage, ratePct]}
+      onClear={() => {
+        setEmployees(20)
+        setAvgMonthlyWage(18_000)
+        setRatePct(1.5)
+      }}
+      onRestoreAction={(vals) => {
+        setEmployees(Number(vals?.[0] ?? 20))
+        setAvgMonthlyWage(Number(vals?.[1] ?? 18_000))
+        setRatePct(Number(vals?.[2] ?? 1.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Employees" value={employees} onChange={setEmployees} min={0} max={1e7} step={1} />
@@ -835,6 +1063,16 @@ export function DirectorsOfficersLiability() {
       icon={Briefcase}
       calculate={() => {}}
       values={[annualRevenue, limit, rateBps]}
+      onClear={() => {
+        setAnnualRevenue(5_00_00_000)
+        setLimit(1_00_00_000)
+        setRateBps(25)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualRevenue(Number(vals?.[0] ?? 5_00_00_000))
+        setLimit(Number(vals?.[1] ?? 1_00_00_000))
+        setRateBps(Number(vals?.[2] ?? 25))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Revenue" value={annualRevenue} onChange={setAnnualRevenue} min={0} max={1e15} step={100000} prefix="₹" />
@@ -864,6 +1102,16 @@ export function ProfessionalIndemnity() {
       icon={Briefcase}
       calculate={() => {}}
       values={[coverage, ratePct, riskMultiplier]}
+      onClear={() => {
+        setCoverage(50_00_000)
+        setRatePct(0.3)
+        setRiskMultiplier(1)
+      }}
+      onRestoreAction={(vals) => {
+        setCoverage(Number(vals?.[0] ?? 50_00_000))
+        setRatePct(Number(vals?.[1] ?? 0.3))
+        setRiskMultiplier(Number(vals?.[2] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Coverage" value={coverage} onChange={setCoverage} min={0} max={1e13} step={10000} prefix="₹" />
@@ -894,6 +1142,16 @@ export function CropInsuranceCalculator() {
       icon={Leaf}
       calculate={() => {}}
       values={[acres, sumInsuredPerAcre, premiumRatePct]}
+      onClear={() => {
+        setAcres(2)
+        setSumInsuredPerAcre(30_000)
+        setPremiumRatePct(2)
+      }}
+      onRestoreAction={(vals) => {
+        setAcres(Number(vals?.[0] ?? 2))
+        setSumInsuredPerAcre(Number(vals?.[1] ?? 30_000))
+        setPremiumRatePct(Number(vals?.[2] ?? 2))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Area" value={acres} onChange={setAcres} min={0} max={1e7} step={0.1} suffix=" acres" />
@@ -929,6 +1187,16 @@ export function ShopkeepersInsurance() {
       icon={Home}
       calculate={() => {}}
       values={[stockValue, fixturesValue, ratePct]}
+      onClear={() => {
+        setStockValue(5_00_000)
+        setFixturesValue(2_00_000)
+        setRatePct(0.35)
+      }}
+      onRestoreAction={(vals) => {
+        setStockValue(Number(vals?.[0] ?? 5_00_000))
+        setFixturesValue(Number(vals?.[1] ?? 2_00_000))
+        setRatePct(Number(vals?.[2] ?? 0.35))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Stock Value" value={stockValue} onChange={setStockValue} min={0} max={1e12} step={1000} prefix="₹" />

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Percent, Activity } from "lucide-react"
+import { Activity } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { formatCompactNumber } from "@/lib/utils"
 
@@ -31,6 +31,18 @@ export function OperatingMargin() {
       icon={Activity}
       calculate={calculateMargin}
       values={[revenue, cogs, operatingExpenses]}
+      onClear={() => {
+        setRevenue(1000000)
+        setCogs(400000)
+        setOperatingExpenses(300000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setRevenue(Number(vals[0] ?? 1000000))
+        setCogs(Number(vals[1] ?? 400000))
+        setOperatingExpenses(Number(vals[2] ?? 300000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Revenue" value={revenue} onChange={setRevenue} prefix="₹" min={0} max={100000000} />

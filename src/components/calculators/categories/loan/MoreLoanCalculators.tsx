@@ -11,6 +11,13 @@ export function LoanPartPayment() {
   const [interestRate, setInterestRate] = useState(8.5)
   const [remainingTenure, setRemainingTenure] = useState(180) // Months
 
+  const handleClear = () => {
+    setOutstanding(2000000)
+    setPartPayment(500000)
+    setInterestRate(8.5)
+    setRemainingTenure(180)
+  }
+
   const calculate = () => {
     const r = interestRate / 12 / 100
     
@@ -44,6 +51,14 @@ export function LoanPartPayment() {
       description="See impact of part payment: Reduce Tenure vs Reduce EMI."
       icon={Calculator}
       calculate={() => {}}
+      values={[outstanding, partPayment, interestRate, remainingTenure]}
+      onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals?.[0] ?? 2000000))
+        setPartPayment(Number(vals?.[1] ?? 500000))
+        setInterestRate(Number(vals?.[2] ?? 8.5))
+        setRemainingTenure(Number(vals?.[3] ?? 180))
+      }}
       onDownload={(format) => generateReport(format, 'part_payment', ['Metric', 'Value'], [['Tenure Saved', `${result.tenureSaved} Months`]], 'Part Payment Report')}
       inputs={
         <div className="space-y-4">
@@ -78,6 +93,12 @@ export function MoratoriumCalculator() {
   const [interestRate, setInterestRate] = useState(9)
   const [moratoriumPeriod, setMoratoriumPeriod] = useState(6) // Months
 
+  const handleClear = () => {
+    setLoanAmount(1000000)
+    setInterestRate(9)
+    setMoratoriumPeriod(6)
+  }
+
   const calculate = () => {
     // Simple interest during moratorium is added to principal
     const interestAccrued = loanAmount * (interestRate / 100) * (moratoriumPeriod / 12)
@@ -93,6 +114,13 @@ export function MoratoriumCalculator() {
       description="Calculate interest accrued during loan moratorium period."
       icon={PauseCircle}
       calculate={() => {}}
+      values={[loanAmount, interestRate, moratoriumPeriod]}
+      onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals?.[0] ?? 1000000))
+        setInterestRate(Number(vals?.[1] ?? 9))
+        setMoratoriumPeriod(Number(vals?.[2] ?? 6))
+      }}
       onDownload={(format) => generateReport(format, 'moratorium', ['Item', 'Value'], [['Interest Accrued', `₹${interestAccrued}`]], 'Moratorium Report')}
       inputs={
         <div className="space-y-4">

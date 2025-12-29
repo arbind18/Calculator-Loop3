@@ -238,28 +238,30 @@ export function HomeLoanEMI() {
   const renderMonthlySchedule = (schedule: HomeLoanResult["schedule"]) => {
     if (!schedule?.length) return null
     return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t.loan.remaining_months}</TableHead>
-            <TableHead className="text-right">{t.loan.principal_paid}</TableHead>
-            <TableHead className="text-right">{t.loan.interest_paid}</TableHead>
-            <TableHead className="text-right">{t.loan.total_paid}</TableHead>
-            <TableHead className="text-right">{t.loan.remaining_balance}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {schedule.map((row) => (
-            <TableRow key={row.month}>
-              <TableCell>{row.month}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.principal ?? 0).toLocaleString()}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.interest ?? 0).toLocaleString()}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.totalPayment ?? 0).toLocaleString()}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.balance ?? 0).toLocaleString()}</TableCell>
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[720px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t.loan.remaining_months}</TableHead>
+              <TableHead className="text-right">{t.loan.principal_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.interest_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.total_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.remaining_balance}</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {schedule.map((row) => (
+              <TableRow key={row.month}>
+                <TableCell>{row.month}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.principal ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.totalPayment ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance ?? 0).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     )
   }
 
@@ -267,28 +269,30 @@ export function HomeLoanEMI() {
     if (!schedule?.length) return null
     const yearly = aggregateLoanScheduleByYear(schedule)
     return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Year</TableHead>
-            <TableHead className="text-right">{t.loan.principal_paid}</TableHead>
-            <TableHead className="text-right">{t.loan.interest_paid}</TableHead>
-            <TableHead className="text-right">{t.loan.total_paid}</TableHead>
-            <TableHead className="text-right">{t.loan.remaining_balance}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {yearly.map((row) => (
-            <TableRow key={row.year}>
-              <TableCell>{row.year}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.principalPaid).toLocaleString()}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.interestPaid).toLocaleString()}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.totalPaid).toLocaleString()}</TableCell>
-              <TableCell className="text-right">₹{Math.round(row.endingBalance).toLocaleString()}</TableCell>
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[720px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Year</TableHead>
+              <TableHead className="text-right">{t.loan.principal_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.interest_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.total_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.remaining_balance}</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {yearly.map((row) => (
+              <TableRow key={row.year}>
+                <TableCell>{row.year}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.principalPaid).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interestPaid).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.totalPaid).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.endingBalance).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     )
   }
 
@@ -358,6 +362,7 @@ export function HomeLoanEMI() {
       calculatorId="home-loan-emi"
       onSave={handleSave}
       calculate={handleCalculate}
+      values={[loanAmount, interestRate, tenureYears, monthlyExtra, annualExtra, showPrepayment, scenario, scheduleView]}
       seoContent={
         language === 'en' ? (
           <ComprehensiveHomeLoanSeo />
@@ -378,6 +383,16 @@ export function HomeLoanEMI() {
         setShowPrepayment(false)
         setScenario("base")
         setScheduleView("yearly")
+      }}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals?.[0] ?? 5000000))
+        setInterestRate(Number(vals?.[1] ?? 8.5))
+        setTenureYears(Number(vals?.[2] ?? 20))
+        setMonthlyExtra(Number(vals?.[3] ?? 0))
+        setAnnualExtra(Number(vals?.[4] ?? 0))
+        setShowPrepayment(Boolean(vals?.[5] ?? false))
+        setScenario((vals?.[6] as any) ?? "base")
+        setScheduleView((vals?.[7] as any) ?? "yearly")
       }}
       onDownload={handleDownload}
       inputs={

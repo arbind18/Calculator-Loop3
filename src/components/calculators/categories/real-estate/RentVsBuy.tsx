@@ -53,7 +53,40 @@ export function RentVsBuy() {
       description={t('real_estate.rent_vs_buy_desc')}
       icon={Home}
       calculate={handleCalculate}
-      values={[propertyPrice, monthlyRent, loanRate, investmentReturnRate]}
+      values={[
+        propertyPrice,
+        downPaymentPercent,
+        loanRate,
+        loanTenure,
+        appreciationRate,
+        maintenanceCost,
+        monthlyRent,
+        rentIncreaseRate,
+        investmentReturnRate,
+      ]}
+      onClear={() => {
+        setResult(null)
+        setPropertyPrice(5000000)
+        setDownPaymentPercent(20)
+        setLoanRate(8.5)
+        setLoanTenure(20)
+        setAppreciationRate(5)
+        setMaintenanceCost(3000)
+        setMonthlyRent(15000)
+        setRentIncreaseRate(5)
+        setInvestmentReturnRate(12)
+      }}
+      onRestoreAction={(vals) => {
+        setPropertyPrice(Number(vals?.[0] ?? 5000000))
+        setDownPaymentPercent(Number(vals?.[1] ?? 20))
+        setLoanRate(Number(vals?.[2] ?? 8.5))
+        setLoanTenure(Number(vals?.[3] ?? 20))
+        setAppreciationRate(Number(vals?.[4] ?? 5))
+        setMaintenanceCost(Number(vals?.[5] ?? 3000))
+        setMonthlyRent(Number(vals?.[6] ?? 15000))
+        setRentIncreaseRate(Number(vals?.[7] ?? 5))
+        setInvestmentReturnRate(Number(vals?.[8] ?? 12))
+      }}
       seoContent={<HomeLoanSeoContent />}
       inputs={
         <div className="space-y-6">

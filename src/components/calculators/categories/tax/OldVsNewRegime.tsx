@@ -27,6 +27,15 @@ export function OldVsNewRegime() {
         description={t('tax.old_vs_new_desc')}
         icon={Scale}
         calculate={() => {}}
+        values={[income, currentDeductions]}
+        onClear={() => {
+          setIncome(1500000)
+          setCurrentDeductions(250000)
+        }}
+        onRestoreAction={(vals) => {
+          setIncome(Number(vals?.[0] ?? 1500000))
+          setCurrentDeductions(Number(vals?.[1] ?? 250000))
+        }}
         onDownload={(format) => generateReport(format, 'regime_comparison', ['Item', 'Value'], [['New Regime Tax', `₹${taxNew}`], ['Old Regime Tax', `₹${taxOld}`], ['Recommendation', betterRegime]], 'Tax Regime Report')}
         inputs={
           <div className="space-y-6">

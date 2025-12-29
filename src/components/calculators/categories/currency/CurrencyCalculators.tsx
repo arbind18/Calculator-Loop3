@@ -28,6 +28,17 @@ export function CurrencyConverter() {
       icon={RefreshCw}
       calculate={calculate}
       values={[amount, from, to]}
+      onClear={() => {
+        setAmount(1000)
+        setFrom('INR')
+        setTo('USD')
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 1000))
+        setFrom(String(vals?.[1] ?? 'INR'))
+        setTo(String(vals?.[2] ?? 'USD'))
+      }}
       seoContent={<CurrencyConverterSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -101,6 +112,19 @@ export function CryptoProfitLoss() {
       icon={Bitcoin}
       calculate={calculate}
       values={[buy, sell, quantity, fees]}
+      onClear={() => {
+        setBuy(30000)
+        setSell(35000)
+        setQuantity(0.5)
+        setFees(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBuy(Number(vals?.[0] ?? 30000))
+        setSell(Number(vals?.[1] ?? 35000))
+        setQuantity(Number(vals?.[2] ?? 0.5))
+        setFees(Number(vals?.[3] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -185,6 +209,17 @@ export function ForexMargin() {
       icon={TrendingUp}
       calculate={calculate}
       values={[lotSize, leverage, currency]}
+      onClear={() => {
+        setLotSize(1)
+        setLeverage(100)
+        setCurrency('USDINR')
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setLotSize(Number(vals?.[0] ?? 1))
+        setLeverage(Number(vals?.[1] ?? 100))
+        setCurrency(String(vals?.[2] ?? 'USDINR'))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -257,6 +292,15 @@ export function BitcoinConverter() {
       icon={Bitcoin}
       calculate={calculate}
       values={[btc, price]}
+      onClear={() => {
+        setBtc(0.1)
+        setPrice(3500000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBtc(Number(vals?.[0] ?? 0.1))
+        setPrice(Number(vals?.[1] ?? 3500000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -318,6 +362,17 @@ export function ExchangeRateImpact() {
       icon={ArrowRightLeft}
       calculate={calculate}
       values={[amount, oldRate, newRate]}
+      onClear={() => {
+        setAmount(100000)
+        setOldRate(80)
+        setNewRate(83)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 100000))
+        setOldRate(Number(vals?.[1] ?? 80))
+        setNewRate(Number(vals?.[2] ?? 83))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -398,6 +453,17 @@ export function ImportExportDuty() {
       icon={Globe}
       calculate={calculate}
       values={[value, dutyRate, gst]}
+      onClear={() => {
+        setValue(100000)
+        setDutyRate(10)
+        setGst(18)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setValue(Number(vals?.[0] ?? 100000))
+        setDutyRate(Number(vals?.[1] ?? 10))
+        setGst(Number(vals?.[2] ?? 18))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup
@@ -480,6 +546,15 @@ export function GoldSilverPrice() {
       icon={Coins}
       calculate={calculate}
       values={[grams, metal]}
+      onClear={() => {
+        setGrams(10)
+        setMetal('gold')
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setGrams(Number(vals?.[0] ?? 10))
+        setMetal(String(vals?.[1] ?? 'gold'))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -553,6 +628,17 @@ export function InternationalTransfer() {
       icon={Globe}
       calculate={calculate}
       values={[amount, rate, fees]}
+      onClear={() => {
+        setAmount(100000)
+        setRate(83)
+        setFees(2)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 100000))
+        setRate(Number(vals?.[1] ?? 83))
+        setFees(Number(vals?.[2] ?? 2))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup

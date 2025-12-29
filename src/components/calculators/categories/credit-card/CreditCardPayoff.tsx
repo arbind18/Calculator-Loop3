@@ -8,6 +8,8 @@ import {
 } from "recharts"
 import { formatCompactNumber } from "@/lib/utils"
 import { PersonalLoanSeoContent } from "@/components/calculators/seo/LoanSeo"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import toast from "react-hot-toast"
 
 export function CreditCardPayoff() {
   const [balance, setBalance] = useState(50000)
@@ -17,11 +19,25 @@ export function CreditCardPayoff() {
   const [result, setResult] = useState<any>(null)
 
   const calculatePayoff = () => {
+    if (!Number.isFinite(balance) || balance <= 0) {
+      toast.error("Balance must be greater than 0")
+      return
+    }
+    if (!Number.isFinite(interestRate) || interestRate < 0) {
+      toast.error("Interest rate must be 0 or more")
+      return
+    }
+    if (!Number.isFinite(monthlyPayment) || monthlyPayment <= 0) {
+      toast.error("Monthly payment must be greater than 0")
+      return
+    }
+
     const monthlyRate = interestRate / 12 / 100
     let currentBalance = balance
     let totalInterest = 0
     let months = 0
-    const data = []
+    const data: Array<{ month: number; balance: number; interestPaid: number }> = []
+    const schedule: Array<{ month: number; payment: number; interest: number; principal: number; balance: number }> = []
     
     // Safety break at 30 years (360 months) to prevent infinite loops for low payments
     while (currentBalance > 0 && months < 360) {
@@ -34,14 +50,21 @@ export function CreditCardPayoff() {
         return
       }
 
-      if (currentBalance < monthlyPayment) {
-        principal = currentBalance
-        // Last month payment will be less
-      }
+      const paymentThisMonth = Math.min(monthlyPayment, currentBalance + interest)
+      principal = paymentThisMonth - interest
+      if (principal > currentBalance) principal = currentBalance
 
       currentBalance -= principal
       totalInterest += interest
       months++
+
+      schedule.push({
+        month: months,
+        payment: Math.round(paymentThisMonth),
+        interest: Math.round(interest),
+        principal: Math.round(principal),
+        balance: Math.max(0, Math.round(currentBalance)),
+      })
 
       if (months % 6 === 0 || currentBalance <= 0) {
          data.push({
@@ -60,8 +83,39 @@ export function CreditCardPayoff() {
       timeString: `${years > 0 ? `${years} years ` : ''}${remainingMonths} months`,
       totalInterest,
       totalPaid: balance + totalInterest,
-      data
+      data,
+      schedule
     })
+  }
+
+  const renderSchedule = (schedule: Array<any>) => {
+    if (!schedule?.length) return null
+    return (
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[720px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Month</TableHead>
+              <TableHead className="text-right">Payment</TableHead>
+              <TableHead className="text-right">Interest</TableHead>
+              <TableHead className="text-right">Principal</TableHead>
+              <TableHead className="text-right">Balance</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {schedule.map((row: any) => (
+              <TableRow key={row.month}>
+                <TableCell>{row.month}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.payment ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.principal ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance ?? 0).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    )
   }
 
   return (
@@ -71,6 +125,22 @@ export function CreditCardPayoff() {
       icon={CreditCard}
       calculate={calculatePayoff}
       values={[balance, interestRate, monthlyPayment]}
+      onClear={() => {
+        setResult(null)
+        setBalance(50000)
+        setInterestRate(36)
+        setMonthlyPayment(2500)
+      }}
+      onRestoreAction={(vals) => {
+        const restoredBalance = Number(vals?.[0] ?? 50000)
+        const restoredRate = Number(vals?.[1] ?? 36)
+        const restoredPaymentRaw = Number(vals?.[2] ?? 2500)
+        const restoredPayment = Math.min(restoredPaymentRaw, restoredBalance)
+
+        setBalance(restoredBalance)
+        setInterestRate(restoredRate)
+        setMonthlyPayment(restoredPayment)
+      }}
       seoContent={<PersonalLoanSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -172,6 +242,7 @@ export function CreditCardPayoff() {
           </ResponsiveContainer>
         </div>
       )}
+      schedule={result && !result.error && result.schedule && renderSchedule(result.schedule)}
     />
   )
 }

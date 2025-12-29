@@ -1,11 +1,11 @@
 "use client"
 
-import { ReactNode, useState, useEffect } from "react"
+import { ReactNode, useState, useEffect, useRef } from "react"
 import { 
   Activity, LucideIcon, Download, Printer, Share2, RotateCcw, 
   FileText, FileSpreadsheet, FileJson, FileCode, FileImage, 
   Database, FileArchive, Presentation, X, ChevronDown, TrendingUp,
-  Heart, Scale, AlertCircle, CheckCircle, Info, Copy, Mail
+  Heart, Scale, AlertCircle, CheckCircle, Info, Copy, Mail, History, Trash2
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
@@ -94,6 +94,9 @@ export function ComprehensiveHealthTemplate({
   const [isAutoCalculate, setIsAutoCalculate] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [pendingFormat, setPendingFormat] = useState<string | null>(null)
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const [historyItems, setHistoryItems] = useState<Array<{ at: string; values: any[]; primary?: string; score?: number }>>([])
+  const lastHistoryHashRef = useRef<string | null>(null)
   const [downloadOptions, setDownloadOptions] = useState<DownloadOptions>({
     includeSummary: true,
     includeMetrics: true,
@@ -107,6 +110,72 @@ export function ComprehensiveHealthTemplate({
       calculate()
     }
   }, [isAutoCalculate, JSON.stringify(values)])
+
+  const historyStorageKey = toolId ? `calculatorHistory:${toolId}` : null
+
+  const refreshHistory = () => {
+    if (!historyStorageKey) return
+    try {
+      const raw = localStorage.getItem(historyStorageKey)
+      const parsed = raw ? JSON.parse(raw) : []
+      setHistoryItems(Array.isArray(parsed) ? parsed : [])
+    } catch {
+      setHistoryItems([])
+    }
+  }
+
+  useEffect(() => {
+    if (!historyStorageKey) return
+    refreshHistory()
+  }, [historyStorageKey])
+
+  useEffect(() => {
+    if (!historyStorageKey) return
+    if (!result) return
+
+    let hash = ""
+    try {
+      hash = JSON.stringify(values)
+    } catch {
+      return
+    }
+    if (!hash) return
+    if (lastHistoryHashRef.current === hash) return
+    lastHistoryHashRef.current = hash
+
+    const primary = result.primaryMetric ? `${result.primaryMetric.label}: ${result.primaryMetric.value}${result.primaryMetric.unit ? ' ' + result.primaryMetric.unit : ''}` : undefined
+    const score = result.healthScore
+
+    try {
+      const raw = localStorage.getItem(historyStorageKey)
+      const parsed = raw ? JSON.parse(raw) : []
+      const existing: Array<{ at: string; values: any[]; primary?: string; score?: number }> = Array.isArray(parsed) ? parsed : []
+      const next = [{ at: new Date().toISOString(), values, primary, score }, ...existing].slice(0, 10)
+      localStorage.setItem(historyStorageKey, JSON.stringify(next))
+      setHistoryItems(next)
+    } catch {
+      // ignore
+    }
+  }, [historyStorageKey, result, JSON.stringify(values)])
+
+  const clearHistory = () => {
+    if (!historyStorageKey) return
+    try {
+      localStorage.removeItem(historyStorageKey)
+    } catch {
+      // ignore
+    }
+    setHistoryItems([])
+  }
+
+  const copyHistoryItem = async (item: { at: string; values: any[]; primary?: string; score?: number }) => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify({ toolId, title, at: item.at, values: item.values, primary: item.primary, score: item.score }, null, 2))
+      toast.success("Inputs copied")
+    } catch {
+      toast.error("Failed to copy")
+    }
+  }
 
   const handleDownload = async (format: string) => {
     if (!result) {
@@ -600,6 +669,53 @@ export function ComprehensiveHealthTemplate({
                       <Button variant="ghost" size="sm" onClick={handlePrint} className="flex-1">
                         <Printer className="h-4 w-4 mr-2" /> Print
                       </Button>
+
+                      {toolId && (
+                        <DropdownMenu open={historyOpen} onOpenChange={setHistoryOpen}>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="flex-1">
+                              <History className="h-4 w-4 mr-2" /> History
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-[360px] p-3">
+                            <DropdownMenuLabel className="px-2 py-1.5 text-sm font-bold">Recent Inputs</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+
+                            {historyItems.length === 0 ? (
+                              <div className="px-2 py-3 text-sm text-muted-foreground">No history yet. Run a calculation to save inputs.</div>
+                            ) : (
+                              <div className="max-h-[320px] overflow-y-auto">
+                                {historyItems.map((item, idx) => (
+                                  <DropdownMenuItem
+                                    key={`${item.at}-${idx}`}
+                                    className="rounded-lg cursor-pointer flex items-center justify-between gap-3"
+                                    onClick={() => copyHistoryItem(item)}
+                                  >
+                                    <div className="min-w-0">
+                                      <div className="text-sm font-medium truncate">{new Date(item.at).toLocaleString()}</div>
+                                      <div className="text-xs text-muted-foreground truncate">
+                                        {item.primary ?? "Click to copy inputs"}
+                                      </div>
+                                    </div>
+                                    <Copy className="h-4 w-4" />
+                                  </DropdownMenuItem>
+                                ))}
+                              </div>
+                            )}
+
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              className="rounded-lg cursor-pointer text-destructive focus:text-destructive flex items-center gap-2"
+                              onClick={clearHistory}
+                              disabled={historyItems.length === 0}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              <span>Clear history</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+
                       <Button variant="ghost" size="sm" onClick={handleShare} className="flex-1">
                         <Share2 className="h-4 w-4 mr-2" /> Share
                       </Button>

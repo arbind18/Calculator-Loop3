@@ -40,6 +40,22 @@ export function CapitalGainsTax() {
         description={t('tax.capital_gains_desc')}
         icon={TrendingUp}
         calculate={handleCalculate}
+        values={[salePrice, purchasePrice, assetType, purchaseYear, saleYear]}
+        onClear={() => {
+          setSalePrice(5000000)
+          setPurchasePrice(3000000)
+          setAssetType('property')
+          setPurchaseYear('2015-16')
+          setSaleYear('2023-24')
+          setResult(null)
+        }}
+        onRestoreAction={(vals) => {
+          setSalePrice(Number(vals?.[0] ?? 5000000))
+          setPurchasePrice(Number(vals?.[1] ?? 3000000))
+          setAssetType(((vals?.[2] as any) ?? 'property') as any)
+          setPurchaseYear(String(vals?.[3] ?? '2015-16'))
+          setSaleYear(String(vals?.[4] ?? '2023-24'))
+        }}
         inputs={
           <div className="space-y-4">
             <div className="space-y-2">

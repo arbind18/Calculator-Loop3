@@ -9,9 +9,12 @@ import {
 } from "recharts"
 import { generateReport } from "@/lib/downloadUtils"
 import { PrepaymentSeoContent } from "@/components/calculators/seo/LoanSeo"
-import { calculateLoanEMI, LoanResult } from "@/lib/logic/loan"
+import { calculateLoanPrepaymentImpact } from "@/lib/logic/loan"
 import { useSettings } from "@/components/providers/SettingsProvider"
 import { getMergedTranslations } from "@/lib/translations"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import toast from "react-hot-toast"
 
 export function LoanPrepaymentImpact() {
   const { language } = useSettings()
@@ -23,31 +26,34 @@ export function LoanPrepaymentImpact() {
   const [prepayment, setPrepayment] = useState(100000)
   const [result, setResult] = useState<any>(null)
   const [chartView, setChartView] = useState<'bar' | 'pie'>('bar')
+  const [scheduleTab, setScheduleTab] = useState<"with" | "original">("with")
 
   const handleCalculate = () => {
-    // Original Scenario
-    const originalResult = calculateLoanEMI({
+    if (!Number.isFinite(loanAmount) || loanAmount <= 0) {
+      toast.error("Loan amount must be greater than 0")
+      return
+    }
+    if (!Number.isFinite(interestRate) || interestRate <= 0) {
+      toast.error("Interest rate must be greater than 0")
+      return
+    }
+    if (!Number.isFinite(tenure) || tenure <= 0) {
+      toast.error("Tenure must be greater than 0")
+      return
+    }
+    if (!Number.isFinite(prepayment) || prepayment < 0) {
+      toast.error("Prepayment must be 0 or more")
+      return
+    }
+
+    const impact = calculateLoanPrepaymentImpact({
       loanAmount,
       interestRate,
-      tenureMonths: tenure
+      tenureMonths: tenure,
+      prepaymentAmount: prepayment,
     })
 
-    // With Prepayment (Assuming reduced principal, same tenure -> reduced EMI)
-    // Note: Usually prepayment reduces tenure, but this calculator seems to show EMI reduction impact based on previous code.
-    // Let's stick to the previous logic: New Principal = Loan Amount - Prepayment.
-    // This is effectively "What if I took a smaller loan?" or "What if I paid a lump sum right now and refinanced?"
-    
-    const newResult = calculateLoanEMI({
-      loanAmount: loanAmount - prepayment,
-      interestRate,
-      tenureMonths: tenure
-    })
-
-    setResult({
-      original: originalResult,
-      new: newResult,
-      savings: Math.round(originalResult.totalInterest - newResult.totalInterest)
-    })
+    setResult(impact)
   }
 
   useEffect(() => {
@@ -58,12 +64,12 @@ export function LoanPrepaymentImpact() {
     {
       name: t.loan.interest_paid,
       [t.common.result]: result.original.totalInterest,
-      [t.loan.prepayment_impact_title]: result.new.totalInterest,
+      [t.loan.prepayment_impact_title]: result.withPrepayment.totalInterest,
     },
     {
       name: t.loan.total_paid,
       [t.common.result]: result.original.totalAmount,
-      [t.loan.prepayment_impact_title]: result.new.totalAmount,
+      [t.loan.prepayment_impact_title]: result.withPrepayment.totalAmount,
     },
   ] : []
 
@@ -73,6 +79,7 @@ export function LoanPrepaymentImpact() {
     setTenure(120)
     setPrepayment(100000)
     setResult(null)
+    setScheduleTab("with")
   }
 
   const handleDownload = (format: string) => {
@@ -81,12 +88,42 @@ export function LoanPrepaymentImpact() {
     const headers = [t.common.result, t.loan.original_emi, t.loan.new_emi, t.loan.difference]
     const data = [
       [t.loan.principal_paid, loanAmount, loanAmount - prepayment, prepayment],
-      [t.loan.emi, result.original.emi, result.new.emi, result.original.emi - result.new.emi],
-      [t.loan.interest_paid, result.original.totalInterest, result.new.totalInterest, result.savings],
-      [t.loan.total_paid, result.original.totalAmount, result.new.totalAmount, result.original.totalAmount - result.new.totalAmount],
+      [t.loan.emi, result.original.emi, result.withPrepayment.emi, result.original.emi - result.withPrepayment.emi],
+      [t.loan.interest_paid, result.original.totalInterest, result.withPrepayment.totalInterest, result.interestSaved],
+      [t.loan.total_paid, result.original.totalAmount, result.withPrepayment.totalAmount, result.original.totalAmount - result.withPrepayment.totalAmount],
     ]
 
     generateReport(format, 'prepayment_impact', headers, data, t.loan.prepayment_impact_title)
+  }
+
+  const renderSchedule = (schedule: Array<any>) => {
+    if (!schedule?.length) return null
+    return (
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[720px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t.loan.remaining_months}</TableHead>
+              <TableHead className="text-right">{t.loan.principal_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.interest_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.total_paid}</TableHead>
+              <TableHead className="text-right">{t.loan.remaining_balance}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {schedule.map((row: any) => (
+              <TableRow key={row.month}>
+                <TableCell>{row.month}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.principal ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.totalPayment ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance ?? 0).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    )
   }
 
   return (
@@ -95,7 +132,14 @@ export function LoanPrepaymentImpact() {
       description={t.loan.prepayment_impact_desc}
       icon={FastForward}
       calculate={handleCalculate}
+      values={[loanAmount, interestRate, tenure, prepayment]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals?.[0] ?? 1000000))
+        setInterestRate(Number(vals?.[1] ?? 10))
+        setTenure(Number(vals?.[2] ?? 120))
+        setPrepayment(Number(vals?.[3] ?? 100000))
+      }}
       seoContent={<PrepaymentSeoContent />}
       onDownload={handleDownload}
       inputs={
@@ -143,17 +187,17 @@ export function LoanPrepaymentImpact() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ResultCard
               label={t.loan.interest_saved}
-              value={`₹${result.interestSaved.toLocaleString()}`}
+              value={`₹${(result.interestSaved ?? 0).toLocaleString()}`}
               type="highlight"
             />
             <ResultCard
               label={t.loan.new_emi}
-              value={`₹${result.interestSaved.toLocaleString()}`}
+              value={`₹${(result.withPrepayment?.emi ?? 0).toLocaleString()}`}
               type="default"
             />
             <ResultCard
               label={t.loan.original_emi}
-              value={`₹${result.interestSaved.toLocaleString()}`}
+              value={`₹${(result.original?.emi ?? 0).toLocaleString()}`}
               type="default"
             />
           </div>
@@ -184,6 +228,18 @@ export function LoanPrepaymentImpact() {
               </ResponsiveContainer>
             </div>
           </div>
+        </div>
+      )}
+      schedule={result?.withPrepayment?.schedule && (
+        <div className="space-y-4">
+          <Tabs value={scheduleTab} onValueChange={(v) => setScheduleTab(v as any)}>
+            <TabsList className="w-full justify-start">
+              <TabsTrigger value="with">With Prepayment</TabsTrigger>
+              <TabsTrigger value="original">Original</TabsTrigger>
+            </TabsList>
+            <TabsContent value="with">{renderSchedule(result.withPrepayment.schedule)}</TabsContent>
+            <TabsContent value="original">{renderSchedule(result.original.schedule)}</TabsContent>
+          </Tabs>
         </div>
       )}
     />

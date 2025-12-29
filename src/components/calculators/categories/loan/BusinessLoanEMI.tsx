@@ -75,6 +75,15 @@ export function BusinessLoanEMI() {
       icon={Briefcase}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[loanAmount, interestRate, tenure]}
+      onRestoreAction={(vals) => {
+        const nextAmount = Number(vals?.[0])
+        const nextRate = Number(vals?.[1])
+        const nextTenure = Number(vals?.[2])
+        if (Number.isFinite(nextAmount)) setLoanAmount(nextAmount)
+        if (Number.isFinite(nextRate)) setInterestRate(nextRate)
+        if (Number.isFinite(nextTenure)) setTenure(nextTenure)
+      }}
       seoContent={<BusinessLoanSeoContent />}
       onDownload={handleDownload}
       inputs={

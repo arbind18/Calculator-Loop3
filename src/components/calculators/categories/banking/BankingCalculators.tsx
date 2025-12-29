@@ -29,6 +29,17 @@ export function SavingsAccountInterest() {
       icon={Wallet}
       calculate={calculate}
       values={[principal, rate, years]}
+      onClear={() => {
+        setResult(null)
+        setPrincipal(100000)
+        setRate(3.5)
+        setYears(5)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 100000))
+        setRate(Number(vals?.[1] ?? 3.5))
+        setYears(Number(vals?.[2] ?? 5))
+      }}
       seoContent={<SimpleInterestSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -90,6 +101,17 @@ export function DepositMaturity() {
       icon={Landmark}
       calculate={calculate}
       values={[amount, rate, months]}
+      onClear={() => {
+        setResult(null)
+        setAmount(100000)
+        setRate(6.5)
+        setMonths(12)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 100000))
+        setRate(Number(vals?.[1] ?? 6.5))
+        setMonths(Number(vals?.[2] ?? 12))
+      }}
       seoContent={<FDSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -155,6 +177,15 @@ export function BankChargesCalculator() {
       icon={CreditCard}
       calculate={calculate}
       values={[balance, minBalance]}
+      onClear={() => {
+        setResult(null)
+        setBalance(5000)
+        setMinBalance(10000)
+      }}
+      onRestoreAction={(vals) => {
+        setBalance(Number(vals?.[0] ?? 5000))
+        setMinBalance(Number(vals?.[1] ?? 10000))
+      }}
       seoContent={<SimpleInterestSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -219,6 +250,15 @@ export function ATMWithdrawalCalculator() {
       icon={CreditCard}
       calculate={calculate}
       values={[withdrawals, bankType]}
+      onClear={() => {
+        setResult(null)
+        setWithdrawals(8)
+        setBankType('own')
+      }}
+      onRestoreAction={(vals) => {
+        setWithdrawals(Number(vals?.[0] ?? 8))
+        setBankType(String(vals?.[1] ?? 'own'))
+      }}
       seoContent={<SimpleInterestSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -274,6 +314,17 @@ export function LoanAgainstFD() {
       icon={Percent}
       calculate={calculate}
       values={[fdAmount, fdRate, loanRate]}
+      onClear={() => {
+        setResult(null)
+        setFdAmount(500000)
+        setFdRate(6.5)
+        setLoanRate(8)
+      }}
+      onRestoreAction={(vals) => {
+        setFdAmount(Number(vals?.[0] ?? 500000))
+        setFdRate(Number(vals?.[1] ?? 6.5))
+        setLoanRate(Number(vals?.[2] ?? 8))
+      }}
       seoContent={<FDSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -339,6 +390,17 @@ export function MoneyMarketCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, rate, days]}
+      onClear={() => {
+        setResult(null)
+        setPrincipal(1000000)
+        setRate(7.5)
+        setDays(90)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 1000000))
+        setRate(Number(vals?.[1] ?? 7.5))
+        setDays(Number(vals?.[2] ?? 90))
+      }}
       seoContent={<SimpleInterestSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -408,6 +470,19 @@ export function InterestRateComparison() {
       icon={ArrowRightLeft}
       calculate={calculate}
       values={[amount, years, rateA, rateB]}
+      onClear={() => {
+        setResult(null)
+        setAmount(500000)
+        setYears(3)
+        setRateA(6.2)
+        setRateB(7.1)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 500000))
+        setYears(Number(vals?.[1] ?? 3))
+        setRateA(Number(vals?.[2] ?? 6.2))
+        setRateB(Number(vals?.[3] ?? 7.1))
+      }}
       seoContent={<CompoundInterestSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -503,6 +578,19 @@ export function DepositGrowth() {
       icon={PiggyBank}
       calculate={calculate}
       values={[initial, monthly, rate, years]}
+      onClear={() => {
+        setResult(null)
+        setInitial(50000)
+        setMonthly(5000)
+        setRate(6.5)
+        setYears(5)
+      }}
+      onRestoreAction={(vals) => {
+        setInitial(Number(vals?.[0] ?? 50000))
+        setMonthly(Number(vals?.[1] ?? 5000))
+        setRate(Number(vals?.[2] ?? 6.5))
+        setYears(Number(vals?.[3] ?? 5))
+      }}
       seoContent={<RDSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -574,6 +662,17 @@ export function RDPlanner() {
       icon={Calendar}
       calculate={calculate}
       values={[monthlyDeposit, months, rate]}
+      onClear={() => {
+        setResult(null)
+        setMonthlyDeposit(5000)
+        setMonths(24)
+        setRate(7.2)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyDeposit(Number(vals?.[0] ?? 5000))
+        setMonths(Number(vals?.[1] ?? 24))
+        setRate(Number(vals?.[2] ?? 7.2))
+      }}
       seoContent={<RDSeoContent />}
       inputs={
         <div className="space-y-6">

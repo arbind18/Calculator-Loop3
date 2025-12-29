@@ -34,6 +34,18 @@ export function MutualFundReturns() {
       icon={TrendingUp}
       calculate={calculate}
       values={[investment, returnRate, years]}
+      onClear={() => {
+        setInvestment(100000)
+        setReturnRate(12)
+        setYears(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestment(Number(vals[0] ?? 100000))
+        setReturnRate(Number(vals[1] ?? 12))
+        setYears(Number(vals[2] ?? 5))
+        setResult(null)
+      }}
       seoContent={<MFSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -99,6 +111,18 @@ export function CAGRCalculator() {
       icon={ChartBar}
       calculate={calculate}
       values={[initial, final, years]}
+      onClear={() => {
+        setInitial(100000)
+        setFinal(200000)
+        setYears(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInitial(Number(vals[0] ?? 100000))
+        setFinal(Number(vals[1] ?? 200000))
+        setYears(Number(vals[2] ?? 5))
+        setResult(null)
+      }}
       seoContent={<CAGRSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -159,6 +183,16 @@ export function ROICalculator() {
       icon={PieChart}
       calculate={calculate}
       values={[investment, returns]}
+      onClear={() => {
+        setInvestment(100000)
+        setReturns(150000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestment(Number(vals[0] ?? 100000))
+        setReturns(Number(vals[1] ?? 150000))
+        setResult(null)
+      }}
       seoContent={<MFSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -219,6 +253,20 @@ export function FDCalculator() {
       icon={University}
       calculate={calculate}
       values={[principal, rate, tenure, frequency]}
+      onClear={() => {
+        setPrincipal(100000)
+        setRate(7)
+        setTenure(5)
+        setFrequency(4)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 100000))
+        setRate(Number(vals[1] ?? 7))
+        setTenure(Number(vals[2] ?? 5))
+        setFrequency(Number(vals[3] ?? 4))
+        setResult(null)
+      }}
       seoContent={<MFSeoContent />}
       inputs={
         <div className="space-y-6">
@@ -300,6 +348,18 @@ export function RDCalculator() {
       icon={RotateCw}
       calculate={calculate}
       values={[monthly, rate, months]}
+      onClear={() => {
+        setMonthly(5000)
+        setRate(7)
+        setMonths(60)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthly(Number(vals[0] ?? 5000))
+        setRate(Number(vals[1] ?? 7))
+        setMonths(Number(vals[2] ?? 60))
+        setResult(null)
+      }}
       seoContent={<MFSeoContent />}
       inputs={
         <div className="space-y-6">

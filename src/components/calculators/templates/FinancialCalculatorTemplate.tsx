@@ -1,13 +1,13 @@
 "use client"
 
-import { ReactNode, useState, useEffect, useRef } from "react"
+import { ReactNode, useState, useEffect, useMemo, useRef } from "react"
 import { useSession } from "next-auth/react"
-import { 
-  Calculator, LucideIcon, Download, Printer, Share2, RotateCcw, 
-  FileText, FileSpreadsheet, FileJson, FileCode, Copy, FileType, 
-  Zap, ZapOff, PieChart, TrendingUp, Image, FileImage, Database, 
+import {
+  Calculator, LucideIcon, Download, Printer, Share2, RotateCcw,
+  FileText, FileSpreadsheet, FileJson, FileCode, Copy, FileType,
+  Zap, ZapOff, PieChart, TrendingUp, Image, FileImage, Database,
   Lock, FileArchive, Code, Link as LinkIcon, Presentation, FileKey, X, Settings,
-  Star, Bookmark
+  Star, Bookmark, History, Trash2, RefreshCw, Mic, MicOff
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
@@ -40,6 +40,7 @@ interface FinancialCalculatorTemplateProps {
   calculate: () => void
   calculateLabel?: string
   onClear?: () => void
+  onRestoreAction?: (values: any[]) => void
   onDownload?: (format: string) => void
   values?: any[]
   seoContent?: ReactNode
@@ -70,6 +71,7 @@ export function FinancialCalculatorTemplate({
   calculate,
   calculateLabel = "Calculate",
   onClear,
+  onRestoreAction,
   onDownload,
   values = [],
   seoContent,
@@ -88,6 +90,10 @@ export function FinancialCalculatorTemplate({
   const [pendingFormat, setPendingFormat] = useState<string | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const [historyItems, setHistoryItems] = useState<Array<{ at: string; values: any[] }>>([])
+  const lastHistoryHashRef = useRef<string | null>(null)
+  const [restoreSnapshot, setRestoreSnapshot] = useState<any[] | null>(null)
   const [downloadOptions, setDownloadOptions] = useState<DownloadOptions>({
     includeSummary: true,
     includeChart: true,
@@ -98,6 +104,101 @@ export function FinancialCalculatorTemplate({
   })
 
   const hasResult = Boolean(result)
+
+  const handleDeleteInputs = () => {
+    if (!onClear) return
+
+    // Snapshot current values so user can restore after clearing.
+    const snapshot = Array.isArray(values) ? [...values] : []
+    setRestoreSnapshot(snapshot)
+
+    // First clear result + reset any calculator-owned UI state.
+    onClear()
+
+    // Then clear inputs to "zero" so user can enter fresh values.
+    // (Numbers -> 0, booleans -> false, everything else -> null)
+    if (onRestoreAction && snapshot.length > 0) {
+      const cleared = snapshot.map((v) => {
+        if (typeof v === "number") return 0
+        if (typeof v === "boolean") return false
+        return null
+      })
+      onRestoreAction(cleared)
+    }
+  }
+
+  const handleRestoreInputs = () => {
+    if (!onRestoreAction) return
+    if (!restoreSnapshot) return
+
+    onRestoreAction(restoreSnapshot)
+  }
+
+  const historyStorageKey = calculatorId ? `calculatorHistory:${calculatorId}` : null
+
+  const refreshHistory = () => {
+    if (!historyStorageKey) return
+    try {
+      const raw = localStorage.getItem(historyStorageKey)
+      const parsed = raw ? JSON.parse(raw) : []
+      setHistoryItems(Array.isArray(parsed) ? parsed : [])
+    } catch {
+      setHistoryItems([])
+    }
+  }
+
+  useEffect(() => {
+    if (!historyStorageKey) return
+    refreshHistory()
+  }, [historyStorageKey])
+
+  useEffect(() => {
+    if (!historyStorageKey) return
+    if (!hasResult) return
+
+    let hash = ""
+    try {
+      hash = JSON.stringify(values)
+    } catch {
+      return
+    }
+
+    if (!hash) return
+    if (lastHistoryHashRef.current === hash) return
+    lastHistoryHashRef.current = hash
+
+    try {
+      const raw = localStorage.getItem(historyStorageKey)
+      const parsed = raw ? JSON.parse(raw) : []
+      const existing: Array<{ at: string; values: any[] }> = Array.isArray(parsed) ? parsed : []
+      const next = [{ at: new Date().toISOString(), values }, ...existing]
+        .slice(0, 10)
+
+      localStorage.setItem(historyStorageKey, JSON.stringify(next))
+      setHistoryItems(next)
+    } catch {
+      // ignore
+    }
+  }, [historyStorageKey, hasResult, title, JSON.stringify(values)])
+
+  const clearHistory = () => {
+    if (!historyStorageKey) return
+    try {
+      localStorage.removeItem(historyStorageKey)
+    } catch {
+      // ignore
+    }
+    setHistoryItems([])
+  }
+
+  const copyHistoryItem = async (item: { at: string; values: any[] }) => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify({ calculatorId, title, at: item.at, values: item.values }, null, 2))
+      toast.success("Inputs copied")
+    } catch {
+      toast.error("Failed to copy")
+    }
+  }
 
   // Check status on load
   useEffect(() => {
@@ -343,15 +444,28 @@ export function FinancialCalculatorTemplate({
 
             {/* Right Side: Actions */}
             <div className="flex items-center gap-2 w-full sm:w-auto justify-end px-2">
-              {onClear && (
+              {onClear && (hasResult || (restoreSnapshot && restoreSnapshot.length > 0)) && (
                 <Button 
                   variant="ghost" 
                   size="icon"
-                  onClick={onClear} 
+                  onClick={handleDeleteInputs} 
                   className="h-10 w-10 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-colors"
-                  title="Clear"
+                  title="Delete"
                 >
-                  <RotateCcw className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              )}
+
+              {onRestoreAction && (hasResult || (restoreSnapshot && restoreSnapshot.length > 0)) && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleRestoreInputs}
+                  disabled={!restoreSnapshot || restoreSnapshot.length === 0}
+                  className="h-10 w-10 text-muted-foreground hover:text-emerald-600 hover:bg-emerald-600/10 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title={restoreSnapshot && restoreSnapshot.length > 0 ? "Reload last inputs" : "Reload last inputs (after delete)"}
+                >
+                  <RefreshCw className="h-4 w-4" />
                 </Button>
               )}
               
@@ -384,6 +498,56 @@ export function FinancialCalculatorTemplate({
                 >
                   <Bookmark className="h-4 w-4" />
                 </Button>
+              )}
+
+              {/* History Button */}
+              {calculatorId && (
+                <DropdownMenu open={historyOpen} onOpenChange={setHistoryOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-10 w-10 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-colors"
+                      title="History"
+                    >
+                      <History className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-[360px] p-3">
+                    <DropdownMenuLabel className="px-2 py-1.5 text-sm font-bold">Recent Inputs</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+
+                    {historyItems.length === 0 ? (
+                      <div className="px-2 py-3 text-sm text-muted-foreground">No history yet. Run a calculation to save inputs.</div>
+                    ) : (
+                      <div className="max-h-[320px] overflow-y-auto">
+                        {historyItems.map((item, idx) => (
+                          <DropdownMenuItem
+                            key={`${item.at}-${idx}`}
+                            className="rounded-lg cursor-pointer flex items-center justify-between gap-3"
+                            onClick={() => copyHistoryItem(item)}
+                          >
+                            <div className="min-w-0">
+                              <div className="text-sm font-medium truncate">{new Date(item.at).toLocaleString()}</div>
+                              <div className="text-xs text-muted-foreground truncate">Click to copy inputs</div>
+                            </div>
+                            <Copy className="h-4 w-4" />
+                          </DropdownMenuItem>
+                        ))}
+                      </div>
+                    )}
+
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      className="rounded-lg cursor-pointer text-destructive focus:text-destructive flex items-center gap-2"
+                      onClick={clearHistory}
+                      disabled={historyItems.length === 0}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      <span>Clear history</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
 
               <Button 
@@ -606,8 +770,10 @@ export function FinancialCalculatorTemplate({
                 <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm">4</span>
                 Amortization Schedule
               </h3>
-              <div className="rounded-2xl border border-border/50 overflow-hidden shadow-lg bg-card">
-                {schedule}
+              <div className="rounded-2xl border border-border/50 shadow-lg bg-card">
+                <div className="w-full overflow-x-auto">
+                  {schedule}
+                </div>
               </div>
             </div>
           )}
@@ -759,6 +925,64 @@ interface InputGroupProps {
   suffix?: string
   helpText?: string
   disabled?: boolean
+  enableVoice?: boolean
+  voiceLang?: string
+}
+
+type SpeechRecognitionType = {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  maxAlternatives: number
+  onresult: ((event: any) => void) | null
+  onerror: ((event: any) => void) | null
+  onend: (() => void) | null
+  start: () => void
+  stop: () => void
+}
+
+function getSpeechRecognitionCtor(): (new () => SpeechRecognitionType) | null {
+  if (typeof window === "undefined") return null
+  const anyWindow = window as any
+  return (anyWindow.SpeechRecognition || anyWindow.webkitSpeechRecognition || null) as any
+}
+
+function parseVoiceNumber(rawText: string): number | null {
+  const cleaned = rawText
+    .toLowerCase()
+    .replace(/[,₹$]/g, " ")
+    .replace(/\b(rupees?|rs|inr|dollars?)\b/g, " ")
+    .replace(/\bpercent\b/g, " % ")
+    .replace(/\s+/g, " ")
+    .trim()
+
+  // Convert common "point" spoken decimal: "8 point 5" -> "8.5"
+  const pointMatch = cleaned.match(/\b(\d+)\s+point\s+(\d+)\b/)
+  const normalized = pointMatch ? cleaned.replace(pointMatch[0], `${pointMatch[1]}.${pointMatch[2]}`) : cleaned
+
+  // Handle Indian units: lakh/lac, crore
+  const unitMatch = normalized.match(/\b(\d+(?:\.\d+)?)\s*(lakh|lac|crore|thousand|million|billion)\b/)
+  if (unitMatch) {
+    const base = Number(unitMatch[1])
+    if (!Number.isFinite(base)) return null
+
+    const unit = unitMatch[2]
+    const mult =
+      unit === "lakh" || unit === "lac" ? 100000 :
+      unit === "crore" ? 10000000 :
+      unit === "thousand" ? 1000 :
+      unit === "million" ? 1000000 :
+      unit === "billion" ? 1000000000 :
+      1
+
+    return base * mult
+  }
+
+  // Fallback: first number in transcript
+  const numMatch = normalized.match(/\b\d+(?:\.\d+)?\b/)
+  if (!numMatch) return null
+  const n = Number(numMatch[0])
+  return Number.isFinite(n) ? n : null
 }
 
 export function InputGroup({
@@ -771,12 +995,18 @@ export function InputGroup({
   prefix,
   suffix,
   helpText,
-  disabled
+  disabled,
+  enableVoice = true,
+  voiceLang = "en-IN"
 }: InputGroupProps) {
   const { currency } = useSettings()
   const displayPrefix = prefix === "₹" ? currency.symbol : prefix
   const [localValue, setLocalValue] = useState(value.toLocaleString('en-IN'))
   const isInternalChange = useRef(false)
+
+  const SpeechRecognitionCtor = useMemo(() => getSpeechRecognitionCtor(), [])
+  const recognitionRef = useRef<SpeechRecognitionType | null>(null)
+  const [isListening, setIsListening] = useState(false)
 
   useEffect(() => {
     if (!isInternalChange.current && parseFloat(localValue.replace(/,/g, '')) !== value) {
@@ -813,6 +1043,77 @@ export function InputGroup({
     e.target.select()
   }
 
+  useEffect(() => {
+    return () => {
+      try {
+        recognitionRef.current?.stop()
+      } catch {
+        // ignore
+      }
+    }
+  }, [])
+
+  const startListening = () => {
+    if (!SpeechRecognitionCtor) {
+      toast.error("Voice input is not supported in this browser")
+      return
+    }
+    if (disabled) return
+
+    try {
+      recognitionRef.current?.stop()
+    } catch {
+      // ignore
+    }
+
+    const recognition = new SpeechRecognitionCtor()
+    recognition.lang = voiceLang
+    recognition.continuous = false
+    recognition.interimResults = false
+    recognition.maxAlternatives = 1
+
+    recognition.onresult = (event: any) => {
+      const transcript: string | undefined = event?.results?.[0]?.[0]?.transcript
+      const parsed = transcript ? parseVoiceNumber(transcript) : null
+
+      if (parsed == null) {
+        toast.error(transcript ? `Could not understand number: "${transcript}"` : "Could not hear a value")
+        return
+      }
+
+      const clamped = Math.min(max, Math.max(min, parsed))
+      onChange(clamped)
+      toast.success("Value filled from voice")
+    }
+
+    recognition.onerror = () => {
+      toast.error("Voice input failed")
+    }
+
+    recognition.onend = () => {
+      setIsListening(false)
+    }
+
+    recognitionRef.current = recognition
+    setIsListening(true)
+
+    try {
+      recognition.start()
+    } catch {
+      setIsListening(false)
+      toast.error("Could not start voice input")
+    }
+  }
+
+  const stopListening = () => {
+    try {
+      recognitionRef.current?.stop()
+    } catch {
+      // ignore
+    }
+    setIsListening(false)
+  }
+
   return (
     <div className="space-y-4 p-5 rounded-xl bg-background border border-border/50 hover:border-primary/30 hover:shadow-md transition-all group">
       <div className="flex items-center justify-between flex-wrap gap-2">
@@ -835,6 +1136,21 @@ export function InputGroup({
             placeholder="0"
           />
           {suffix && <span className="text-muted-foreground font-medium select-none text-lg">{suffix}</span>}
+
+          {enableVoice ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={isListening ? stopListening : startListening}
+              disabled={disabled || !SpeechRecognitionCtor}
+              aria-label={isListening ? `Stop voice input for ${label}` : `Start voice input for ${label}`}
+              title={!SpeechRecognitionCtor ? "Voice not supported" : isListening ? "Stop voice" : "Speak value"}
+              className="shrink-0"
+            >
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            </Button>
+          ) : null}
         </div>
       </div>
       

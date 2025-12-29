@@ -1,0 +1,764 @@
+{
+  "generatedAt": "2025-12-28T00:46:02.346Z",
+  "totalInFinancialReport": 423,
+  "totalInFinancialNow": 360,
+  "removedFromFinancial": 63,
+  "removed": [
+    {
+      "id": "roi-calculator",
+      "title": "ROI Calculator",
+      "fromSubcategoryKey": "investment",
+      "fromSubcategoryName": "📈 Investment & Returns Calculators",
+      "to": {
+        "categoryKey": "construction",
+        "subcategoryKey": "cost-estimation",
+        "subcategoryName": "💰 Cost Estimation & Budget",
+        "title": "Construction ROI Calculator"
+      }
+    },
+    {
+      "id": "dividend-yield",
+      "title": "Dividend Yield Calculator",
+      "fromSubcategoryKey": "investment",
+      "fromSubcategoryName": "📈 Investment & Returns Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "financial-ratios",
+        "subcategoryName": "📊 Financial Ratios",
+        "title": "Dividend Yield"
+      }
+    },
+    {
+      "id": "mining-profitability",
+      "title": "Mining Profitability",
+      "fromSubcategoryKey": "currency",
+      "fromSubcategoryName": "💱 Currency & Forex Calculators",
+      "to": {
+        "categoryKey": "technology",
+        "subcategoryKey": "blockchain-crypto",
+        "subcategoryName": "₿ Blockchain & Cryptocurrency",
+        "title": "Mining Profitability Calculator"
+      }
+    },
+    {
+      "id": "travel-insurance-cost",
+      "title": "Travel Insurance Cost",
+      "fromSubcategoryKey": "insurance",
+      "fromSubcategoryName": "🛡️ Insurance Calculators",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "travel-transportation",
+        "subcategoryName": "🚗 Travel & Transportation",
+        "title": "Travel Insurance Cost"
+      }
+    },
+    {
+      "id": "mobile-insurance-calculator",
+      "title": "Mobile Insurance",
+      "fromSubcategoryKey": "insurance",
+      "fromSubcategoryName": "🛡️ Insurance Calculators",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "mobile-communication",
+        "subcategoryName": "📱 Mobile & Communication",
+        "title": "Mobile Insurance Calculator"
+      }
+    },
+    {
+      "id": "construction-cost",
+      "title": "Construction Cost Calculator",
+      "fromSubcategoryKey": "real-estate",
+      "fromSubcategoryName": "🏠 Real Estate Calculators",
+      "to": {
+        "categoryKey": "construction",
+        "subcategoryKey": "cost-estimation",
+        "subcategoryName": "💰 Cost Estimation & Budget",
+        "title": "Construction Cost Estimator"
+      }
+    },
+    {
+      "id": "carpet-area-calculator",
+      "title": "Carpet Area Calculator",
+      "fromSubcategoryKey": "real-estate",
+      "fromSubcategoryName": "🏠 Real Estate Calculators",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "home-living",
+        "subcategoryName": "🏠 Home & Living",
+        "title": "Carpet Area Calculator"
+      }
+    },
+    {
+      "id": "cement-calculator",
+      "title": "Cement Calculator",
+      "fromSubcategoryKey": "real-estate",
+      "fromSubcategoryName": "🏠 Real Estate Calculators",
+      "to": {
+        "categoryKey": "construction",
+        "subcategoryKey": "materials-quantity",
+        "subcategoryName": "📦 Materials & Quantity Estimation",
+        "title": "Cement Calculator"
+      }
+    },
+    {
+      "id": "staircase-calculator",
+      "title": "Staircase Calculator",
+      "fromSubcategoryKey": "real-estate",
+      "fromSubcategoryName": "🏠 Real Estate Calculators",
+      "to": {
+        "categoryKey": "construction",
+        "subcategoryKey": "structural-engineering",
+        "subcategoryName": "🏗️ Structural Engineering",
+        "title": "Staircase Calculator"
+      }
+    },
+    {
+      "id": "rainwater-harvesting",
+      "title": "Rainwater Harvesting",
+      "fromSubcategoryKey": "real-estate",
+      "fromSubcategoryName": "🏠 Real Estate Calculators",
+      "to": {
+        "categoryKey": "construction",
+        "subcategoryKey": "roofing-waterproofing",
+        "subcategoryName": "🏠 Roofing & Waterproofing",
+        "title": "Rainwater Harvesting Calculator"
+      }
+    },
+    {
+      "id": "profit-margin",
+      "title": "Profit Margin Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Profit Margin Calculator"
+      }
+    },
+    {
+      "id": "discount-calculator",
+      "title": "Discount Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Discount Calculator"
+      }
+    },
+    {
+      "id": "roas-calculator",
+      "title": "ROAS Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "customer-metrics",
+        "subcategoryName": "👥 Customer & Sales Metrics",
+        "title": "ROAS Calculator"
+      }
+    },
+    {
+      "id": "working-capital",
+      "title": "Working Capital Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "financial-ratios",
+        "subcategoryName": "📊 Financial Ratios",
+        "title": "Working Capital Calculator"
+      }
+    },
+    {
+      "id": "markup-calculator",
+      "title": "Markup Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Markup Calculator"
+      }
+    },
+    {
+      "id": "commission-calculator",
+      "title": "Commission Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "customer-metrics",
+        "subcategoryName": "👥 Customer & Sales Metrics",
+        "title": "Commission Calculator"
+      }
+    },
+    {
+      "id": "startup-runway",
+      "title": "Startup Runway Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Startup Runway Calculator"
+      }
+    },
+    {
+      "id": "freelance-tax",
+      "title": "Freelance Tax (44ADA)",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Freelance Tax (44ADA)"
+      }
+    },
+    {
+      "id": "inventory-turnover",
+      "title": "Inventory Turnover Ratio",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Inventory Turnover Ratio"
+      }
+    },
+    {
+      "id": "operating-margin",
+      "title": "Operating Margin Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Operating Margin Calculator"
+      }
+    },
+    {
+      "id": "burn-rate-calculator",
+      "title": "Burn Rate Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Burn Rate Calculator"
+      }
+    },
+    {
+      "id": "sales-tax-calculator",
+      "title": "Sales Tax Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "shopping-budgeting",
+        "subcategoryName": "🛒 Shopping & Budgeting",
+        "title": "Sales Tax Calculator"
+      }
+    },
+    {
+      "id": "overtime-calculator",
+      "title": "Overtime Pay Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "productivity",
+        "subcategoryName": "⏰ Productivity Tools",
+        "title": "Overtime Calculator"
+      }
+    },
+    {
+      "id": "conversion-rate",
+      "title": "Conversion Rate Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "customer-metrics",
+        "subcategoryName": "👥 Customer & Sales Metrics",
+        "title": "Conversion Rate Calculator"
+      }
+    },
+    {
+      "id": "average-order-value",
+      "title": "Average Order Value (AOV)",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "customer-metrics",
+        "subcategoryName": "👥 Customer & Sales Metrics",
+        "title": "Average Order Value"
+      }
+    },
+    {
+      "id": "ltv-cac-ratio",
+      "title": "LTV:CAC Ratio",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "customer-metrics",
+        "subcategoryName": "👥 Customer & Sales Metrics",
+        "title": "LTV:CAC Ratio"
+      }
+    },
+    {
+      "id": "ebitda-calculator",
+      "title": "EBITDA Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "EBITDA Calculator"
+      }
+    },
+    {
+      "id": "cash-conversion-cycle",
+      "title": "Cash Conversion Cycle",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Cash Conversion Cycle"
+      }
+    },
+    {
+      "id": "return-on-assets",
+      "title": "Return on Assets (ROA)",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "financial-ratios",
+        "subcategoryName": "📊 Financial Ratios",
+        "title": "Return on Assets (ROA)"
+      }
+    },
+    {
+      "id": "return-on-equity",
+      "title": "Return on Equity (ROE)",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "financial-ratios",
+        "subcategoryName": "📊 Financial Ratios",
+        "title": "Return on Equity (ROE)"
+      }
+    },
+    {
+      "id": "times-interest-earned",
+      "title": "Times Interest Earned",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "financial-ratios",
+        "subcategoryName": "📊 Financial Ratios",
+        "title": "Times Interest Earned"
+      }
+    },
+    {
+      "id": "free-cash-flow",
+      "title": "Free Cash Flow",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Free Cash Flow"
+      }
+    },
+    {
+      "id": "contribution-margin",
+      "title": "Contribution Margin",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Contribution Margin Calculator"
+      }
+    },
+    {
+      "id": "operating-leverage",
+      "title": "Operating Leverage",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "operational-metrics",
+        "subcategoryName": "⚙️ Operational Metrics",
+        "title": "Degree of Operating Leverage"
+      }
+    },
+    {
+      "id": "financial-leverage",
+      "title": "Financial Leverage",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "operational-metrics",
+        "subcategoryName": "⚙️ Operational Metrics",
+        "title": "Degree of Financial Leverage"
+      }
+    },
+    {
+      "id": "payback-period",
+      "title": "Payback Period",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Payback Period Calculator"
+      }
+    },
+    {
+      "id": "economic-value-added",
+      "title": "Economic Value Added (EVA)",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Economic Value Added (EVA)"
+      }
+    },
+    {
+      "id": "percentage-calculator",
+      "title": "Percentage Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "basic-arithmetic",
+        "subcategoryName": "🔸 Basic Arithmetic",
+        "title": "Percentage Calculator"
+      }
+    },
+    {
+      "id": "tip-calculator",
+      "title": "Tip Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "food-dining",
+        "subcategoryName": "🍽️ Food & Dining",
+        "title": "Tip Calculator"
+      }
+    },
+    {
+      "id": "date-difference",
+      "title": "Date Difference Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "datetime",
+        "subcategoryKey": "date-calculation",
+        "subcategoryName": "📅 Date Calculations",
+        "title": "Date Difference Calculator"
+      }
+    },
+    {
+      "id": "bmi-calculator",
+      "title": "BMI Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "health",
+        "subcategoryKey": "body-measurements",
+        "subcategoryName": "🔸 Body Measurements",
+        "title": "BMI Calculator"
+      }
+    },
+    {
+      "id": "budget-planner",
+      "title": "Budget Planner (50/30/20)",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "construction",
+        "subcategoryKey": "cost-estimation",
+        "subcategoryName": "💰 Cost Estimation & Budget",
+        "title": "Construction Budget Planner"
+      }
+    },
+    {
+      "id": "unit-converter",
+      "title": "Unit Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "scientific",
+        "subcategoryKey": "scientific-notation",
+        "subcategoryName": "🔬 Scientific Tools & Conversions",
+        "title": "Universal Unit Converter"
+      }
+    },
+    {
+      "id": "temperature-converter",
+      "title": "Temperature Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Temperature Converter"
+      }
+    },
+    {
+      "id": "electricity-bill-calculator",
+      "title": "Electricity Bill Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "home-living",
+        "subcategoryName": "🏠 Home & Living",
+        "title": "Electricity Bill Calculator"
+      }
+    },
+    {
+      "id": "download-time-calculator",
+      "title": "Download Time Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "technology",
+        "subcategoryKey": "networking-internet",
+        "subcategoryName": "🌐 Networking & Internet",
+        "title": "Download Time Calculator"
+      }
+    },
+    {
+      "id": "time-duration-calculator",
+      "title": "Time Duration Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "datetime",
+        "subcategoryKey": "time-conversion",
+        "subcategoryName": "🔄 Time Conversion & Units",
+        "title": "Time Duration Calculator"
+      }
+    },
+    {
+      "id": "zodiac-sign-calculator",
+      "title": "Zodiac Sign Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "datetime",
+        "subcategoryKey": "historical-time",
+        "subcategoryName": "📜 Historical & Astronomical",
+        "title": "Zodiac Sign Calculator"
+      }
+    },
+    {
+      "id": "grade-calculator",
+      "title": "Grade Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "education",
+        "subcategoryKey": "academic-grades",
+        "subcategoryName": "🎓 Academic & Grades",
+        "title": "Grade Calculator"
+      }
+    },
+    {
+      "id": "gpa-calculator",
+      "title": "GPA Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "education",
+        "subcategoryKey": "academic-grades",
+        "subcategoryName": "🎓 Academic & Grades",
+        "title": "GPA Calculator"
+      }
+    },
+    {
+      "id": "speed-converter",
+      "title": "Speed Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Speed Converter"
+      }
+    },
+    {
+      "id": "volume-converter",
+      "title": "Volume Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Volume Converter"
+      }
+    },
+    {
+      "id": "area-converter",
+      "title": "Area Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Area Converter"
+      }
+    },
+    {
+      "id": "time-converter",
+      "title": "Time Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Time Converter"
+      }
+    },
+    {
+      "id": "pressure-converter",
+      "title": "Pressure Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Pressure Converter"
+      }
+    },
+    {
+      "id": "power-converter",
+      "title": "Power Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Power Converter"
+      }
+    },
+    {
+      "id": "energy-converter",
+      "title": "Energy Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Energy Converter"
+      }
+    },
+    {
+      "id": "data-storage-converter",
+      "title": "Data Storage Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "unit-conversions",
+        "subcategoryName": "🔸 Unit Conversions",
+        "title": "Data Storage Converter"
+      }
+    },
+    {
+      "id": "cooking-converter",
+      "title": "Cooking Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "food-dining",
+        "subcategoryName": "🍽️ Food & Dining",
+        "title": "Cooking Converter"
+      }
+    },
+    {
+      "id": "roman-numeral-converter",
+      "title": "Roman Numeral Converter",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "math",
+        "subcategoryKey": "number-systems",
+        "subcategoryName": "🔸 Number Systems & Converters",
+        "title": "Roman Numeral Converter"
+      }
+    },
+    {
+      "id": "break-even-calculator",
+      "title": "Break-Even Analysis Calculator",
+      "fromSubcategoryKey": "business",
+      "fromSubcategoryName": "📊 Business & Profitability Calculators",
+      "to": {
+        "categoryKey": "business",
+        "subcategoryKey": "profit-analysis",
+        "subcategoryName": "💰 Profit & Margin Analysis",
+        "title": "Break-Even Point Calculator"
+      }
+    },
+    {
+      "id": "age-calculator",
+      "title": "Age Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "datetime",
+        "subcategoryKey": "date-calculation",
+        "subcategoryName": "📅 Date Calculations",
+        "title": "Age Calculator"
+      }
+    },
+    {
+      "id": "fuel-cost-calculator",
+      "title": "Fuel Cost Calculator",
+      "fromSubcategoryKey": "misc",
+      "fromSubcategoryName": "🧮 Miscellaneous Financial Tools",
+      "to": {
+        "categoryKey": "everyday",
+        "subcategoryKey": "travel-transportation",
+        "subcategoryName": "🚗 Travel & Transportation",
+        "title": "Fuel Cost Calculator"
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import { toolsData } from '@/lib/toolsData'
 import { implementedCalculatorIds } from '@/lib/implementedCalculators'
 import { allBlogPosts } from '@/lib/blogData'
+import { getAllMarkdownBlogPosts } from '@/lib/blogMarkdown'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
@@ -74,6 +75,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
+  const markdownBlogPages: MetadataRoute.Sitemap = getAllMarkdownBlogPosts().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.frontmatter.updatedAt ?? post.frontmatter.publishedAt ?? currentDate),
+    changeFrequency: 'monthly',
+    priority: 0.4,
+  }))
+
   const blogPages: MetadataRoute.Sitemap = allBlogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post.updatedAt ?? post.publishedAt),
@@ -82,7 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // De-dupe (defensive)
-  const all = [...staticPages, ...categoryPages, ...calculatorPages, ...blogPages]
+  const all = [...staticPages, ...categoryPages, ...calculatorPages, ...blogPages, ...markdownBlogPages]
   const seen = new Set<string>()
   return all.filter((item) => {
     if (seen.has(item.url)) return false

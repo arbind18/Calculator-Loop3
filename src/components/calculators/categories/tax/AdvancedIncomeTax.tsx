@@ -72,10 +72,41 @@ export function AdvancedIncomeTax() {
         icon={Calculator}
         calculate={() => {}}
         onDownload={handleDownload}
+        values={[
+          salary,
+          interestIncome,
+          otherIncome,
+          section80C,
+          section80D,
+          section80CCD,
+          hraExemption,
+          homeLoanInterest,
+          otherDeductions,
+          showDeductions
+        ]}
         onClear={() => {
           setSalary(1200000)
+          setInterestIncome(10000)
+          setOtherIncome(0)
           setSection80C(150000)
+          setSection80D(25000)
+          setSection80CCD(50000)
           setHraExemption(0)
+          setHomeLoanInterest(0)
+          setOtherDeductions(0)
+          setShowDeductions(true)
+        }}
+        onRestoreAction={(vals) => {
+          setSalary(Number(vals?.[0] ?? 1200000))
+          setInterestIncome(Number(vals?.[1] ?? 10000))
+          setOtherIncome(Number(vals?.[2] ?? 0))
+          setSection80C(Number(vals?.[3] ?? 150000))
+          setSection80D(Number(vals?.[4] ?? 25000))
+          setSection80CCD(Number(vals?.[5] ?? 50000))
+          setHraExemption(Number(vals?.[6] ?? 0))
+          setHomeLoanInterest(Number(vals?.[7] ?? 0))
+          setOtherDeductions(Number(vals?.[8] ?? 0))
+          setShowDeductions(Boolean(vals?.[9] ?? true))
         }}
         inputs={
           <div className="space-y-6">

@@ -77,6 +77,17 @@ export function TwoWheelerLoan() {
       icon={DollarSign}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[vehiclePrice, downPayment, interestRate, tenure]}
+      onRestoreAction={(vals) => {
+        const nextPrice = Number(vals?.[0])
+        const nextDown = Number(vals?.[1])
+        const nextRate = Number(vals?.[2])
+        const nextTenure = Number(vals?.[3])
+        if (Number.isFinite(nextPrice)) setVehiclePrice(nextPrice)
+        if (Number.isFinite(nextDown)) setDownPayment(nextDown)
+        if (Number.isFinite(nextRate)) setInterestRate(nextRate)
+        if (Number.isFinite(nextTenure)) setTenure(nextTenure)
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

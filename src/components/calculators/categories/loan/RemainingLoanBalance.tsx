@@ -91,6 +91,17 @@ export function RemainingLoanBalance() {
       icon={Scale}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[loanAmount, interestRate, tenure, paidMonths]}
+      onRestoreAction={(vals) => {
+        const nextAmount = Number(vals?.[0])
+        const nextRate = Number(vals?.[1])
+        const nextTenure = Number(vals?.[2])
+        const nextPaid = Number(vals?.[3])
+        if (Number.isFinite(nextAmount)) setLoanAmount(nextAmount)
+        if (Number.isFinite(nextRate)) setInterestRate(nextRate)
+        if (Number.isFinite(nextTenure)) setTenure(nextTenure)
+        if (Number.isFinite(nextPaid)) setPaidMonths(nextPaid)
+      }}
       seoContent={<AmortizationSeoContent />}
       onDownload={handleDownload}
       inputs={

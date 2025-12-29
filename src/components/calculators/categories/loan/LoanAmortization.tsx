@@ -74,7 +74,13 @@ export function LoanAmortization() {
       description={t.loan.amortization_desc}
       icon={Calendar}
       calculate={handleCalculate}
+      values={[loanAmount, interestRate, tenure]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setLoanAmount(Number(vals?.[0] ?? 1000000))
+        setInterestRate(Number(vals?.[1] ?? 10))
+        setTenure(Number(vals?.[2] ?? 60))
+      }}
       seoContent={<AmortizationSeoContent />}
       onDownload={handleDownload}
       inputs={

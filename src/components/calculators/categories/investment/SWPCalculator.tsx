@@ -8,6 +8,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend 
 } from "recharts"
 import { calculateSWP, SWPResult } from "@/lib/logic/investment"
+import { generateReport } from "@/lib/downloadUtils"
 import { useTranslation } from "@/hooks/useTranslation"
 
 export function SWPCalculator() {
@@ -24,6 +25,37 @@ export function SWPCalculator() {
     setResult(res)
   }
 
+  const handleDownload = (format: string, options?: any) => {
+    if (!result) return
+
+    let scheduleData = [...result.schedule]
+
+    if (options?.scheduleRange === '1yr') {
+      scheduleData = scheduleData.slice(0, 1)
+    } else if (options?.scheduleRange === '5yr') {
+      scheduleData = scheduleData.slice(0, 5)
+    } else if (options?.scheduleRange === 'custom' && options.customRangeStart && options.customRangeEnd) {
+      const start = Math.max(0, options.customRangeStart - 1)
+      const end = Math.min(scheduleData.length, options.customRangeEnd)
+      scheduleData = scheduleData.slice(start, end)
+    }
+
+    const headers = ['Year', 'Balance', 'Total Withdrawn', 'Interest Earned (Net)']
+    const data = scheduleData.map((row) => [
+      row.year,
+      row.balance,
+      row.withdrawn,
+      row.interestEarned
+    ])
+
+    generateReport(format, 'swp_report', headers, data, 'SWP Report', {
+      'Total Investment': `₹${totalInvestment}`,
+      'Monthly Withdrawal': `₹${withdrawalPerMonth}`,
+      'Expected Return': `${expectedReturn}%`,
+      'Time Period': `${timePeriod} years`
+    })
+  }
+
   useEffect(() => {
     handleCalculate()
   }, [totalInvestment, withdrawalPerMonth, expectedReturn, timePeriod])
@@ -34,10 +66,20 @@ export function SWPCalculator() {
       description={t('investment.swp_desc')}
       icon={ArrowDownCircle}
       calculate={handleCalculate}
+      onDownload={handleDownload}
       onClear={() => {
         setTotalInvestment(5000000)
         setWithdrawalPerMonth(30000)
         setExpectedReturn(8)
+        setTimePeriod(10)
+        setResult(null)
+      }}
+      values={[totalInvestment, withdrawalPerMonth, expectedReturn, timePeriod]}
+      onRestoreAction={(vals) => {
+        setTotalInvestment(Number(vals?.[0] ?? 5000000))
+        setWithdrawalPerMonth(Number(vals?.[1] ?? 30000))
+        setExpectedReturn(Number(vals?.[2] ?? 8))
+        setTimePeriod(Number(vals?.[3] ?? 10))
       }}
       seoContent={<SWPSeoContent />}
       inputs={
@@ -131,6 +173,30 @@ export function SWPCalculator() {
           </div>
         </div>
       )}
+      schedule={
+        result && (
+          <table className="min-w-[720px] w-full text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left p-3">Year</th>
+                <th className="text-right p-3">Balance</th>
+                <th className="text-right p-3">Total Withdrawn</th>
+                <th className="text-right p-3">Interest Earned (Net)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.schedule.map((row) => (
+                <tr key={row.year} className="border-b last:border-b-0">
+                  <td className="p-3">{row.year}</td>
+                  <td className="p-3 text-right">₹{row.balance.toLocaleString()}</td>
+                  <td className="p-3 text-right">₹{row.withdrawn.toLocaleString()}</td>
+                  <td className="p-3 text-right">₹{row.interestEarned.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
     />
   )
 }

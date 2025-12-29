@@ -50,6 +50,16 @@ export function LockerRentCalculator() {
       icon={Landmark}
       calculate={calculate}
       values={[annualRent, years]}
+      onClear={() => {
+        setAnnualRent(3000)
+        setYears(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualRent(Number(vals[0] ?? 3000))
+        setYears(Number(vals[1] ?? 5))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Locker Rent" value={annualRent} onChange={setAnnualRent} min={0} max={50000} step={100} prefix="₹" />
@@ -90,6 +100,14 @@ export function DDChargesCalculator() {
       icon={CalculatorIcon}
       calculate={calculate}
       values={[amount]}
+      onClear={() => {
+        setAmount(50000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals[0] ?? 50000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="DD Amount" value={amount} onChange={setAmount} min={0} max={10000000} step={1000} prefix="₹" />
@@ -140,6 +158,17 @@ export function NEFTRTGSChargesCalculator() {
       icon={ArrowRightLeft}
       calculate={calculate}
       values={[method, amount]}
+      onClear={() => {
+        setMethod("neft")
+        setAmount(50000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const restoredMethod = vals[0] === "neft" || vals[0] === "rtgs" ? (vals[0] as "neft" | "rtgs") : "neft"
+        setMethod(restoredMethod)
+        setAmount(Number(vals[1] ?? 50000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <div className="space-y-2">
@@ -190,6 +219,22 @@ export function AMBCalculator() {
       icon={Wallet}
       calculate={calculate}
       values={[week1, week2, week3, week4, requiredAmb]}
+      onClear={() => {
+        setWeek1(8000)
+        setWeek2(12000)
+        setWeek3(10000)
+        setWeek4(6000)
+        setRequiredAmb(10000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setWeek1(Number(vals[0] ?? 8000))
+        setWeek2(Number(vals[1] ?? 12000))
+        setWeek3(Number(vals[2] ?? 10000))
+        setWeek4(Number(vals[3] ?? 6000))
+        setRequiredAmb(Number(vals[4] ?? 10000))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Week 1 Avg Balance" value={week1} onChange={setWeek1} min={0} max={500000} step={500} prefix="₹" />
@@ -231,6 +276,20 @@ export function CashDepositChargesCalculator() {
       icon={Landmark}
       calculate={calculate}
       values={[amount, freeLimit, chargePct, minCharge]}
+      onClear={() => {
+        setAmount(100000)
+        setFreeLimit(50000)
+        setChargePct(0.5)
+        setMinCharge(50)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals[0] ?? 100000))
+        setFreeLimit(Number(vals[1] ?? 50000))
+        setChargePct(Number(vals[2] ?? 0.5))
+        setMinCharge(Number(vals[3] ?? 50))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Cash Deposit Amount" value={amount} onChange={setAmount} min={0} max={10000000} step={1000} prefix="₹" />
@@ -268,6 +327,16 @@ export function ChequeBouncePenaltyCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[bounces, penaltyPerBounce]}
+      onClear={() => {
+        setBounces(1)
+        setPenaltyPerBounce(500)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBounces(Number(vals[0] ?? 1))
+        setPenaltyPerBounce(Number(vals[1] ?? 500))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Number of Bounced Cheques" value={bounces} onChange={setBounces} min={0} max={50} step={1} />
@@ -302,6 +371,22 @@ export function AutoSweepCalculator() {
       icon={PiggyBank}
       calculate={calculate}
       values={[balance, threshold, savingsRate, fdRate, months]}
+      onClear={() => {
+        setBalance(200000)
+        setThreshold(50000)
+        setSavingsRate(3.5)
+        setFdRate(7)
+        setMonths(12)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setBalance(Number(vals[0] ?? 200000))
+        setThreshold(Number(vals[1] ?? 50000))
+        setSavingsRate(Number(vals[2] ?? 3.5))
+        setFdRate(Number(vals[3] ?? 7))
+        setMonths(Number(vals[4] ?? 12))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Current Savings Balance" value={balance} onChange={setBalance} min={0} max={100000000} step={1000} prefix="₹" />
@@ -346,6 +431,22 @@ export function FDPrematurePenaltyCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[principal, contractRate, prematureRate, penalty, monthsCompleted]}
+      onClear={() => {
+        setPrincipal(200000)
+        setContractRate(7)
+        setPrematureRate(6)
+        setPenalty(1)
+        setMonthsCompleted(12)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 200000))
+        setContractRate(Number(vals[1] ?? 7))
+        setPrematureRate(Number(vals[2] ?? 6))
+        setPenalty(Number(vals[3] ?? 1))
+        setMonthsCompleted(Number(vals[4] ?? 12))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="FD Amount" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -386,6 +487,18 @@ export function RDDelayPenaltyCalculator() {
       icon={CalculatorIcon}
       calculate={calculate}
       values={[installment, missedMonths, penaltyPctPerMonth]}
+      onClear={() => {
+        setInstallment(5000)
+        setMissedMonths(2)
+        setPenaltyPctPerMonth(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInstallment(Number(vals[0] ?? 5000))
+        setMissedMonths(Number(vals[1] ?? 2))
+        setPenaltyPctPerMonth(Number(vals[2] ?? 1))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Installment" value={installment} onChange={setInstallment} min={0} max={200000} step={100} prefix="₹" />
@@ -418,6 +531,20 @@ export function SeniorCitizenFDExtraCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, regularRate, extraRate, years]}
+      onClear={() => {
+        setPrincipal(500000)
+        setRegularRate(7)
+        setExtraRate(0.5)
+        setYears(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 500000))
+        setRegularRate(Number(vals[1] ?? 7))
+        setExtraRate(Number(vals[2] ?? 0.5))
+        setYears(Number(vals[3] ?? 5))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="FD Amount" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -458,6 +585,16 @@ export function EffectiveYieldCalculator() {
       icon={Percent}
       calculate={calculate}
       values={[nominalRate, compoundsPerYear]}
+      onClear={() => {
+        setNominalRate(7)
+        setCompoundsPerYear(4)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setNominalRate(Number(vals[0] ?? 7))
+        setCompoundsPerYear(Number(vals[1] ?? 4))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Nominal Rate" value={nominalRate} onChange={setNominalRate} min={-50} max={50} step={0.1} suffix="%" />
@@ -510,6 +647,32 @@ export function CashDenominationCounter() {
       icon={Wallet}
       calculate={calculate}
       values={[n2000, n500, n200, n100, n50, n20, n10, n5, n2, n1]}
+      onClear={() => {
+        setN2000(0)
+        setN500(10)
+        setN200(0)
+        setN100(0)
+        setN50(0)
+        setN20(0)
+        setN10(0)
+        setN5(0)
+        setN2(0)
+        setN1(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setN2000(Number(vals[0] ?? 0))
+        setN500(Number(vals[1] ?? 10))
+        setN200(Number(vals[2] ?? 0))
+        setN100(Number(vals[3] ?? 0))
+        setN50(Number(vals[4] ?? 0))
+        setN20(Number(vals[5] ?? 0))
+        setN10(Number(vals[6] ?? 0))
+        setN5(Number(vals[7] ?? 0))
+        setN2(Number(vals[8] ?? 0))
+        setN1(Number(vals[9] ?? 0))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="₹2000 notes" value={n2000} onChange={setN2000} min={0} max={2000} step={1} />
@@ -556,6 +719,20 @@ export function SimpleVsCompoundCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, rate, years, compoundsPerYear]}
+      onClear={() => {
+        setPrincipal(100000)
+        setRate(7)
+        setYears(5)
+        setCompoundsPerYear(4)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 100000))
+        setRate(Number(vals[1] ?? 7))
+        setYears(Number(vals[2] ?? 5))
+        setCompoundsPerYear(Number(vals[3] ?? 4))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Principal" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -596,6 +773,14 @@ export function RuleOf72Banking() {
       icon={Percent}
       calculate={calculate}
       values={[rate]}
+      onClear={() => {
+        setRate(7)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setRate(Number(vals[0] ?? 7))
+        setResult(null)
+      }}
       inputs={<InputGroup label="Interest Rate" value={rate} onChange={setRate} min={0.1} max={50} step={0.1} suffix="%" />}
       result={result && <ResultCard label="Approx. Years to Double" value={`${result.years.toFixed(2)} years`} type="highlight" />}
     />
@@ -623,6 +808,20 @@ export function DebitCardEMICalculator() {
       icon={CreditCard}
       calculate={calculate}
       values={[amount, annualRate, months, processingFeePct]}
+      onClear={() => {
+        setAmount(50000)
+        setAnnualRate(14)
+        setMonths(12)
+        setProcessingFeePct(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals[0] ?? 50000))
+        setAnnualRate(Number(vals[1] ?? 14))
+        setMonths(Number(vals[2] ?? 12))
+        setProcessingFeePct(Number(vals[3] ?? 1))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Purchase Amount" value={amount} onChange={setAmount} min={0} max={10000000} step={1000} prefix="₹" />
@@ -663,6 +862,18 @@ export function SweepInCalculator() {
       icon={ArrowRightLeft}
       calculate={calculate}
       values={[availableBalance, withdrawalNeed, fdPenaltyPct]}
+      onClear={() => {
+        setAvailableBalance(10000)
+        setWithdrawalNeed(50000)
+        setFdPenaltyPct(1)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAvailableBalance(Number(vals[0] ?? 10000))
+        setWithdrawalNeed(Number(vals[1] ?? 50000))
+        setFdPenaltyPct(Number(vals[2] ?? 1))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Available Savings Balance" value={availableBalance} onChange={setAvailableBalance} min={0} max={10000000} step={100} prefix="₹" />
@@ -714,6 +925,20 @@ export function FDLadderCalculator() {
       icon={PiggyBank}
       calculate={calculate}
       values={[totalAmount, ladders, horizonMonths, rate]}
+      onClear={() => {
+        setTotalAmount(500000)
+        setLadders(5)
+        setHorizonMonths(60)
+        setRate(7)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setTotalAmount(Number(vals[0] ?? 500000))
+        setLadders(Number(vals[1] ?? 5))
+        setHorizonMonths(Number(vals[2] ?? 60))
+        setRate(Number(vals[3] ?? 7))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Amount" value={totalAmount} onChange={setTotalAmount} min={0} max={100000000} step={1000} prefix="₹" />
@@ -757,6 +982,22 @@ export function ForeignCurrencyAccountCalculator() {
       icon={ArrowRightLeft}
       calculate={calculate}
       values={[inrAmount, fxRate, annualInterest, years, exitFxRate]}
+      onClear={() => {
+        setInrAmount(200000)
+        setFxRate(83)
+        setAnnualInterest(1)
+        setYears(3)
+        setExitFxRate(85)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInrAmount(Number(vals[0] ?? 200000))
+        setFxRate(Number(vals[1] ?? 83))
+        setAnnualInterest(Number(vals[2] ?? 1))
+        setYears(Number(vals[3] ?? 3))
+        setExitFxRate(Number(vals[4] ?? 85))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Amount in INR" value={inrAmount} onChange={setInrAmount} min={0} max={100000000} step={1000} prefix="₹" />
@@ -807,6 +1048,20 @@ export function TaxSavingFDCalculator() {
       icon={Shield}
       calculate={calculate}
       values={[principal, rate, years, taxBracket]}
+      onClear={() => {
+        setPrincipal(150000)
+        setRate(7)
+        setYears(5)
+        setTaxBracket(30)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 150000))
+        setRate(Number(vals[1] ?? 7))
+        setYears(Number(vals[2] ?? 5))
+        setTaxBracket(Number(vals[3] ?? 30))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Deposit Amount" value={principal} onChange={setPrincipal} min={0} max={10000000} step={1000} prefix="₹" />
@@ -851,6 +1106,21 @@ export function CumulativeVsNonCumulativeCalculator() {
       icon={PiggyBank}
       calculate={calculate}
       values={[principal, rate, years, payout]}
+      onClear={() => {
+        setPrincipal(500000)
+        setRate(7)
+        setYears(3)
+        setPayout("quarterly")
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        const restoredPayout = vals[3] === "monthly" || vals[3] === "quarterly" || vals[3] === "annual" ? (vals[3] as any) : "quarterly"
+        setPrincipal(Number(vals[0] ?? 500000))
+        setRate(Number(vals[1] ?? 7))
+        setYears(Number(vals[2] ?? 3))
+        setPayout(restoredPayout)
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Principal" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -903,6 +1173,20 @@ export function BankFDVsPostOfficeCalculator() {
       icon={TrendingUp}
       calculate={calculate}
       values={[principal, bankRate, poRate, years]}
+      onClear={() => {
+        setPrincipal(500000)
+        setBankRate(7)
+        setPoRate(7.4)
+        setYears(5)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 500000))
+        setBankRate(Number(vals[1] ?? 7))
+        setPoRate(Number(vals[2] ?? 7.4))
+        setYears(Number(vals[3] ?? 5))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Deposit Amount" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -945,6 +1229,16 @@ function PeriodicInterestTemplate(props: {
       icon={Percent}
       calculate={calculate}
       values={[principal, rate]}
+      onClear={() => {
+        setPrincipal(500000)
+        setRate(7)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals[0] ?? 500000))
+        setRate(Number(vals[1] ?? 7))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Principal" value={principal} onChange={setPrincipal} min={0} max={100000000} step={1000} prefix="₹" />
@@ -1006,6 +1300,20 @@ export function OverdraftProtectionCostCalculator() {
       icon={CreditCard}
       calculate={calculate}
       values={[odAmount, annualRate, days, processingFee]}
+      onClear={() => {
+        setOdAmount(25000)
+        setAnnualRate(24)
+        setDays(15)
+        setProcessingFee(0)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setOdAmount(Number(vals[0] ?? 25000))
+        setAnnualRate(Number(vals[1] ?? 24))
+        setDays(Number(vals[2] ?? 15))
+        setProcessingFee(Number(vals[3] ?? 0))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Overdraft Amount Used" value={odAmount} onChange={setOdAmount} min={0} max={10000000} step={100} prefix="₹" />
@@ -1063,6 +1371,26 @@ export function MultiCurrencyAccountCalculator() {
       icon={ArrowRightLeft}
       calculate={calculate}
       values={[inrAmount, usdPct, eurPct, gbpPct, usdRate, eurRate, gbpRate]}
+      onClear={() => {
+        setInrAmount(500000)
+        setUsdPct(50)
+        setEurPct(30)
+        setGbpPct(20)
+        setUsdRate(83)
+        setEurRate(90)
+        setGbpRate(105)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setInrAmount(Number(vals[0] ?? 500000))
+        setUsdPct(Number(vals[1] ?? 50))
+        setEurPct(Number(vals[2] ?? 30))
+        setGbpPct(Number(vals[3] ?? 20))
+        setUsdRate(Number(vals[4] ?? 83))
+        setEurRate(Number(vals[5] ?? 90))
+        setGbpRate(Number(vals[6] ?? 105))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Amount (INR)" value={inrAmount} onChange={setInrAmount} min={0} max={100000000} step={1000} prefix="₹" />

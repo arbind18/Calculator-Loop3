@@ -3,6 +3,8 @@ import { getToolByIdWithContext, searchToolsWithContext } from '@/lib/ai/rag';
 import { searchBlogs } from '@/lib/ai/blogSearch';
 import { customKnowledge } from '@/ai-training/ai-questions-answers/customKnowledge';
 import { detectLanguage, getResponseTemplate } from '@/lib/ai/languageUtils';
+import { tryBuildFormulaResponse } from '@/lib/ai/formulaResponder';
+import { tryBuildMathSolveResponse } from '@/lib/ai/mathSolver';
 
 const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
   const q = message.toLowerCase();
@@ -74,8 +76,31 @@ export async function POST(req: Request) {
           });
         }
       }
+
+      // Add a short next-step suggestion (category-neutral, language-aware)
+      responseContent += `\n${templates.nextStep}\n\n`;
+      responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
       
       return NextResponse.json({ role: 'assistant', content: responseContent });
+    }
+
+    // 0.5 Formula Knowledge (Formula + basic calculation)
+    // 0.4 Math solver (expressions + equations + steps)
+    const mathSolveResponse = tryBuildMathSolveResponse(message, lang);
+    if (mathSolveResponse) {
+      let fullResponse = mathSolveResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      return NextResponse.json({ role: 'assistant', content: fullResponse });
+    }
+
+    // 0.5 Formula Knowledge (Formula + basic calculation)
+    const formulaResponse = tryBuildFormulaResponse(message, lang);
+    if (formulaResponse) {
+      let fullResponse = formulaResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      return NextResponse.json({ role: 'assistant', content: fullResponse });
     }
 
     // 1. Search for relevant tools (Calculators)
@@ -121,6 +146,8 @@ export async function POST(req: Request) {
 
     if (relevantBlogs.length === 0 && relevantTools.length === 0) {
       responseContent = templates.fallback;
+      responseContent += `\n\n${templates.nextStep}\n\n`;
+      responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
     }
 
     return NextResponse.json({ 

@@ -67,7 +67,12 @@ export function LoanSettlement() {
       description={t.loan.loan_settlement_desc}
       icon={DollarSign}
       calculate={handleCalculate}
+      values={[outstanding, settlementAmount]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals?.[0] ?? 500000))
+        setSettlementAmount(Number(vals?.[1] ?? 300000))
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

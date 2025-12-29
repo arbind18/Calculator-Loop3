@@ -75,7 +75,14 @@ export function LoanEligibility() {
       description={t.loan.eligibility_desc}
       icon={CheckCircle}
       calculate={handleCalculate}
+      values={[monthlyIncome, existingEMI, interestRate, tenure]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setMonthlyIncome(Number(vals?.[0] ?? 50000))
+        setExistingEMI(Number(vals?.[1] ?? 5000))
+        setInterestRate(Number(vals?.[2] ?? 10))
+        setTenure(Number(vals?.[3] ?? 240))
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

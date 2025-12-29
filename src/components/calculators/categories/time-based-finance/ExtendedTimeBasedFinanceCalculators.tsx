@@ -7,6 +7,7 @@ import {
   InputGroup,
   ResultCard
 } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { VoiceDateInput } from "@/components/ui/VoiceDateInput"
 
 const clamp0 = (n: number) => (Number.isFinite(n) ? Math.max(0, n) : 0)
 
@@ -36,6 +37,17 @@ export function HourlyToAnnualCalculator() {
       description="Convert an hourly rate into estimated annual and monthly earnings."
       icon={Wallet}
       calculate={() => {}}
+      values={[hourlyRate, hoursPerWeek, weeksPerYear]}
+      onClear={() => {
+        setHourlyRate(500)
+        setHoursPerWeek(40)
+        setWeeksPerYear(52)
+      }}
+      onRestoreAction={(vals) => {
+        setHourlyRate(Number(vals?.[0] ?? 500))
+        setHoursPerWeek(Number(vals?.[1] ?? 40))
+        setWeeksPerYear(Number(vals?.[2] ?? 52))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Hourly Rate" value={hourlyRate} onChange={setHourlyRate} prefix="₹" step={10} />
@@ -70,6 +82,17 @@ export function AnnualToHourlyCalculator() {
       description="Convert an annual salary into an estimated hourly rate."
       icon={Wallet}
       calculate={() => {}}
+      values={[annualSalary, hoursPerWeek, weeksPerYear]}
+      onClear={() => {
+        setAnnualSalary(12_00_000)
+        setHoursPerWeek(40)
+        setWeeksPerYear(52)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualSalary(Number(vals?.[0] ?? 12_00_000))
+        setHoursPerWeek(Number(vals?.[1] ?? 40))
+        setWeeksPerYear(Number(vals?.[2] ?? 52))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Salary" value={annualSalary} onChange={setAnnualSalary} prefix="₹" step={10_000} />
@@ -97,6 +120,15 @@ export function PayPeriodCalculator() {
       description="Estimate salary per pay period (monthly/bi-weekly/weekly)."
       icon={Calculator}
       calculate={() => {}}
+      values={[annualSalary, periodsPerYear]}
+      onClear={() => {
+        setAnnualSalary(12_00_000)
+        setPeriodsPerYear(12)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualSalary(Number(vals?.[0] ?? 12_00_000))
+        setPeriodsPerYear(Number(vals?.[1] ?? 12))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Salary" value={annualSalary} onChange={setAnnualSalary} prefix="₹" step={10_000} />
@@ -124,6 +156,17 @@ export function TimeValueOfMoneyCalculator() {
       description="Project future value of money with compounding (simplified)."
       icon={Repeat}
       calculate={() => {}}
+      values={[presentValue, annualRate, years]}
+      onClear={() => {
+        setPresentValue(1_00_000)
+        setAnnualRate(8)
+        setYears(10)
+      }}
+      onRestoreAction={(vals) => {
+        setPresentValue(Number(vals?.[0] ?? 1_00_000))
+        setAnnualRate(Number(vals?.[1] ?? 8))
+        setYears(Number(vals?.[2] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Present Value" value={presentValue} onChange={setPresentValue} prefix="₹" step={5_000} />
@@ -155,6 +198,17 @@ export function CompoundTimeCalculator() {
       description="Estimate time needed to grow from PV to FV at a given rate (simplified)."
       icon={Clock}
       calculate={() => {}}
+      values={[presentValue, futureValue, annualRate]}
+      onClear={() => {
+        setPresentValue(1_00_000)
+        setFutureValue(2_00_000)
+        setAnnualRate(10)
+      }}
+      onRestoreAction={(vals) => {
+        setPresentValue(Number(vals?.[0] ?? 1_00_000))
+        setFutureValue(Number(vals?.[1] ?? 2_00_000))
+        setAnnualRate(Number(vals?.[2] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Present Value" value={presentValue} onChange={setPresentValue} prefix="₹" step={5_000} />
@@ -184,6 +238,17 @@ export function PayrollHoursCalculator() {
       description="Estimate weekly and monthly working hours."
       icon={Clock}
       calculate={() => {}}
+      values={[hoursPerDay, daysPerWeek, weeksPerMonth]}
+      onClear={() => {
+        setHoursPerDay(8)
+        setDaysPerWeek(5)
+        setWeeksPerMonth(4.33)
+      }}
+      onRestoreAction={(vals) => {
+        setHoursPerDay(Number(vals?.[0] ?? 8))
+        setDaysPerWeek(Number(vals?.[1] ?? 5))
+        setWeeksPerMonth(Number(vals?.[2] ?? 4.33))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Hours per Day" value={hoursPerDay} onChange={setHoursPerDay} suffix="hrs" step={0.5} />
@@ -218,6 +283,17 @@ export function TimeOffAccrualCalculator() {
       description="Estimate accrued leave and remaining balance (simplified)."
       icon={Clock}
       calculate={() => {}}
+      values={[accrualPerMonth, monthsWorked, usedDays]}
+      onClear={() => {
+        setAccrualPerMonth(1.5)
+        setMonthsWorked(12)
+        setUsedDays(2)
+      }}
+      onRestoreAction={(vals) => {
+        setAccrualPerMonth(Number(vals?.[0] ?? 1.5))
+        setMonthsWorked(Number(vals?.[1] ?? 12))
+        setUsedDays(Number(vals?.[2] ?? 2))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Accrual per Month" value={accrualPerMonth} onChange={setAccrualPerMonth} suffix="days" step={0.1} />
@@ -252,6 +328,17 @@ export function SickLeaveCalculator() {
       description="Estimate paid amount during sick leave (simplified)."
       icon={Wallet}
       calculate={() => {}}
+      values={[dailyWage, sickDays, paidPct]}
+      onClear={() => {
+        setDailyWage(2_000)
+        setSickDays(5)
+        setPaidPct(100)
+      }}
+      onRestoreAction={(vals) => {
+        setDailyWage(Number(vals?.[0] ?? 2_000))
+        setSickDays(Number(vals?.[1] ?? 5))
+        setPaidPct(Number(vals?.[2] ?? 100))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Daily Wage" value={dailyWage} onChange={setDailyWage} prefix="₹" step={50} />
@@ -290,26 +377,21 @@ export function ContractDurationCalculator() {
       description="Estimate contract duration in days and gross earnings (simplified)."
       icon={Calendar}
       calculate={() => {}}
+      values={[startDate, endDate, dailyRate]}
+      onClear={() => {
+        setStartDate("2025-01-01")
+        setEndDate("2025-12-31")
+        setDailyRate(3_000)
+      }}
+      onRestoreAction={(vals) => {
+        setStartDate(typeof vals?.[0] === "string" ? (vals[0] as string) : "")
+        setEndDate(typeof vals?.[1] === "string" ? (vals[1] as string) : "")
+        setDailyRate(Number(vals?.[2] ?? 3_000))
+      }}
       inputs={
         <div className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Start Date</label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="w-full p-2 border rounded-md bg-background"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">End Date</label>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              className="w-full p-2 border rounded-md bg-background"
-            />
-          </div>
+          <VoiceDateInput label="Start Date" value={startDate} onChangeAction={setStartDate} />
+          <VoiceDateInput label="End Date" value={endDate} onChangeAction={setEndDate} />
           <InputGroup label="Daily Rate" value={dailyRate} onChange={setDailyRate} prefix="₹" step={50} />
         </div>
       }
@@ -340,6 +422,17 @@ export function SubscriptionCostTimeCalculator() {
       description="Compare subscription costs over time (monthly vs annual discount)."
       icon={Repeat}
       calculate={() => {}}
+      values={[monthlyCost, months, annualDiscountPct]}
+      onClear={() => {
+        setMonthlyCost(499)
+        setMonths(12)
+        setAnnualDiscountPct(0)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyCost(Number(vals?.[0] ?? 499))
+        setMonths(Number(vals?.[1] ?? 12))
+        setAnnualDiscountPct(Number(vals?.[2] ?? 0))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Monthly Cost" value={monthlyCost} onChange={setMonthlyCost} prefix="₹" step={10} />

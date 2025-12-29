@@ -28,6 +28,7 @@ import {
   InputGroup,
   ResultCard
 } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { VoiceDateInput } from "@/components/ui/VoiceDateInput"
 
 const fmtNumber = (n: number, digits = 2) => {
   if (!Number.isFinite(n)) return "-"
@@ -637,24 +638,18 @@ export function AgeDifferenceCalculator() {
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Date 1</label>
-              <input
-                type="date"
-                value={dob1}
-                onChange={(e) => setDob1(e.target.value)}
-                className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Date 2</label>
-              <input
-                type="date"
-                value={dob2}
-                onChange={(e) => setDob2(e.target.value)}
-                className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
-              />
-            </div>
+            <VoiceDateInput
+              label="Date 1"
+              value={dob1}
+              onChangeAction={setDob1}
+              inputClassName="p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
+            />
+            <VoiceDateInput
+              label="Date 2"
+              value={dob2}
+              onChangeAction={setDob2}
+              inputClassName="p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
+            />
           </div>
         </div>
       }
@@ -700,15 +695,12 @@ export function ZodiacSignCalculator() {
       values={[dob]}
       inputs={
         <div className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Date of Birth</label>
-            <input
-              type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
-            />
-          </div>
+          <VoiceDateInput
+            label="Date of Birth"
+            value={dob}
+            onChangeAction={setDob}
+            inputClassName="p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
+          />
         </div>
       }
       result={result && <ResultCard label="Zodiac Sign" value={result} type="highlight" />}

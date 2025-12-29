@@ -24,6 +24,15 @@ export function IncomeTaxCalculator() {
         description={t('tax.income_tax_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[income, regime]}
+        onClear={() => {
+          setIncome(800000)
+          setRegime('new')
+        }}
+        onRestoreAction={(vals) => {
+          setIncome(Number(vals?.[0] ?? 800000))
+          setRegime(((vals?.[1] as any) ?? 'new') as any)
+        }}
         seoContent={
           lang === 'en' ? (
             <ComprehensiveIncomeTaxSeo />
@@ -105,6 +114,17 @@ export function GSTCalculator() {
         description={t('tax.gst_desc')}
         icon={Receipt}
         calculate={() => {}}
+        values={[amount, gstRate, type]}
+        onClear={() => {
+          setAmount(10000)
+          setGstRate(18)
+          setType('exclusive')
+        }}
+        onRestoreAction={(vals) => {
+          setAmount(Number(vals?.[0] ?? 10000))
+          setGstRate(Number(vals?.[1] ?? 18))
+          setType(((vals?.[2] as any) ?? 'exclusive') as any)
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('gst')} />}
         inputs={
           <div className="space-y-6">
@@ -216,6 +236,14 @@ export function SalaryBreakup() {
       description="Estimate your in-hand salary from CTC."
       icon={Calculator}
       calculate={calculate}
+      values={[ctc]}
+      onClear={() => {
+        setCtc(1200000)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setCtc(Number(vals?.[0] ?? 1200000))
+      }}
       seoContent={<FAQSection faqs={getTaxFAQs('salary-breakup')} />}
       inputs={
         <div className="space-y-6">
@@ -290,6 +318,19 @@ export function HRACalculator() {
         description={t('tax.hra_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[basic, hra, rent, metro]}
+        onClear={() => {
+          setBasic(50000)
+          setHra(25000)
+          setRent(20000)
+          setMetro(true)
+        }}
+        onRestoreAction={(vals) => {
+          setBasic(Number(vals?.[0] ?? 50000))
+          setHra(Number(vals?.[1] ?? 25000))
+          setRent(Number(vals?.[2] ?? 20000))
+          setMetro(Boolean(vals?.[3] ?? true))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('hra')} />}
         inputs={
           <div className="space-y-6">

@@ -99,6 +99,21 @@ export function LoanComparison() {
       icon={Scale}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[loan1Amount, loan1Rate, loan1Tenure, loan2Amount, loan2Rate, loan2Tenure]}
+      onRestoreAction={(vals) => {
+        const a1 = Number(vals?.[0])
+        const r1 = Number(vals?.[1])
+        const t1 = Number(vals?.[2])
+        const a2 = Number(vals?.[3])
+        const r2 = Number(vals?.[4])
+        const t2 = Number(vals?.[5])
+        if (Number.isFinite(a1)) setLoan1Amount(a1)
+        if (Number.isFinite(r1)) setLoan1Rate(r1)
+        if (Number.isFinite(t1)) setLoan1Tenure(t1)
+        if (Number.isFinite(a2)) setLoan2Amount(a2)
+        if (Number.isFinite(r2)) setLoan2Rate(r2)
+        if (Number.isFinite(t2)) setLoan2Tenure(t2)
+      }}
       seoContent={<LoanComparisonSeoContent />}
       onDownload={handleDownload}
       inputs={

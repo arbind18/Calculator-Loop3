@@ -2,6 +2,8 @@
 const enableStandalone =
   process.env.NEXT_OUTPUT === 'standalone' || process.env.NEXT_OUTPUT_STANDALONE === 'true'
 
+const webpack = require('webpack')
+
 const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
@@ -31,18 +33,22 @@ const nextConfig = {
 
   // Bundle analyzer (optional)
   webpack: (config, { isServer }) => {
-    // Tree shaking
-    config.optimization = {
-      ...config.optimization,
-      usedExports: true,
-      sideEffects: false,
-    }
+    // Some dependencies use `node:`-prefixed core-module imports (e.g. `node:fs`).
+    // Webpack in this setup doesn't handle the `node:` scheme, so normalize it.
+    config.plugins = config.plugins || []
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+        resource.request = resource.request.replace(/^node:/, '')
+      })
+    )
 
     // Minimize bundle size
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
+        http: false,
+        https: false,
         net: false,
         tls: false,
       }
@@ -75,7 +81,7 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
+            value: 'camera=(), microphone=(self), geolocation=()'
           }
         ],
       },

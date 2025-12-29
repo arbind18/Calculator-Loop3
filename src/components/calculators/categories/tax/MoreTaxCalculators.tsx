@@ -34,6 +34,15 @@ export function PFCalculator() {
         description={t('tax.pf_calculator_desc')}
         icon={PiggyBank}
         calculate={() => {}}
+        values={[basic, years]}
+        onClear={() => {
+          setBasic(50000)
+          setYears(10)
+        }}
+        onRestoreAction={(vals) => {
+          setBasic(Number(vals?.[0] ?? 50000))
+          setYears(Number(vals?.[1] ?? 10))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('pf-calculator')} />}
         onDownload={(format) => generateReport(format, 'pf_maturity', ['Item', 'Value'], [['Maturity Amount', `₹${maturity}`]], 'PF Report')}
         inputs={
@@ -69,6 +78,15 @@ export function GratuityCalculator() {
         description={t('tax.gratuity_calculator_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[basic, years]}
+        onClear={() => {
+          setBasic(40000)
+          setYears(15)
+        }}
+        onRestoreAction={(vals) => {
+          setBasic(Number(vals?.[0] ?? 40000))
+          setYears(Number(vals?.[1] ?? 15))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('gratuity')} />}
         onDownload={(format) => generateReport(format, 'gratuity', ['Item', 'Value'], [['Gratuity', `₹${gratuity}`]], 'Gratuity Report')}
         inputs={
@@ -106,6 +124,15 @@ export function TDSCalculator() {
         description={t('tax.tds_calculator_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[income, category]}
+        onClear={() => {
+          setIncome(50000)
+          setCategory('salary')
+        }}
+        onRestoreAction={(vals) => {
+          setIncome(Number(vals?.[0] ?? 50000))
+          setCategory(String(vals?.[1] ?? 'salary'))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('tds')} />}
         onDownload={(format) => generateReport(format, 'tds_calculation', ['Item', 'Value'], [['TDS', `₹${tds}`]], 'TDS Report')}
         inputs={
@@ -153,6 +180,15 @@ export function ProfessionalTax() {
         description={t('tax.professional_tax_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[salary, state]}
+        onClear={() => {
+          setSalary(40000)
+          setState('maharashtra')
+        }}
+        onRestoreAction={(vals) => {
+          setSalary(Number(vals?.[0] ?? 40000))
+          setState(String(vals?.[1] ?? 'maharashtra'))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('professional-tax')} />}
         onDownload={(format) => generateReport(format, 'professional_tax', ['Item', 'Value'], [['Annual PT', `₹${annual}`]], 'PT Report')}
         inputs={
@@ -196,6 +232,13 @@ export function AdvanceTaxCalculator() {
         description={t('tax.advance_tax_liability_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[income]}
+        onClear={() => {
+          setIncome(800000)
+        }}
+        onRestoreAction={(vals) => {
+          setIncome(Number(vals?.[0] ?? 800000))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('advance-tax')} />}
         onDownload={(format) => generateReport(format, 'advance_tax_liability', ['Item', 'Value'], [['Total Tax', `₹${total}`]], 'Advance Tax Report')}
         inputs={
@@ -233,6 +276,15 @@ export function PostTaxIncome() {
         description={t('tax.post_tax_income_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[income, deductions]}
+        onClear={() => {
+          setIncome(1000000)
+          setDeductions(150000)
+        }}
+        onRestoreAction={(vals) => {
+          setIncome(Number(vals?.[0] ?? 1000000))
+          setDeductions(Number(vals?.[1] ?? 150000))
+        }}
         seoContent={<FAQSection faqs={getTaxFAQs('post-tax-income')} />}
         onDownload={(format) => generateReport(format, 'post_tax_income', ['Item', 'Value'], [['Post Tax Income', `₹${postTax}`]], 'Income Report')}
         inputs={
@@ -270,6 +322,19 @@ export function LeaveEncashment() {
         description={t('tax.leave_encashment_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[basicSalary, yearsService, leaveBalance, amountReceived]}
+        onClear={() => {
+          setBasicSalary(50000)
+          setYearsService(20)
+          setLeaveBalance(300)
+          setAmountReceived(1000000)
+        }}
+        onRestoreAction={(vals) => {
+          setBasicSalary(Number(vals?.[0] ?? 50000))
+          setYearsService(Number(vals?.[1] ?? 20))
+          setLeaveBalance(Number(vals?.[2] ?? 300))
+          setAmountReceived(Number(vals?.[3] ?? 1000000))
+        }}
         onDownload={(format) => generateReport(format, 'leave_encashment', ['Item', 'Value'], [['Exempt Amount', `₹${exempt}`]], 'Leave Encashment Report')}
         inputs={
           <div className="space-y-4">
@@ -309,6 +374,13 @@ export function VRSCompensation() {
         description={t('tax.vrs_compensation_desc')}
         icon={Calculator}
         calculate={() => {}}
+        values={[amountReceived]}
+        onClear={() => {
+          setAmountReceived(1000000)
+        }}
+        onRestoreAction={(vals) => {
+          setAmountReceived(Number(vals?.[0] ?? 1000000))
+        }}
         onDownload={(format) => generateReport(format, 'vrs_tax', ['Item', 'Value'], [['Exempt Amount', `₹${exempt}`]], 'VRS Report')}
         inputs={
           <div className="space-y-4">

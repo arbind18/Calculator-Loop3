@@ -1,5 +1,7 @@
 "use client"
 
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
+
 import React, { useState, useEffect } from 'react';
 import { GraduationCap, BookOpen, Zap, TrendingUp, Calculator, Award, Target, Copy, Check, Lightbulb, RefreshCw, Sparkles, BarChart3, Brain, Clock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -1237,15 +1239,33 @@ export function GenericEducationTool({ id }: { id: string }) {
                           }}
                         />
                       </div>
+                    ) : input.type === 'number' ? (
+                      <div className="relative">
+                        <Input
+                          type={input.type}
+                          value={inputs[input.name] || ''}
+                          onChange={(e) => setInputs(prev => ({ ...prev, [input.name]: Number(e.target.value) }))}
+                          placeholder={input.placeholder || 'Enter value...'}
+                          className="pr-12 focus:ring-2 focus:ring-indigo-500"
+                          min={typeof input.min === 'number' ? input.min : 0}
+                          max={typeof input.max === 'number' ? input.max : undefined}
+                          step={input.step ?? 'any'}
+                        />
+                        <VoiceNumberButton
+                          label={input.label}
+                          onValueAction={(v) => setInputs(prev => ({ ...prev, [input.name]: v }))}
+                          min={typeof input.min === 'number' ? input.min : undefined}
+                          max={typeof input.max === 'number' ? input.max : undefined}
+                          className="absolute right-2 top-1/2 -translate-y-1/2"
+                        />
+                      </div>
                     ) : (
                       <Input
                         type={input.type}
                         value={inputs[input.name] || ''}
-                        onChange={(e) => setInputs(prev => ({ ...prev, [input.name]: input.type === 'number' ? Number(e.target.value) : e.target.value }))}
+                        onChange={(e) => setInputs(prev => ({ ...prev, [input.name]: e.target.value }))}
                         placeholder={input.placeholder || 'Enter value...'}
                         className="focus:ring-2 focus:ring-indigo-500"
-                        min={input.type === 'number' ? 0 : undefined}
-                        step={input.type === 'number' ? 'any' : undefined}
                       />
                     )}
                   </div>

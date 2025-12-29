@@ -79,7 +79,15 @@ export function LoanAffordability() {
       description={t.loan.loan_affordability_desc}
       icon={DollarSign}
       calculate={handleCalculate}
+      values={[monthlyIncome, monthlyExpenses, interestRate, tenure, otherEMIs]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setMonthlyIncome(Number(vals?.[0] ?? 50000))
+        setMonthlyExpenses(Number(vals?.[1] ?? 20000))
+        setInterestRate(Number(vals?.[2] ?? 8.5))
+        setTenure(Number(vals?.[3] ?? 20))
+        setOtherEMIs(Number(vals?.[4] ?? 0))
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

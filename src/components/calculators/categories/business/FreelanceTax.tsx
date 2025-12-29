@@ -56,6 +56,18 @@ export function FreelanceTax() {
       icon={Laptop}
       calculate={calculateTax}
       values={[annualIncome, expenses, usePresumptive]}
+      onClear={() => {
+        setAnnualIncome(1500000)
+        setExpenses(200000)
+        setUsePresumptive(true)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualIncome(Number(vals[0] ?? 1500000))
+        setExpenses(Number(vals[1] ?? 200000))
+        setUsePresumptive(Boolean(vals[2] ?? true))
+        setResult(null)
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Gross Receipts" value={annualIncome} onChange={setAnnualIncome} prefix="₹" min={0} max={100000000} />

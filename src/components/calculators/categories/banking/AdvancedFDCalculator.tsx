@@ -68,10 +68,24 @@ export function AdvancedFDCalculator() {
       icon={Landmark}
       calculate={calculateFD}
       onClear={() => {
+        setResult(null)
         setPrincipal(100000)
         setRate(7.0)
         setTenureValue(5)
         setTenureType('years')
+        setCompoundingFreq(4)
+        setIsSeniorCitizen(false)
+        setChartView('pie')
+      }}
+      values={[principal, rate, tenureType, tenureValue, compoundingFreq, isSeniorCitizen, chartView]}
+      onRestoreAction={(vals) => {
+        setPrincipal(Number(vals?.[0] ?? 100000))
+        setRate(Number(vals?.[1] ?? 7.0))
+        setTenureType(((vals?.[2] as any) ?? 'years') as any)
+        setTenureValue(Number(vals?.[3] ?? 5))
+        setCompoundingFreq(Number(vals?.[4] ?? 4))
+        setIsSeniorCitizen(Boolean(vals?.[5] ?? false))
+        setChartView(((vals?.[6] as any) ?? 'pie') as any)
       }}
       seoContent={<FDSeoContent />}
       inputs={

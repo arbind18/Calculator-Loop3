@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { HardHat, Ruler, Calculator, Home, Zap, DollarSign, Copy, Check, Lightbulb, RefreshCw, Sparkles, BarChart3, TrendingUp } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
 interface ConstructionInput {
   name: string;
@@ -5808,6 +5809,26 @@ export function GenericConstructionTool({ id }: { id: string }) {
                         <option key={opt} value={opt}>{opt}</option>
                       ))}
                     </select>
+                  ) : input.type === 'number' ? (
+                    <div className="relative">
+                      <Input
+                        type={input.type}
+                        value={inputs[input.name] ?? input.defaultValue}
+                        onChange={(e) => setInputs({ ...inputs, [input.name]: e.target.value })}
+                        placeholder={input.placeholder}
+                        min={input.min}
+                        max={input.max}
+                        step={input.step}
+                        className="w-full pr-12"
+                      />
+                      <VoiceNumberButton
+                        label={input.label}
+                        onValueAction={(v) => setInputs({ ...inputs, [input.name]: String(v) })}
+                        min={typeof input.min === 'number' ? input.min : undefined}
+                        max={typeof input.max === 'number' ? input.max : undefined}
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                      />
+                    </div>
                   ) : (
                     <Input
                       type={input.type}

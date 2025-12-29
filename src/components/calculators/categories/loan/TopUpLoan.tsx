@@ -80,6 +80,19 @@ export function TopUpLoan() {
       icon={DollarSign}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[existingLoan, existingEMI, topUpAmount, tenure, interestRate]}
+      onRestoreAction={(vals) => {
+        const nextExistingLoan = Number(vals?.[0])
+        const nextExistingEMI = Number(vals?.[1])
+        const nextTopUp = Number(vals?.[2])
+        const nextTenure = Number(vals?.[3])
+        const nextRate = Number(vals?.[4])
+        if (Number.isFinite(nextExistingLoan)) setExistingLoan(nextExistingLoan)
+        if (Number.isFinite(nextExistingEMI)) setExistingEMI(nextExistingEMI)
+        if (Number.isFinite(nextTopUp)) setTopUpAmount(nextTopUp)
+        if (Number.isFinite(nextTenure)) setTenure(nextTenure)
+        if (Number.isFinite(nextRate)) setInterestRate(nextRate)
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

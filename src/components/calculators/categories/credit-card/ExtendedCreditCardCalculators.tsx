@@ -7,6 +7,7 @@ import {
   InputGroup,
   ResultCard
 } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 const clamp0 = (n: number) => (Number.isFinite(n) ? Math.max(0, n) : 0)
 
@@ -68,6 +69,14 @@ export function CreditCardInterestCalculator() {
       icon={Percent}
       calculate={() => {}}
       values={[balance, apr]}
+      onClear={() => {
+        setBalance(50_000)
+        setApr(42)
+      }}
+      onRestoreAction={(vals) => {
+        setBalance(Number(vals?.[0] ?? 50_000))
+        setApr(Number(vals?.[1] ?? 42))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Balance" value={balance} onChange={setBalance} min={0} max={1e12} step={100} prefix="₹" />
@@ -116,6 +125,18 @@ export function MinimumPaymentWarning() {
       icon={ShieldAlert}
       calculate={() => {}}
       values={[outstanding, monthlyRatePct, minDuePct, minRupees]}
+      onClear={() => {
+        setOutstanding(60_000)
+        setMonthlyRatePct(3.5)
+        setMinDuePct(5)
+        setMinRupees(200)
+      }}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals?.[0] ?? 60_000))
+        setMonthlyRatePct(Number(vals?.[1] ?? 3.5))
+        setMinDuePct(Number(vals?.[2] ?? 5))
+        setMinRupees(Number(vals?.[3] ?? 200))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Balance" value={outstanding} onChange={setOutstanding} min={0} max={1e12} step={100} prefix="₹" />
@@ -152,6 +173,14 @@ export function CreditUtilizationCalculator() {
       icon={Percent}
       calculate={() => {}}
       values={[totalLimit, used]}
+      onClear={() => {
+        setTotalLimit(2_00_000)
+        setUsed(50_000)
+      }}
+      onRestoreAction={(vals) => {
+        setTotalLimit(Number(vals?.[0] ?? 2_00_000))
+        setUsed(Number(vals?.[1] ?? 50_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Total Credit Limit" value={totalLimit} onChange={setTotalLimit} min={0} max={1e12} step={1000} prefix="₹" />
@@ -179,6 +208,14 @@ export function RewardPointsCalculator() {
       icon={CreditCard}
       calculate={() => {}}
       values={[points, valuePerPoint]}
+      onClear={() => {
+        setPoints(10_000)
+        setValuePerPoint(0.25)
+      }}
+      onRestoreAction={(vals) => {
+        setPoints(Number(vals?.[0] ?? 10_000))
+        setValuePerPoint(Number(vals?.[1] ?? 0.25))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Points" value={points} onChange={setPoints} min={0} max={1e12} step={100} />
@@ -203,6 +240,14 @@ export function ForeignTransactionFeeCalculator() {
       icon={Plane}
       calculate={() => {}}
       values={[amount, feePct]}
+      onClear={() => {
+        setAmount(20_000)
+        setFeePct(3.5)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 20_000))
+        setFeePct(Number(vals?.[1] ?? 3.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Foreign Spend Amount" value={amount} onChange={setAmount} min={0} max={1e12} step={100} prefix="₹" />
@@ -231,6 +276,16 @@ export function CashAdvanceFeeCalculator() {
       icon={CreditCard}
       calculate={() => {}}
       values={[withdrawal, feePct, minFee]}
+      onClear={() => {
+        setWithdrawal(5_000)
+        setFeePct(2.5)
+        setMinFee(300)
+      }}
+      onRestoreAction={(vals) => {
+        setWithdrawal(Number(vals?.[0] ?? 5_000))
+        setFeePct(Number(vals?.[1] ?? 2.5))
+        setMinFee(Number(vals?.[2] ?? 300))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Cash Withdrawal" value={withdrawal} onChange={setWithdrawal} min={0} max={1e12} step={100} prefix="₹" />
@@ -277,6 +332,18 @@ export function CardVsLoanCalculator() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[amount, months, cardApr, loanApr]}
+      onClear={() => {
+        setAmount(1_00_000)
+        setMonths(12)
+        setCardApr(42)
+        setLoanApr(14)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 1_00_000))
+        setMonths(Number(vals?.[1] ?? 12))
+        setCardApr(Number(vals?.[2] ?? 42))
+        setLoanApr(Number(vals?.[3] ?? 14))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Amount" value={amount} onChange={setAmount} min={0} max={1e12} step={100} prefix="₹" />
@@ -314,6 +381,14 @@ export function AnnualFeeBreakeven() {
       icon={Percent}
       calculate={() => {}}
       values={[annualFee, rewardRatePct]}
+      onClear={() => {
+        setAnnualFee(1_000)
+        setRewardRatePct(1)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualFee(Number(vals?.[0] ?? 1_000))
+        setRewardRatePct(Number(vals?.[1] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Fee" value={annualFee} onChange={setAnnualFee} min={0} max={1e9} step={50} prefix="₹" />
@@ -340,6 +415,15 @@ export function DebtSnowballCalculator() {
     const r2 = clamp0(apr2) / 100 / 12
     let months = 0
     let interest = 0
+    const schedule: Array<{
+      month: number
+      payment1: number
+      payment2: number
+      interest1: number
+      interest2: number
+      balance1: number
+      balance2: number
+    }> = []
 
     while (b1 + b2 > 1 && months < 600) {
       const i1 = b1 * r1
@@ -349,21 +433,68 @@ export function DebtSnowballCalculator() {
       b2 += i2
 
       let pay = clamp0(monthlyPayment)
+      let p1 = 0
+      let p2 = 0
+
       if (b1 > 0) {
-        const p1 = Math.min(pay, b1)
+        p1 = Math.min(pay, b1)
         b1 -= p1
         pay -= p1
       }
       if (pay > 0 && b2 > 0) {
-        const p2 = Math.min(pay, b2)
+        p2 = Math.min(pay, b2)
         b2 -= p2
       }
 
       months++
+
+      schedule.push({
+        month: months,
+        payment1: Math.round(p1),
+        payment2: Math.round(p2),
+        interest1: Math.round(i1),
+        interest2: Math.round(i2),
+        balance1: Math.max(0, Math.round(b1)),
+        balance2: Math.max(0, Math.round(b2)),
+      })
     }
 
-    return { months, interest }
+    return { months, interest, schedule }
   }, [debt1, apr1, debt2, apr2, monthlyPayment])
+
+  const renderSchedule = (schedule: Array<any>) => {
+    if (!schedule?.length) return null
+    return (
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[900px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Month</TableHead>
+              <TableHead className="text-right">Int 1</TableHead>
+              <TableHead className="text-right">Pay 1</TableHead>
+              <TableHead className="text-right">Bal 1</TableHead>
+              <TableHead className="text-right">Int 2</TableHead>
+              <TableHead className="text-right">Pay 2</TableHead>
+              <TableHead className="text-right">Bal 2</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {schedule.map((row: any) => (
+              <TableRow key={row.month}>
+                <TableCell>{row.month}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest1 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.payment1 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance1 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest2 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.payment2 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance2 ?? 0).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    )
+  }
 
   return (
     <FinancialCalculatorTemplate
@@ -372,6 +503,20 @@ export function DebtSnowballCalculator() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[debt1, apr1, debt2, apr2, monthlyPayment]}
+      onClear={() => {
+        setDebt1(30_000)
+        setApr1(36)
+        setDebt2(70_000)
+        setApr2(42)
+        setMonthlyPayment(8_000)
+      }}
+      onRestoreAction={(vals) => {
+        setDebt1(Number(vals?.[0] ?? 30_000))
+        setApr1(Number(vals?.[1] ?? 36))
+        setDebt2(Number(vals?.[2] ?? 70_000))
+        setApr2(Number(vals?.[3] ?? 42))
+        setMonthlyPayment(Number(vals?.[4] ?? 8_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Debt 1 (smaller)" value={debt1} onChange={setDebt1} min={0} max={1e12} step={100} prefix="₹" />
@@ -387,6 +532,7 @@ export function DebtSnowballCalculator() {
           <ResultCard label="Total Interest" value={fmtINR(result.interest)} type="warning" />
         </div>
       }
+      schedule={renderSchedule(result.schedule)}
     />
   )
 }
@@ -406,6 +552,15 @@ export function DebtAvalancheCalculator() {
     const r2 = clamp0(apr2) / 100 / 12
     let months = 0
     let interest = 0
+    const schedule: Array<{
+      month: number
+      payment1: number
+      payment2: number
+      interest1: number
+      interest2: number
+      balance1: number
+      balance2: number
+    }> = []
 
     while (b1 + b2 > 1 && months < 600) {
       const i1 = b1 * r1
@@ -415,34 +570,80 @@ export function DebtAvalancheCalculator() {
       b2 += i2
 
       let pay = clamp0(monthlyPayment)
+      let p1 = 0
+      let p2 = 0
+
       const payFirstDebt2 = r2 >= r1
       if (payFirstDebt2) {
         if (b2 > 0) {
-          const p2 = Math.min(pay, b2)
+          p2 = Math.min(pay, b2)
           b2 -= p2
           pay -= p2
         }
         if (pay > 0 && b1 > 0) {
-          const p1 = Math.min(pay, b1)
+          p1 = Math.min(pay, b1)
           b1 -= p1
         }
       } else {
         if (b1 > 0) {
-          const p1 = Math.min(pay, b1)
+          p1 = Math.min(pay, b1)
           b1 -= p1
           pay -= p1
         }
         if (pay > 0 && b2 > 0) {
-          const p2 = Math.min(pay, b2)
+          p2 = Math.min(pay, b2)
           b2 -= p2
         }
       }
 
       months++
+      schedule.push({
+        month: months,
+        payment1: Math.round(p1),
+        payment2: Math.round(p2),
+        interest1: Math.round(i1),
+        interest2: Math.round(i2),
+        balance1: Math.max(0, Math.round(b1)),
+        balance2: Math.max(0, Math.round(b2)),
+      })
     }
 
-    return { months, interest }
+    return { months, interest, schedule }
   }, [debt1, apr1, debt2, apr2, monthlyPayment])
+
+  const renderSchedule = (schedule: Array<any>) => {
+    if (!schedule?.length) return null
+    return (
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[900px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Month</TableHead>
+              <TableHead className="text-right">Int 1</TableHead>
+              <TableHead className="text-right">Pay 1</TableHead>
+              <TableHead className="text-right">Bal 1</TableHead>
+              <TableHead className="text-right">Int 2</TableHead>
+              <TableHead className="text-right">Pay 2</TableHead>
+              <TableHead className="text-right">Bal 2</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {schedule.map((row: any) => (
+              <TableRow key={row.month}>
+                <TableCell>{row.month}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest1 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.payment1 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance1 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.interest2 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.payment2 ?? 0).toLocaleString()}</TableCell>
+                <TableCell className="text-right">₹{Math.round(row.balance2 ?? 0).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    )
+  }
 
   return (
     <FinancialCalculatorTemplate
@@ -451,6 +652,20 @@ export function DebtAvalancheCalculator() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[debt1, apr1, debt2, apr2, monthlyPayment]}
+      onClear={() => {
+        setDebt1(30_000)
+        setApr1(36)
+        setDebt2(70_000)
+        setApr2(42)
+        setMonthlyPayment(8_000)
+      }}
+      onRestoreAction={(vals) => {
+        setDebt1(Number(vals?.[0] ?? 30_000))
+        setApr1(Number(vals?.[1] ?? 36))
+        setDebt2(Number(vals?.[2] ?? 70_000))
+        setApr2(Number(vals?.[3] ?? 42))
+        setMonthlyPayment(Number(vals?.[4] ?? 8_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Debt 1" value={debt1} onChange={setDebt1} min={0} max={1e12} step={100} prefix="₹" />
@@ -466,6 +681,7 @@ export function DebtAvalancheCalculator() {
           <ResultCard label="Total Interest" value={fmtINR(result.interest)} type="warning" />
         </div>
       }
+      schedule={renderSchedule(result.schedule)}
     />
   )
 }
@@ -489,6 +705,18 @@ export function LatePaymentFeeCalculator() {
       icon={ShieldAlert}
       calculate={() => {}}
       values={[dueAmount, fixedFee, penaltyApr, daysLate]}
+      onClear={() => {
+        setDueAmount(10_000)
+        setFixedFee(500)
+        setPenaltyApr(42)
+        setDaysLate(15)
+      }}
+      onRestoreAction={(vals) => {
+        setDueAmount(Number(vals?.[0] ?? 10_000))
+        setFixedFee(Number(vals?.[1] ?? 500))
+        setPenaltyApr(Number(vals?.[2] ?? 42))
+        setDaysLate(Number(vals?.[3] ?? 15))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Due Amount" value={dueAmount} onChange={setDueAmount} min={0} max={1e12} step={100} prefix="₹" />
@@ -520,6 +748,14 @@ export function OverLimitFeeCalculator() {
       icon={ShieldAlert}
       calculate={() => {}}
       values={[overLimitAmount, fee]}
+      onClear={() => {
+        setOverLimitAmount(5_000)
+        setFee(500)
+      }}
+      onRestoreAction={(vals) => {
+        setOverLimitAmount(Number(vals?.[0] ?? 5_000))
+        setFee(Number(vals?.[1] ?? 500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Over-limit Amount" value={overLimitAmount} onChange={setOverLimitAmount} min={0} max={1e12} step={100} prefix="₹" />
@@ -552,6 +788,16 @@ export function CreditCardEligibility() {
       icon={CreditCard}
       calculate={() => {}}
       values={[age, monthlyIncome, creditScore]}
+      onClear={() => {
+        setAge(28)
+        setMonthlyIncome(50_000)
+        setCreditScore(750)
+      }}
+      onRestoreAction={(vals) => {
+        setAge(Number(vals?.[0] ?? 28))
+        setMonthlyIncome(Number(vals?.[1] ?? 50_000))
+        setCreditScore(Number(vals?.[2] ?? 750))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Age" value={age} onChange={setAge} min={0} max={100} step={1} />
@@ -589,6 +835,18 @@ export function FuelSurchargeWaiver() {
       icon={CreditCard}
       calculate={() => {}}
       values={[monthlyFuelSpend, surchargePct, waiverPct, waiverCapMonthly]}
+      onClear={() => {
+        setMonthlyFuelSpend(8_000)
+        setSurchargePct(1)
+        setWaiverPct(100)
+        setWaiverCapMonthly(200)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyFuelSpend(Number(vals?.[0] ?? 8_000))
+        setSurchargePct(Number(vals?.[1] ?? 1))
+        setWaiverPct(Number(vals?.[2] ?? 100))
+        setWaiverCapMonthly(Number(vals?.[3] ?? 200))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Fuel Spend" value={monthlyFuelSpend} onChange={setMonthlyFuelSpend} min={0} max={1e10} step={100} prefix="₹" />
@@ -626,6 +884,16 @@ export function AirportLoungeValue() {
       icon={Plane}
       calculate={() => {}}
       values={[visitsPerYear, valuePerVisit, annualFee]}
+      onClear={() => {
+        setVisitsPerYear(8)
+        setValuePerVisit(1200)
+        setAnnualFee(1000)
+      }}
+      onRestoreAction={(vals) => {
+        setVisitsPerYear(Number(vals?.[0] ?? 8))
+        setValuePerVisit(Number(vals?.[1] ?? 1200))
+        setAnnualFee(Number(vals?.[2] ?? 1000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Visits per Year" value={visitsPerYear} onChange={setVisitsPerYear} min={0} max={365} step={1} />
@@ -661,6 +929,16 @@ export function AnnualCashbackCalculator() {
       icon={CreditCard}
       calculate={() => {}}
       values={[monthlySpend, cashbackPct, annualCap]}
+      onClear={() => {
+        setMonthlySpend(30_000)
+        setCashbackPct(1)
+        setAnnualCap(10_000)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlySpend(Number(vals?.[0] ?? 30_000))
+        setCashbackPct(Number(vals?.[1] ?? 1))
+        setAnnualCap(Number(vals?.[2] ?? 10_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Monthly Spend" value={monthlySpend} onChange={setMonthlySpend} min={0} max={1e12} step={100} prefix="₹" />
@@ -686,6 +964,14 @@ export function MilesToCashConverter() {
       icon={Plane}
       calculate={() => {}}
       values={[miles, valuePerMile]}
+      onClear={() => {
+        setMiles(10_000)
+        setValuePerMile(0.5)
+      }}
+      onRestoreAction={(vals) => {
+        setMiles(Number(vals?.[0] ?? 10_000))
+        setValuePerMile(Number(vals?.[1] ?? 0.5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Miles/Points" value={miles} onChange={setMiles} min={0} max={1e12} step={100} />
@@ -717,6 +1003,18 @@ export function CreditCardAgainstFD() {
       icon={CreditCard}
       calculate={() => {}}
       values={[fdAmount, limitPct, fdRate, annualFee]}
+      onClear={() => {
+        setFdAmount(1_00_000)
+        setLimitPct(80)
+        setFdRate(7)
+        setAnnualFee(500)
+      }}
+      onRestoreAction={(vals) => {
+        setFdAmount(Number(vals?.[0] ?? 1_00_000))
+        setLimitPct(Number(vals?.[1] ?? 80))
+        setFdRate(Number(vals?.[2] ?? 7))
+        setAnnualFee(Number(vals?.[3] ?? 500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="FD Amount" value={fdAmount} onChange={setFdAmount} min={0} max={1e13} step={1000} prefix="₹" />
@@ -749,6 +1047,14 @@ export function ForeignCurrencyMarkup() {
       icon={Plane}
       calculate={() => {}}
       values={[amount, markupPct]}
+      onClear={() => {
+        setAmount(20_000)
+        setMarkupPct(1)
+      }}
+      onRestoreAction={(vals) => {
+        setAmount(Number(vals?.[0] ?? 20_000))
+        setMarkupPct(Number(vals?.[1] ?? 1))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Foreign Spend Amount" value={amount} onChange={setAmount} min={0} max={1e12} step={100} prefix="₹" />
@@ -778,6 +1084,14 @@ export function BillingCycleCalculator() {
       icon={CreditCard}
       calculate={() => {}}
       values={[statementDay, graceDays]}
+      onClear={() => {
+        setStatementDay(15)
+        setGraceDays(20)
+      }}
+      onRestoreAction={(vals) => {
+        setStatementDay(Number(vals?.[0] ?? 15))
+        setGraceDays(Number(vals?.[1] ?? 20))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Statement Day (1-28)" value={statementDay} onChange={setStatementDay} min={1} max={28} step={1} />
@@ -813,6 +1127,16 @@ export function CreditLimitIncreaseCalculator() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[currentLimit, utilizationPct, onTimeMonths]}
+      onClear={() => {
+        setCurrentLimit(1_00_000)
+        setUtilizationPct(30)
+        setOnTimeMonths(12)
+      }}
+      onRestoreAction={(vals) => {
+        setCurrentLimit(Number(vals?.[0] ?? 1_00_000))
+        setUtilizationPct(Number(vals?.[1] ?? 30))
+        setOnTimeMonths(Number(vals?.[2] ?? 12))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Current Limit" value={currentLimit} onChange={setCurrentLimit} min={0} max={1e12} step={1000} prefix="₹" />
@@ -846,6 +1170,20 @@ export function CardUpgradeCalculator() {
       icon={CreditCard}
       calculate={() => {}}
       values={[annualSpend, currentRewardPct, newRewardPct, currentFee, newFee]}
+      onClear={() => {
+        setAnnualSpend(6_00_000)
+        setCurrentRewardPct(1)
+        setNewRewardPct(2)
+        setCurrentFee(500)
+        setNewFee(1500)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualSpend(Number(vals?.[0] ?? 6_00_000))
+        setCurrentRewardPct(Number(vals?.[1] ?? 1))
+        setNewRewardPct(Number(vals?.[2] ?? 2))
+        setCurrentFee(Number(vals?.[3] ?? 500))
+        setNewFee(Number(vals?.[4] ?? 1500))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Spend" value={annualSpend} onChange={setAnnualSpend} min={0} max={1e13} step={1000} prefix="₹" />
@@ -886,6 +1224,20 @@ export function CashWithdrawalCostCalculator() {
       icon={ShieldAlert}
       calculate={() => {}}
       values={[withdrawal, feePct, minFee, apr, days]}
+      onClear={() => {
+        setWithdrawal(5_000)
+        setFeePct(2.5)
+        setMinFee(300)
+        setApr(42)
+        setDays(30)
+      }}
+      onRestoreAction={(vals) => {
+        setWithdrawal(Number(vals?.[0] ?? 5_000))
+        setFeePct(Number(vals?.[1] ?? 2.5))
+        setMinFee(Number(vals?.[2] ?? 300))
+        setApr(Number(vals?.[3] ?? 42))
+        setDays(Number(vals?.[4] ?? 30))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Withdrawal" value={withdrawal} onChange={setWithdrawal} min={0} max={1e12} step={100} prefix="₹" />
@@ -919,6 +1271,14 @@ export function CreditCardInsuranceCalculator() {
       icon={ShieldAlert}
       calculate={() => {}}
       values={[outstanding, premiumRatePctMonthly]}
+      onClear={() => {
+        setOutstanding(50_000)
+        setPremiumRatePctMonthly(0.8)
+      }}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals?.[0] ?? 50_000))
+        setPremiumRatePctMonthly(Number(vals?.[1] ?? 0.8))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Balance" value={outstanding} onChange={setOutstanding} min={0} max={1e12} step={100} prefix="₹" />
@@ -943,6 +1303,14 @@ export function AddonCardLimitSetter() {
       icon={CreditCard}
       calculate={() => {}}
       values={[primaryLimit, addonPct]}
+      onClear={() => {
+        setPrimaryLimit(2_00_000)
+        setAddonPct(20)
+      }}
+      onRestoreAction={(vals) => {
+        setPrimaryLimit(Number(vals?.[0] ?? 2_00_000))
+        setAddonPct(Number(vals?.[1] ?? 20))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Primary Card Limit" value={primaryLimit} onChange={setPrimaryLimit} min={0} max={1e12} step={1000} prefix="₹" />
@@ -985,6 +1353,16 @@ export function MinimumDueTrapWarning() {
       icon={ShieldAlert}
       calculate={() => {}}
       values={[outstanding, apr, minDuePct]}
+      onClear={() => {
+        setOutstanding(1_00_000)
+        setApr(42)
+        setMinDuePct(5)
+      }}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals?.[0] ?? 1_00_000))
+        setApr(Number(vals?.[1] ?? 42))
+        setMinDuePct(Number(vals?.[2] ?? 5))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Outstanding Balance" value={outstanding} onChange={setOutstanding} min={0} max={1e12} step={100} prefix="₹" />
@@ -1027,6 +1405,16 @@ export function NoCostEMIRealCost() {
       icon={TrendingDown}
       calculate={() => {}}
       values={[productPrice, upfrontDiscount, tenureMonths]}
+      onClear={() => {
+        setProductPrice(50_000)
+        setUpfrontDiscount(2_500)
+        setTenureMonths(12)
+      }}
+      onRestoreAction={(vals) => {
+        setProductPrice(Number(vals?.[0] ?? 50_000))
+        setUpfrontDiscount(Number(vals?.[1] ?? 2_500))
+        setTenureMonths(Number(vals?.[2] ?? 12))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Product Price" value={productPrice} onChange={setProductPrice} min={0} max={1e12} step={100} prefix="₹" />
@@ -1064,6 +1452,16 @@ export function AnnualFeeWaiverTracker() {
       icon={CreditCard}
       calculate={() => {}}
       values={[annualFee, waiverSpendThreshold, currentAnnualSpend]}
+      onClear={() => {
+        setAnnualFee(1_000)
+        setWaiverSpendThreshold(2_00_000)
+        setCurrentAnnualSpend(1_20_000)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualFee(Number(vals?.[0] ?? 1_000))
+        setWaiverSpendThreshold(Number(vals?.[1] ?? 2_00_000))
+        setCurrentAnnualSpend(Number(vals?.[2] ?? 1_20_000))
+      }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Annual Fee" value={annualFee} onChange={setAnnualFee} min={0} max={1e7} step={50} prefix="₹" />

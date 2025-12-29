@@ -74,6 +74,15 @@ export function SimpleInterestLoan() {
       icon={Percent}
       calculate={handleCalculate}
       onClear={handleClear}
+      values={[principal, rate, time]}
+      onRestoreAction={(vals) => {
+        const nextPrincipal = Number(vals?.[0])
+        const nextRate = Number(vals?.[1])
+        const nextTime = Number(vals?.[2])
+        if (Number.isFinite(nextPrincipal)) setPrincipal(nextPrincipal)
+        if (Number.isFinite(nextRate)) setRate(nextRate)
+        if (Number.isFinite(nextTime)) setTime(nextTime)
+      }}
       seoContent={<SimpleInterestSeoContent />}
       onDownload={handleDownload}
       inputs={

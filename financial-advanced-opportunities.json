@@ -1,0 +1,317 @@
+{
+  "generatedAt": "2025-12-28T00:52:15.166Z",
+  "financialNowTotal": 360,
+  "currentAdvancedCount": 9,
+  "currentBasicCount": 351,
+  "highImpactAdvancedCandidateCount": 153,
+  "highImpactCandidatesBySubcategory": [
+    {
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators",
+      "count": 29
+    },
+    {
+      "subcategoryKey": "tax",
+      "subcategoryName": "🧾 Tax & Income Calculators",
+      "count": 22
+    },
+    {
+      "subcategoryKey": "retirement",
+      "subcategoryName": "🏖️ Retirement Calculators",
+      "count": 21
+    },
+    {
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators",
+      "count": 19
+    },
+    {
+      "subcategoryKey": "currency",
+      "subcategoryName": "💱 Currency & Forex Calculators",
+      "count": 19
+    },
+    {
+      "subcategoryKey": "banking",
+      "subcategoryName": "🏦 Banking & Savings Calculators",
+      "count": 14
+    },
+    {
+      "subcategoryKey": "credit-card",
+      "subcategoryName": "💳 Credit Card Calculators",
+      "count": 14
+    },
+    {
+      "subcategoryKey": "real-estate",
+      "subcategoryName": "🏠 Real Estate Calculators",
+      "count": 9
+    },
+    {
+      "subcategoryKey": "business",
+      "subcategoryName": "📊 Business & Profitability Calculators",
+      "count": 4
+    },
+    {
+      "subcategoryKey": "insurance",
+      "subcategoryName": "🛡️ Insurance Calculators",
+      "count": 1
+    },
+    {
+      "subcategoryKey": "misc",
+      "subcategoryName": "🧮 Miscellaneous Financial Tools",
+      "count": 1
+    }
+  ],
+  "sampleHighImpactCandidates": [
+    {
+      "id": "personal-loan-emi",
+      "title": "Personal Loan EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "home-loan-emi",
+      "title": "Home Loan EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "car-loan-emi",
+      "title": "Car Loan EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "education-loan-emi",
+      "title": "Education Loan EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "business-loan-emi",
+      "title": "Business Loan EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "gold-loan-emi",
+      "title": "Gold Loan EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "two-wheeler-loan",
+      "title": "Two Wheeler Loan Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-prepayment-impact",
+      "title": "Loan Prepayment Impact Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-eligibility",
+      "title": "Loan Eligibility Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-comparison",
+      "title": "Loan Comparison Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "simple-interest-loan",
+      "title": "Simple Interest Loan Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "compound-interest-loan",
+      "title": "Compound Interest Loan Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-amortization",
+      "title": "Loan Amortization Schedule",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "remaining-loan-balance",
+      "title": "Remaining Loan Balance Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "top-up-loan",
+      "title": "Top-Up Loan Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-balance-transfer",
+      "title": "Loan Balance Transfer Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-part-payment",
+      "title": "Loan Part Payment",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-affordability",
+      "title": "Loan Affordability",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "step-up-emi",
+      "title": "Step-Up EMI Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "od-interest",
+      "title": "Overdraft Interest",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-settlement",
+      "title": "Loan Settlement",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-restructuring",
+      "title": "Loan Restructuring",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-default-penalty",
+      "title": "Loan Default Penalty",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "loan-against-property",
+      "title": "Loan Against Property",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "zero-cost-emi",
+      "title": "Zero Cost EMI Reality",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "payday-loan-apr",
+      "title": "Payday Loan APR",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "microfinance-loan",
+      "title": "Microfinance Loan",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "education-loan-tax",
+      "title": "Education Loan Tax Benefit",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "mudra-loan",
+      "title": "Mudra Loan Calculator",
+      "subcategoryKey": "loan",
+      "subcategoryName": "💸 Loan & EMI Calculators"
+    },
+    {
+      "id": "swp-calculator",
+      "title": "SWP Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "step-up-sip",
+      "title": "Step-Up SIP Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "compound-interest-investment",
+      "title": "Compound Interest Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "cagr-calculator",
+      "title": "CAGR Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "fd-calculator",
+      "title": "Fixed Deposit Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "rd-calculator",
+      "title": "Recurring Deposit Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "ppf-calculator",
+      "title": "PPF Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "lumpsum-calculator",
+      "title": "Lumpsum Investment Calculator",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "asset-allocation",
+      "title": "Asset Allocation",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "npv-calculator",
+      "title": "Net Present Value (NPV)",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    },
+    {
+      "id": "sharpe-ratio",
+      "title": "Sharpe Ratio",
+      "subcategoryKey": "investment",
+      "subcategoryName": "📈 Investment & Returns Calculators"
+    }
+  ],
+  "currentAdvancedIds": [
+    "sip-calculator",
+    "income-tax-calculator",
+    "gst-calculator",
+    "staking-rewards-adv",
+    "mining-roi-adv",
+    "forex-position-sizer",
+    "forex-pip-adv",
+    "deposit-maturity",
+    "rd-planner"
+  ]
+}

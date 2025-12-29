@@ -36,6 +36,17 @@ export function Deduction80CCalculator() {
       description="Estimate eligible 80C deduction and approximate tax savings (simplified)."
       icon={ReceiptIndianRupee}
       calculate={() => {}}
+      values={[investments, limit, marginalRate]}
+      onClear={() => {
+        setInvestments(1_50_000)
+        setLimit(1_50_000)
+        setMarginalRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setInvestments(Number(vals[0] ?? 1_50_000))
+        setLimit(Number(vals[1] ?? 1_50_000))
+        setMarginalRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Total 80C Investments" value={investments} onChange={setInvestments} prefix="₹" step={5_000} />
@@ -70,6 +81,17 @@ export function Deduction80DCalculator() {
       description="Estimate eligible health insurance deduction under 80D and approximate tax savings (simplified)."
       icon={ReceiptIndianRupee}
       calculate={() => {}}
+      values={[premium, limit, marginalRate]}
+      onClear={() => {
+        setPremium(25_000)
+        setLimit(25_000)
+        setMarginalRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setPremium(Number(vals[0] ?? 25_000))
+        setLimit(Number(vals[1] ?? 25_000))
+        setMarginalRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Premium Paid" value={premium} onChange={setPremium} prefix="₹" step={1_000} />
@@ -104,6 +126,17 @@ export function Deduction80GCalculator() {
       description="Estimate eligible deduction on donations and approximate tax savings (simplified)."
       icon={ReceiptIndianRupee}
       calculate={() => {}}
+      values={[donation, deductionPct, marginalRate]}
+      onClear={() => {
+        setDonation(25_000)
+        setDeductionPct(50)
+        setMarginalRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setDonation(Number(vals[0] ?? 25_000))
+        setDeductionPct(Number(vals[1] ?? 50))
+        setMarginalRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Donation Amount" value={donation} onChange={setDonation} prefix="₹" step={1_000} />
@@ -138,6 +171,17 @@ export function Deduction80TTACalculator() {
       description="Estimate deduction on savings interest under 80TTA and approximate tax savings (simplified)."
       icon={ReceiptIndianRupee}
       calculate={() => {}}
+      values={[interestEarned, limit, marginalRate]}
+      onClear={() => {
+        setInterestEarned(12_000)
+        setLimit(10_000)
+        setMarginalRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setInterestEarned(Number(vals[0] ?? 12_000))
+        setLimit(Number(vals[1] ?? 10_000))
+        setMarginalRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Savings Interest Earned" value={interestEarned} onChange={setInterestEarned} prefix="₹" step={500} />
@@ -179,6 +223,21 @@ export function CapitalGainsIndexationCalculator() {
       description="Estimate indexed cost and taxable LTCG using CII (simplified)."
       icon={Calculator}
       calculate={() => {}}
+      values={[purchasePrice, salePrice, ciiPurchase, ciiSale, taxRate]}
+      onClear={() => {
+        setPurchasePrice(10_00_000)
+        setSalePrice(15_00_000)
+        setCiiPurchase(280)
+        setCiiSale(348)
+        setTaxRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setPurchasePrice(Number(vals[0] ?? 10_00_000))
+        setSalePrice(Number(vals[1] ?? 15_00_000))
+        setCiiPurchase(Number(vals[2] ?? 280))
+        setCiiSale(Number(vals[3] ?? 348))
+        setTaxRate(Number(vals[4] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Purchase Price" value={purchasePrice} onChange={setPurchasePrice} prefix="₹" step={10_000} />
@@ -218,6 +277,17 @@ export function CryptoTaxCalculator() {
       description="Estimate tax on crypto gains using a flat rate (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[buyValue, sellValue, taxRate]}
+      onClear={() => {
+        setBuyValue(2_00_000)
+        setSellValue(2_50_000)
+        setTaxRate(30)
+      }}
+      onRestoreAction={(vals) => {
+        setBuyValue(Number(vals[0] ?? 2_00_000))
+        setSellValue(Number(vals[1] ?? 2_50_000))
+        setTaxRate(Number(vals[2] ?? 30))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Buy Value" value={buyValue} onChange={setBuyValue} prefix="₹" step={5_000} />
@@ -251,6 +321,15 @@ export function LotteryTaxCalculator() {
       description="Estimate tax and net winnings (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[winnings, taxRate]}
+      onClear={() => {
+        setWinnings(1_00_000)
+        setTaxRate(30)
+      }}
+      onRestoreAction={(vals) => {
+        setWinnings(Number(vals[0] ?? 1_00_000))
+        setTaxRate(Number(vals[1] ?? 30))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Winnings" value={winnings} onChange={setWinnings} prefix="₹" step={1_000} />
@@ -284,6 +363,17 @@ export function GiftTaxCalculator() {
       description="Estimate taxable gift amount above basic exemption (simplified)."
       icon={Calculator}
       calculate={() => {}}
+      values={[giftAmount, exemptAmount, marginalRate]}
+      onClear={() => {
+        setGiftAmount(2_00_000)
+        setExemptAmount(50_000)
+        setMarginalRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setGiftAmount(Number(vals[0] ?? 2_00_000))
+        setExemptAmount(Number(vals[1] ?? 50_000))
+        setMarginalRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Gift Amount" value={giftAmount} onChange={setGiftAmount} prefix="₹" step={5_000} />
@@ -320,6 +410,17 @@ export function RentalIncomeTaxCalculator() {
       description="Estimate taxable rental income using a standard deduction assumption."
       icon={Landmark}
       calculate={() => {}}
+      values={[annualRent, standardDeductionPct, taxRate]}
+      onClear={() => {
+        setAnnualRent(3_60_000)
+        setStandardDeductionPct(30)
+        setTaxRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualRent(Number(vals[0] ?? 3_60_000))
+        setStandardDeductionPct(Number(vals[1] ?? 30))
+        setTaxRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Rent Received" value={annualRent} onChange={setAnnualRent} prefix="₹" step={5_000} />
@@ -355,6 +456,17 @@ export function PresumptiveTaxCalculator() {
       description="Estimate tax liability using presumptive income % (simplified)."
       icon={Calculator}
       calculate={() => {}}
+      values={[grossReceipts, presumptivePct, taxRate]}
+      onClear={() => {
+        setGrossReceipts(30_00_000)
+        setPresumptivePct(8)
+        setTaxRate(20)
+      }}
+      onRestoreAction={(vals) => {
+        setGrossReceipts(Number(vals[0] ?? 30_00_000))
+        setPresumptivePct(Number(vals[1] ?? 8))
+        setTaxRate(Number(vals[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Gross Receipts/Turnover" value={grossReceipts} onChange={setGrossReceipts} prefix="₹" step={10_000} />
@@ -387,6 +499,15 @@ export function AdvanceTaxCalculator() {
       description="Estimate remaining advance tax payable after TDS/TCS (simplified)."
       icon={Calculator}
       calculate={() => {}}
+      values={[estimatedAnnualTax, tdsTcs]}
+      onClear={() => {
+        setEstimatedAnnualTax(1_50_000)
+        setTdsTcs(60_000)
+      }}
+      onRestoreAction={(vals) => {
+        setEstimatedAnnualTax(Number(vals[0] ?? 1_50_000))
+        setTdsTcs(Number(vals[1] ?? 60_000))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Estimated Total Tax for Year" value={estimatedAnnualTax} onChange={setEstimatedAnnualTax} prefix="₹" step={5_000} />
@@ -417,6 +538,17 @@ export function SurchargeCalculator() {
       description="Estimate surcharge and cess on a base tax amount (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[baseTax, surchargePct, cessPct]}
+      onClear={() => {
+        setBaseTax(2_00_000)
+        setSurchargePct(10)
+        setCessPct(4)
+      }}
+      onRestoreAction={(vals) => {
+        setBaseTax(Number(vals[0] ?? 2_00_000))
+        setSurchargePct(Number(vals[1] ?? 10))
+        setCessPct(Number(vals[2] ?? 4))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Base Tax" value={baseTax} onChange={setBaseTax} prefix="₹" step={5_000} />
@@ -456,6 +588,19 @@ export function MarginalReliefCalculator() {
       description="Approximate marginal relief around a surcharge threshold (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[income, threshold, taxRate, surchargePct]}
+      onClear={() => {
+        setIncome(50_00_000)
+        setThreshold(50_00_000)
+        setTaxRate(30)
+        setSurchargePct(10)
+      }}
+      onRestoreAction={(vals) => {
+        setIncome(Number(vals[0] ?? 50_00_000))
+        setThreshold(Number(vals[1] ?? 50_00_000))
+        setTaxRate(Number(vals[2] ?? 30))
+        setSurchargePct(Number(vals[3] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Total Income" value={income} onChange={setIncome} prefix="₹" step={50_000} />
@@ -495,6 +640,17 @@ export function Rebate87ACalculator() {
       description="Check eligibility and estimate 87A rebate impact (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[taxableIncome, rebateLimit, taxBeforeRebate]}
+      onClear={() => {
+        setTaxableIncome(6_50_000)
+        setRebateLimit(7_00_000)
+        setTaxBeforeRebate(25_000)
+      }}
+      onRestoreAction={(vals) => {
+        setTaxableIncome(Number(vals[0] ?? 6_50_000))
+        setRebateLimit(Number(vals[1] ?? 7_00_000))
+        setTaxBeforeRebate(Number(vals[2] ?? 25_000))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Taxable Income" value={taxableIncome} onChange={setTaxableIncome} prefix="₹" step={10_000} />
@@ -530,6 +686,17 @@ export function AgriIncomeTaxCalculator() {
       description="Estimate tax on non-agricultural income with agricultural income disclosed (simplified)."
       icon={Landmark}
       calculate={() => {}}
+      values={[agriIncome, otherIncome, effectiveRate]}
+      onClear={() => {
+        setAgriIncome(2_00_000)
+        setOtherIncome(6_00_000)
+        setEffectiveRate(10)
+      }}
+      onRestoreAction={(vals) => {
+        setAgriIncome(Number(vals[0] ?? 2_00_000))
+        setOtherIncome(Number(vals[1] ?? 6_00_000))
+        setEffectiveRate(Number(vals[2] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Agricultural Income" value={agriIncome} onChange={setAgriIncome} prefix="₹" step={5_000} helpText="Agricultural income may affect slab in some cases." />

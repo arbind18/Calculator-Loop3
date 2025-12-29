@@ -120,10 +120,22 @@ export function AdvancedRDCalculator() {
       description="Calculate the maturity value of your RD with quarterly compounding logic used by banks."
       icon={PiggyBank}
       calculate={calculateRD}
+      values={[monthlyDeposit, rate, years, isSeniorCitizen, compoundingFreq]}
       onClear={() => {
         setMonthlyDeposit(5000)
         setRate(6.5)
         setYears(5)
+        setIsSeniorCitizen(false)
+        setCompoundingFreq(4)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyDeposit(Number(vals[0] ?? 5000))
+        setRate(Number(vals[1] ?? 6.5))
+        setYears(Number(vals[2] ?? 5))
+        setIsSeniorCitizen(Boolean(vals[3] ?? false))
+        setCompoundingFreq(Number(vals[4] ?? 4))
+        setResult(null)
       }}
       seoContent={<RDSeoContent />}
       inputs={

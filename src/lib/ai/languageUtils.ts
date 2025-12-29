@@ -29,7 +29,7 @@ export const getResponseTemplate = (lang: Language) => {
       toolsIntro: "### 🛠️ Ye tools aapki madad kar sakte hain:",
       blogIntro: "### 💡 Hamare guides se jawab:",
       nextStep: "### ✅ Aage kya karein:",
-      fallback: "Maaf kijiye, mujhe iske baare mein abhi jaankari nahi hai. Kripya loan, tax ya investment ke baare mein poochein.",
+      fallback: "Maaf kijiye, mujhe iske baare mein abhi specific jaankari nahi mili. Aap kisi bhi category ka calculator/formula pooch sakte hain—finance, health, math, education, construction, technology, etc.",
       category: "Category"
     };
   }
@@ -38,7 +38,7 @@ export const getResponseTemplate = (lang: Language) => {
     toolsIntro: "### 🛠️ Recommended Tools",
     blogIntro: "### 💡 Answer (from our guides)",
     nextStep: "### ✅ Best Next Step",
-    fallback: "I'm sorry, I couldn't find specific information. Please ask about loans, taxes, or investments.",
+    fallback: "I'm sorry, I couldn't find specific information. Please ask about any calculator/formula—finance, health, math, education, construction, technology, and more.",
     category: "Category"
   };
 };

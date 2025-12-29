@@ -1,10 +1,12 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { allBlogPosts, formatDate, getRelatedPosts } from '@/lib/blogData';
+import { allBlogPosts, calculateReadingTime, formatDate, getRelatedPosts } from '@/lib/blogData';
+import { getAllMarkdownBlogSlugs, getMarkdownBlogPostBySlug } from '@/lib/blogMarkdown';
 import {
   Calendar,
   Clock,
@@ -19,62 +21,112 @@ import {
 import { ShareButtons } from '@/components/sections/ShareButtons';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
-  return allBlogPosts.map((post) => ({
-    slug: post.slug,
-  }));
+  const markdownSlugs = getAllMarkdownBlogSlugs();
+  const slugs = new Set<string>([...allBlogPosts.map((p) => p.slug), ...markdownSlugs]);
+  return Array.from(slugs).map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
-  const post = allBlogPosts.find((p) => p.slug === params.slug);
-
-  if (!post) {
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = allBlogPosts.find((p) => p.slug === slug);
+  if (post) {
     return {
-      title: 'Post Not Found',
+      title: `${post.title} - Calculator Loop Blog`,
+      description: post.description,
+      keywords: post.tags,
+      authors: [{ name: post.author.name }],
+      alternates: {
+        canonical: `/blog/${post.slug}`,
+      },
+      openGraph: {
+        title: post.title,
+        description: post.description,
+        type: 'article',
+        url: `https://calculatorloop.com/blog/${post.slug}`,
+        publishedTime: post.publishedAt,
+        authors: [post.author.name],
+        tags: post.tags,
+        images: post.image ? [{ url: post.image }] : undefined,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: post.title,
+        description: post.description,
+        images: post.image ? [post.image] : undefined,
+      },
     };
   }
 
-  return {
-    title: `${post.title} - Calculator Loop Blog`,
-    description: post.description,
-    keywords: post.tags,
-    authors: [{ name: post.author.name }],
-    alternates: {
-      canonical: `/blog/${post.slug}`,
-    },
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: 'article',
-      url: `https://calculatorloop.com/blog/${post.slug}`,
-      publishedTime: post.publishedAt,
-      authors: [post.author.name],
-      tags: post.tags,
-      images: post.image ? [{ url: post.image }] : undefined,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.description,
-      images: post.image ? [post.image] : undefined,
-    },
-  };
-}
+  const md = getMarkdownBlogPostBySlug(slug);
+  if (md) {
+    const title = md.frontmatter.title ?? md.slug;
+    const description = md.frontmatter.description ?? 'Blog post';
+    const publishedAt = md.frontmatter.publishedAt;
+    const updatedAt = md.frontmatter.updatedAt;
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = allBlogPosts.find((p) => p.slug === params.slug);
-
-  if (!post) {
-    notFound();
+    return {
+      title: `${title} - Calculator Loop Blog`,
+      description,
+      alternates: {
+        canonical: `/blog/${md.slug}`,
+      },
+      openGraph: {
+        title,
+        description,
+        type: 'article',
+        url: `https://calculatorloop.com/blog/${md.slug}`,
+        publishedTime: publishedAt,
+        modifiedTime: updatedAt,
+        images: md.frontmatter.image ? [{ url: md.frontmatter.image }] : undefined,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: md.frontmatter.image ? [md.frontmatter.image] : undefined,
+      },
+    };
   }
 
-  const relatedPosts = getRelatedPosts(post.slug, post.category);
-  const shareUrl = `https://calculatorloop.com/blog/${post.slug}`;
+  return { title: 'Post Not Found' };
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
+  const post = allBlogPosts.find((p) => p.slug === slug);
+  const md = post ? null : getMarkdownBlogPostBySlug(slug);
+
+  if (!post && !md) notFound();
+
+  const normalizedPost = post
+    ? post
+    : {
+        slug: md!.slug,
+        title: md!.frontmatter.title ?? md!.slug,
+        description: md!.frontmatter.description ?? '',
+        content: md!.content,
+        category: (md!.frontmatter.category as any) ?? 'general',
+        tags: md!.frontmatter.tags ?? [],
+        author: {
+          name: md!.frontmatter.author ?? 'Calculator Loop',
+          avatar: '/favicon.ico',
+          bio: 'Calculator Loop Editorial',
+        },
+        publishedAt: md!.frontmatter.publishedAt ?? new Date().toISOString(),
+        updatedAt: md!.frontmatter.updatedAt,
+        readingTime: calculateReadingTime(md!.content),
+        image: md!.frontmatter.image,
+        featured: false,
+      };
+
+  const relatedPosts = post ? getRelatedPosts(post.slug, post.category) : [];
+  const shareUrl = `https://calculatorloop.com/blog/${normalizedPost.slug}`;
 
   return (
     <main className="min-h-screen bg-background">
@@ -90,12 +142,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Header */}
         <header className="mb-8 space-y-4">
           <Badge variant="secondary" className="text-sm">
-            {post.category}
+            {normalizedPost.category}
           </Badge>
 
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight">{post.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">{normalizedPost.title}</h1>
 
-          <p className="text-xl text-muted-foreground">{post.description}</p>
+          <p className="text-xl text-muted-foreground">{normalizedPost.description}</p>
 
           {/* Meta Information */}
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
@@ -104,8 +156,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 <User className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="font-medium text-foreground">{post.author.name}</p>
-                <p className="text-xs">{post.author.bio}</p>
+                <p className="font-medium text-foreground">{normalizedPost.author.name}</p>
+                <p className="text-xs">{normalizedPost.author.bio}</p>
               </div>
             </div>
 
@@ -113,18 +165,18 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {formatDate(post.publishedAt)}
+              {formatDate(normalizedPost.publishedAt)}
             </div>
 
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              {post.readingTime} min read
+              {normalizedPost.readingTime} min read
             </div>
           </div>
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
+            {normalizedPost.tags.map((tag) => (
               <span
                 key={tag}
                 className="text-xs px-3 py-1 bg-muted rounded-full text-muted-foreground"
@@ -148,7 +200,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded
             prose-ul:text-muted-foreground prose-ol:text-muted-foreground
             prose-li:my-1"
-          dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }}
+          dangerouslySetInnerHTML={{ __html: normalizedPost.content.replace(/\n/g, '<br />') }}
         />
 
         <Separator className="my-12" />
@@ -161,8 +213,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
           <ShareButtons
             url={shareUrl}
-            title={post.title}
-            description={post.description}
+            title={normalizedPost.title}
+            description={normalizedPost.description}
           />
         </div>
 
@@ -175,8 +227,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <User className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <h3 className="font-bold text-lg mb-1">{post.author.name}</h3>
-              <p className="text-muted-foreground">{post.author.bio}</p>
+              <h3 className="font-bold text-lg mb-1">{normalizedPost.author.name}</h3>
+              <p className="text-muted-foreground">{normalizedPost.author.bio}</p>
             </div>
           </CardContent>
         </Card>

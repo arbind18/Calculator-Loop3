@@ -79,7 +79,15 @@ export function LoanBalanceTransfer() {
       description={t.loan.loan_balance_transfer_desc}
       icon={DollarSign}
       calculate={handleCalculate}
+      values={[outstanding, currentRate, newRate, remainingTenure, transferFees]}
       onClear={handleClear}
+      onRestoreAction={(vals) => {
+        setOutstanding(Number(vals?.[0] ?? 1000000))
+        setCurrentRate(Number(vals?.[1] ?? 10))
+        setNewRate(Number(vals?.[2] ?? 8.5))
+        setRemainingTenure(Number(vals?.[3] ?? 10))
+        setTransferFees(Number(vals?.[4] ?? 5000))
+      }}
       seoContent={<LoanEligibilitySeoContent />}
       onDownload={handleDownload}
       inputs={

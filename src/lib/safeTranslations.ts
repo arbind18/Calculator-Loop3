@@ -19,7 +19,7 @@ export const defaultTranslations = {
     categories: "Categories",
     allCalculators: "All Calculators",
     financial: "Financial",
-    health: "Health",
+    health: "Health & Fitness",
     math: "Math",
     datetime: "Date & Time",
     education: "Education",

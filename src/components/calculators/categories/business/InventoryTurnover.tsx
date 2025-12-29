@@ -26,7 +26,17 @@ export function InventoryTurnover() {
       description="Measure how efficiently you manage your stock. Higher is usually better."
       icon={Package}
       calculate={calculateRatio}
-      values={[cogs, avgInventory]}
+        values={[cogs, avgInventory]}
+        onClear={() => {
+          setCogs(0)
+          setAvgInventory(0)
+          setResult(null)
+        }}
+        onRestoreAction={(vals) => {
+          setCogs(Number(vals[0] ?? 0))
+          setAvgInventory(Number(vals[1] ?? 0))
+          setResult(null)
+        }}
       inputs={
         <div className="space-y-6">
           <InputGroup label="Cost of Goods Sold (COGS)" value={cogs} onChange={setCogs} prefix="₹" min={0} max={100000000} />

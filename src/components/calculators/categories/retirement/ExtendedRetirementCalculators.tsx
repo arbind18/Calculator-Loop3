@@ -19,6 +19,7 @@ import {
   InputGroup,
   ResultCard
 } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { generateReport } from "@/lib/downloadUtils"
 
 const clamp0 = (n: number) => (Number.isFinite(n) ? Math.max(0, n) : 0)
 
@@ -83,6 +84,23 @@ export function EPFCalculator() {
       description="Estimate your EPF corpus from monthly contributions and interest rate."
       icon={PiggyBank}
       calculate={() => {}}
+      values={[basicMonthly, employeePct, employerPct, interest, years, startingBalance]}
+      onClear={() => {
+        setBasicMonthly(30_000)
+        setEmployeePct(12)
+        setEmployerPct(12)
+        setInterest(8.15)
+        setYears(20)
+        setStartingBalance(0)
+      }}
+      onRestoreAction={(vals) => {
+        setBasicMonthly(Number(vals?.[0] ?? 30_000))
+        setEmployeePct(Number(vals?.[1] ?? 12))
+        setEmployerPct(Number(vals?.[2] ?? 12))
+        setInterest(Number(vals?.[3] ?? 8.15))
+        setYears(Number(vals?.[4] ?? 20))
+        setStartingBalance(Number(vals?.[5] ?? 0))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Monthly Basic + DA" value={basicMonthly} onChange={setBasicMonthly} prefix="₹" step={500} />
@@ -130,6 +148,23 @@ export function VPFCalculator() {
       description="Estimate corpus with Voluntary Provident Fund (VPF) extra contribution."
       icon={PiggyBank}
       calculate={() => {}}
+      values={[basicMonthly, epfPct, vpfExtraPct, employerPct, interest, years]}
+      onClear={() => {
+        setBasicMonthly(30_000)
+        setEpfPct(12)
+        setVpfExtraPct(10)
+        setEmployerPct(12)
+        setInterest(8.15)
+        setYears(20)
+      }}
+      onRestoreAction={(vals) => {
+        setBasicMonthly(Number(vals?.[0] ?? 30_000))
+        setEpfPct(Number(vals?.[1] ?? 12))
+        setVpfExtraPct(Number(vals?.[2] ?? 10))
+        setEmployerPct(Number(vals?.[3] ?? 12))
+        setInterest(Number(vals?.[4] ?? 8.15))
+        setYears(Number(vals?.[5] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Monthly Basic + DA" value={basicMonthly} onChange={setBasicMonthly} prefix="₹" step={500} />
@@ -173,6 +208,17 @@ export function InflationPensionCalculator() {
       description="Estimate the pension you’d need in the future to match today’s purchasing power."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[monthlyPensionToday, inflation, years]}
+      onClear={() => {
+        setMonthlyPensionToday(30_000)
+        setInflation(6)
+        setYears(20)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyPensionToday(Number(vals?.[0] ?? 30_000))
+        setInflation(Number(vals?.[1] ?? 6))
+        setYears(Number(vals?.[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Monthly Pension (Today)" value={monthlyPensionToday} onChange={setMonthlyPensionToday} prefix="₹" step={500} />
@@ -217,6 +263,17 @@ export function SuperannuationCalculator() {
       description="Estimate the future value of yearly superannuation contributions."
       icon={Briefcase}
       calculate={() => {}}
+      values={[annualContribution, years, returnRate]}
+      onClear={() => {
+        setAnnualContribution(1_00_000)
+        setYears(20)
+        setReturnRate(8)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualContribution(Number(vals?.[0] ?? 1_00_000))
+        setYears(Number(vals?.[1] ?? 20))
+        setReturnRate(Number(vals?.[2] ?? 8))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Yearly Contribution" value={annualContribution} onChange={setAnnualContribution} prefix="₹" step={10_000} />
@@ -257,6 +314,27 @@ export function PostRetirementBudget() {
       description="Plan your monthly retirement income vs expenses."
       icon={Wallet}
       calculate={() => {}}
+      values={[pensionMonthly, otherIncomeMonthly, housing, food, medical, utilities, travel, misc]}
+      onClear={() => {
+        setPensionMonthly(40_000)
+        setOtherIncomeMonthly(10_000)
+        setHousing(15_000)
+        setFood(12_000)
+        setMedical(8_000)
+        setUtilities(4_000)
+        setTravel(5_000)
+        setMisc(6_000)
+      }}
+      onRestoreAction={(vals) => {
+        setPensionMonthly(Number(vals?.[0] ?? 40_000))
+        setOtherIncomeMonthly(Number(vals?.[1] ?? 10_000))
+        setHousing(Number(vals?.[2] ?? 15_000))
+        setFood(Number(vals?.[3] ?? 12_000))
+        setMedical(Number(vals?.[4] ?? 8_000))
+        setUtilities(Number(vals?.[5] ?? 4_000))
+        setTravel(Number(vals?.[6] ?? 5_000))
+        setMisc(Number(vals?.[7] ?? 6_000))
+      }}
       inputs={
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -312,6 +390,19 @@ export function SWPTaxCalculator() {
       description="Rough estimate of tax on withdrawals based on gains proportion (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[cost, currentValue, withdrawal, taxRate]}
+      onClear={() => {
+        setCost(10_00_000)
+        setCurrentValue(15_00_000)
+        setWithdrawal(1_20_000)
+        setTaxRate(10)
+      }}
+      onRestoreAction={(vals) => {
+        setCost(Number(vals?.[0] ?? 10_00_000))
+        setCurrentValue(Number(vals?.[1] ?? 15_00_000))
+        setWithdrawal(Number(vals?.[2] ?? 1_20_000))
+        setTaxRate(Number(vals?.[3] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Total Cost (Invested)" value={cost} onChange={setCost} prefix="₹" step={10_000} />
@@ -351,6 +442,19 @@ export function NPSTier2Calculator() {
       description="Estimate corpus growth for NPS Tier-2 style investing (simplified)."
       icon={TrendingUp}
       calculate={() => {}}
+      values={[lumpSum, monthlyAdd, years, returnRate]}
+      onClear={() => {
+        setLumpSum(5_00_000)
+        setMonthlyAdd(5_000)
+        setYears(10)
+        setReturnRate(10)
+      }}
+      onRestoreAction={(vals) => {
+        setLumpSum(Number(vals?.[0] ?? 5_00_000))
+        setMonthlyAdd(Number(vals?.[1] ?? 5_000))
+        setYears(Number(vals?.[2] ?? 10))
+        setReturnRate(Number(vals?.[3] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Starting Amount" value={lumpSum} onChange={setLumpSum} prefix="₹" step={10_000} />
@@ -375,6 +479,7 @@ export function RetirementShortfall() {
   const [monthlySaving, setMonthlySaving] = useState(25_000)
   const [years, setYears] = useState(20)
   const [returnRate, setReturnRate] = useState(10)
+  const [inflation, setInflation] = useState(6)
 
   const result = useMemo(() => {
     const t = clamp0(years)
@@ -382,16 +487,86 @@ export function RetirementShortfall() {
     const fvStart = clamp0(currentSavings) * Math.pow(1 + monthlyRate(returnRate), months)
     const fvAdd = fvOfMonthlyContrib(monthlySaving, returnRate, months)
     const expected = fvStart + fvAdd
-    const shortfall = Math.max(0, clamp0(targetCorpus) - expected)
-    return { expected, shortfall }
-  }, [targetCorpus, currentSavings, monthlySaving, years, returnRate])
+    const futureTarget = clamp0(targetCorpus) * Math.pow(1 + clamp0(inflation) / 100, t)
+    const shortfall = Math.max(0, futureTarget - expected)
+
+    // Year-wise schedule (computed via month-by-month simulation)
+    const schedule: Array<{ year: number; corpus: number; target: number; shortfall: number }> = []
+    let balance = clamp0(currentSavings)
+    const rm = monthlyRate(returnRate)
+    const inf = clamp0(inflation) / 100
+    const baseTarget = clamp0(targetCorpus)
+
+    for (let m = 1; m <= months; m++) {
+      balance += clamp0(monthlySaving)
+      balance += balance * rm
+
+      if (m % 12 === 0 || m === months) {
+        const y = Math.ceil(m / 12)
+        const targetY = baseTarget * Math.pow(1 + inf, y)
+        schedule.push({
+          year: y,
+          corpus: Math.round(balance),
+          target: Math.round(targetY),
+          shortfall: Math.max(0, Math.round(targetY - balance))
+        })
+      }
+    }
+
+    return { expected, futureTarget, shortfall, schedule }
+  }, [targetCorpus, currentSavings, monthlySaving, years, returnRate, inflation])
+
+  const handleDownload = (format: string, options?: any) => {
+    let scheduleData = [...result.schedule]
+
+    if (options?.scheduleRange === '1yr') {
+      scheduleData = scheduleData.slice(0, 1)
+    } else if (options?.scheduleRange === '5yr') {
+      scheduleData = scheduleData.slice(0, 5)
+    } else if (options?.scheduleRange === 'custom' && options.customRangeStart && options.customRangeEnd) {
+      const start = Math.max(0, options.customRangeStart - 1)
+      const end = Math.min(scheduleData.length, options.customRangeEnd)
+      scheduleData = scheduleData.slice(start, end)
+    }
+
+    const headers = ['Year', 'Projected Corpus', 'Inflation-Adjusted Target', 'Shortfall']
+    const data = scheduleData.map((row) => [row.year, row.corpus, row.target, row.shortfall])
+
+    generateReport(format, 'retirement_shortfall_report', headers, data, 'Retirement Shortfall Report', {
+      'Target Corpus (Today)': `₹${targetCorpus}`,
+      'Inflation (p.a.)': `${inflation}%`,
+      'Time Horizon': `${years} years`,
+      'Expected Return (p.a.)': `${returnRate}%`,
+      'Current Savings': `₹${currentSavings}`,
+      'Monthly Investment': `₹${monthlySaving}`,
+      'Inflation-Adjusted Target (Future)': `₹${Math.round(result.futureTarget)}`
+    })
+  }
 
   return (
     <FinancialCalculatorTemplate
       title="Retirement Shortfall Calculator"
-      description="Estimate whether your current plan meets your target retirement corpus."
+      description="Estimate whether your plan meets your inflation-adjusted target retirement corpus."
       icon={TrendingUp}
       calculate={() => {}}
+      onDownload={handleDownload}
+      values={[targetCorpus, currentSavings, monthlySaving, years, returnRate, inflation]}
+      onClear={() => {
+        setTargetCorpus(2_00_00_000)
+        setCurrentSavings(10_00_000)
+        setMonthlySaving(25_000)
+        setYears(20)
+        setReturnRate(10)
+        setInflation(6)
+      }}
+      onRestoreAction={(vals) => {
+        setTargetCorpus(Number(vals?.[0] ?? 2_00_00_000))
+        setCurrentSavings(Number(vals?.[1] ?? 10_00_000))
+        setMonthlySaving(Number(vals?.[2] ?? 25_000))
+        setYears(Number(vals?.[3] ?? 20))
+        setReturnRate(Number(vals?.[4] ?? 10))
+        setInflation(Number(vals?.[5] ?? 6))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Target Corpus" value={targetCorpus} onChange={setTargetCorpus} prefix="₹" step={100_000} />
@@ -401,13 +576,37 @@ export function RetirementShortfall() {
             <InputGroup label="Years" value={years} onChange={setYears} suffix="Years" step={1} />
             <InputGroup label="Expected Return" value={returnRate} onChange={setReturnRate} suffix="%" step={0.1} />
           </div>
+          <InputGroup label="Inflation" value={inflation} onChange={setInflation} suffix="%" step={0.1} helpText="Used to inflate target corpus" />
         </div>
       }
       result={
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <ResultCard label="Expected Corpus" value={fmtNum(result.expected)} prefix="₹" type="highlight" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <ResultCard label="Projected Corpus" value={fmtNum(result.expected)} prefix="₹" type="highlight" />
+          <ResultCard label="Inflation-Adjusted Target" value={fmtNum(result.futureTarget)} prefix="₹" />
           <ResultCard label="Estimated Shortfall" value={fmtNum(result.shortfall)} prefix="₹" type={result.shortfall > 0 ? "warning" : "success"} />
         </div>
+      }
+      schedule={
+        <table className="min-w-[760px] w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th className="text-left p-3">Year</th>
+              <th className="text-right p-3">Projected Corpus</th>
+              <th className="text-right p-3">Target (Inflation-Adjusted)</th>
+              <th className="text-right p-3">Shortfall</th>
+            </tr>
+          </thead>
+          <tbody>
+            {result.schedule.map((row) => (
+              <tr key={row.year} className="border-b last:border-b-0">
+                <td className="p-3">{row.year}</td>
+                <td className="p-3 text-right">₹{row.corpus.toLocaleString("en-IN")}</td>
+                <td className="p-3 text-right">₹{row.target.toLocaleString("en-IN")}</td>
+                <td className="p-3 text-right">₹{row.shortfall.toLocaleString("en-IN")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       }
     />
   )
@@ -415,16 +614,98 @@ export function RetirementShortfall() {
 
 export function EarlyRetirementCalculator() {
   const [annualExpenseToday, setAnnualExpenseToday] = useState(6_00_000)
+  const [currentSavings, setCurrentSavings] = useState(10_00_000)
+  const [monthlyInvestment, setMonthlyInvestment] = useState(25_000)
+  const [returnRate, setReturnRate] = useState(10)
   const [yearsToFI, setYearsToFI] = useState(15)
   const [inflation, setInflation] = useState(6)
   const [swr, setSwr] = useState(4)
 
   const result = useMemo(() => {
     const t = clamp0(yearsToFI)
-    const futureExpense = clamp0(annualExpenseToday) * Math.pow(1 + clamp0(inflation) / 100, t)
+    const months = Math.round(t * 12)
+    const inf = clamp0(inflation) / 100
+    const futureExpense = clamp0(annualExpenseToday) * Math.pow(1 + inf, t)
     const fiNumber = clamp0(swr) > 0 ? futureExpense / (clamp0(swr) / 100) : 0
-    return { futureExpense, fiNumber }
-  }, [annualExpenseToday, yearsToFI, inflation, swr])
+
+    const rm = monthlyRate(returnRate)
+    const pvGrowth = clamp0(currentSavings) * Math.pow(1 + rm, months)
+    const fvGap = Math.max(0, fiNumber - pvGrowth)
+    const annuityFactor = rm === 0 ? months : (Math.pow(1 + rm, months) - 1) / rm
+    const requiredMonthly = annuityFactor > 0 ? fvGap / annuityFactor : 0
+
+    const schedule: Array<{ year: number; corpus: number; required: number; annualExpense: number }> = []
+    let balance = clamp0(currentSavings)
+    let expense = clamp0(annualExpenseToday)
+    let achievedYear: number | null = null
+
+    for (let m = 1; m <= months; m++) {
+      if (m % 12 === 1 && m > 1) {
+        expense = expense * (1 + inf)
+      }
+
+      balance += clamp0(monthlyInvestment)
+      balance += balance * rm
+
+      if (m % 12 === 0 || m === months) {
+        const y = Math.ceil(m / 12)
+        const required = clamp0(swr) > 0 ? (expense / (clamp0(swr) / 100)) : 0
+        const corpus = Math.round(balance)
+        schedule.push({
+          year: y,
+          corpus,
+          required: Math.round(required),
+          annualExpense: Math.round(expense)
+        })
+        if (achievedYear === null && required > 0 && corpus >= required) {
+          achievedYear = y
+        }
+      }
+    }
+
+    const projectedCorpus = schedule.length ? schedule[schedule.length - 1].corpus : Math.round(pvGrowth)
+    const targetMet = projectedCorpus >= fiNumber && fiNumber > 0
+
+    return {
+      futureExpense: Math.round(futureExpense),
+      fiNumber: Math.round(fiNumber),
+      projectedCorpus,
+      targetMet,
+      achievedYear,
+      requiredMonthly: Math.round(requiredMonthly),
+      schedule
+    }
+  }, [annualExpenseToday, currentSavings, monthlyInvestment, returnRate, yearsToFI, inflation, swr])
+
+  const handleDownload = (format: string, options?: any) => {
+    let scheduleData = [...result.schedule]
+
+    if (options?.scheduleRange === '1yr') {
+      scheduleData = scheduleData.slice(0, 1)
+    } else if (options?.scheduleRange === '5yr') {
+      scheduleData = scheduleData.slice(0, 5)
+    } else if (options?.scheduleRange === 'custom' && options.customRangeStart && options.customRangeEnd) {
+      const start = Math.max(0, options.customRangeStart - 1)
+      const end = Math.min(scheduleData.length, options.customRangeEnd)
+      scheduleData = scheduleData.slice(start, end)
+    }
+
+    const headers = ['Year', 'Corpus', 'Required FI Corpus', 'Annual Expense (Infl. adj.)']
+    const data = scheduleData.map((row) => [row.year, row.corpus, row.required, row.annualExpense])
+
+    generateReport(format, 'fire_pro_report', headers, data, 'FIRE Calculator (Pro) Report', {
+      'Annual Expense (Today)': `₹${annualExpenseToday}`,
+      'Current Savings': `₹${currentSavings}`,
+      'Monthly Investment': `₹${monthlyInvestment}`,
+      'Expected Return (p.a.)': `${returnRate}%`,
+      'Inflation (p.a.)': `${inflation}%`,
+      'Safe Withdrawal Rate': `${swr}%`,
+      'Target Horizon': `${yearsToFI} years`,
+      'FI Number (at horizon)': `₹${result.fiNumber}`,
+      'Projected Corpus (at horizon)': `₹${result.projectedCorpus}`,
+      'Meets FI by horizon': result.targetMet ? 'Yes' : 'No'
+    })
+  }
 
   return (
     <FinancialCalculatorTemplate
@@ -432,10 +713,35 @@ export function EarlyRetirementCalculator() {
       description="Estimate your Financial Independence (FI) number using a safe withdrawal rate."
       icon={TrendingUp}
       calculate={() => {}}
+      onDownload={handleDownload}
+      values={[annualExpenseToday, currentSavings, monthlyInvestment, returnRate, yearsToFI, inflation, swr]}
+      onClear={() => {
+        setAnnualExpenseToday(6_00_000)
+        setCurrentSavings(10_00_000)
+        setMonthlyInvestment(25_000)
+        setReturnRate(10)
+        setYearsToFI(15)
+        setInflation(6)
+        setSwr(4)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualExpenseToday(Number(vals?.[0] ?? 6_00_000))
+        setCurrentSavings(Number(vals?.[1] ?? 10_00_000))
+        setMonthlyInvestment(Number(vals?.[2] ?? 25_000))
+        setReturnRate(Number(vals?.[3] ?? 10))
+        setYearsToFI(Number(vals?.[4] ?? 15))
+        setInflation(Number(vals?.[5] ?? 6))
+        setSwr(Number(vals?.[6] ?? 4))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Expenses (Today)" value={annualExpenseToday} onChange={setAnnualExpenseToday} prefix="₹" step={10_000} />
-          <InputGroup label="Years to FI" value={yearsToFI} onChange={setYearsToFI} suffix="Years" step={1} />
+          <InputGroup label="Current Savings" value={currentSavings} onChange={setCurrentSavings} prefix="₹" step={50_000} />
+          <InputGroup label="Monthly Investment" value={monthlyInvestment} onChange={setMonthlyInvestment} prefix="₹" step={500} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InputGroup label="Expected Return" value={returnRate} onChange={setReturnRate} suffix="%" step={0.1} />
+            <InputGroup label="Years to FI" value={yearsToFI} onChange={setYearsToFI} suffix="Years" step={1} />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputGroup label="Inflation" value={inflation} onChange={setInflation} suffix="%" step={0.1} />
             <InputGroup label="Safe Withdrawal Rate" value={swr} onChange={setSwr} suffix="%" step={0.1} helpText="Common assumption: 3%–4%" />
@@ -443,10 +749,39 @@ export function EarlyRetirementCalculator() {
         </div>
       }
       result={
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <ResultCard label="Future Annual Expenses" value={fmtNum(result.futureExpense)} prefix="₹" type="highlight" />
-          <ResultCard label="FI Number (Corpus)" value={fmtNum(result.fiNumber)} prefix="₹" type="success" icon={PiggyBank} />
+          <ResultCard label="FI Number (at horizon)" value={fmtNum(result.fiNumber)} prefix="₹" />
+          <ResultCard label="Projected Corpus (at horizon)" value={fmtNum(result.projectedCorpus)} prefix="₹" type={result.targetMet ? "success" : "warning"} icon={PiggyBank} />
+          <ResultCard label="FI Achieved" value={result.achievedYear ? `${result.achievedYear} years` : "Not yet"} type={result.achievedYear ? "success" : "warning"} />
+          {!result.targetMet && (
+            <div className="md:col-span-4">
+              <ResultCard label="Suggested Monthly Investment (to meet horizon)" value={fmtNum(result.requiredMonthly)} prefix="₹" type="highlight" />
+            </div>
+          )}
         </div>
+      }
+      schedule={
+        <table className="min-w-[760px] w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th className="text-left p-3">Year</th>
+              <th className="text-right p-3">Corpus</th>
+              <th className="text-right p-3">Required FI Corpus</th>
+              <th className="text-right p-3">Annual Expense</th>
+            </tr>
+          </thead>
+          <tbody>
+            {result.schedule.map((row) => (
+              <tr key={row.year} className="border-b last:border-b-0">
+                <td className="p-3">{row.year}</td>
+                <td className="p-3 text-right">₹{row.corpus.toLocaleString("en-IN")}</td>
+                <td className="p-3 text-right">₹{row.required.toLocaleString("en-IN")}</td>
+                <td className="p-3 text-right">₹{row.annualExpense.toLocaleString("en-IN")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       }
     />
   )
@@ -598,6 +933,17 @@ export function PMVVYSchemeCalculator() {
       description="Estimate pension payout from PMVVY-style annuity (simplified)."
       icon={Shield}
       calculate={() => {}}
+      values={[purchasePrice, rate, frequency]}
+      onClear={() => {
+        setPurchasePrice(15_00_000)
+        setRate(7.4)
+        setFrequency("monthly")
+      }}
+      onRestoreAction={(vals) => {
+        setPurchasePrice(Number(vals?.[0] ?? 15_00_000))
+        setRate(Number(vals?.[1] ?? 7.4))
+        setFrequency(typeof vals?.[2] === "string" ? (vals[2] as any) : "monthly")
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Purchase Price" value={purchasePrice} onChange={setPurchasePrice} prefix="₹" step={10_000} />
@@ -646,6 +992,19 @@ export function ReverseMortgageCalculator() {
       description="Estimate a monthly payout based on property value and LTV (simplified)."
       icon={Home}
       calculate={() => {}}
+      values={[propertyValue, ltv, rate, tenureYears]}
+      onClear={() => {
+        setPropertyValue(80_00_000)
+        setLtv(60)
+        setRate(10)
+        setTenureYears(15)
+      }}
+      onRestoreAction={(vals) => {
+        setPropertyValue(Number(vals?.[0] ?? 80_00_000))
+        setLtv(Number(vals?.[1] ?? 60))
+        setRate(Number(vals?.[2] ?? 10))
+        setTenureYears(Number(vals?.[3] ?? 15))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Property Value" value={propertyValue} onChange={setPropertyValue} prefix="₹" step={50_000} />
@@ -682,6 +1041,17 @@ export function MedicalInflationCalculator() {
       description="Project future medical expenses using medical inflation."
       icon={HeartPulse}
       calculate={() => {}}
+      values={[annualCostToday, inflation, years]}
+      onClear={() => {
+        setAnnualCostToday(1_00_000)
+        setInflation(10)
+        setYears(20)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualCostToday(Number(vals?.[0] ?? 1_00_000))
+        setInflation(Number(vals?.[1] ?? 10))
+        setYears(Number(vals?.[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Medical Cost (Today)" value={annualCostToday} onChange={setAnnualCostToday} prefix="₹" step={5_000} />
@@ -716,6 +1086,21 @@ export function BucketStrategyCalculator() {
       description="Split your corpus into short/medium/long-term buckets (simplified)."
       icon={PiggyBank}
       calculate={() => {}}
+      values={[corpus, annualExpense, bucket1Years, bucket2Years, bucket3Years]}
+      onClear={() => {
+        setCorpus(1_50_00_000)
+        setAnnualExpense(6_00_000)
+        setBucket1Years(3)
+        setBucket2Years(7)
+        setBucket3Years(10)
+      }}
+      onRestoreAction={(vals) => {
+        setCorpus(Number(vals?.[0] ?? 1_50_00_000))
+        setAnnualExpense(Number(vals?.[1] ?? 6_00_000))
+        setBucket1Years(Number(vals?.[2] ?? 3))
+        setBucket2Years(Number(vals?.[3] ?? 7))
+        setBucket3Years(Number(vals?.[4] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Total Corpus" value={corpus} onChange={setCorpus} prefix="₹" step={200_000} />
@@ -754,6 +1139,15 @@ export function AnnuityYieldCalculator() {
       description="Estimate annuity payout from a corpus and annuity rate (simplified)."
       icon={Shield}
       calculate={() => {}}
+      values={[corpus, rate]}
+      onClear={() => {
+        setCorpus(50_00_000)
+        setRate(6)
+      }}
+      onRestoreAction={(vals) => {
+        setCorpus(Number(vals?.[0] ?? 50_00_000))
+        setRate(Number(vals?.[1] ?? 6))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annuity Purchase Amount" value={corpus} onChange={setCorpus} prefix="₹" step={50_000} />
@@ -788,6 +1182,17 @@ export function LifeExpectancyCalculator() {
       description="Simple planning helper for years left, years to retire, and years in retirement."
       icon={Calendar}
       calculate={() => {}}
+      values={[currentAge, expectedLifespan, retirementAge]}
+      onClear={() => {
+        setCurrentAge(35)
+        setExpectedLifespan(85)
+        setRetirementAge(60)
+      }}
+      onRestoreAction={(vals) => {
+        setCurrentAge(Number(vals?.[0] ?? 35))
+        setExpectedLifespan(Number(vals?.[1] ?? 85))
+        setRetirementAge(Number(vals?.[2] ?? 60))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Current Age" value={currentAge} onChange={setCurrentAge} suffix="Years" step={1} />
@@ -822,6 +1227,17 @@ export function TravelFundCalculator() {
       description="Project your travel budget into the future using inflation."
       icon={Plane}
       calculate={() => {}}
+      values={[tripCostToday, years, inflation]}
+      onClear={() => {
+        setTripCostToday(2_00_000)
+        setYears(5)
+        setInflation(6)
+      }}
+      onRestoreAction={(vals) => {
+        setTripCostToday(Number(vals?.[0] ?? 2_00_000))
+        setYears(Number(vals?.[1] ?? 5))
+        setInflation(Number(vals?.[2] ?? 6))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Trip Cost (Today)" value={tripCostToday} onChange={setTripCostToday} prefix="₹" step={5_000} />
@@ -850,6 +1266,17 @@ export function LegacyPlannerCalculator() {
       description="Estimate how much you need today to leave a desired legacy (simplified)."
       icon={Shield}
       calculate={() => {}}
+      values={[desiredLegacy, years, returnRate]}
+      onClear={() => {
+        setDesiredLegacy(1_00_00_000)
+        setYears(15)
+        setReturnRate(8)
+      }}
+      onRestoreAction={(vals) => {
+        setDesiredLegacy(Number(vals?.[0] ?? 1_00_00_000))
+        setYears(Number(vals?.[1] ?? 15))
+        setReturnRate(Number(vals?.[2] ?? 8))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Desired Legacy (Future Value)" value={desiredLegacy} onChange={setDesiredLegacy} prefix="₹" step={100_000} />
@@ -880,6 +1307,19 @@ export function CareCostCalculator() {
       description="Project future monthly care costs and total requirement (simplified)."
       icon={HeartPulse}
       calculate={() => {}}
+      values={[monthlyCostToday, inflation, yearsUntilNeeded, durationYears]}
+      onClear={() => {
+        setMonthlyCostToday(25_000)
+        setInflation(8)
+        setYearsUntilNeeded(15)
+        setDurationYears(5)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyCostToday(Number(vals?.[0] ?? 25_000))
+        setInflation(Number(vals?.[1] ?? 8))
+        setYearsUntilNeeded(Number(vals?.[2] ?? 15))
+        setDurationYears(Number(vals?.[3] ?? 5))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Monthly Care Cost (Today)" value={monthlyCostToday} onChange={setMonthlyCostToday} prefix="₹" step={500} />
@@ -916,6 +1356,15 @@ export function PensionTaxCalculator() {
       description="Estimate tax and net pension from an effective tax rate (simplified)."
       icon={BadgePercent}
       calculate={() => {}}
+      values={[annualPension, taxRate]}
+      onClear={() => {
+        setAnnualPension(6_00_000)
+        setTaxRate(10)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualPension(Number(vals?.[0] ?? 6_00_000))
+        setTaxRate(Number(vals?.[1] ?? 10))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Pension Income" value={annualPension} onChange={setAnnualPension} prefix="₹" step={10_000} />
@@ -947,6 +1396,15 @@ export function EPSPensionCalculator() {
       description="Estimate EPS pension using the common formula: Salary × Service / 70."
       icon={Shield}
       calculate={() => {}}
+      values={[pensionableSalary, serviceYears]}
+      onClear={() => {
+        setPensionableSalary(15_000)
+        setServiceYears(20)
+      }}
+      onRestoreAction={(vals) => {
+        setPensionableSalary(Number(vals?.[0] ?? 15_000))
+        setServiceYears(Number(vals?.[1] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Pensionable Salary" value={pensionableSalary} onChange={setPensionableSalary} prefix="₹" step={100} />
@@ -979,6 +1437,17 @@ export function HealthPremiumProjector() {
       description="Project future health insurance premium using medical inflation (simplified)."
       icon={HeartPulse}
       calculate={() => {}}
+      values={[annualPremiumToday, inflation, years]}
+      onClear={() => {
+        setAnnualPremiumToday(25_000)
+        setInflation(10)
+        setYears(20)
+      }}
+      onRestoreAction={(vals) => {
+        setAnnualPremiumToday(Number(vals?.[0] ?? 25_000))
+        setInflation(Number(vals?.[1] ?? 10))
+        setYears(Number(vals?.[2] ?? 20))
+      }}
       inputs={
         <div className="space-y-4">
           <InputGroup label="Annual Premium (Today)" value={annualPremiumToday} onChange={setAnnualPremiumToday} prefix="₹" step={500} />

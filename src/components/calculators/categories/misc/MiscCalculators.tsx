@@ -1,15 +1,14 @@
 ﻿"use client"
 
 import { useState } from "react"
-import { Banknote, Calendar, CalendarDays, Percent, Fuel, Scale, Clock, Calculator } from "lucide-react"
+import { Banknote, Percent, Fuel, Clock, Calculator } from "lucide-react"
 import { generateReport } from "@/lib/downloadUtils"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { VoiceDateInput } from "@/components/ui/VoiceDateInput"
 import { FAQSection, getMiscFAQs } from "@/components/calculators/ui/FAQSection"
 import {
   TipSeoContent,
-  AgeSeoContent,
   FuelCostSeoContent,
-  DateDifferenceSeoContent,
   DatePlusDurationSeoContent,
   PercentageSeoContent
 } from "@/components/calculators/seo/MiscSeo"
@@ -47,136 +46,6 @@ export function TipCalculator() {
           <ResultCard label="Tip Amount" value={`₹${result.tipAmount}`} type="default" />
           <ResultCard label="Total Bill" value={`₹${result.total}`} type="highlight" />
           <ResultCard label="Per Person" value={`₹${result.perPerson}`} type="success" />
-        </div>
-      )}
-    />
-  )
-}
-
-export function AgeCalculator() {
-  const [dob, setDob] = useState('2000-01-01')
-  const [result, setResult] = useState<any>(null)
-
-  const calculate = () => {
-    const birth = new Date(dob)
-    const today = new Date()
-    let years = today.getFullYear() - birth.getFullYear()
-    let months = today.getMonth() - birth.getMonth()
-    let days = today.getDate() - birth.getDate()
-    
-    if (days < 0) {
-      months--
-      days += new Date(today.getFullYear(), today.getMonth(), 0).getDate()
-    }
-    if (months < 0) {
-      years--
-      months += 12
-    }
-    
-    const totalDays = Math.floor((today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24))
-    const totalMonths = years * 12 + months
-    
-    setResult({ years, months, days, totalDays, totalMonths })
-  }
-
-  return (
-    <FinancialCalculatorTemplate
-      title="Age Calculator"
-      description="Calculate your exact age in years, months, and days."
-      icon={Calendar}
-      calculate={calculate}
-      values={[dob]}
-      seoContent={<FAQSection faqs={getMiscFAQs('age')} />}
-      inputs={
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">Date of Birth</label>
-            <div className="relative">
-              <input 
-                type="date" 
-                value={dob} 
-                onChange={(e) => setDob(e.target.value)} 
-                className="w-full p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
-              />
-            </div>
-          </div>
-        </div>
-      }
-      result={result && (
-        <div className="space-y-6">
-          <ResultCard 
-            label="Your Age" 
-            value={`${result.years} Years, ${result.months} Months, ${result.days} Days`} 
-            type="highlight" 
-          />
-          <div className="grid grid-cols-2 gap-4">
-            <ResultCard label="Total Months" value={result.totalMonths} type="default" />
-            <ResultCard label="Total Days" value={result.totalDays} type="default" />
-          </div>
-        </div>
-      )}
-    />
-  )
-}
-
-export function DateDifferenceCalculator() {
-  const [from, setFrom] = useState('2024-01-01')
-  const [to, setTo] = useState('2024-12-31')
-  const [result, setResult] = useState<any>(null)
-
-  const calculate = () => {
-    const start = new Date(from)
-    const end = new Date(to)
-    const diff = Math.abs(end.getTime() - start.getTime())
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-    const weeks = Math.floor(days / 7)
-    const months = Math.floor(days / 30.44)
-    const years = Math.floor(days / 365.25)
-    setResult({ days, weeks, months, years })
-  }
-
-  return (
-    <FinancialCalculatorTemplate
-      title="Date Difference Calculator"
-      description="Calculate the number of days between two dates."
-      icon={CalendarDays}
-      calculate={calculate}
-      values={[from, to]}
-      seoContent={<FAQSection faqs={getMiscFAQs('date-difference')} />}
-      inputs={
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">From Date</label>
-              <div className="relative">
-                <input 
-                  type="date" 
-                  value={from} 
-                  onChange={(e) => setFrom(e.target.value)} 
-                  className="w-full p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">To Date</label>
-              <div className="relative">
-                <input 
-                  type="date" 
-                  value={to} 
-                  onChange={(e) => setTo(e.target.value)} 
-                  className="w-full p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-      result={result && (
-        <div className="grid grid-cols-2 gap-4">
-          <ResultCard label="Days" value={result.days} type="highlight" />
-          <ResultCard label="Weeks" value={result.weeks} type="default" />
-          <ResultCard label="Months (approx)" value={result.months} type="default" />
-          <ResultCard label="Years (approx)" value={result.years} type="default" />
         </div>
       )}
     />
@@ -259,49 +128,6 @@ export function FuelCostCalculator() {
           <ResultCard label="Total Cost" value={`₹${result.cost}`} type="highlight" />
           <ResultCard label="Fuel Needed" value={`${result.fuel} L`} type="default" />
           <ResultCard label="Cost per km" value={`₹${result.perKm}`} type="default" />
-        </div>
-      )}
-    />
-  )
-}
-
-export function BMICalculator() {
-  const [weight, setWeight] = useState(70)
-  const [height, setHeight] = useState(170)
-  const [result, setResult] = useState<any>(null)
-
-  const calculate = () => {
-    const heightInMeters = height / 100
-    const bmi = weight / (heightInMeters * heightInMeters)
-    let category = ''
-    if (bmi < 18.5) category = 'Underweight'
-    else if (bmi < 25) category = 'Normal'
-    else if (bmi < 30) category = 'Overweight'
-    else category = 'Obese'
-    setResult({ bmi: bmi.toFixed(1), category })
-  }
-
-  return (
-    <FinancialCalculatorTemplate
-      title="BMI Calculator"
-      description="Calculate your Body Mass Index."
-      icon={Scale}
-      calculate={calculate}
-      values={[weight, height]}
-      inputs={
-        <div className="space-y-6">
-          <InputGroup label="Weight" value={weight} onChange={setWeight} suffix="kg" min={10} max={300} />
-          <InputGroup label="Height" value={height} onChange={setHeight} suffix="cm" min={50} max={300} />
-        </div>
-      }
-      result={result && (
-        <div className="space-y-6">
-          <ResultCard label="Your BMI" value={result.bmi} type="highlight" />
-          <ResultCard 
-            label="Category" 
-            value={result.category} 
-            type={result.category === 'Normal' ? 'success' : 'warning'} 
-          />
         </div>
       )}
     />

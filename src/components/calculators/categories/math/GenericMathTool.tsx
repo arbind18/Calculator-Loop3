@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Calculator, Activity, Sparkles, TrendingUp, PieChart, Zap, Copy, Check, BarChart3, Lightbulb, RefreshCw, Binary } from 'lucide-react';
 import { FinancialCalculatorTemplate } from '@/components/calculators/templates/FinancialCalculatorTemplate';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
+import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
 interface MathInput {
   name: string;
@@ -1178,6 +1179,25 @@ export function GenericMathTool({ id }: { id: string }) {
                             }}
                           />
                         </div>
+                      </div>
+                    ) : inp.type === 'number' ? (
+                      <div className="relative">
+                        <input
+                          type={inp.type}
+                          value={inputValues[inp.name]}
+                          onChange={(e) => setInputValues({ ...inputValues, [inp.name]: e.target.value })}
+                          placeholder={inp.placeholder}
+                          min={inp.min}
+                          max={inp.max}
+                          className="w-full p-3 pr-12 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all duration-300 hover:shadow-md"
+                        />
+                        <VoiceNumberButton
+                          label={inp.label}
+                          onValueAction={(v) => setInputValues({ ...inputValues, [inp.name]: String(v) })}
+                          min={typeof inp.min === 'number' ? inp.min : undefined}
+                          max={typeof inp.max === 'number' ? inp.max : undefined}
+                          className="absolute right-2 top-1/2 -translate-y-1/2"
+                        />
                       </div>
                     ) : (
                       <input

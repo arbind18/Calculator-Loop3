@@ -64,6 +64,19 @@ export function StepUpSIP() {
       icon={Layers}
       calculate={calculateStepUpSIP}
       values={[monthlyInvestment, annualStepUp, returnRate, duration]}
+      onClear={() => {
+        setMonthlyInvestment(10000)
+        setAnnualStepUp(10)
+        setReturnRate(12)
+        setDuration(10)
+        setResult(null)
+      }}
+      onRestoreAction={(vals) => {
+        setMonthlyInvestment(Number(vals?.[0] ?? 10000))
+        setAnnualStepUp(Number(vals?.[1] ?? 10))
+        setReturnRate(Number(vals?.[2] ?? 12))
+        setDuration(Number(vals?.[3] ?? 10))
+      }}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
