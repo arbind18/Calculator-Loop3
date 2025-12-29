@@ -86,6 +86,14 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
     if (isLoading) return;
 
     const uiLang = (navigator.language || 'en').toLowerCase().startsWith('hi') ? 'hi' : 'en';
+    if (!window.isSecureContext) {
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? 'Voice input ke liye HTTPS (ya localhost) zaroori hota hai. Aapki current site non-HTTPS par open hai, isliye mic start nahi hoga.'
+          : 'Voice input usually requires HTTPS (or localhost). This page is not in a secure context, so the mic cannot start.'
+      );
+      return;
+    }
     const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognitionCtor) {
@@ -145,6 +153,11 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
       recognition.start();
     } catch {
       setIsListening(false);
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? 'Voice start nahi ho paaya. Agar aap mobile/IP URL se open kar rahe hain to HTTPS chahiye hota hai. Chrome/Edge + https:// ya localhost try kijiye.'
+          : 'Could not start voice input. If you opened the site via an IP/mobile URL, HTTPS is often required. Try Chrome/Edge with https:// or localhost.'
+      );
     }
   };
 

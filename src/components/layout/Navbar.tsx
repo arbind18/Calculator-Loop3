@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import dynamic from "next/dynamic"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "./Logo"
@@ -40,10 +39,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
-const MobileMenu = dynamic(() => import('./MobileMenu').then(mod => mod.MobileMenu), {
-  ssr: false
-})
+import { MobileMenu } from "./MobileMenu"
 
 import { SettingsSelector } from "./SettingsSelector"
 import { useSettings } from "@/components/providers/SettingsProvider"

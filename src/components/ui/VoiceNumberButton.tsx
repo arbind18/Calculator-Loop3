@@ -103,11 +103,17 @@ export function VoiceNumberButton({
   }
 
   const startListening = () => {
-    if (!SpeechRecognitionCtor) {
-      toast.error("Voice input is not supported in this browser")
+    if (disabled) return
+
+    if (typeof window !== "undefined" && !window.isSecureContext) {
+      toast.error("Voice input needs HTTPS (or localhost). Try https:// or run on localhost.")
       return
     }
-    if (disabled) return
+
+    if (!SpeechRecognitionCtor) {
+      toast.error("Voice input is not supported in this browser (try Chrome/Edge)")
+      return
+    }
 
     try {
       recognitionRef.current?.stop()
@@ -163,9 +169,9 @@ export function VoiceNumberButton({
       variant="ghost"
       size="icon"
       onClick={isListening ? stopListening : startListening}
-      disabled={disabled || !SpeechRecognitionCtor}
+      disabled={disabled}
       aria-label={isListening ? `Stop voice input for ${label}` : `Start voice input for ${label}`}
-      title={!SpeechRecognitionCtor ? "Voice not supported" : isListening ? "Stop voice" : "Speak value"}
+      title={!SpeechRecognitionCtor ? "Voice not supported (Chrome/Edge)" : isListening ? "Stop voice" : "Speak value"}
       className={className}
     >
       {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}

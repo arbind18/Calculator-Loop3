@@ -4,7 +4,29 @@ import { useEffect } from 'react'
 
 export function ServiceWorkerRegistration() {
   useEffect(() => {
-    // Allow SW in dev mode for testing push notifications
+    // In Next.js dev, caching /_next assets causes frequent ChunkLoadError.
+    // So: in development, unregister any SW and clear its caches.
+    if (process.env.NODE_ENV !== 'production') {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then((registrations) => Promise.all(registrations.map((r) => r.unregister())))
+          .catch(() => {
+            // ignore
+          })
+
+        if ('caches' in window) {
+          caches
+            .keys()
+            .then((names) => Promise.all(names.map((n) => caches.delete(n))))
+            .catch(() => {
+              // ignore
+            })
+        }
+      }
+      return
+    }
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker

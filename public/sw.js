@@ -63,6 +63,9 @@ self.addEventListener('fetch', (event) => {
   // Skip external requests
   if (url.origin !== location.origin) return
 
+  // Never cache Next.js internals (especially in dev). These change frequently.
+  if (url.pathname.startsWith('/_next/')) return
+
   // Network-first for icons/manifest to avoid sticky old branding
   if (NETWORK_FIRST_PATHS.has(url.pathname)) {
     event.respondWith(

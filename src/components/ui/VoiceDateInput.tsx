@@ -193,8 +193,13 @@ export function VoiceDateInput({
   }, [])
 
   const startListening = () => {
+    if (typeof window !== "undefined" && !window.isSecureContext) {
+      toast.error("Voice input needs HTTPS (or localhost). Try https:// or run on localhost.")
+      return
+    }
+
     if (!SpeechRecognitionCtor) {
-      toast.error("Voice input is not supported in this browser")
+      toast.error("Voice input is not supported in this browser (try Chrome/Edge)")
       return
     }
 
