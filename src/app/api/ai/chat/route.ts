@@ -21,6 +21,12 @@ const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
     q.includes('ganit') ||
     q.includes('area') ||
     q.includes('chhetrafal') ||
+    q.includes('kshetrafal') ||
+    q.includes('क्षेत्रफल') ||
+    q.includes('aayatan') ||
+    q.includes('ayatan') ||
+    q.includes('आयतन') ||
+    q.includes('volume') ||
     q.includes('sankhya') ||
     q.includes('number') ||
     q.includes('numbers') ||

@@ -78,8 +78,53 @@ const buildNeed = (lang: Lang, title: string, needed: string) => {
 
 export const tryBuildGeometryAreaResponse = (message: string, lang: Lang): string | null => {
   const q = normalize(message);
-  const aboutArea = hasAny(q, ['area', 'chhetrafal', 'क्षेत्रफल', 'kshetrafal']);
-  if (!aboutArea) return null;
+  const aboutMeasure = hasAny(q, [
+    'area',
+    'chhetrafal',
+    'क्षेत्रफल',
+    'kshetrafal',
+    'kshetra',
+    'prishth',
+    'surface',
+    'surface area',
+    'aayatan',
+    'ayatan',
+    'आयतन',
+    'volume',
+  ]);
+  if (!aboutMeasure) return null;
+
+  // Special guidance: users sometimes type "ghanmool" (cube root) when they mean "ghan" (cube).
+  const mentionsCubeRoot = hasAny(q, ['ghanmool', 'घनमूल', 'cube root', 'cuberoot']);
+  const mentionsAreaWord = hasAny(q, ['area', 'chhetrafal', 'क्षेत्रफल', 'kshetrafal', 'surface', 'prishth']);
+  if (mentionsCubeRoot && mentionsAreaWord) {
+    if (lang === 'hi') {
+      return [
+        '### ℹ️ Clarification',
+        '',
+        "'घनमूल (cube root)' ek number operation hai — iska 'क्षेत्रफल' nahi hota.",
+        '',
+        'Aap kya poochna chahte hain?',
+        "- **Cube (घन) ka क्षेत्रफल**: 'cube surface area side=5'  (Formula: 6a²)",
+        "- **Cube (घन) ka आयतन (volume)**: 'cube volume side=5'  (Formula: a³)",
+        "- **Cube root (घनमूल)**: 'cuberoot: 125' (Answer: 5)",
+      ].join('\n');
+    }
+
+    return [
+      '### ℹ️ Clarification',
+      '',
+      "'Cube root' is a number operation — it doesn't have an area.",
+      '',
+      'Did you mean:',
+      "- **Cube surface area**: 'cube surface area side=5'  (6a²)",
+      "- **Cube volume**: 'cube volume side=5'  (a³)",
+      "- **Cube root**: 'cuberoot: 125'",
+    ].join('\n');
+  }
+
+  const wantsVolume = hasAny(q, ['aayatan', 'ayatan', 'आयतन', 'volume']);
+  const wantsSurfaceArea = mentionsAreaWord;
 
   // Circle
   const isCircle = hasAny(q, ['circle', 'vartul', 'वृत्त']);
@@ -93,6 +138,50 @@ export const tryBuildGeometryAreaResponse = (message: string, lang: Lang): strin
       `A = ${formatNumber(area)}`,
     ];
     return build(lang === 'hi' ? 'Vritt (Circle) ka chhetrafal' : 'Area of Circle', 'A = πr²', steps, `${formatNumber(area)} sq units`);
+  }
+
+  // Cube (Ghan)
+  const isCube = hasAny(q, ['cube', 'ghan', 'घन', 'ghanakar', 'घनाकार']);
+  if (isCube) {
+    const a = extractFirst(message, ['a', 'side', 's']) ?? null;
+    if (a === null) {
+      return buildNeed(lang, lang === 'hi' ? 'Ghan (Cube)' : 'Cube', 'side (a)');
+    }
+
+    if (wantsVolume && !wantsSurfaceArea) {
+      const v = a * a * a;
+      const steps = [`Given side a = ${formatNumber(a)}`, `V = a³ = ${formatNumber(a)}³ = ${formatNumber(v)}`];
+      return build(lang === 'hi' ? 'Ghan (Cube) ka aayatan' : 'Volume of Cube', 'V = a³', steps, `${formatNumber(v)} cubic units`);
+    }
+
+    // default to surface area if user said kshetrafal/surface OR asked measure generally
+    const sa = 6 * a * a;
+    const steps = [`Given side a = ${formatNumber(a)}`, `Surface area = 6a² = 6×${formatNumber(a)}² = ${formatNumber(sa)}`];
+    return build(lang === 'hi' ? 'Ghan (Cube) ka prishth-kshetrafal' : 'Surface Area of Cube', 'SA = 6a²', steps, `${formatNumber(sa)} sq units`);
+  }
+
+  // Cuboid (Aayatakar Ghan)
+  const isCuboid = hasAny(q, ['cuboid', 'aayatakar', 'आयताकार', 'rectangular prism', 'box']);
+  if (isCuboid) {
+    const l = extractFirst(message, ['l', 'length']) ?? null;
+    const w = extractFirst(message, ['w', 'width', 'breadth', 'b']) ?? null;
+    const h = extractFirst(message, ['h', 'height']) ?? null;
+    if (l === null || w === null || h === null) {
+      return buildNeed(lang, lang === 'hi' ? 'Aayatakar ghan (Cuboid)' : 'Cuboid', 'length (l), width/breadth (w), height (h)');
+    }
+
+    if (wantsVolume && !wantsSurfaceArea) {
+      const v = l * w * h;
+      const steps = [`Given l=${formatNumber(l)}, w=${formatNumber(w)}, h=${formatNumber(h)}`, `V = l×w×h = ${formatNumber(v)}`];
+      return build(lang === 'hi' ? 'Cuboid ka aayatan' : 'Volume of Cuboid', 'V = lwh', steps, `${formatNumber(v)} cubic units`);
+    }
+
+    const sa = 2 * (l * w + l * h + w * h);
+    const steps = [
+      `Given l=${formatNumber(l)}, w=${formatNumber(w)}, h=${formatNumber(h)}`,
+      `SA = 2(lw+lh+wh) = 2(${formatNumber(l * w)} + ${formatNumber(l * h)} + ${formatNumber(w * h)}) = ${formatNumber(sa)}`,
+    ];
+    return build(lang === 'hi' ? 'Cuboid ka prishth-kshetrafal' : 'Surface Area of Cuboid', 'SA = 2(lw+lh+wh)', steps, `${formatNumber(sa)} sq units`);
   }
 
   // Rectangle
@@ -117,7 +206,7 @@ export const tryBuildGeometryAreaResponse = (message: string, lang: Lang): strin
   }
 
   // Triangle (base, height)
-  const isTriangle = hasAny(q, ['triangle', 'trikon', 'त्रिकोण']);
+  const isTriangle = hasAny(q, ['triangle', 'trikon', 'त्रिकोण', 'tribhuj', 'tribhuj', 'tirbhuj', 'trbuj', 'tarbuj']);
   if (isTriangle) {
     const b = extractFirst(message, ['b', 'base']) ?? null;
     const h = extractFirst(message, ['h', 'height', 'altitude']) ?? null;
@@ -205,7 +294,7 @@ export const tryBuildGeometryAreaResponse = (message: string, lang: Lang): strin
   // If user asked area but shape not recognized: give a compact menu.
   if (lang === 'hi') {
     return [
-      '### 📐 Chhetrafal (Area) – Main formulas',
+      '### 📐 Chhetrafal / Aayatan – Common formulas',
       '',
       '- Circle: A = πr²',
       '- Rectangle: A = l×w',
@@ -214,13 +303,20 @@ export const tryBuildGeometryAreaResponse = (message: string, lang: Lang): strin
       '- Parallelogram: A = b×h',
       '- Trapezium: A = ½(a+b)h',
       '- Rhombus: A = ½ d1 d2',
+      '- Cube (घन) surface area: SA = 6a²',
+      '- Cube (घन) volume (आयतन): V = a³',
+      '- Cuboid surface area: SA = 2(lw+lh+wh)',
+      '- Cuboid volume: V = lwh',
       '',
-      "Aap shape + values bhejo. Example: 'area of triangle base=10 height=6'",
+      "Aap shape + values bhejo. Examples:",
+      "- 'tarbuj ka kshetrafal base=10 height=6'",
+      "- 'cube ka kshetrafal side=5'",
+      "- 'cuboid ka aayatan l=10 w=5 h=3'",
     ].join('\n');
   }
 
   return [
-    '### 📐 Area – Common formulas',
+    '### 📐 Area / Volume – Common formulas',
     '',
     '- Circle: A = πr²',
     '- Rectangle: A = l×w',
@@ -229,7 +325,14 @@ export const tryBuildGeometryAreaResponse = (message: string, lang: Lang): strin
     '- Parallelogram: A = b×h',
     '- Trapezium: A = ½(a+b)h',
     '- Rhombus: A = ½ d1 d2',
+    '- Cube surface area: SA = 6a²',
+    '- Cube volume: V = a³',
+    '- Cuboid surface area: SA = 2(lw+lh+wh)',
+    '- Cuboid volume: V = lwh',
     '',
-    "Send the shape + values. Example: 'area of triangle base=10 height=6'",
+    "Send the shape + values. Examples:",
+    "- 'triangle area base=10 height=6'",
+    "- 'cube surface area side=5'",
+    "- 'cuboid volume l=10 w=5 h=3'",
   ].join('\n');
 };
