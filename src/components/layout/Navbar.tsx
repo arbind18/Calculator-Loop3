@@ -185,16 +185,16 @@ export function Navbar() {
   return (
     <>
       <nav className="sticky top-0 z-50 w-full border-b border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.1)] backdrop-blur-[20px] transition-all duration-300">
-        <div className="w-full px-4 md:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between gap-4">
+        <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex h-14 md:h-16 items-center justify-between gap-3 md:gap-4">
             {/* Logo */}
             <div className="hidden md:block">
               <Logo />
             </div>
 
             {/* Mobile Header Nav */}
-            <div className="flex md:hidden items-center gap-2">
-              <Logo />
+            <div className="flex flex-1 min-w-0 md:hidden items-center gap-2">
+              <Logo mobile />
               
               {/* Only show Search button if NOT on Home page (to avoid duplication with Hero search) */}
               {!isCalculatorPage && pathname !== '/' && (
