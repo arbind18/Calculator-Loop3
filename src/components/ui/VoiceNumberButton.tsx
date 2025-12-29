@@ -108,6 +108,23 @@ export function VoiceNumberButton({
       return false
     }
 
+    const getPermissionState = async (): Promise<PermissionState | null> => {
+      try {
+        const anyNavigator = navigator as any
+        if (!anyNavigator?.permissions?.query) return null
+        const res = await anyNavigator.permissions.query({ name: "microphone" } as any)
+        return (res?.state ?? null) as PermissionState | null
+      } catch {
+        return null
+      }
+    }
+
+    const state = await getPermissionState()
+    if (state === "denied") {
+      toast.error("Mic is Blocked, so popup may not show. Set Microphone to Ask/Allow in site settings and retry.")
+      return false
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       stream.getTracks().forEach((t) => t.stop())
@@ -115,7 +132,7 @@ export function VoiceNumberButton({
     } catch (err: any) {
       const name: string | undefined = err?.name
       if (name === "NotAllowedError" || name === "SecurityError") {
-        toast.error("Microphone permission denied. Allow mic access and try again.")
+        toast.error("Mic permission denied. Also check Android Settings → Apps → Chrome → Permissions → Microphone.")
       } else if (name === "NotFoundError") {
         toast.error("No microphone device found")
       } else {
@@ -141,52 +158,52 @@ export function VoiceNumberButton({
     const allowed = await requestMicrophonePermission()
     if (!allowed) return
 
-      try {
-        recognitionRef.current?.stop()
-      } catch {
-        // ignore
+    try {
+      recognitionRef.current?.stop()
+    } catch {
+      // ignore
+    }
+
+    const recognition = new SpeechRecognitionCtor()
+    recognition.lang = lang
+    recognition.continuous = false
+    recognition.interimResults = false
+    recognition.maxAlternatives = 1
+
+    recognition.onresult = (event: any) => {
+      const transcript: string | undefined = event?.results?.[0]?.[0]?.transcript
+      const parsed = transcript ? parseVoiceNumber(transcript) : null
+
+      if (parsed == null) {
+        toast.error(transcript ? `Could not understand number: "${transcript}"` : "Could not hear a value")
+        return
       }
 
-      const recognition = new SpeechRecognitionCtor()
-      recognition.lang = lang
-      recognition.continuous = false
-      recognition.interimResults = false
-      recognition.maxAlternatives = 1
+      let next = parsed
+      if (typeof min === "number") next = Math.max(min, next)
+      if (typeof max === "number") next = Math.min(max, next)
 
-      recognition.onresult = (event: any) => {
-        const transcript: string | undefined = event?.results?.[0]?.[0]?.transcript
-        const parsed = transcript ? parseVoiceNumber(transcript) : null
+      onValueAction(next)
+      toast.success("Value filled from voice")
+    }
 
-        if (parsed == null) {
-          toast.error(transcript ? `Could not understand number: "${transcript}"` : "Could not hear a value")
-          return
-        }
+    recognition.onerror = () => {
+      toast.error("Voice input failed")
+    }
 
-        let next = parsed
-        if (typeof min === "number") next = Math.max(min, next)
-        if (typeof max === "number") next = Math.min(max, next)
+    recognition.onend = () => {
+      setIsListening(false)
+    }
 
-        onValueAction(next)
-        toast.success("Value filled from voice")
-      }
+    recognitionRef.current = recognition
+    setIsListening(true)
 
-      recognition.onerror = () => {
-        toast.error("Voice input failed")
-      }
-
-      recognition.onend = () => {
-        setIsListening(false)
-      }
-
-      recognitionRef.current = recognition
-      setIsListening(true)
-
-      try {
-        recognition.start()
-      } catch {
-        setIsListening(false)
-        toast.error("Could not start voice input")
-      }
+    try {
+      recognition.start()
+    } catch {
+      setIsListening(false)
+      toast.error("Could not start voice input")
+    }
   }
 
   return (

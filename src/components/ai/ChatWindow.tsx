@@ -59,6 +59,15 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
   const requestMicrophonePermission = async (uiLang: 'hi' | 'en') => {
+    if (typeof window !== 'undefined' && !window.isSecureContext) {
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? 'Voice input ke liye HTTPS (ya localhost) zaroori hota hai. Aapki current site non-HTTPS par open hai, isliye mic permission prompt nahi aayega.'
+          : 'Voice input requires HTTPS (or localhost). This page is not in a secure context, so the mic permission prompt will not appear.'
+      );
+      return false;
+    }
+
     if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
       appendAssistantMessage(
         uiLang === 'hi'
@@ -68,9 +77,43 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
       return false;
     }
 
+    const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+    const getPermissionState = async (): Promise<PermissionState | null> => {
+      try {
+        const anyNavigator = navigator as any;
+        if (!anyNavigator?.permissions?.query) return null;
+        const res = await anyNavigator.permissions.query({ name: 'microphone' } as any);
+        return (res?.state ?? null) as PermissionState | null;
+      } catch {
+        return null;
+      }
+    };
+
+    const state = await getPermissionState();
+    if (state === 'denied') {
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? `Microphone permission abhi "Blocked" hai (domain: ${hostname || 'unknown'}). Is condition me Chrome popup nahi dikhata.
+
+Popup wapas lane ke liye:
+1) Chrome address bar lock icon → Site settings → Microphone → "Ask (default)" ya "Allow"
+2) Ya Chrome Settings → Site settings → Microphone → Blocked list me se ${hostname || 'site'} remove kijiye
+3) Android Settings → Apps → Chrome → Permissions → Microphone → Allow
+Phir page reload karke mic icon dabaiye.`
+          : `Microphone permission is currently "Blocked" (domain: ${hostname || 'unknown'}). In this state, Chrome does not show a popup.
+
+To bring the popup back:
+1) Chrome lock icon → Site settings → Microphone → "Ask (default)" or "Allow"
+2) Or Chrome Settings → Site settings → Microphone → remove ${hostname || 'this site'} from Blocked
+3) Android Settings → Apps → Chrome → Permissions → Microphone → Allow
+Then reload and tap the mic icon again.`
+      );
+      return false;
+    }
+
     try {
+      // Must be triggered by a user gesture (click/tap) to show the browser prompt.
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      // Stop tracks immediately; we only want to trigger the permission prompt.
       stream.getTracks().forEach((t) => t.stop());
       return true;
     } catch (err: any) {
@@ -80,8 +123,20 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
           case 'NotAllowedError':
           case 'SecurityError':
             return uiLang === 'hi'
-              ? 'Mic permission allow nahi hua. Chrome me lock icon → Permissions → Microphone → Allow karke reload kijiye.'
-              : 'Microphone permission was not allowed. In Chrome, tap the lock icon → Permissions → Microphone → Allow, then reload.';
+              ? `Mic permission allow nahi hua. Agar aapne pehle "Block" kiya tha to popup nahi aayega.
+
+Fix:
+- Lock icon → Site settings → Microphone → Ask/Allow
+- Android Settings → Apps → Chrome → Permissions → Microphone → Allow
+- Agar WhatsApp/Instagram ke in-app browser me open hai to "Open in Chrome" kijiye.
+(Domain: ${hostname || 'unknown'})`
+              : `Mic permission was not allowed. If you previously chose "Block", Chrome may not show a popup.
+
+Fix:
+- Lock icon → Site settings → Microphone → Ask/Allow
+- Android Settings → Apps → Chrome → Permissions → Microphone → Allow
+- If opened inside an in-app browser, use "Open in Chrome".
+(Domain: ${hostname || 'unknown'})`;
           case 'NotFoundError':
             return uiLang === 'hi'
               ? 'Microphone device nahi mila. Phone ka mic check kijiye.'
@@ -92,8 +147,8 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
               : 'The mic may be busy/in use. Close other apps and try again.';
           default:
             return uiLang === 'hi'
-              ? 'Mic permission request fail ho gayi. “Open in Chrome” karke try kijiye.'
-              : 'Microphone permission request failed. Try opening in Chrome.';
+              ? 'Mic permission request fail ho gayi. Chrome me try kijiye (in-app browser avoid).' 
+              : 'Microphone permission request failed. Try Chrome (avoid in-app browsers).';
         }
       })();
 
