@@ -90,12 +90,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon-48.png', type: 'image/png', sizes: '48x48' },
       { url: '/logo.svg', type: 'image/svg+xml' },
-      { url: '/icon', type: 'image/png' },
     ],
     apple: [
+      { url: '/apple-touch-icon.png', type: 'image/png', sizes: '180x180' },
       { url: '/logo.svg', type: 'image/svg+xml' },
-      { url: '/apple-icon', type: 'image/png' },
     ],
   },
   manifest: '/manifest.json',
