@@ -8,11 +8,11 @@ export const mathCategory: TrainingCategory = {
     hi: 'Offline math tutor: sankhya, algebra, trigonometry, geometry (kshetrafal/ayatan), aur solver utilities.'
   },
   sources: [
-    'src/lib/ai/mathSolver.ts',
-    'src/lib/ai/numberTutorResponder.ts',
-    'src/lib/ai/algebraIdentityResponder.ts',
-    'src/lib/ai/trigProofResponder.ts',
-    'src/lib/ai/geometryAreaResponder.ts',
+    'src/lib/logic-ai/mathSolver.ts',
+    'src/lib/logic-ai/numberTutorResponder.ts',
+    'src/lib/logic-ai/algebraIdentityResponder.ts',
+    'src/lib/logic-ai/trigProofResponder.ts',
+    'src/lib/logic-ai/geometryAreaResponder.ts',
     'src/ai-training/ai-formulas/formulaKnowledge.ts',
     'src/ai-training/ai-questions-answers/customKnowledge.ts',
     'src/app/api/ai/chat/route.ts'

@@ -1,5 +1,5 @@
 import { formulaKnowledge, type FormulaEntry, type Lang } from '@/ai-training/ai-formulas/formulaKnowledge';
-import { getToolByIdWithContext } from '@/lib/ai/rag';
+import { getToolByIdWithContext } from '@/lib/logic-ai/rag';
 
 type ParsedValueMap = Record<string, number | string | null | undefined>;
 

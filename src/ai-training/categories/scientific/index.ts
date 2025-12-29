@@ -9,7 +9,7 @@ export const scientificCategory: TrainingCategory = {
   },
   sources: [
     'Scientific/',
-    'src/lib/ai/rag.ts',
-    'src/lib/ai/blogSearch.ts'
+    'src/lib/logic-ai/rag.ts',
+    'src/lib/logic-ai/blogSearch.ts'
   ]
 };

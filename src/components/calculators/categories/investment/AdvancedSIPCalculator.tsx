@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import { generateReport } from "@/lib/downloadUtils"
 import { calculateSIP, adjustForInflation as calcInflation, calculateLTCG } from "@/lib/logic/investment"
 import { useTranslation } from "@/hooks/useTranslation"
-import { AIAssistant } from "@/components/ai/AIAssistant"
+import { AIAssistant } from "@/components/ui-ai/AIAssistant"
 
 export function AdvancedSIPCalculator() {
   const { t } = useTranslation()

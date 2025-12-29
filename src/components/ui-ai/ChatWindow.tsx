@@ -17,7 +17,7 @@ interface ChatWindowProps {
   onClose: () => void;
 }
 
-import { detectLanguage } from '@/lib/ai/languageUtils';
+import { detectLanguage } from '@/lib/logic-ai/languageUtils';
 
 type SpeechRecognitionLike = {
   continuous: boolean;
@@ -190,45 +190,92 @@ If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
       recognition.continuous = false;
       recognition.interimResults = true;
 
-      recognition.lang = uiLang === 'hi' ? 'hi-IN' : 'en-US';
+      // Practical defaults for Indian users and bilingual usage.
+      // Note: Web Speech API supports one lang at a time, but hi-IN often recognizes mixed Hindi+English reasonably.
+      recognition.lang = uiLang === 'hi' ? 'hi-IN' : 'en-IN';
 
       recognition.onstart = () => {
         setIsListening(true);
       };
 
       recognition.onresult = (event: any) => {
-        let transcript = '';
+        let interim = '';
+        let finalText = '';
+
         for (let i = event.resultIndex; i < event.results.length; i++) {
-          transcript += event.results[i][0]?.transcript ?? '';
+          const part = event.results[i][0]?.transcript ?? '';
+          if (event.results[i]?.isFinal) {
+            finalText += part;
+          } else {
+            interim += part;
+          }
         }
-        const next = transcript.trim();
+
+        const next = (finalText || interim).trim();
         if (next) setInput(next);
+
+        // Auto-stop once we have a final transcript (best UX for “tap → speak → fill”).
+        if (finalText.trim()) {
+          try {
+            recognition.stop();
+          } catch {
+            // ignore
+          }
+        }
       };
 
       recognition.onerror = (event: any) => {
         setIsListening(false);
-        
-        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-             appendAssistantMessage(
-               uiLang === 'hi'
-                 ? 'Mic permission blocked/denied hai. Lock icon → Site settings → Microphone → Allow karke reload kijiye, phir mic dabaiye.'
-                 : 'Microphone permission is blocked/denied. Use the lock icon → Site settings → Microphone → Allow, reload, then try again.'
-             );
-        } else if (event.error === 'no-speech') {
-            // Ignore no-speech errors or show a subtle hint
-        } else {
-             appendAssistantMessage(
-               uiLang === 'hi'
-                 ? `Voice input error: ${event.error}`
-                 : `Voice input error: ${event.error}`
-             );
+
+        const err = event?.error as string | undefined;
+
+        if (err === 'not-allowed' || err === 'service-not-allowed') {
+          appendAssistantMessage(
+            uiLang === 'hi'
+              ? 'Mic permission blocked/denied hai. Lock icon → Site settings → Microphone → Allow karke reload kijiye, phir mic dabaiye.'
+              : 'Microphone permission is blocked/denied. Use the lock icon → Site settings → Microphone → Allow, reload, then try again.'
+          );
+          return;
         }
+
+        if (err === 'no-speech') {
+          appendAssistantMessage(
+            uiLang === 'hi'
+              ? 'Koi awaaz detect nahi hui. Mic dabakar clearly bolkar dobara try kijiye.'
+              : 'No speech was detected. Tap the mic and speak clearly, then try again.'
+          );
+          return;
+        }
+
+        if (err === 'audio-capture') {
+          appendAssistantMessage(
+            uiLang === 'hi'
+              ? 'Mic capture nahi ho pa raha. Device ka mic check kijiye aur in-app browser avoid kijiye.'
+              : 'Audio capture failed. Check your device microphone and avoid in-app browsers.'
+          );
+          return;
+        }
+
+        if (err === 'network') {
+          appendAssistantMessage(
+            uiLang === 'hi'
+              ? 'Voice recognition service network issue ki wajah se start nahi ho rahi. Internet check kijiye.'
+              : 'Speech recognition failed due to a network issue. Check your internet connection.'
+          );
+          return;
+        }
+
+        appendAssistantMessage(
+          uiLang === 'hi' ? `Voice input error: ${err || 'unknown'}` : `Voice input error: ${err || 'unknown'}`
+        );
       };
 
       recognition.onend = () => {
         setIsListening(false);
       };
 
+      // Make the UI responsive immediately; onstart will confirm.
+      setIsListening(true);
       recognition.start();
     } catch (error) {
       setIsListening(false);

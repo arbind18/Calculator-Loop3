@@ -9,7 +9,7 @@ export const educationCategory: TrainingCategory = {
   },
   sources: [
     'Education/',
-    'src/lib/ai/rag.ts',
-    'src/lib/ai/blogSearch.ts'
+    'src/lib/logic-ai/rag.ts',
+    'src/lib/logic-ai/blogSearch.ts'
   ]
 };

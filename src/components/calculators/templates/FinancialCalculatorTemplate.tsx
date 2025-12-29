@@ -27,7 +27,7 @@ import { useSettings } from "@/components/providers/SettingsProvider"
 import { getMergedTranslations } from "@/lib/translations"
 import { generateReport } from "@/lib/downloadUtils"
 import { CalculatorSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/AdvancedSchema"
-import { AIRecommendations } from "@/components/ai/AIRecommendations"
+import { AIRecommendations } from "@/components/ui-ai/AIRecommendations"
 
 interface FinancialCalculatorTemplateProps {
   title: string

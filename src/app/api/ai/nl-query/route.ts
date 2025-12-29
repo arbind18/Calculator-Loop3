@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { parseNaturalLanguageQuery, getCalculatorUrl } from '@/lib/ai/nlQueryParser'
+import { parseNaturalLanguageQuery, getCalculatorUrl } from '@/lib/logic-ai/nlQueryParser'
 
 export async function POST(request: Request) {
   try {

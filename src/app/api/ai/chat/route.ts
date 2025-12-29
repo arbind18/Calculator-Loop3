@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getToolByIdWithContext, searchToolsWithContext } from '@/lib/ai/rag';
-import { searchBlogs } from '@/lib/ai/blogSearch';
+import { getToolByIdWithContext, searchToolsWithContext } from '@/lib/logic-ai/rag';
+import { searchBlogs } from '@/lib/logic-ai/blogSearch';
 import { customKnowledge } from '@/ai-training/ai-questions-answers/customKnowledge';
-import { detectLanguage, getResponseTemplate } from '@/lib/ai/languageUtils';
-import { tryBuildAlgebraIdentityResponse } from '@/lib/ai/algebraIdentityResponder';
-import { tryBuildFormulaResponse } from '@/lib/ai/formulaResponder';
-import { tryBuildGeometryAreaResponse } from '@/lib/ai/geometryAreaResponder';
-import { tryBuildMathSolveResponse } from '@/lib/ai/mathSolver';
-import { tryBuildNumberTutorResponse } from '@/lib/ai/numberTutorResponder';
-import { tryBuildTrigProofResponse } from '@/lib/ai/trigProofResponder';
+import { detectLanguage, getResponseTemplate } from '@/lib/logic-ai/languageUtils';
+import { tryBuildAlgebraIdentityResponse } from '@/lib/logic-ai/algebraIdentityResponder';
+import { tryBuildFormulaResponse } from '@/lib/logic-ai/formulaResponder';
+import { tryBuildGeometryAreaResponse } from '@/lib/logic-ai/geometryAreaResponder';
+import { tryBuildMathSolveResponse } from '@/lib/logic-ai/mathSolver';
+import { tryBuildNumberTutorResponse } from '@/lib/logic-ai/numberTutorResponder';
+import { tryBuildTrigProofResponse } from '@/lib/logic-ai/trigProofResponder';
 
 const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
   const q = message.toLowerCase();
