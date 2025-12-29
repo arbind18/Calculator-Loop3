@@ -136,12 +136,40 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
       if (next) setInput(next);
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: any) => {
       setIsListening(false);
+
+      const code: string | undefined = event?.error;
+      const hint = (() => {
+        switch (code) {
+          case 'not-allowed':
+          case 'service-not-allowed':
+            return uiLang === 'hi'
+              ? 'Mic permission blocked hai. Chrome me address bar ke lock icon → Permissions → Microphone → Allow karke reload kijiye.'
+              : 'Microphone permission is blocked. In Chrome, tap the lock icon → Permissions → Microphone → Allow, then reload.'
+          case 'audio-capture':
+            return uiLang === 'hi'
+              ? 'Microphone available nahi lag raha. Phone ka mic (system) check kijiye aur “Speech Services by Google” update kijiye.'
+              : 'No microphone was found. Check your device mic and update “Speech Services by Google”.'
+          case 'no-speech':
+            return uiLang === 'hi'
+              ? 'Koi voice detect nahi hua. Dobara try kijiye aur phone ke mic ke bilkul paas boliye.'
+              : 'No speech was detected. Try again and speak closer to the microphone.'
+          case 'network':
+            return uiLang === 'hi'
+              ? 'Network error. Internet connection check karke dobara try kijiye.'
+              : 'Network error. Check your internet connection and try again.'
+          default:
+            return uiLang === 'hi'
+              ? 'Agar aap WhatsApp/Instagram ke in-app browser me open kar rahe hain, to “Open in Chrome” karke try kijiye.'
+              : 'If you opened the site inside an in-app browser (WhatsApp/Instagram), try “Open in Chrome”.'
+        }
+      })();
+
       appendAssistantMessage(
         uiLang === 'hi'
-          ? 'Voice input me error aaya. Aap type karke bhi message bhej sakte hain.'
-          : 'Voice input hit an error. You can also type your message.'
+          ? `Voice input me error aaya${code ? ` (${code})` : ''}. ${hint} Aap type karke bhi message bhej sakte hain.`
+          : `Voice input hit an error${code ? ` (${code})` : ''}. ${hint} You can also type your message.`
       );
     };
 
