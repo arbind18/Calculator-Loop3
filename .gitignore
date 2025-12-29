@@ -22,6 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Local temp/debug artifacts
+tmp_pdf_text.txt
+scripts/compute-sqrt-bigint.mjs
+
 # Local env files
 .env
 .env*.local
