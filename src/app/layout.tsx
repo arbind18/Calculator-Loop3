@@ -90,6 +90,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon-16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
       { url: '/favicon-48.png', type: 'image/png', sizes: '48x48' },
       { url: '/logo.svg', type: 'image/svg+xml' },
     ],
