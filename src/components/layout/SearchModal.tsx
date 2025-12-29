@@ -6,6 +6,7 @@ import { Search, X, ArrowRight, Calculator, TrendingUp } from "lucide-react"
 import { toolsData } from "@/lib/toolsData"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { VoiceInput } from "@/components/ui/voice-input"
 
 interface SearchModalProps {
   isOpen: boolean
@@ -118,6 +119,10 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             onKeyDown={handleKeyDown}
             placeholder="Search for calculators, tools..."
             className="flex-1 bg-transparent border-none outline-none text-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
+          />
+          <VoiceInput 
+            onInput={(text) => setQuery(text)}
+            className="ml-2 shrink-0"
           />
           <Button variant="ghost" size="icon" onClick={onClose} className="ml-2 shrink-0">
             <X className="h-5 w-5 text-gray-500" />

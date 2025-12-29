@@ -5,6 +5,7 @@ import { Search, Calculator, ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toolsData } from "@/lib/toolsData"
 import { cn } from "@/lib/utils"
+import { VoiceInput } from "./voice-input"
 
 interface SearchResult {
   id: string
@@ -103,8 +104,15 @@ export function SmartSearch() {
           }}
           onFocus={() => setIsOpen(true)}
         />
-        <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-          <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+        <div className="absolute inset-y-0 right-0 pr-4 flex items-center gap-2">
+          <VoiceInput 
+            onInput={(text) => {
+              setQuery(text)
+              setIsOpen(true)
+            }}
+            className="text-muted-foreground hover:bg-muted hover:text-foreground"
+          />
+          <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 pointer-events-none">
             <span className="text-xs">⌘</span>K
           </kbd>
         </div>
