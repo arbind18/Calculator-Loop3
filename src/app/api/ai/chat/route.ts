@@ -6,6 +6,7 @@ import { detectLanguage, getResponseTemplate } from '@/lib/ai/languageUtils';
 import { tryBuildAlgebraIdentityResponse } from '@/lib/ai/algebraIdentityResponder';
 import { tryBuildFormulaResponse } from '@/lib/ai/formulaResponder';
 import { tryBuildMathSolveResponse } from '@/lib/ai/mathSolver';
+import { tryBuildNumberTutorResponse } from '@/lib/ai/numberTutorResponder';
 import { tryBuildTrigProofResponse } from '@/lib/ai/trigProofResponder';
 
 const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
@@ -17,6 +18,15 @@ const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
     q.includes('math') ||
     q.includes('maths') ||
     q.includes('ganit') ||
+    q.includes('sankhya') ||
+    q.includes('number') ||
+    q.includes('numbers') ||
+    q.includes('prime') ||
+    q.includes('abhajya') ||
+    q.includes('vargmul') ||
+    q.includes('ghanmool') ||
+    q.includes('square root') ||
+    q.includes('cube root') ||
     q.includes('algebra') ||
     q.includes('trigon') ||
     q.includes('calculus') ||
@@ -105,6 +115,15 @@ export async function POST(req: Request) {
       responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
       
       return NextResponse.json({ role: 'assistant', content: responseContent });
+    }
+
+    // 0.2 Numbers tutor (types + big-int calculations)
+    const numberTutorResponse = tryBuildNumberTutorResponse(message, lang);
+    if (numberTutorResponse) {
+      let fullResponse = numberTutorResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      return NextResponse.json({ role: 'assistant', content: fullResponse });
     }
 
     // 0.3 Trig proof (common Class 12 identities)
