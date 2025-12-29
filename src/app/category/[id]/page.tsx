@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import * as Icons from 'lucide-react'
 import type { Metadata } from 'next'
 import { toolsData } from '@/lib/toolsData'
@@ -176,14 +177,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
   const allCalculators = subcategoryList.flatMap((s) => s.calculators)
 
   if (!categoryData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center space-y-4">
-          <h1 className="text-2xl font-semibold">Category not found</h1>
-          <Link href="/" className="text-primary font-medium">Go home</Link>
-        </div>
-      </div>
-    )
+    notFound()
   }
 
   const categoryName = readableNames[categoryId] || 'Calculators'

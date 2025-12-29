@@ -58,109 +58,6 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
-  const requestMicrophonePermission = async (uiLang: 'hi' | 'en') => {
-    if (typeof window !== 'undefined' && !window.isSecureContext) {
-      appendAssistantMessage(
-        uiLang === 'hi'
-          ? 'Voice input ke liye HTTPS (ya localhost) zaroori hota hai. Aapki current site non-HTTPS par open hai, isliye mic permission prompt nahi aayega.'
-          : 'Voice input requires HTTPS (or localhost). This page is not in a secure context, so the mic permission prompt will not appear.'
-      );
-      return false;
-    }
-
-    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-      appendAssistantMessage(
-        uiLang === 'hi'
-          ? 'Is device/browser me microphone permission request available nahi hai. Chrome/Edge me try kijiye.'
-          : 'Microphone permission request is not available on this device/browser. Try Chrome/Edge.'
-      );
-      return false;
-    }
-
-    const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
-    const getPermissionState = async (): Promise<PermissionState | null> => {
-      try {
-        const anyNavigator = navigator as any;
-        if (!anyNavigator?.permissions?.query) return null;
-        const res = await anyNavigator.permissions.query({ name: 'microphone' } as any);
-        return (res?.state ?? null) as PermissionState | null;
-      } catch {
-        return null;
-      }
-    };
-
-    const state = await getPermissionState();
-    if (state === 'denied') {
-      appendAssistantMessage(
-        uiLang === 'hi'
-          ? `Microphone permission abhi "Blocked" hai (domain: ${hostname || 'unknown'}). Is condition me Chrome popup nahi dikhata.
-
-Popup wapas lane ke liye:
-1) Chrome address bar lock icon → Site settings → Microphone → "Ask (default)" ya "Allow"
-2) Ya Chrome Settings → Site settings → Microphone → Blocked list me se ${hostname || 'site'} remove kijiye
-3) Android Settings → Apps → Chrome → Permissions → Microphone → Allow
-Phir page reload karke mic icon dabaiye.`
-          : `Microphone permission is currently "Blocked" (domain: ${hostname || 'unknown'}). In this state, Chrome does not show a popup.
-
-To bring the popup back:
-1) Chrome lock icon → Site settings → Microphone → "Ask (default)" or "Allow"
-2) Or Chrome Settings → Site settings → Microphone → remove ${hostname || 'this site'} from Blocked
-3) Android Settings → Apps → Chrome → Permissions → Microphone → Allow
-Then reload and tap the mic icon again.`
-      );
-      return false;
-    }
-
-    try {
-      // Must be triggered by a user gesture (click/tap) to show the browser prompt.
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach((t) => t.stop());
-      return true;
-    } catch (err: any) {
-      const name: string | undefined = err?.name;
-      const hint = (() => {
-        switch (name) {
-          case 'NotAllowedError':
-          case 'SecurityError':
-            return uiLang === 'hi'
-              ? `Mic permission allow nahi hua. Agar aapne pehle "Block" kiya tha to popup nahi aayega.
-
-Fix:
-- Lock icon → Site settings → Microphone → Ask/Allow
-- Android Settings → Apps → Chrome → Permissions → Microphone → Allow
-- Agar WhatsApp/Instagram ke in-app browser me open hai to "Open in Chrome" kijiye.
-(Domain: ${hostname || 'unknown'})`
-              : `Mic permission was not allowed. If you previously chose "Block", Chrome may not show a popup.
-
-Fix:
-- Lock icon → Site settings → Microphone → Ask/Allow
-- Android Settings → Apps → Chrome → Permissions → Microphone → Allow
-- If opened inside an in-app browser, use "Open in Chrome".
-(Domain: ${hostname || 'unknown'})`;
-          case 'NotFoundError':
-            return uiLang === 'hi'
-              ? 'Microphone device nahi mila. Phone ka mic check kijiye.'
-              : 'No microphone device was found. Check your device mic.';
-          case 'NotReadableError':
-            return uiLang === 'hi'
-              ? 'Mic kisi aur app me busy ho sakta hai. Dusre apps close karke dobara try kijiye.'
-              : 'The mic may be busy/in use. Close other apps and try again.';
-          default:
-            return uiLang === 'hi'
-              ? 'Mic permission request fail ho gayi. Chrome me try kijiye (in-app browser avoid).' 
-              : 'Microphone permission request failed. Try Chrome (avoid in-app browsers).';
-        }
-      })();
-
-      appendAssistantMessage(
-        uiLang === 'hi'
-          ? `Mic permission nahi mil paayi${name ? ` (${name})` : ''}. ${hint}`
-          : `Could not get microphone permission${name ? ` (${name})` : ''}. ${hint}`
-      );
-      return false;
-    }
-  };
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -185,21 +82,96 @@ Fix:
     setMessages((prev) => [...prev, { role: 'assistant', content }]);
   };
 
+  const getUiLang = (): 'hi' | 'en' =>
+    (navigator.language || 'en').toLowerCase().startsWith('hi') ? 'hi' : 'en';
+
+  const isProbablySecureContext = () => {
+    if (typeof window === 'undefined') return false;
+    const host = window.location.hostname;
+    const isLocalhost = host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
+    return window.isSecureContext || isLocalhost;
+  };
+
+  const ensureMicrophonePermission = async (uiLang: 'hi' | 'en') => {
+    if (!isProbablySecureContext()) {
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? 'Voice input ke liye HTTPS (ya localhost) zaroori hota hai. Aapki current site non-HTTPS par open hai, isliye mic allow nahi hoga. Tip: `https://` use kijiye ya `http://localhost` par chalayen.'
+          : 'Voice input requires HTTPS (or localhost). This page is not in a secure context, so mic permission will be denied. Tip: use `https://` or run on `http://localhost`.'
+      );
+      return false;
+    }
+
+    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+      // Some browsers don't expose getUserMedia in all contexts; still try SpeechRecognition.
+      return true;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach((t) => t.stop());
+      return true;
+    } catch (err: any) {
+      const name: string | undefined = err?.name;
+      const host = typeof window !== 'undefined' ? window.location.hostname : '';
+
+      if (name === 'NotAllowedError' || name === 'SecurityError') {
+        appendAssistantMessage(
+          uiLang === 'hi'
+            ? `Mic permission deny/block ho gayi hai (domain: ${host || 'unknown'}).
+
+Fix:
+1) Browser address bar me lock icon → Site settings → Microphone → Allow / Ask
+2) Page reload karke dobara mic dabaiye
+
+Agar aap WhatsApp/Instagram ke in-app browser me ho, to “Open in Chrome” karke try kijiye.`
+            : `Microphone permission was denied/blocked (domain: ${host || 'unknown'}).
+
+Fix:
+1) Lock icon → Site settings → Microphone → Allow / Ask
+2) Reload the page and tap mic again
+
+If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
+        );
+        return false;
+      }
+
+      if (name === 'NotFoundError') {
+        appendAssistantMessage(
+          uiLang === 'hi'
+            ? 'Microphone device nahi mila. Device ka mic check kijiye.'
+            : 'No microphone device was found. Check your device microphone.'
+        );
+        return false;
+      }
+
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? 'Mic permission request fail ho gayi. Chrome/Edge me try kijiye aur in-app browser avoid kijiye.'
+          : 'Microphone permission request failed. Try Chrome/Edge and avoid in-app browsers.'
+      );
+      return false;
+    }
+  };
+
   const toggleMic = async () => {
     if (isLoading) return;
 
-    const uiLang = (navigator.language || 'en').toLowerCase().startsWith('hi') ? 'hi' : 'en';
-    if (!window.isSecureContext) {
-      appendAssistantMessage(
-        uiLang === 'hi'
-          ? 'Voice input ke liye HTTPS (ya localhost) zaroori hota hai. Aapki current site non-HTTPS par open hai, isliye mic start nahi hoga.'
-          : 'Voice input usually requires HTTPS (or localhost). This page is not in a secure context, so the mic cannot start.'
-      );
+    // Stop if already listening
+    if (isListening) {
+      try {
+        recognitionRef.current?.stop();
+      } catch (e) {
+        console.error('Error stopping recognition:', e);
+      }
+      setIsListening(false);
       return;
     }
+
     const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognitionCtor) {
+      const uiLang = getUiLang();
       appendAssistantMessage(
         uiLang === 'hi'
           ? 'Sorry, aapke browser me voice input (speech recognition) supported nahi hai. Chrome/Edge try kijiye.'
@@ -208,90 +180,62 @@ Fix:
       return;
     }
 
-    // Trigger the browser permission prompt first. Only start recognition after permission is granted.
-    const allowed = await requestMicrophonePermission(uiLang);
-    if (!allowed) return;
-
-    // Stop if already listening
-    if (isListening) {
-      try {
-        recognitionRef.current?.stop();
-      } catch {
-        // ignore
-      }
-      setIsListening(false);
-      return;
-    }
-
-    // Start listening
-    const recognition = new SpeechRecognitionCtor();
-    recognitionRef.current = recognition;
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = uiLang === 'hi' ? 'hi-IN' : 'en-US';
-
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
-
-    recognition.onresult = (event: any) => {
-      let transcript = '';
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        transcript += event.results[i][0]?.transcript ?? '';
-      }
-      const next = transcript.trim();
-      if (next) setInput(next);
-    };
-
-    recognition.onerror = (event: any) => {
-      setIsListening(false);
-
-      const code: string | undefined = event?.error;
-      const hint = (() => {
-        switch (code) {
-          case 'not-allowed':
-          case 'service-not-allowed':
-            return uiLang === 'hi'
-              ? 'Mic permission blocked hai. Chrome me address bar ke lock icon → Permissions → Microphone → Allow karke reload kijiye.'
-              : 'Microphone permission is blocked. In Chrome, tap the lock icon → Permissions → Microphone → Allow, then reload.'
-          case 'audio-capture':
-            return uiLang === 'hi'
-              ? 'Microphone available nahi lag raha. Phone ka mic (system) check kijiye aur “Speech Services by Google” update kijiye.'
-              : 'No microphone was found. Check your device mic and update “Speech Services by Google”.'
-          case 'no-speech':
-            return uiLang === 'hi'
-              ? 'Koi voice detect nahi hua. Dobara try kijiye aur phone ke mic ke bilkul paas boliye.'
-              : 'No speech was detected. Try again and speak closer to the microphone.'
-          case 'network':
-            return uiLang === 'hi'
-              ? 'Network error. Internet connection check karke dobara try kijiye.'
-              : 'Network error. Check your internet connection and try again.'
-          default:
-            return uiLang === 'hi'
-              ? 'Agar aap WhatsApp/Instagram ke in-app browser me open kar rahe hain, to “Open in Chrome” karke try kijiye.'
-              : 'If you opened the site inside an in-app browser (WhatsApp/Instagram), try “Open in Chrome”.'
-        }
-      })();
-
-      appendAssistantMessage(
-        uiLang === 'hi'
-          ? `Voice input me error aaya${code ? ` (${code})` : ''}. ${hint} Aap type karke bhi message bhej sakte hain.`
-          : `Voice input hit an error${code ? ` (${code})` : ''}. ${hint} You can also type your message.`
-      );
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
+    const uiLang = getUiLang();
+    const ok = await ensureMicrophonePermission(uiLang);
+    if (!ok) return;
 
     try {
+      const recognition = new SpeechRecognitionCtor();
+      recognitionRef.current = recognition;
+      recognition.continuous = false;
+      recognition.interimResults = true;
+
+      recognition.lang = uiLang === 'hi' ? 'hi-IN' : 'en-US';
+
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event: any) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0]?.transcript ?? '';
+        }
+        const next = transcript.trim();
+        if (next) setInput(next);
+      };
+
+      recognition.onerror = (event: any) => {
+        setIsListening(false);
+        
+        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+             appendAssistantMessage(
+               uiLang === 'hi'
+                 ? 'Mic permission blocked/denied hai. Lock icon → Site settings → Microphone → Allow karke reload kijiye, phir mic dabaiye.'
+                 : 'Microphone permission is blocked/denied. Use the lock icon → Site settings → Microphone → Allow, reload, then try again.'
+             );
+        } else if (event.error === 'no-speech') {
+            // Ignore no-speech errors or show a subtle hint
+        } else {
+             appendAssistantMessage(
+               uiLang === 'hi'
+                 ? `Voice input error: ${event.error}`
+                 : `Voice input error: ${event.error}`
+             );
+        }
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
       recognition.start();
-    } catch {
+    } catch (error) {
       setIsListening(false);
       appendAssistantMessage(
         uiLang === 'hi'
-          ? 'Voice start nahi ho paaya. Agar aap mobile/IP URL se open kar rahe hain to HTTPS chahiye hota hai. Chrome/Edge + https:// ya localhost try kijiye.'
-          : 'Could not start voice input. If you opened the site via an IP/mobile URL, HTTPS is often required. Try Chrome/Edge with https:// or localhost.'
+          ? 'Voice start nahi ho paaya. Please retry.'
+          : 'Could not start voice input. Please retry.'
       );
     }
   };

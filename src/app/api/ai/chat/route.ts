@@ -3,12 +3,35 @@ import { getToolByIdWithContext, searchToolsWithContext } from '@/lib/ai/rag';
 import { searchBlogs } from '@/lib/ai/blogSearch';
 import { customKnowledge } from '@/ai-training/ai-questions-answers/customKnowledge';
 import { detectLanguage, getResponseTemplate } from '@/lib/ai/languageUtils';
+import { tryBuildAlgebraIdentityResponse } from '@/lib/ai/algebraIdentityResponder';
 import { tryBuildFormulaResponse } from '@/lib/ai/formulaResponder';
 import { tryBuildMathSolveResponse } from '@/lib/ai/mathSolver';
+import { tryBuildTrigProofResponse } from '@/lib/ai/trigProofResponder';
 
 const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
   const q = message.toLowerCase();
   const isHi = lang === 'hi';
+
+  // Math tutor prompts (Class 9–12)
+  if (
+    q.includes('math') ||
+    q.includes('maths') ||
+    q.includes('ganit') ||
+    q.includes('algebra') ||
+    q.includes('trigon') ||
+    q.includes('calculus') ||
+    q.includes('derivative') ||
+    q.includes('integral') ||
+    q.includes('simplify') ||
+    q.includes('solve') ||
+    q.includes('equation') ||
+    q.includes('formula') ||
+    q.includes('sutra')
+  ) {
+    return isHi
+      ? "Math ke liye best format:\n- 'solve: 2x^2+3x-2=0'\n- 'simplify: (x+2)^2-(x-2)^2'\n- 'derivative of x^2+sin(x)'\n- 'integrate x^2 from 0 to 1'\n- 'quadratic formula / AP sum formula / nCr formula'\n\nAgar question word-problem hai to numbers + given/asked likh do."
+      : "For math, best format:\n- 'solve: 2x^2+3x-2=0'\n- 'simplify: (x+2)^2-(x-2)^2'\n- 'derivative of x^2+sin(x)'\n- 'integrate x^2 from 0 to 1'\n- 'quadratic formula / AP sum formula / nCr formula'\n\nFor word problems, share Given + Find + values.";
+  }
 
   if (q.includes('emi') || q.includes('loan') || q.includes('interest') || q.includes('byaj')) {
     return isHi 
@@ -82,6 +105,24 @@ export async function POST(req: Request) {
       responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
       
       return NextResponse.json({ role: 'assistant', content: responseContent });
+    }
+
+    // 0.3 Trig proof (common Class 12 identities)
+    const trigProofResponse = tryBuildTrigProofResponse(message, lang);
+    if (trigProofResponse) {
+      let fullResponse = trigProofResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      return NextResponse.json({ role: 'assistant', content: fullResponse });
+    }
+
+    // 0.35 Algebra identities (common exam patterns)
+    const algebraIdentityResponse = tryBuildAlgebraIdentityResponse(message, lang);
+    if (algebraIdentityResponse) {
+      let fullResponse = algebraIdentityResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      return NextResponse.json({ role: 'assistant', content: fullResponse });
     }
 
     // 0.5 Formula Knowledge (Formula + basic calculation)
