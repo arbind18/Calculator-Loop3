@@ -125,12 +125,32 @@ export function VoiceInput({
       recognition.stop()
       setIsListening(false)
     } else {
-      recognition.start()
-      setIsListening(true)
-      setTranscript('')
-      
-      // Speak prompt
-      speakPrompt()
+      ;(async () => {
+        if (typeof window !== 'undefined' && !window.isSecureContext) {
+          console.error('Voice input needs HTTPS (or localhost).')
+          return
+        }
+
+        if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+          console.error('Microphone permission request is not available in this browser.')
+          return
+        }
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+          stream.getTracks().forEach((t) => t.stop())
+        } catch (err) {
+          console.error('Could not get microphone permission:', err)
+          return
+        }
+
+        recognition.start()
+        setIsListening(true)
+        setTranscript('')
+
+        // Speak prompt
+        speakPrompt()
+      })()
     }
   }
 

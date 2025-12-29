@@ -58,6 +58,54 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
+  const requestMicrophonePermission = async (uiLang: 'hi' | 'en') => {
+    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? 'Is device/browser me microphone permission request available nahi hai. Chrome/Edge me try kijiye.'
+          : 'Microphone permission request is not available on this device/browser. Try Chrome/Edge.'
+      );
+      return false;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Stop tracks immediately; we only want to trigger the permission prompt.
+      stream.getTracks().forEach((t) => t.stop());
+      return true;
+    } catch (err: any) {
+      const name: string | undefined = err?.name;
+      const hint = (() => {
+        switch (name) {
+          case 'NotAllowedError':
+          case 'SecurityError':
+            return uiLang === 'hi'
+              ? 'Mic permission allow nahi hua. Chrome me lock icon → Permissions → Microphone → Allow karke reload kijiye.'
+              : 'Microphone permission was not allowed. In Chrome, tap the lock icon → Permissions → Microphone → Allow, then reload.';
+          case 'NotFoundError':
+            return uiLang === 'hi'
+              ? 'Microphone device nahi mila. Phone ka mic check kijiye.'
+              : 'No microphone device was found. Check your device mic.';
+          case 'NotReadableError':
+            return uiLang === 'hi'
+              ? 'Mic kisi aur app me busy ho sakta hai. Dusre apps close karke dobara try kijiye.'
+              : 'The mic may be busy/in use. Close other apps and try again.';
+          default:
+            return uiLang === 'hi'
+              ? 'Mic permission request fail ho gayi. “Open in Chrome” karke try kijiye.'
+              : 'Microphone permission request failed. Try opening in Chrome.';
+        }
+      })();
+
+      appendAssistantMessage(
+        uiLang === 'hi'
+          ? `Mic permission nahi mil paayi${name ? ` (${name})` : ''}. ${hint}`
+          : `Could not get microphone permission${name ? ` (${name})` : ''}. ${hint}`
+      );
+      return false;
+    }
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -82,7 +130,7 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
     setMessages((prev) => [...prev, { role: 'assistant', content }]);
   };
 
-  const toggleMic = () => {
+  const toggleMic = async () => {
     if (isLoading) return;
 
     const uiLang = (navigator.language || 'en').toLowerCase().startsWith('hi') ? 'hi' : 'en';
@@ -104,6 +152,10 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
       );
       return;
     }
+
+    // Trigger the browser permission prompt first. Only start recognition after permission is granted.
+    const allowed = await requestMicrophonePermission(uiLang);
+    if (!allowed) return;
 
     // Stop if already listening
     if (isListening) {

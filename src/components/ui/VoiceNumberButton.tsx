@@ -102,7 +102,30 @@ export function VoiceNumberButton({
     setIsListening(false)
   }
 
-  const startListening = () => {
+  const requestMicrophonePermission = async (): Promise<boolean> => {
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+      toast.error("Microphone permission request is not available (try Chrome/Edge)")
+      return false
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      stream.getTracks().forEach((t) => t.stop())
+      return true
+    } catch (err: any) {
+      const name: string | undefined = err?.name
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        toast.error("Microphone permission denied. Allow mic access and try again.")
+      } else if (name === "NotFoundError") {
+        toast.error("No microphone device found")
+      } else {
+        toast.error("Could not get microphone permission")
+      }
+      return false
+    }
+  }
+
+  const startListening = async () => {
     if (disabled) return
 
     if (typeof window !== "undefined" && !window.isSecureContext) {
@@ -115,52 +138,55 @@ export function VoiceNumberButton({
       return
     }
 
-    try {
-      recognitionRef.current?.stop()
-    } catch {
-      // ignore
-    }
+    const allowed = await requestMicrophonePermission()
+    if (!allowed) return
 
-    const recognition = new SpeechRecognitionCtor()
-    recognition.lang = lang
-    recognition.continuous = false
-    recognition.interimResults = false
-    recognition.maxAlternatives = 1
-
-    recognition.onresult = (event: any) => {
-      const transcript: string | undefined = event?.results?.[0]?.[0]?.transcript
-      const parsed = transcript ? parseVoiceNumber(transcript) : null
-
-      if (parsed == null) {
-        toast.error(transcript ? `Could not understand number: "${transcript}"` : "Could not hear a value")
-        return
+      try {
+        recognitionRef.current?.stop()
+      } catch {
+        // ignore
       }
 
-      let next = parsed
-      if (typeof min === "number") next = Math.max(min, next)
-      if (typeof max === "number") next = Math.min(max, next)
+      const recognition = new SpeechRecognitionCtor()
+      recognition.lang = lang
+      recognition.continuous = false
+      recognition.interimResults = false
+      recognition.maxAlternatives = 1
 
-      onValueAction(next)
-      toast.success("Value filled from voice")
-    }
+      recognition.onresult = (event: any) => {
+        const transcript: string | undefined = event?.results?.[0]?.[0]?.transcript
+        const parsed = transcript ? parseVoiceNumber(transcript) : null
 
-    recognition.onerror = () => {
-      toast.error("Voice input failed")
-    }
+        if (parsed == null) {
+          toast.error(transcript ? `Could not understand number: "${transcript}"` : "Could not hear a value")
+          return
+        }
 
-    recognition.onend = () => {
-      setIsListening(false)
-    }
+        let next = parsed
+        if (typeof min === "number") next = Math.max(min, next)
+        if (typeof max === "number") next = Math.min(max, next)
 
-    recognitionRef.current = recognition
-    setIsListening(true)
+        onValueAction(next)
+        toast.success("Value filled from voice")
+      }
 
-    try {
-      recognition.start()
-    } catch {
-      setIsListening(false)
-      toast.error("Could not start voice input")
-    }
+      recognition.onerror = () => {
+        toast.error("Voice input failed")
+      }
+
+      recognition.onend = () => {
+        setIsListening(false)
+      }
+
+      recognitionRef.current = recognition
+      setIsListening(true)
+
+      try {
+        recognition.start()
+      } catch {
+        setIsListening(false)
+        toast.error("Could not start voice input")
+      }
   }
 
   return (

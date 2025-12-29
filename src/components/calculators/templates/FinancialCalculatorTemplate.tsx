@@ -1053,12 +1053,43 @@ export function InputGroup({
     }
   }, [])
 
-  const startListening = () => {
+  const requestMicrophonePermission = async (): Promise<boolean> => {
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+      toast.error("Microphone permission request is not available (try Chrome/Edge)")
+      return false
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      stream.getTracks().forEach((t) => t.stop())
+      return true
+    } catch (err: any) {
+      const name: string | undefined = err?.name
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        toast.error("Microphone permission denied. Allow mic access and try again.")
+      } else if (name === "NotFoundError") {
+        toast.error("No microphone device found")
+      } else {
+        toast.error("Could not get microphone permission")
+      }
+      return false
+    }
+  }
+
+  const startListening = async () => {
     if (!SpeechRecognitionCtor) {
       toast.error("Voice input is not supported in this browser")
       return
     }
     if (disabled) return
+
+    if (typeof window !== "undefined" && !window.isSecureContext) {
+      toast.error("Voice input needs HTTPS (or localhost). Try https:// or run on localhost.")
+      return
+    }
+
+    const allowed = await requestMicrophonePermission()
+    if (!allowed) return
 
     try {
       recognitionRef.current?.stop()
