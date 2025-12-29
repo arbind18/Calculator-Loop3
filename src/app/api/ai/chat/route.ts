@@ -5,6 +5,7 @@ import { customKnowledge } from '@/ai-training/ai-questions-answers/customKnowle
 import { detectLanguage, getResponseTemplate } from '@/lib/ai/languageUtils';
 import { tryBuildAlgebraIdentityResponse } from '@/lib/ai/algebraIdentityResponder';
 import { tryBuildFormulaResponse } from '@/lib/ai/formulaResponder';
+import { tryBuildGeometryAreaResponse } from '@/lib/ai/geometryAreaResponder';
 import { tryBuildMathSolveResponse } from '@/lib/ai/mathSolver';
 import { tryBuildNumberTutorResponse } from '@/lib/ai/numberTutorResponder';
 import { tryBuildTrigProofResponse } from '@/lib/ai/trigProofResponder';
@@ -18,6 +19,8 @@ const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
     q.includes('math') ||
     q.includes('maths') ||
     q.includes('ganit') ||
+    q.includes('area') ||
+    q.includes('chhetrafal') ||
     q.includes('sankhya') ||
     q.includes('number') ||
     q.includes('numbers') ||
@@ -115,6 +118,15 @@ export async function POST(req: Request) {
       responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
       
       return NextResponse.json({ role: 'assistant', content: responseContent });
+    }
+
+    // 0.15 Geometry area (offline)
+    const areaResponse = tryBuildGeometryAreaResponse(message, lang);
+    if (areaResponse) {
+      let fullResponse = areaResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      return NextResponse.json({ role: 'assistant', content: fullResponse });
     }
 
     // 0.2 Numbers tutor (types + big-int calculations)
