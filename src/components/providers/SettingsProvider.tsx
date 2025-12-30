@@ -7,30 +7,54 @@ export type Currency = {
   symbol: string
   name: string
   rate: number // Relative to USD or base currency
+  flag?: string
 }
 
 export type Language = {
   code: string
   name: string
   nativeName: string
+  flag?: string
 }
 
 const currencies: Currency[] = [
-  { code: 'INR', symbol: '₹', name: 'Indian Rupee', rate: 1 },
-  { code: 'USD', symbol: '$', name: 'US Dollar', rate: 0.012 },
-  { code: 'EUR', symbol: '€', name: 'Euro', rate: 0.011 },
-  { code: 'GBP', symbol: '£', name: 'British Pound', rate: 0.0095 },
-  { code: 'JPY', symbol: '¥', name: 'Japanese Yen', rate: 1.78 },
+  // Note: `rate` is currently not used across the app; keep values as placeholders.
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee', rate: 1, flag: '🇮🇳' },
+  { code: 'USD', symbol: '$', name: 'US Dollar', rate: 0.012, flag: '🇺🇸' },
+  { code: 'GBP', symbol: '£', name: 'British Pound', rate: 0.0095, flag: '🇬🇧' },
+  { code: 'EUR', symbol: '€', name: 'Euro', rate: 0.011, flag: '🇪🇺' },
+  { code: 'BRL', symbol: 'R$', name: 'Brazilian Real', rate: 0.06, flag: '🇧🇷' },
+  { code: 'MXN', symbol: '$', name: 'Mexican Peso', rate: 0.21, flag: '🇲🇽' },
+  { code: 'IDR', symbol: 'Rp', name: 'Indonesian Rupiah', rate: 157, flag: '🇮🇩' },
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', rate: 0.044, flag: '🇦🇪' },
+  { code: 'SAR', symbol: '﷼', name: 'Saudi Riyal', rate: 0.045, flag: '🇸🇦' },
+  { code: 'PKR', symbol: '₨', name: 'Pakistani Rupee', rate: 3.3, flag: '🇵🇰' },
+  { code: 'BDT', symbol: '৳', name: 'Bangladeshi Taka', rate: 1.4, flag: '🇧🇩' },
+  { code: 'CAD', symbol: '$', name: 'Canadian Dollar', rate: 0.016, flag: '🇨🇦' },
+  { code: 'JPY', symbol: '¥', name: 'Japanese Yen', rate: 1.78, flag: '🇯🇵' },
 ]
 
 const languages: Language[] = [
-  { code: 'en', name: 'English', nativeName: 'English' },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
-  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' },
-  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
-  { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
-  { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી' },
+  // India (existing)
+  // English is used by India/USA/UK/Canada in your list
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇮🇳🇺🇸🇬🇧🇨🇦' },
+  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', flag: '🇮🇳' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', flag: '🇮🇳' },
+  // Bengali is used by Bangladesh in your list
+  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা', flag: '🇧🇩' },
+  { code: 'mr', name: 'Marathi', nativeName: 'मराठी', flag: '🇮🇳' },
+  { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી', flag: '🇮🇳' },
+
+  // International (requested)
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸🇲🇽' },
+  { code: 'pt', name: 'Portuguese', nativeName: 'Português', flag: '🇧🇷' },
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷🇨🇦' },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
+  { code: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia', flag: '🇮🇩' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇦🇪🇸🇦' },
+  { code: 'ur', name: 'Urdu', nativeName: 'اردو', flag: '🇵🇰' },
+  { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵' },
 ]
 
 interface SettingsContextType {

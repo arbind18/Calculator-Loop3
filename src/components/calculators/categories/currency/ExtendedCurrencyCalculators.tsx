@@ -239,12 +239,12 @@ export function PipValueCalculator() {
                 onChange={(e) => handlePairChange(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="EURUSD">EUR/USD</option>
-                <option value="GBPUSD">GBP/USD</option>
-                <option value="USDJPY">USD/JPY</option>
-                <option value="USDINR">USD/INR</option>
-                <option value="EURINR">EUR/INR</option>
-                <option value="GBPINR">GBP/INR</option>
+                <option value="EURUSD">🇪🇺 EUR/USD 🇺🇸</option>
+                <option value="GBPUSD">🇬🇧 GBP/USD 🇺🇸</option>
+                <option value="USDJPY">🇺🇸 USD/JPY 🇯🇵</option>
+                <option value="USDINR">🇺🇸 USD/INR 🇮🇳</option>
+                <option value="EURINR">🇪🇺 EUR/INR 🇮🇳</option>
+                <option value="GBPINR">🇬🇧 GBP/INR 🇮🇳</option>
               </select>
             </div>
 
@@ -255,11 +255,11 @@ export function PipValueCalculator() {
                 onChange={(e) => setAccountCurrency(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="USD">USD</option>
-                <option value="INR">INR</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
+                <option value="USD">🇺🇸 USD</option>
+                <option value="INR">🇮🇳 INR</option>
+                <option value="EUR">🇪🇺 EUR</option>
+                <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
               </select>
             </div>
           </div>
@@ -499,12 +499,12 @@ export function ForexPositionSizeCalculator() {
                 onChange={(e) => handlePairChange(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="EURUSD">EUR/USD</option>
-                <option value="GBPUSD">GBP/USD</option>
-                <option value="USDJPY">USD/JPY</option>
-                <option value="USDINR">USD/INR</option>
-                <option value="EURINR">EUR/INR</option>
-                <option value="GBPINR">GBP/INR</option>
+                <option value="EURUSD">🇪🇺 EUR/USD 🇺🇸</option>
+                <option value="GBPUSD">🇬🇧 GBP/USD 🇺🇸</option>
+                <option value="USDJPY">🇺🇸 USD/JPY 🇯🇵</option>
+                <option value="USDINR">🇺🇸 USD/INR 🇮🇳</option>
+                <option value="EURINR">🇪🇺 EUR/INR 🇮🇳</option>
+                <option value="GBPINR">🇬🇧 GBP/INR 🇮🇳</option>
               </select>
             </div>
 
@@ -515,11 +515,11 @@ export function ForexPositionSizeCalculator() {
                 onChange={(e) => setAccountCurrency(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="USD">USD</option>
-                <option value="INR">INR</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
+                <option value="USD">🇺🇸 USD</option>
+                <option value="INR">🇮🇳 INR</option>
+                <option value="EUR">🇪🇺 EUR</option>
+                <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
               </select>
             </div>
           </div>
@@ -1329,10 +1329,10 @@ export function ForexProfitCalculator() {
                 onChange={(e) => handlePairChange(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="EURUSD">EUR/USD</option>
-                <option value="GBPUSD">GBP/USD</option>
-                <option value="USDJPY">USD/JPY</option>
-                <option value="USDINR">USD/INR</option>
+                <option value="EURUSD">🇪🇺 EUR/USD 🇺🇸</option>
+                <option value="GBPUSD">🇬🇧 GBP/USD 🇺🇸</option>
+                <option value="USDJPY">🇺🇸 USD/JPY 🇯🇵</option>
+                <option value="USDINR">🇺🇸 USD/INR 🇮🇳</option>
               </select>
             </div>
             <div className="space-y-2">
@@ -1363,11 +1363,11 @@ export function ForexProfitCalculator() {
                 onChange={(e) => setAccountCurrency(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="USD">USD</option>
-                <option value="INR">INR</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
+                <option value="USD">🇺🇸 USD</option>
+                <option value="INR">🇮🇳 INR</option>
+                <option value="EUR">🇪🇺 EUR</option>
+                <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
               </select>
             </div>
             <InputGroup
@@ -1641,10 +1641,10 @@ export function ForexPositionSizerAdvanced() {
                 onChange={(e) => handlePairChange(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="EURUSD">EUR/USD</option>
-                <option value="GBPUSD">GBP/USD</option>
-                <option value="USDJPY">USD/JPY</option>
-                <option value="USDINR">USD/INR</option>
+                <option value="EURUSD">🇪🇺 EUR/USD 🇺🇸</option>
+                <option value="GBPUSD">🇬🇧 GBP/USD 🇺🇸</option>
+                <option value="USDJPY">🇺🇸 USD/JPY 🇯🇵</option>
+                <option value="USDINR">🇺🇸 USD/INR 🇮🇳</option>
               </select>
             </div>
             <div className="space-y-2">
@@ -1654,11 +1654,11 @@ export function ForexPositionSizerAdvanced() {
                 onChange={(e) => setAccountCurrency(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="USD">USD</option>
-                <option value="INR">INR</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
+                <option value="USD">🇺🇸 USD</option>
+                <option value="INR">🇮🇳 INR</option>
+                <option value="EUR">🇪🇺 EUR</option>
+                <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
               </select>
             </div>
           </div>
@@ -1778,9 +1778,9 @@ export function CryptoMarketCapCalculator() {
                 onChange={(e) => setCurrency(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                <option value="USD">USD</option>
-                <option value="INR">INR</option>
-                <option value="EUR">EUR</option>
+                <option value="USD">🇺🇸 USD</option>
+                <option value="INR">🇮🇳 INR</option>
+                <option value="EUR">🇪🇺 EUR</option>
               </select>
             </div>
           </div>

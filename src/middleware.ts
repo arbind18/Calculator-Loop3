@@ -1,7 +1,24 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const SUPPORTED_LANGS = new Set(['en', 'hi', 'ta', 'te', 'bn', 'mr', 'gu']);
+const SUPPORTED_LANGS = new Set([
+  'en',
+  'hi',
+  'ta',
+  'te',
+  'bn',
+  'mr',
+  'gu',
+  // International
+  'es',
+  'pt',
+  'fr',
+  'de',
+  'id',
+  'ar',
+  'ur',
+  'ja',
+]);
 
 function getLocaleFromPath(pathname: string): string | null {
   const parts = pathname.split('/');

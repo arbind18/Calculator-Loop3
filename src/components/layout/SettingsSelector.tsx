@@ -76,7 +76,10 @@ export function SettingsSelector() {
                 onClick={() => setCurrency(curr.code)}
                 className="justify-between"
               >
-                <span>{curr.name} ({curr.symbol})</span>
+                <span>
+                  {curr.flag ? `${curr.flag} ` : ''}
+                  {curr.name} ({curr.symbol})
+                </span>
                 {currency.code === curr.code && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
             ))}
@@ -95,7 +98,10 @@ export function SettingsSelector() {
                 onClick={() => setLanguage(lang.code)}
                 className="justify-between"
               >
-                <span>{lang.nativeName}</span>
+                <span>
+                  {lang.flag ? `${lang.flag} ` : ''}
+                  {lang.nativeName}
+                </span>
                 {language === lang.code && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
             ))}

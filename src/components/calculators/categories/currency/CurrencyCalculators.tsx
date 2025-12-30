@@ -10,6 +10,24 @@ export function CurrencyConverter() {
   const [to, setTo] = useState('USD')
   const [result, setResult] = useState<any>(null)
 
+  const currencyFlags: Record<string, string> = {
+    INR: '🇮🇳',
+    USD: '🇺🇸',
+    GBP: '🇬🇧',
+    EUR: '🇪🇺',
+    JPY: '🇯🇵',
+    AED: '🇦🇪',
+    SAR: '🇸🇦',
+    CAD: '🇨🇦',
+    AUD: '🇦🇺',
+    SGD: '🇸🇬',
+    BRL: '🇧🇷',
+    MXN: '🇲🇽',
+    IDR: '🇮🇩',
+    PKR: '🇵🇰',
+    BDT: '🇧🇩',
+  }
+
   const internationalCountries = [
     { country: 'India', flag: '🇮🇳', language: 'Hindi / English', currency: 'Indian Rupee (₹)', code: 'INR' },
     { country: 'USA', flag: '🇺🇸', language: 'English', currency: 'US Dollar ($)', code: 'USD' },
@@ -91,7 +109,11 @@ export function CurrencyConverter() {
                 onChange={(e) => setFrom(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                {Object.keys(rates).map(c => <option key={c} value={c}>{c}</option>)}
+                {Object.keys(rates).map((c) => (
+                  <option key={c} value={c}>
+                    {currencyFlags[c] ? `${currencyFlags[c]} ` : ''}{c}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="space-y-2">
@@ -101,7 +123,11 @@ export function CurrencyConverter() {
                 onChange={(e) => setTo(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
-                {Object.keys(rates).map(c => <option key={c} value={c}>{c}</option>)}
+                {Object.keys(rates).map((c) => (
+                  <option key={c} value={c}>
+                    {currencyFlags[c] ? `${currencyFlags[c]} ` : ''}{c}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -122,8 +148,8 @@ export function CurrencyConverter() {
                   {internationalCountries.map((c) => (
                     <tr key={`${c.country}-${c.code}`} className="border-b last:border-b-0">
                       <td className="py-2 pr-4 whitespace-nowrap">{c.country}</td>
-                      <td className="py-2 pr-4 whitespace-nowrap">{c.language}</td>
-                      <td className="py-2 pr-4 whitespace-nowrap">{c.currency}</td>
+                      <td className="py-2 pr-4 whitespace-nowrap">{c.flag} {c.language}</td>
+                      <td className="py-2 pr-4 whitespace-nowrap">{c.flag} {c.currency}</td>
                       <td className="py-2 whitespace-nowrap">{c.flag}</td>
                     </tr>
                   ))}
@@ -140,8 +166,12 @@ export function CurrencyConverter() {
       result={result && (
         <div className="space-y-6">
           <div className="bg-primary/10 p-6 rounded-xl text-center border border-primary/20">
-            <p className="text-sm text-muted-foreground mb-2">{amount} {from} =</p>
-            <p className="text-4xl font-bold text-primary">{result.converted} {to}</p>
+            <p className="text-sm text-muted-foreground mb-2">
+              {currencyFlags[from] ? `${currencyFlags[from]} ` : ''}{amount} {from} =
+            </p>
+            <p className="text-4xl font-bold text-primary">
+              {currencyFlags[to] ? `${currencyFlags[to]} ` : ''}{result.converted} {to}
+            </p>
           </div>
           <div className="bg-secondary/50 p-4 rounded-xl text-center">
             <p className="text-sm">Exchange Rate: 1 {from} = {result.rate} {to}</p>

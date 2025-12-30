@@ -1406,9 +1406,9 @@ export function MultiCurrencyAccountCalculator() {
         result && (
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <ResultCard label={`USD (${result.normalized.usd.toFixed(1)}%)`} value={result.usd.toFixed(2)} type="highlight" />
-              <ResultCard label={`EUR (${result.normalized.eur.toFixed(1)}%)`} value={result.eur.toFixed(2)} />
-              <ResultCard label={`GBP (${result.normalized.gbp.toFixed(1)}%)`} value={result.gbp.toFixed(2)} />
+              <ResultCard label={`🇺🇸 USD (${result.normalized.usd.toFixed(1)}%)`} value={result.usd.toFixed(2)} type="highlight" />
+              <ResultCard label={`🇪🇺 EUR (${result.normalized.eur.toFixed(1)}%)`} value={result.eur.toFixed(2)} />
+              <ResultCard label={`🇬🇧 GBP (${result.normalized.gbp.toFixed(1)}%)`} value={result.gbp.toFixed(2)} />
             </div>
             <div className="text-sm text-muted-foreground">Percentages are normalized if totals are not 100%.</div>
           </div>
