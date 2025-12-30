@@ -11,7 +11,6 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend,
   AreaChart, Area, XAxis, YAxis, CartesianGrid
 } from "recharts"
-import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
@@ -97,10 +96,20 @@ export function SIPCalculator() {
         break
 
       case 'excel':
-        const ws = XLSX.utils.aoa_to_sheet([headers, ...data])
-        const wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "SIP")
-        XLSX.writeFile(wb, "sip_calculator.xlsx")
+        ;(async () => {
+          const ExcelJS = await import('exceljs')
+          const workbook = new ExcelJS.Workbook()
+          const worksheet = workbook.addWorksheet('SIP')
+
+          worksheet.addRow(headers)
+          data.forEach((row: any[]) => worksheet.addRow(row))
+          worksheet.getRow(1).font = { bold: true }
+
+          const buffer = await workbook.xlsx.writeBuffer()
+          const mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          const blob = new Blob([buffer as ArrayBuffer], { type: mime })
+          downloadFile(blob, 'sip_calculator.xlsx', mime)
+        })()
         break
 
       case 'pdf':
@@ -117,8 +126,8 @@ export function SIPCalculator() {
     }
   }
 
-  const downloadFile = (content: string, fileName: string, type: string) => {
-    const blob = new Blob([content], { type: `${type};charset=utf-8;` })
+  const downloadFile = (content: Blob | string, fileName: string, type: string) => {
+    const blob = content instanceof Blob ? content : new Blob([content], { type: `${type};charset=utf-8;` })
     const link = document.createElement('a')
     const url = URL.createObjectURL(blob)
     link.setAttribute('href', url)

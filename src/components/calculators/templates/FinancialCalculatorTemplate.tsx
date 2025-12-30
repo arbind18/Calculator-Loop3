@@ -670,10 +670,6 @@ export function FinancialCalculatorTemplate({
                             <Presentation className="mr-2 h-4 w-4 text-orange-700" />
                             <span>PowerPoint (.pptx)</span>
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => initiateDownload('ods')} className="rounded-lg cursor-pointer">
-                            <FileSpreadsheet className="mr-2 h-4 w-4 text-green-500" />
-                            <span>OpenOffice (.ods)</span>
-                          </DropdownMenuItem>
                         </div>
 
                         {/* Developer Section */}

@@ -42,11 +42,18 @@ export const generateReport = async (
       }
 
       case 'excel': {
-        const XLSX = (await import('xlsx')).default
-        const ws = XLSX.utils.aoa_to_sheet([headers, ...data])
-        const wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "Report")
-        XLSX.writeFile(wb, `${fullFileName}.xlsx`)
+        const ExcelJS = await import('exceljs')
+        const workbook = new ExcelJS.Workbook()
+        const worksheet = workbook.addWorksheet('Report')
+
+        worksheet.addRow(headers)
+        data.forEach((row) => worksheet.addRow(row))
+        worksheet.getRow(1).font = { bold: true }
+
+        const buffer = await workbook.xlsx.writeBuffer()
+        const mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        const blob = new Blob([buffer as ArrayBuffer], { type: mime })
+        downloadFile(blob, `${fullFileName}.xlsx`, mime)
         break
       }
 
@@ -261,12 +268,8 @@ ${data.map(row => `(${row.map(cell => `'${String(cell).replace(/'/g, "''")}'`).j
       }
 
       case 'ods': {
-        const XLSX = (await import('xlsx')).default
-        const ws = XLSX.utils.aoa_to_sheet([headers, ...data])
-        const wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "Report")
-        XLSX.writeFile(wb, `${fullFileName}.ods`, { bookType: 'ods' })
-        break
+        toast.error('OpenOffice (.ods) export is not supported right now')
+        return
       }
 
       case 'svg': {
