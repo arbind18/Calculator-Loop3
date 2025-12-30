@@ -78,9 +78,9 @@ export function NotificationsClient() {
         <h1 className="text-2xl font-semibold">Notifications</h1>
         <p className="mt-2 text-muted-foreground">Please login to view your notifications.</p>
         <div className="mt-6">
-          <Link href={withLocale('/login')}>
-            <Button>Login</Button>
-          </Link>
+          <Button asChild>
+            <Link href={withLocale('/login')}>Login</Link>
+          </Button>
         </div>
       </div>
     )

@@ -256,12 +256,17 @@ export function MobileMenu({
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Link href={withLocale("/profile")} onClick={onClose}>
-                    <Button variant="outline" className="w-full justify-start gap-2" size="sm">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full justify-start gap-2"
+                    size="sm"
+                  >
+                    <Link href={withLocale("/profile")} onClick={onClose}>
                       <User className="h-4 w-4" />
                       Profile
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                   <Button 
                     variant="outline" 
                     className="w-full justify-start gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20" 
@@ -278,12 +283,15 @@ export function MobileMenu({
                 <div className="text-sm text-muted-foreground text-center">
                   Sign in to save your calculations and access premium features.
                 </div>
-                <Link href={withLocale("/login")} onClick={onClose}>
-                  <Button className="w-full bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none hover:opacity-90 gap-2">
+                <Button
+                  asChild
+                  className="w-full bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none hover:opacity-90 gap-2"
+                >
+                  <Link href={withLocale("/login")} onClick={onClose}>
                     <LogIn className="h-4 w-4" />
                     Login / Register
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             )}
           </div>

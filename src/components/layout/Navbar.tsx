@@ -313,16 +313,15 @@ export function Navbar() {
                 </DropdownMenu>
               ) : (
                 <div className="hidden md:flex items-center gap-2">
-                  <Link href={withLocale("/login")}>
-                    <Button variant="ghost" className="hover:text-[#00D4FF]">
-                      {t.nav.login}
-                    </Button>
-                  </Link>
-                  <Link href={withLocale("/register")}>
-                    <Button className="bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none hover:opacity-90">
-                      Sign Up
-                    </Button>
-                  </Link>
+                  <Button asChild variant="ghost" className="hover:text-[#00D4FF]">
+                    <Link href={withLocale("/login")}>{t.nav.login}</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    className="bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none hover:opacity-90"
+                  >
+                    <Link href={withLocale("/register")}>Sign Up</Link>
+                  </Button>
                 </div>
               )}
 
