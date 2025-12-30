@@ -7,7 +7,7 @@
     "dev": "next dev --webpack -H 0.0.0.0",
     "dev:turbo": "next dev --turbo -H 0.0.0.0",
     "build": "next build",
-    "vercel-build": "prisma migrate deploy && next build",
+    "vercel-build": "(prisma migrate deploy || prisma db push --accept-data-loss) && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
