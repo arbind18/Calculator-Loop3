@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "popular": "人気",
+    "categories": "カテゴリー",
+    "allCalculators": "すべての計算機",
+    "financial": "金融",
+    "health": "健康・フィットネス",
+    "math": "数学",
+    "datetime": "日付と時間",
+    "education": "教育",
+    "technology": "テクノロジー",
+    "science": "サイエンス",
+    "construction": "建設",
+    "business": "ビジネス",
+    "everyday": "日常",
+    "favorites": "お気に入り",
+    "history": "履歴",
+    "about": "概要",
+    "contact": "お問い合わせ",
+    "blog": "ブログ",
+    "login": "ログイン"
+  },
+  "hero": {
+    "title": "毎日の意思決定に役立つスマートツール",
+    "subtitle": "精度とプライバシーで多くの人に選ばれています。隠れた料金もデータ収集もなし—必要なときに正確な結果を。",
+    "popularTools": "計算機を探す"
+  },
+  "popular": {
+    "emiCalculator": "EMI 計算機",
+    "emiDescription": "毎月の支払額と総利息を計算",
+    "bmiCalculator": "BMI 計算機",
+    "bmiDescription": "BMI と健康カテゴリを確認",
+    "ageCalculator": "年齢計算機",
+    "ageDescription": "年・月単位で正確な年齢を計算",
+    "percentageCalculator": "パーセント計算機",
+    "percentageDescription": "増減率をすばやく計算",
+    "gstCalculator": "GST 計算機",
+    "gstDescription": "税額と最終価格を計算"
+  },
+  "recent": {
+    "yourActivity": "あなたのアクティビティ",
+    "recentCalculations": "最近の計算",
+    "recentDescription": "直近の計算結果をすぐに確認",
+    "viewFullHistory": "履歴をすべて表示",
+    "clearHistory": "履歴を消去"
+  },
+  "features": {
+    "whyChooseUs": "選ばれる理由",
+    "whyChooseDescription": "高速・シンプル・プライバシー重視の計算機",
+    "lightningFast": "高速",
+    "lightningDescription": "最適化されたパフォーマンスで即時結果",
+    "secure": "安全",
+    "secureDescription": "可能な限りデータは端末内に保持",
+    "mobileFriendly": "モバイル対応",
+    "mobileDescription": "スマホ・タブレット・PCで快適に動作",
+    "alwaysUpdated": "常に更新",
+    "updatedDescription": "新しい計算機と改善を継続的に追加",
+    "freeForever": "ずっと無料",
+    "freeDescription": "隠れた料金やサブスクなし",
+    "noSignup": "登録不要",
+    "noSignupDescription": "アカウント作成なしで利用開始"
+  },
+  "categories": {
+    "financialDescription": "ローン、投資、税金、貯蓄",
+    "healthDescription": "BMI、身体指標、健康ツール",
+    "mathDescription": "パーセント、代数、日常の数学",
+    "datetimeDescription": "年齢、日付差、時間ツール",
+    "educationDescription": "学習、スコア、学習支援ツール",
+    "technologyDescription": "技術・コンピューティングのユーティリティ",
+    "scienceDescription": "科学計算と変換ツール",
+    "constructionDescription": "建設・測定ツール",
+    "businessDescription": "ビジネスと収益性の計算",
+    "everydayDescription": "日常ユーティリティ"
+  },
+  "cta": {
+    "findCalculator": "最適な計算機を見つける",
+    "browseDescription": "カテゴリーから数秒でツールを選択",
+    "exploreCategories": "カテゴリーを見る"
+  },
+  "footer": {
+    "tagline": "金融・健康・数学などの無料計算機。",
+    "calculators": "計算機",
+    "resources": "リソース",
+    "company": "会社",
+    "aboutUs": "概要",
+    "contact": "お問い合わせ",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfService": "利用規約",
+    "rights": "All rights reserved."
+  },
+  "common": {
+    "calculate": "計算",
+    "reset": "リセット",
+    "result": "結果",
+    "distribution": "分布",
+    "growth_chart": "成長チャート",
+    "years": "年",
+    "tools": "ツール",
+    "browseCategory": "カテゴリーを見る"
+  },
+  "blog": {
+    "metaDescription": "EMI、ローン、投資、計画に関する専門ガイド。計算機と例でより賢い判断を。",
+    "badge": "ブログ & ガイド",
+    "title": "金融の知恵",
+    "subtitle": "ローン、投資、資産計画の専門ガイドで、より良いお金の判断をサポートします。",
+    "featured": "注目記事",
+    "all": "すべての記事",
+    "readArticle": "記事を読む",
+    "readMore": "もっと読む",
+    "readyToCalculate": "計算を始めますか？",
+    "readyToCalculateDesc": "無料の計算機で資産計画をもっと便利に",
+    "ctaEmi": "EMI 計算機",
+    "ctaSip": "SIP 計算機",
+    "backToBlog": "ブログへ戻る",
+    "minRead": "分で読めます",
+    "shareThisArticle": "この記事を共有：",
+    "relatedArticles": "関連記事",
+    "tryOurCalculators": "計算機を試す",
+    "tryOurCalculatorsDesc": "無料の金融計算機で知識を活用しましょう"
+  }
+}

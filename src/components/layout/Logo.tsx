@@ -1,13 +1,20 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { useSettings } from "@/components/providers/SettingsProvider"
 
 const PREFERRED_LOGO_SRC = "/logo.svg"
 const FALLBACK_LOGO_SRC = "/logo.svg"
 
 export function Logo({ mobile = false }: { mobile?: boolean }) {
+  const { language } = useSettings()
+  const prefix = language === "en" ? "" : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   if (mobile) {
     return (
-      <Link href="/" className="flex min-w-0 items-center gap-2">
+      <Link href={withLocale("/")} className="flex min-w-0 items-center gap-2">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-[#00D4FF] to-[#8B5CF6] rounded-lg blur-sm opacity-75"></div>
           <div className="relative bg-gradient-to-br from-[#00D4FF] to-[#8B5CF6] p-1.5 rounded-lg">
@@ -23,7 +30,7 @@ export function Logo({ mobile = false }: { mobile?: boolean }) {
             />
           </div>
         </div>
-        <span className="min-w-0 truncate font-manrope text-base font-extrabold bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] bg-clip-text text-transparent sm:text-lg">
+        <span className="min-w-0 truncate font-manrope text-lg font-extrabold tracking-tight bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] bg-clip-text text-transparent sm:text-xl">
           Calculator Loop
         </span>
       </Link>
@@ -31,7 +38,7 @@ export function Logo({ mobile = false }: { mobile?: boolean }) {
   }
 
   return (
-    <Link href="/" className="flex items-center gap-3 group">
+    <Link href={withLocale("/")} className="flex items-center gap-3 group">
       {/* Logo Icon with Glow Effect */}
       <div className="relative">
         {/* Glow effect */}

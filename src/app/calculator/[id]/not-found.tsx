@@ -3,8 +3,13 @@
 import Link from 'next/link'
 import { Search, Home, Calculator, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useSettings } from '@/components/providers/SettingsProvider'
 
 export default function NotFound() {
+  const { language } = useSettings()
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <div className="max-w-md w-full text-center space-y-6">
@@ -34,14 +39,14 @@ export default function NotFound() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <Link href="/" className="w-full">
+          <Link href={withLocale('/')} className="w-full">
             <Button className="w-full bg-gradient-to-r from-primary to-purple-600 text-white">
               <Home className="mr-2 h-5 w-5" />
               Go to Homepage
             </Button>
           </Link>
 
-          <Link href="/#categories" className="w-full">
+          <Link href={withLocale('/#categories')} className="w-full">
             <Button variant="outline" className="w-full">
               <Calculator className="mr-2 h-4 w-4" />
               Browse Calculators

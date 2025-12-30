@@ -6,6 +6,14 @@ import teTranslations from '@/locales/te.json';
 import bnTranslations from '@/locales/bn.json';
 import mrTranslations from '@/locales/mr.json';
 import guTranslations from '@/locales/gu.json';
+import esTranslations from '@/locales/es.json';
+import ptTranslations from '@/locales/pt.json';
+import frTranslations from '@/locales/fr.json';
+import deTranslations from '@/locales/de.json';
+import idTranslations from '@/locales/id.json';
+import arTranslations from '@/locales/ar.json';
+import urTranslations from '@/locales/ur.json';
+import jaTranslations from '@/locales/ja.json';
 
 // Export all translations
 export const translations = {
@@ -16,6 +24,14 @@ export const translations = {
   bn: bnTranslations,
   mr: mrTranslations,
   gu: guTranslations,
+  es: esTranslations,
+  pt: ptTranslations,
+  fr: frTranslations,
+  de: deTranslations,
+  id: idTranslations,
+  ar: arTranslations,
+  ur: urTranslations,
+  ja: jaTranslations,
 } as const;
 
 export type LanguageCode = keyof typeof translations;

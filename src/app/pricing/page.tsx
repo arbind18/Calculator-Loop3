@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { headers } from 'next/headers';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,12 +10,13 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Pricing - Calculator Loop',
   description: 'Choose the perfect plan for your needs. Start free or upgrade for advanced features.',
-  alternates: {
-    canonical: '/pricing',
-  },
 };
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const language = (await headers()).get('x-calculator-language') || 'en';
+  const prefix = language === 'en' ? '' : `/${language}`;
+  const withLocale = (path: string) => `${prefix}${path}`;
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background via-secondary/10 to-background">
       <div className="container mx-auto px-4 py-16 space-y-12">
@@ -249,10 +251,10 @@ export default function PricingPage() {
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
               <Button size="lg" asChild>
-                <Link href="/register">Start Free</Link>
+                <Link href={withLocale('/register')}>Start Free</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/contact">Contact Sales</Link>
+                <Link href={withLocale('/contact')}>Contact Sales</Link>
               </Button>
             </div>
           </CardContent>

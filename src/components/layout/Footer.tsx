@@ -11,23 +11,27 @@ export function Footer() {
   const t = getMergedTranslations(language)
   const currentYear = new Date().getFullYear()
 
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   const footerLinks = {
     calculators: [
-      { label: t.nav.financial, href: "/category/financial" },
-      { label: t.nav.health, href: "/category/health" },
-      { label: t.nav.math, href: "/category/math" },
-      { label: t.nav.datetime, href: "/category/datetime" },
+      { label: t.nav.financial, href: withLocale("/category/financial") },
+      { label: t.nav.health, href: withLocale("/category/health") },
+      { label: t.nav.math, href: withLocale("/category/math") },
+      { label: t.nav.datetime, href: withLocale("/category/datetime") },
     ],
     resources: [
-      { label: t.hero.popularTools, href: "/popular" },
-      { label: t.nav.history, href: "/history" },
-      { label: t.nav.favorites, href: "/favorites" },
+      { label: t.hero.popularTools, href: withLocale("/popular") },
+      { label: t.nav.blog, href: withLocale("/blog") },
+      { label: t.nav.history, href: withLocale("/history") },
+      { label: t.nav.favorites, href: withLocale("/favorites") },
     ],
     company: [
-      { label: t.footer.aboutUs, href: "/about" },
-      { label: t.footer.contact, href: "/contact" },
-      { label: t.footer.privacyPolicy, href: "/privacy" },
-      { label: t.footer.termsOfService, href: "/terms" },
+      { label: t.footer.aboutUs, href: withLocale("/about") },
+      { label: t.footer.contact, href: withLocale("/contact") },
+      { label: t.footer.privacyPolicy, href: withLocale("/privacy") },
+      { label: t.footer.termsOfService, href: withLocale("/terms") },
     ],
   }
 
@@ -37,7 +41,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="space-y-4 lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary">
+            <Link href={withLocale("/")} className="flex items-center gap-2 font-bold text-xl text-primary">
               <Calculator className="h-6 w-6" />
               <span>Calculator Hub</span>
             </Link>

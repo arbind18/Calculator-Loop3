@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useSettings } from "@/components/providers/SettingsProvider"
 import { getMergedTranslations } from "@/lib/translations"
+import { getDictString, localizeToolMeta } from "@/lib/toolLocalization"
 import { generateReport } from "@/lib/downloadUtils"
 import { CalculatorSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/AdvancedSchema"
 import { AIRecommendations } from "@/components/ui-ai/AIRecommendations"
@@ -83,7 +84,21 @@ export function FinancialCalculatorTemplate({
 }: FinancialCalculatorTemplateProps & { onDownload?: (format: string, options?: DownloadOptions) => void }) {
   const { data: session } = useSession()
   const { language } = useSettings()
-  const t = getMergedTranslations(language)
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const { title: displayTitle, description: displayDescription } = useMemo(
+    () =>
+      localizeToolMeta({
+        dict,
+        toolId: calculatorId,
+        fallbackTitle: title,
+        fallbackDescription: description,
+      }),
+    [dict, calculatorId, title, description]
+  )
+
+  const resolvedCalculateLabel =
+    calculateLabel === 'Calculate' ? getDictString(dict, 'common.calculate', 'Calculate') : calculateLabel
   
   const [isAutoCalculate, setIsAutoCalculate] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
@@ -378,7 +393,7 @@ export function FinancialCalculatorTemplate({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": title,
+    "name": displayTitle,
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Any",
     "offers": {
@@ -386,7 +401,7 @@ export function FinancialCalculatorTemplate({
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": description,
+    "description": displayDescription ?? description,
     "featureList": "Financial calculation, PDF export, Excel export, Visual charts",
     "browserRequirements": "Requires JavaScript"
   }
@@ -405,17 +420,17 @@ export function FinancialCalculatorTemplate({
             <span className="text-sm font-medium text-primary">Financial Calculator</span>
           </div>
           <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 tracking-tight">
-            {title}
+            {displayTitle}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {description}
+            {displayDescription ?? description}
           </p>
         </div>
 
         {/* Print Header */}
         <div className="hidden print:block text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
+          <h1 className="text-3xl font-bold mb-2">{displayTitle}</h1>
+          <p className="text-muted-foreground">{displayDescription ?? description}</p>
         </div>
 
         {/* Calculator Card */}
@@ -726,7 +741,7 @@ export function FinancialCalculatorTemplate({
                   className="w-full bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 text-white py-7 text-lg font-semibold shadow-xl shadow-primary/25 transition-all hover:scale-[1.02] rounded-xl"
                 >
                   <Calculator className="h-5 w-5 mr-2" /> 
-                  {calculateLabel === "Calculate" ? t.common.calculate : calculateLabel}
+                  {resolvedCalculateLabel}
                 </Button>
               )}
             </div>

@@ -53,6 +53,48 @@ export function Navbar() {
 
   const t = getMergedTranslations(language)
 
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (href.startsWith('#')) return `${prefix}/${href}`
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    if (href === '/') return prefix
+    return `${prefix}${href}`
+  }
+
+  const stripLocale = (path: string) => {
+    const parts = (path || '/').split('/')
+    const maybe = parts[1]
+    if (maybe && maybe.length <= 5) {
+      // If URL is /{lang}/..., treat it as a locale prefix.
+      // Keep list aligned with middleware + LanguageSwitcher.
+      const known = new Set([
+        'en',
+        'hi',
+        'ta',
+        'te',
+        'bn',
+        'mr',
+        'gu',
+        'es',
+        'pt',
+        'fr',
+        'de',
+        'id',
+        'ar',
+        'ur',
+        'ja',
+      ])
+      if (known.has(maybe)) {
+        const rest = '/' + parts.slice(2).join('/')
+        return rest === '/' ? '/' : rest.replace(/\/$/, '')
+      }
+    }
+    return path || '/'
+  }
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
@@ -70,107 +112,110 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const isCalculatorPage = pathname?.startsWith('/calculator/')
+  const basePathname = stripLocale(pathname || '/')
+  const isCalculatorPage = basePathname.startsWith('/calculator/')
 
 
   const navLinks = [
-    { href: "/", label: t.nav.home, icon: Calculator },
-    { href: "/popular", label: t.nav.popular, icon: TrendingUp },
-    { href: "/favorites", label: t.nav.favorites, icon: Heart },
-    { href: "/history", label: t.nav.history, icon: History },
-    { href: "/about", label: t.nav.about, icon: Info },
-    { href: "/contact", label: t.nav.contact, icon: Phone },
-    { href: "/blog", label: t.nav.blog, icon: PenSquare },
+    { href: withLocale("/"), label: t.nav.home, icon: Calculator },
+    { href: withLocale("/popular"), label: t.nav.popular, icon: TrendingUp },
+    { href: withLocale("/favorites"), label: t.nav.favorites, icon: Heart },
+    { href: withLocale("/history"), label: t.nav.history, icon: History },
+    { href: withLocale("/about"), label: t.nav.about, icon: Info },
+    { href: withLocale("/contact"), label: t.nav.contact, icon: Phone },
+    { href: withLocale("/blog"), label: t.nav.blog, icon: PenSquare },
   ]
 
   const categories = [
-    { 
-      name: t.nav.allCalculators, 
-      count: "All", 
-      href: "#categories",
+    {
+      name: t.nav.allCalculators,
+      count: "All",
+      href: withLocale("#categories"),
       icon: Grid3x3,
       color: "bg-gradient-to-r from-purple-500 to-indigo-600",
-      key: "all"
+      key: "all",
     },
-    { 
-      name: t.nav.financial, 
-      count: 45, 
-      href: "/category/financial",
+    {
+      name: t.nav.financial,
+      count: 45,
+      href: withLocale("/category/financial"),
       icon: DollarSign,
       color: "bg-gradient-to-r from-pink-500 to-rose-500",
-      key: "financial"
+      key: "financial",
     },
-    { 
-      name: t.nav.health, 
-      count: 38, 
-      href: "/category/health",
+    {
+      name: t.nav.health,
+      count: 38,
+      href: withLocale("/category/health"),
       icon: Heart,
       color: "bg-gradient-to-r from-blue-500 to-cyan-500",
-      key: "health"
+      key: "health",
     },
-    { 
-      name: t.nav.math, 
-      count: 52, 
-      href: "/category/math",
+    {
+      name: t.nav.math,
+      count: 52,
+      href: withLocale("/category/math"),
       icon: Binary,
       color: "bg-gradient-to-r from-teal-400 to-pink-300",
-      key: "math"
+      key: "math",
     },
-    { 
-      name: t.nav.datetime, 
-      count: 28, 
-      href: "/category/datetime",
+    {
+      name: t.nav.datetime,
+      count: 20,
+      href: withLocale("/category/datetime"),
       icon: Calendar,
       color: "bg-gradient-to-r from-amber-400 to-orange-400",
-      key: "datetime"
+      key: "datetime",
     },
-    { 
-      name: t.nav.education, 
-      count: 39, 
-      href: "/category/education",
+    {
+      name: t.nav.education,
+      count: 18,
+      href: withLocale("/category/education"),
       icon: GraduationCap,
       color: "bg-gradient-to-r from-sky-400 to-blue-400",
-      key: "education"
+      key: "education",
     },
-    { 
-      name: t.nav.technology, 
-      count: 35, 
-      href: "/category/technology",
+    {
+      name: t.nav.technology,
+      count: 15,
+      href: withLocale("/category/technology"),
       icon: Laptop,
       color: "bg-gradient-to-r from-amber-300 to-orange-300",
-      key: "technology"
+      key: "technology",
     },
-    { 
-      name: t.nav.science, 
-      count: 48, 
-      href: "/category/scientific",
+    {
+      name: t.nav.science,
+      count: 22,
+      href: withLocale("/category/scientific"),
       icon: FlaskConical,
       color: "bg-gradient-to-r from-indigo-400 to-purple-400",
-      key: "scientific"
-    },    { 
-      name: t.nav.construction, 
-      count: 12, 
-      href: "/category/construction",
+      key: "scientific",
+    },
+    {
+      name: t.nav.construction,
+      count: 12,
+      href: withLocale("/category/construction"),
       icon: Wrench,
       color: "bg-gradient-to-r from-orange-500 to-red-500",
-      key: "construction"
+      key: "construction",
     },
-    { 
-      name: t.nav.business, 
-      count: 15, 
-      href: "/category/business",
+    {
+      name: t.nav.business,
+      count: 15,
+      href: withLocale("/category/business"),
       icon: Briefcase,
       color: "bg-gradient-to-r from-yellow-400 to-amber-500",
-      key: "business"
+      key: "business",
     },
-    { 
-      name: t.nav.everyday, 
-      count: 10, 
-      href: "/category/everyday",
+    {
+      name: t.nav.everyday,
+      count: 10,
+      href: withLocale("/category/everyday"),
       icon: Home,
       color: "bg-gradient-to-r from-lime-400 to-cyan-400",
-      key: "everyday"
-    },  ]
+      key: "everyday",
+    },
+  ]
 
   const handleCategoryClick = (key: string) => {
     if (key === 'all') {
@@ -195,19 +240,6 @@ export function Navbar() {
             {/* Mobile Header Nav */}
             <div className="flex flex-1 min-w-0 md:hidden items-center gap-2">
               <Logo mobile />
-              
-              {/* Only show Search button if NOT on Home page (to avoid duplication with Hero search) */}
-              {!isCalculatorPage && pathname !== '/' && (
-                <div className="flex items-center gap-3 ml-1">
-                  <button 
-                    onClick={() => setIsSearchOpen(true)}
-                    className="flex flex-col items-center gap-0.5 text-muted-foreground hover:text-[#00D4FF] transition-colors group"
-                  >
-                    <Search className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                    <span className="text-[9px] font-medium">Search</span>
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Desktop Navigation */}
@@ -255,19 +287,19 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/profile">
+                      <Link href={withLocale("/profile")}>
                         <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/profile#history">
+                      <Link href={withLocale("/profile#history")}>
                         <History className="mr-2 h-4 w-4" />
                         <span>History</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/profile#favorites">
+                      <Link href={withLocale("/profile#favorites")}>
                         <Heart className="mr-2 h-4 w-4" />
                         <span>Favorites</span>
                       </Link>
@@ -281,12 +313,12 @@ export function Navbar() {
                 </DropdownMenu>
               ) : (
                 <div className="hidden md:flex items-center gap-2">
-                  <Link href="/login">
+                  <Link href={withLocale("/login")}>
                     <Button variant="ghost" className="hover:text-[#00D4FF]">
                       {t.nav.login}
                     </Button>
                   </Link>
-                  <Link href="/register">
+                  <Link href={withLocale("/register")}>
                     <Button className="bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none hover:opacity-90">
                       Sign Up
                     </Button>

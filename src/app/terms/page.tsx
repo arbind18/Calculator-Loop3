@@ -3,9 +3,6 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Terms of Service - Calculator Loop',
   description: 'Terms of Service for using Calculator Loop calculators and services.',
-  alternates: {
-    canonical: '/terms',
-  },
 }
 
 export default function TermsPage() {

@@ -8,6 +8,7 @@ import { Clock, History, Calculator, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSettings } from "@/components/providers/SettingsProvider"
 import { getMergedTranslations } from "@/lib/translations"
+import { localizeToolMeta } from "@/lib/toolLocalization"
 
 type HistoryRecord = {
   id: string
@@ -62,6 +63,14 @@ function formatResult(result: unknown): string {
 export function RecentSection() {
   const { language } = useSettings()
   const t = getMergedTranslations(language)
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    return href === '/' ? prefix : `${prefix}${href}`
+  }
 
   const router = useRouter()
   const { data: session } = useSession()
@@ -138,7 +147,7 @@ export function RecentSection() {
   }, [session])
 
   const handleViewFullHistory = () => {
-    router.push("/history")
+    router.push(withLocale("/history"))
   }
 
   const handleClearHistory = async () => {
@@ -187,7 +196,10 @@ export function RecentSection() {
                 key={item.id}
                 className="group relative p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 cursor-pointer animate-fadeInUp"
                 style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => router.push(`/calculator/${item.calculatorType}`)}
+                onClick={() => {
+                  const toolId = item.calculatorType === 'home-loan' ? 'home-loan-emi' : item.calculatorType
+                  router.push(withLocale(`/calculator/${toolId}`))
+                }}
               >
                 <div className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity`} />
                 
@@ -198,7 +210,12 @@ export function RecentSection() {
                   
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm sm:text-base mb-1 group-hover:text-primary transition-colors truncate">
-                      {item.name}
+                      {localizeToolMeta({
+                        dict: t,
+                        toolId: item.calculatorType === 'home-loan' ? 'home-loan-emi' : item.calculatorType,
+                        fallbackTitle: item.name,
+                        fallbackDescription: '',
+                      }).title}
                     </h3>
                     <p className="text-lg sm:text-xl font-bold text-primary mb-1 truncate">
                       {item.result}

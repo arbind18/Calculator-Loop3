@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "popular": "الأكثر شيوعًا",
+    "categories": "الفئات",
+    "allCalculators": "جميع الآلات الحاسبة",
+    "financial": "المالية",
+    "health": "الصحة واللياقة",
+    "math": "الرياضيات",
+    "datetime": "التاريخ والوقت",
+    "education": "التعليم",
+    "technology": "التقنية",
+    "science": "العلوم",
+    "construction": "الإنشاءات",
+    "business": "الأعمال",
+    "everyday": "يوميّات",
+    "favorites": "المفضلة",
+    "history": "السجل",
+    "about": "حول",
+    "contact": "اتصل بنا",
+    "blog": "المدونة",
+    "login": "تسجيل الدخول"
+  },
+  "hero": {
+    "title": "أدوات ذكية لقراراتك اليومية",
+    "subtitle": "موثوق بها من آلاف المستخدمين للدقة والخصوصية. بدون رسوم خفية وبدون جمع بيانات—فقط نتائج دقيقة عندما تحتاجها.",
+    "popularTools": "استكشف الآلات الحاسبة"
+  },
+  "popular": {
+    "emiCalculator": "حاسبة EMI",
+    "emiDescription": "احسب القسط الشهري وإجمالي الفائدة",
+    "bmiCalculator": "حاسبة BMI",
+    "bmiDescription": "تحقق من مؤشر كتلة الجسم وفئة الصحة",
+    "ageCalculator": "حاسبة العمر",
+    "ageDescription": "احسب عمرك بدقة بالسنوات والأشهر",
+    "percentageCalculator": "حاسبة النسبة المئوية",
+    "percentageDescription": "احسب الزيادة/النقصان بسرعة",
+    "gstCalculator": "حاسبة GST",
+    "gstDescription": "احسب الضريبة والسعر النهائي"
+  },
+  "recent": {
+    "yourActivity": "نشاطك",
+    "recentCalculations": "الحسابات الأخيرة",
+    "recentDescription": "ارجع بسرعة إلى آخر الحسابات",
+    "viewFullHistory": "عرض السجل بالكامل",
+    "clearHistory": "مسح السجل"
+  },
+  "features": {
+    "whyChooseUs": "لماذا تختارنا",
+    "whyChooseDescription": "آلات حاسبة سريعة وبسيطة وصديقة للخصوصية",
+    "lightningFast": "سريعة جدًا",
+    "lightningDescription": "نتائج فورية بأداء مُحسن",
+    "secure": "آمنة",
+    "secureDescription": "تبقى بياناتك على جهازك قدر الإمكان",
+    "mobileFriendly": "مناسبة للجوال",
+    "mobileDescription": "تعمل بسلاسة على الهاتف واللوحي والكمبيوتر",
+    "alwaysUpdated": "مُحدّثة دائمًا",
+    "updatedDescription": "آلات حاسبة جديدة وتحسينات باستمرار",
+    "freeForever": "مجانية دائمًا",
+    "freeDescription": "بدون رسوم خفية أو اشتراكات",
+    "noSignup": "بدون تسجيل",
+    "noSignupDescription": "ابدأ الحساب دون إنشاء حساب"
+  },
+  "categories": {
+    "financialDescription": "قروض، استثمارات، ضرائب وادخار",
+    "healthDescription": "BMI، قياسات الجسم وأدوات الصحة",
+    "mathDescription": "نِسَب، جبر ورياضيات يومية",
+    "datetimeDescription": "العمر، فروق التواريخ وأدوات الوقت",
+    "educationDescription": "الدراسة، الدرجات وأدوات أكاديمية",
+    "technologyDescription": "أدوات تقنية وحوسبة",
+    "scienceDescription": "آلات حاسبة علمية وتحويلات",
+    "constructionDescription": "أدوات إنشاءات وقياس",
+    "businessDescription": "أدوات أعمال وربحية",
+    "everydayDescription": "أدوات يومية"
+  },
+  "cta": {
+    "findCalculator": "اعثر على الحاسبة المناسبة",
+    "browseDescription": "تصفح الفئات واختر أداة خلال ثوانٍ",
+    "exploreCategories": "استكشف الفئات"
+  },
+  "footer": {
+    "tagline": "آلات حاسبة مجانية للمالية والصحة والرياضيات والمزيد.",
+    "calculators": "الآلات الحاسبة",
+    "resources": "الموارد",
+    "company": "الشركة",
+    "aboutUs": "حولنا",
+    "contact": "اتصل بنا",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة",
+    "rights": "جميع الحقوق محفوظة."
+  },
+  "common": {
+    "calculate": "احسب",
+    "reset": "إعادة ضبط",
+    "result": "النتيجة",
+    "distribution": "التوزيع",
+    "growth_chart": "مخطط النمو",
+    "years": "سنوات",
+    "tools": "الأدوات",
+    "browseCategory": "عرض الفئة"
+  },
+  "blog": {
+    "metaDescription": "أدلة خبراء حول EMI والقروض والاستثمارات والتخطيط. تعلّم اتخاذ قرارات أذكى باستخدام الآلات الحاسبة والأمثلة.",
+    "badge": "المدونة والأدلة",
+    "title": "حكمة مالية",
+    "subtitle": "أدلة خبراء حول القروض والاستثمارات والتخطيط المالي لمساعدتك على اتخاذ قرارات مالية أذكى.",
+    "featured": "مقالات مميزة",
+    "all": "كل المقالات",
+    "readArticle": "اقرأ المقال",
+    "readMore": "اقرأ المزيد",
+    "readyToCalculate": "جاهز للحساب؟",
+    "readyToCalculateDesc": "استخدم آلاتنا الحاسبة المجانية للتخطيط المالي بشكل أفضل",
+    "ctaEmi": "حاسبة EMI",
+    "ctaSip": "حاسبة SIP",
+    "backToBlog": "العودة إلى المدونة",
+    "minRead": "دقيقة قراءة",
+    "shareThisArticle": "شارك هذا المقال:",
+    "relatedArticles": "مقالات ذات صلة",
+    "tryOurCalculators": "جرّب آلاتنا الحاسبة",
+    "tryOurCalculatorsDesc": "طبّق هذه المعرفة باستخدام آلاتنا الحاسبة المالية المجانية"
+  }
+}

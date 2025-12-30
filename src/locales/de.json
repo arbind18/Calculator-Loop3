@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "popular": "Beliebt",
+    "categories": "Kategorien",
+    "allCalculators": "Alle Rechner",
+    "financial": "Finanzen",
+    "health": "Gesundheit & Fitness",
+    "math": "Mathematik",
+    "datetime": "Datum & Uhrzeit",
+    "education": "Bildung",
+    "technology": "Technologie",
+    "science": "Wissenschaft",
+    "construction": "Bau",
+    "business": "Business",
+    "everyday": "Alltag",
+    "favorites": "Favoriten",
+    "history": "Verlauf",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "login": "Anmelden"
+  },
+  "hero": {
+    "title": "Intelligente Tools für deine täglichen Entscheidungen",
+    "subtitle": "Von Tausenden vertraut — für Genauigkeit und Datenschutz. Keine versteckten Gebühren, keine Datensammlung — nur präzise Ergebnisse, wenn du sie brauchst.",
+    "popularTools": "Rechner entdecken"
+  },
+  "popular": {
+    "emiCalculator": "EMI-Rechner",
+    "emiDescription": "Monatliche Rate und Gesamtzinsen berechnen",
+    "bmiCalculator": "BMI-Rechner",
+    "bmiDescription": "BMI und Gesundheitskategorie prüfen",
+    "ageCalculator": "Altersrechner",
+    "ageDescription": "Exaktes Alter in Jahren und Monaten",
+    "percentageCalculator": "Prozentrechner",
+    "percentageDescription": "Prozentuale Zu-/Abnahme schnell berechnen",
+    "gstCalculator": "GST-Rechner",
+    "gstDescription": "Steuerbetrag und Endpreis berechnen"
+  },
+  "recent": {
+    "yourActivity": "Deine Aktivität",
+    "recentCalculations": "Letzte Berechnungen",
+    "recentDescription": "Greife schnell auf deine letzten Berechnungen zu",
+    "viewFullHistory": "Gesamten Verlauf ansehen",
+    "clearHistory": "Verlauf löschen"
+  },
+  "features": {
+    "whyChooseUs": "Warum wir",
+    "whyChooseDescription": "Schnelle, einfache und datenschutzfreundliche Rechner",
+    "lightningFast": "Blitzschnell",
+    "lightningDescription": "Sofortige Ergebnisse mit optimierter Leistung",
+    "secure": "Sicher",
+    "secureDescription": "Deine Daten bleiben so weit wie möglich auf deinem Gerät",
+    "mobileFriendly": "Mobilfreundlich",
+    "mobileDescription": "Läuft auf Smartphone, Tablet und Desktop",
+    "alwaysUpdated": "Immer aktuell",
+    "updatedDescription": "Regelmäßig neue Rechner und Verbesserungen",
+    "freeForever": "Für immer kostenlos",
+    "freeDescription": "Keine versteckten Gebühren oder Abos",
+    "noSignup": "Ohne Registrierung",
+    "noSignupDescription": "Sofort loslegen — ohne Account"
+  },
+  "categories": {
+    "financialDescription": "Kredite, Investitionen, Steuern und Sparen",
+    "healthDescription": "BMI, Körperwerte und Wellness",
+    "mathDescription": "Prozente, Algebra und Alltagsmathe",
+    "datetimeDescription": "Alter, Datumsdifferenzen und Zeit",
+    "educationDescription": "Lernen, Punkte und akademische Tools",
+    "technologyDescription": "Tech- und Computer-Tools",
+    "scienceDescription": "Wissenschaftliche Rechner und Umrechnungen",
+    "constructionDescription": "Bau- und Messwerkzeuge",
+    "businessDescription": "Business- und Rentabilitätsrechner",
+    "everydayDescription": "Alltags-Tools"
+  },
+  "cta": {
+    "findCalculator": "Finde den passenden Rechner",
+    "browseDescription": "Kategorien durchsuchen und in Sekunden ein Tool wählen",
+    "exploreCategories": "Kategorien entdecken"
+  },
+  "footer": {
+    "tagline": "Kostenlose Rechner für Finanzen, Gesundheit, Mathe und mehr.",
+    "calculators": "Rechner",
+    "resources": "Ressourcen",
+    "company": "Unternehmen",
+    "aboutUs": "Über uns",
+    "contact": "Kontakt",
+    "privacyPolicy": "Datenschutz",
+    "termsOfService": "Nutzungsbedingungen",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "common": {
+    "calculate": "Berechnen",
+    "reset": "Zurücksetzen",
+    "result": "Ergebnis",
+    "distribution": "Verteilung",
+    "growth_chart": "Wachstumsdiagramm",
+    "years": "Jahre",
+    "tools": "Tools",
+    "browseCategory": "Kategorie ansehen"
+  },
+  "blog": {
+    "metaDescription": "Experten-Guides zu EMI, Krediten, Investitionen und Planung. Triff bessere Entscheidungen mit Rechnern und Beispielen.",
+    "badge": "Blog & Guides",
+    "title": "Finanzwissen",
+    "subtitle": "Expertenartikel zu Krediten, Investitionen und Finanzplanung — für bessere Geldentscheidungen.",
+    "featured": "Empfohlene Artikel",
+    "all": "Alle Artikel",
+    "readArticle": "Artikel lesen",
+    "readMore": "Mehr lesen",
+    "readyToCalculate": "Bereit zu rechnen?",
+    "readyToCalculateDesc": "Nutze unsere kostenlosen Rechner für eine bessere Finanzplanung",
+    "ctaEmi": "EMI-Rechner",
+    "ctaSip": "SIP-Rechner",
+    "backToBlog": "Zurück zum Blog",
+    "minRead": "Min. Lesezeit",
+    "shareThisArticle": "Diesen Artikel teilen:",
+    "relatedArticles": "Ähnliche Artikel",
+    "tryOurCalculators": "Unsere Rechner ausprobieren",
+    "tryOurCalculatorsDesc": "Setze dieses Wissen mit unseren kostenlosen Finanzrechnern um"
+  }
+}

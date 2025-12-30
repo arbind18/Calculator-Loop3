@@ -1,19 +1,28 @@
 import Link from 'next/link';
+import { headers } from 'next/headers';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { allBlogPosts, formatDate } from '@/lib/blogData';
 import { Calendar, Clock, User, ArrowRight, Star } from 'lucide-react';
+import { getMergedTranslations } from '@/lib/translations';
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Blog - Calculator Loop',
-  description: 'Expert guides on EMI, loans, investments, and planning. Learn how to make smarter decisions with calculators and examples.',
-  alternates: {
-    canonical: '/blog',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const language = (await headers()).get('x-calculator-language') || 'en';
+  const dict = getMergedTranslations(language);
 
-export default function BlogPage() {
+  return {
+    title: `${dict.nav.blog} - Calculator Loop`,
+    description: dict.blog?.metaDescription || 'Expert guides on EMI, loans, investments, and planning.',
+  };
+}
+
+export default async function BlogPage() {
+  const language = (await headers()).get('x-calculator-language') || 'en';
+  const dict = getMergedTranslations(language);
+  const prefix = language === 'en' ? '' : `/${language}`;
+  const withLocale = (path: string) => `${prefix}${path}`;
+
   const featuredPosts = allBlogPosts.filter((post) => post.featured);
   const recentPosts = allBlogPosts.filter((post) => !post.featured);
 
@@ -24,11 +33,11 @@ export default function BlogPage() {
         <div className="space-y-4 text-center">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
             <Star className="h-4 w-4 mr-2" />
-            Blog & Guides
+            {dict.blog?.badge || 'Blog & Guides'}
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold">Financial Wisdom</h1>
+          <h1 className="text-4xl md:text-6xl font-bold">{dict.blog?.title || 'Financial Wisdom'}</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Expert guides on loans, investments, and financial planning to help you make smarter money decisions.
+            {dict.blog?.subtitle || 'Expert guides on loans, investments, and financial planning to help you make smarter money decisions.'}
           </p>
         </div>
 
@@ -37,11 +46,11 @@ export default function BlogPage() {
           <section>
             <div className="flex items-center gap-2 mb-6">
               <Star className="h-5 w-5 text-primary" />
-              <h2 className="text-2xl font-bold">Featured Articles</h2>
+              <h2 className="text-2xl font-bold">{dict.blog?.featured || 'Featured Articles'}</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredPosts.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`}>
+                <Link key={post.slug} href={withLocale(`/blog/${post.slug}`)}>
                   <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
                     <CardHeader>
                       <div className="flex items-start justify-between mb-2">
@@ -81,7 +90,7 @@ export default function BlogPage() {
                         <span className="text-sm font-medium">{post.author.name}</span>
                       </div>
                       <div className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all">
-                        Read Article
+                        {dict.blog?.readArticle || 'Read Article'}
                         <ArrowRight className="h-4 w-4" />
                       </div>
                     </CardContent>
@@ -94,10 +103,10 @@ export default function BlogPage() {
 
         {/* All Posts */}
         <section>
-          <h2 className="text-2xl font-bold mb-6">All Articles</h2>
+          <h2 className="text-2xl font-bold mb-6">{dict.blog?.all || 'All Articles'}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allBlogPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}>
+              <Link key={post.slug} href={withLocale(`/blog/${post.slug}`)}>
                 <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
                   <CardHeader>
                     <Badge variant="secondary" className="w-fit mb-2">
@@ -130,7 +139,7 @@ export default function BlogPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all">
-                      Read More
+                      {dict.blog?.readMore || 'Read More'}
                       <ArrowRight className="h-4 w-4" />
                     </div>
                   </CardContent>
@@ -144,19 +153,19 @@ export default function BlogPage() {
         <section className="mt-16 text-center">
           <Card className="max-w-2xl mx-auto bg-primary/5">
             <CardContent className="p-8">
-              <h3 className="text-2xl font-bold mb-4">Ready to Calculate?</h3>
+              <h3 className="text-2xl font-bold mb-4">{dict.blog?.readyToCalculate || 'Ready to Calculate?'}</h3>
               <p className="text-muted-foreground mb-6">
-                Use our free calculators to plan your finances better
+                {dict.blog?.readyToCalculateDesc || 'Use our free calculators to plan your finances better'}
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
-                <Link href="/calculator/emi-calculator">
+                <Link href={withLocale('/calculator/emi-calculator')}>
                   <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90">
-                    EMI Calculator
+                    {dict.blog?.ctaEmi || 'EMI Calculator'}
                   </button>
                 </Link>
-                <Link href="/calculator/sip-calculator">
+                <Link href={withLocale('/calculator/sip-calculator')}>
                   <button className="px-6 py-3 border border-border rounded-lg font-medium hover:border-primary hover:text-primary">
-                    SIP Calculator
+                    {dict.blog?.ctaSip || 'SIP Calculator'}
                   </button>
                 </Link>
               </div>

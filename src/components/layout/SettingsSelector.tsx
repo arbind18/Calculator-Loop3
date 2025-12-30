@@ -2,6 +2,7 @@
 
 import { Globe, Check, Sun, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { usePathname, useRouter } from "next/navigation"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +18,8 @@ import { useSettings } from "@/components/providers/SettingsProvider"
 import { useTheme } from "next-themes"
 
 export function SettingsSelector() {
+  const router = useRouter()
+  const pathname = usePathname()
   const { 
     currency, 
     setCurrency, 
@@ -30,6 +33,25 @@ export function SettingsSelector() {
 
   const currentTheme = resolvedTheme === 'dark' ? 'dark' : 'light'
   const currentLanguage = availableLanguages.find((l) => l.code === language)
+
+  const supportedLangs = new Set(availableLanguages.map(l => l.code))
+  const stripLocale = (path: string) => {
+    const parts = (path || '/').split('/')
+    const maybeLocale = parts[1]
+    if (maybeLocale && supportedLangs.has(maybeLocale)) {
+      const rest = '/' + parts.slice(2).join('/')
+      return rest === '/' ? '/' : rest.replace(/\/$/, '')
+    }
+    return path || '/'
+  }
+
+  const handleLanguageChange = (code: string) => {
+    setLanguage(code)
+    const basePath = stripLocale(pathname || '/')
+    const nextPath = code === 'en' ? basePath : `/${code}${basePath === '/' ? '' : basePath}`
+    router.push(nextPath)
+    router.refresh()
+  }
 
   return (
     <DropdownMenu>
@@ -77,7 +99,7 @@ export function SettingsSelector() {
                 className="justify-between"
               >
                 <span>
-                  {curr.flag ? `${curr.flag} ` : ''}
+                  {curr.flag ? <span className="emoji">{curr.flag} </span> : null}
                   {curr.name} ({curr.symbol})
                 </span>
                 {currency.code === curr.code && <Check className="h-4 w-4" />}
@@ -95,11 +117,11 @@ export function SettingsSelector() {
             {availableLanguages.map((lang) => (
               <DropdownMenuItem 
                 key={lang.code} 
-                onClick={() => setLanguage(lang.code)}
+                onClick={() => handleLanguageChange(lang.code)}
                 className="justify-between"
               >
                 <span>
-                  {lang.flag ? `${lang.flag} ` : ''}
+                  {lang.flag ? <span className="emoji">{lang.flag} </span> : null}
                   {lang.nativeName}
                 </span>
                 {language === lang.code && <Check className="h-4 w-4" />}

@@ -1,11 +1,14 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Heart, Star, Trash2, TrendingUp, Calculator } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
+import { useSettings } from '@/components/providers/SettingsProvider'
+import { getMergedTranslations } from '@/lib/translations'
+import { localizeToolMeta } from '@/lib/toolLocalization'
 
 interface FavoriteCalculator {
   id: string
@@ -19,6 +22,20 @@ interface FavoriteCalculator {
 
 export function FavoritesManager() {
   const { data: session } = useSession()
+  const { language } = useSettings()
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+
+    const [path, hash] = href.split('#')
+    const localizedPath = path === '/' ? prefix : `${prefix}${path}`
+    return hash ? `${localizedPath}#${hash}` : localizedPath
+  }
+
   const [favorites, setFavorites] = useState<FavoriteCalculator[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -138,7 +155,7 @@ export function FavoritesManager() {
           <p className="text-sm text-muted-foreground mb-4">
             Start adding your frequently used calculators to favorites
           </p>
-          <Link href="/">
+          <Link href={withLocale("/")}>
             <Button>
               Browse Calculators
             </Button>
@@ -151,7 +168,7 @@ export function FavoritesManager() {
               key={favorite.id}
               className="group relative overflow-hidden hover:shadow-lg transition-all hover:scale-[1.02]"
             >
-              <Link href={`/calculator/${favorite.id}`}>
+              <Link href={withLocale(`/calculator/${favorite.id}`)}>
                 <div className="p-6">
                   {/* Category Badge */}
                   <div className="absolute top-3 right-3">
@@ -167,12 +184,22 @@ export function FavoritesManager() {
 
                   {/* Title */}
                   <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                    {favorite.name}
+                    {localizeToolMeta({
+                      dict,
+                      toolId: favorite.id,
+                      fallbackTitle: favorite.name,
+                      fallbackDescription: favorite.description,
+                    }).title}
                   </h3>
 
                   {/* Description */}
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                    {favorite.description}
+                    {localizeToolMeta({
+                      dict,
+                      toolId: favorite.id,
+                      fallbackTitle: favorite.name,
+                      fallbackDescription: favorite.description,
+                    }).description}
                   </p>
 
                   {/* Stats */}

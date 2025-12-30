@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { formatRelativeTime } from '@/lib/utils'
+import { useSettings } from '@/components/providers/SettingsProvider'
 
 type NotificationItem = {
   id: string
@@ -27,6 +28,9 @@ type NotificationItem = {
 }
 
 export function NotificationBell() {
+  const { language } = useSettings()
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
   const router = useRouter()
   const { data: session } = useSession()
 
@@ -152,7 +156,8 @@ export function NotificationBell() {
                     e.preventDefault()
                     if (isUnread) await markRead(n.id)
                     const target = n.url || '/notifications'
-                    router.push(target)
+                    const href = target.startsWith('/') ? withLocale(target) : target
+                    router.push(href)
                   }}
                 >
                   <div className="flex w-full items-start justify-between gap-2">
@@ -169,7 +174,7 @@ export function NotificationBell() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/notifications">View all</Link>
+          <Link href={withLocale('/notifications')}>View all</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem

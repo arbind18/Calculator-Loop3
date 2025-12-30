@@ -1,7 +1,12 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { headers } from 'next/headers'
 
-export default function NotFound() {
+export default async function NotFound() {
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
       <div className="space-y-6">
@@ -21,10 +26,10 @@ export default function NotFound() {
 
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
           <Button asChild size="lg">
-            <Link href="/">Go to Homepage</Link>
+            <Link href={withLocale("/")}>Go to Homepage</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/calculators">Browse Calculators</Link>
+            <Link href={withLocale("/calculators")}>Browse Calculators</Link>
           </Button>
         </div>
       </div>

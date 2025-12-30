@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Calendar, Download, Trash2, Eye, Filter, Search, ArrowRightLeft, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import Link from 'next/link'
+import { useSettings } from '@/components/providers/SettingsProvider'
+import { getMergedTranslations } from '@/lib/translations'
+import { localizeToolMeta } from '@/lib/toolLocalization'
 
 interface CalculationRecord {
   id: string
@@ -29,6 +32,20 @@ interface CalculationRecord {
 
 export function CalculationHistory() {
   const { data: session } = useSession()
+  const { language } = useSettings()
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+
+    const [path, hash] = href.split('#')
+    const localizedPath = path === '/' ? prefix : `${prefix}${path}`
+    return hash ? `${localizedPath}#${hash}` : localizedPath
+  }
+
   const [history, setHistory] = useState<CalculationRecord[]>([])
   const [filteredHistory, setFilteredHistory] = useState<CalculationRecord[]>([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -202,7 +219,12 @@ export function CalculationHistory() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                   {getSelectedCalculations().map(calc => (
                     <Card key={calc.id} className="p-4 border-2 border-purple-100 dark:border-purple-900">
-                      <h3 className="font-bold text-lg mb-2">{calc.calculatorName}</h3>
+                      <h3 className="font-bold text-lg mb-2">{localizeToolMeta({
+                        dict,
+                        toolId: calc.calculatorType === 'home-loan' ? 'home-loan-emi' : calc.calculatorType,
+                        fallbackTitle: calc.calculatorName,
+                        fallbackDescription: '',
+                      }).title}</h3>
                       <Badge variant="secondary" className="mb-4">{calc.category}</Badge>
                       
                       <div className="space-y-4">
@@ -307,7 +329,12 @@ export function CalculationHistory() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="font-semibold text-gray-900 dark:text-white">
-                      {record.calculatorName}
+                      {localizeToolMeta({
+                        dict,
+                        toolId: record.calculatorType === 'home-loan' ? 'home-loan-emi' : record.calculatorType,
+                        fallbackTitle: record.calculatorName,
+                        fallbackDescription: '',
+                      }).title}
                     </h3>
                     <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-full">
                       {record.category}
@@ -334,7 +361,7 @@ export function CalculationHistory() {
                 </div>
                 <div className="flex gap-2">
                   <Link href={{
-                    pathname: `/calculator/${record.calculatorType === 'home-loan' ? 'home-loan-emi' : record.calculatorType}`,
+                    pathname: withLocale(`/calculator/${record.calculatorType === 'home-loan' ? 'home-loan-emi' : record.calculatorType}`),
                     query: record.inputs
                   }}>
                     <Button variant="outline" size="sm">

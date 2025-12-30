@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "popular": "Populer",
+    "categories": "Kategori",
+    "allCalculators": "Semua kalkulator",
+    "financial": "Keuangan",
+    "health": "Kesehatan & kebugaran",
+    "math": "Matematika",
+    "datetime": "Tanggal & waktu",
+    "education": "Pendidikan",
+    "technology": "Teknologi",
+    "science": "Sains",
+    "construction": "Konstruksi",
+    "business": "Bisnis",
+    "everyday": "Sehari-hari",
+    "favorites": "Favorit",
+    "history": "Riwayat",
+    "about": "Tentang",
+    "contact": "Kontak",
+    "blog": "Blog",
+    "login": "Masuk"
+  },
+  "hero": {
+    "title": "Alat cerdas untuk keputusan harian Anda",
+    "subtitle": "Dipercaya ribuan orang untuk akurasi dan privasi. Tanpa biaya tersembunyi, tanpa pengumpulan data—hasil tepat saat Anda membutuhkannya.",
+    "popularTools": "Jelajahi kalkulator"
+  },
+  "popular": {
+    "emiCalculator": "Kalkulator EMI",
+    "emiDescription": "Hitung cicilan bulanan dan total bunga",
+    "bmiCalculator": "Kalkulator BMI",
+    "bmiDescription": "Cek BMI dan kategori kesehatan Anda",
+    "ageCalculator": "Kalkulator usia",
+    "ageDescription": "Hitung usia tepat dalam tahun dan bulan",
+    "percentageCalculator": "Kalkulator persentase",
+    "percentageDescription": "Hitung kenaikan/penurunan dengan cepat",
+    "gstCalculator": "Kalkulator GST",
+    "gstDescription": "Hitung pajak dan harga akhir"
+  },
+  "recent": {
+    "yourActivity": "Aktivitas Anda",
+    "recentCalculations": "Perhitungan terbaru",
+    "recentDescription": "Kunjungi kembali perhitungan terakhir Anda dengan cepat",
+    "viewFullHistory": "Lihat semua riwayat",
+    "clearHistory": "Hapus riwayat"
+  },
+  "features": {
+    "whyChooseUs": "Mengapa memilih kami",
+    "whyChooseDescription": "Kalkulator cepat, sederhana, dan ramah privasi",
+    "lightningFast": "Sangat cepat",
+    "lightningDescription": "Hasil instan dengan performa optimal",
+    "secure": "Aman",
+    "secureDescription": "Data Anda tetap di perangkat Anda sebisa mungkin",
+    "mobileFriendly": "Ramah seluler",
+    "mobileDescription": "Berjalan mulus di ponsel, tablet, dan desktop",
+    "alwaysUpdated": "Selalu diperbarui",
+    "updatedDescription": "Kalkulator baru dan peningkatan secara berkala",
+    "freeForever": "Gratis selamanya",
+    "freeDescription": "Tanpa biaya tersembunyi atau langganan",
+    "noSignup": "Tanpa daftar",
+    "noSignupDescription": "Mulai menghitung tanpa membuat akun"
+  },
+  "categories": {
+    "financialDescription": "Pinjaman, investasi, pajak, dan tabungan",
+    "healthDescription": "BMI, metrik tubuh, dan kesehatan",
+    "mathDescription": "Persentase, aljabar, dan matematika harian",
+    "datetimeDescription": "Usia, selisih tanggal, dan waktu",
+    "educationDescription": "Belajar, penilaian, dan utilitas akademik",
+    "technologyDescription": "Utilitas teknologi dan komputasi",
+    "scienceDescription": "Kalkulator sains dan konversi",
+    "constructionDescription": "Alat konstruksi dan pengukuran",
+    "businessDescription": "Kalkulator bisnis dan profitabilitas",
+    "everydayDescription": "Utilitas harian"
+  },
+  "cta": {
+    "findCalculator": "Temukan kalkulator yang tepat",
+    "browseDescription": "Jelajahi kategori dan pilih alat dalam hitungan detik",
+    "exploreCategories": "Jelajahi kategori"
+  },
+  "footer": {
+    "tagline": "Kalkulator gratis untuk keuangan, kesehatan, matematika, dan lainnya.",
+    "calculators": "Kalkulator",
+    "resources": "Sumber daya",
+    "company": "Perusahaan",
+    "aboutUs": "Tentang kami",
+    "contact": "Kontak",
+    "privacyPolicy": "Kebijakan privasi",
+    "termsOfService": "Ketentuan layanan",
+    "rights": "Hak cipta dilindungi."
+  },
+  "common": {
+    "calculate": "Hitung",
+    "reset": "Atur ulang",
+    "result": "Hasil",
+    "distribution": "Distribusi",
+    "growth_chart": "Grafik pertumbuhan",
+    "years": "tahun",
+    "tools": "Alat",
+    "browseCategory": "Lihat kategori"
+  },
+  "blog": {
+    "metaDescription": "Panduan ahli tentang EMI, pinjaman, investasi, dan perencanaan. Ambil keputusan lebih cerdas dengan kalkulator dan contoh.",
+    "badge": "Blog & panduan",
+    "title": "Wawasan keuangan",
+    "subtitle": "Panduan ahli tentang pinjaman, investasi, dan perencanaan keuangan untuk membantu Anda mengambil keputusan lebih cerdas.",
+    "featured": "Artikel unggulan",
+    "all": "Semua artikel",
+    "readArticle": "Baca artikel",
+    "readMore": "Baca selengkapnya",
+    "readyToCalculate": "Siap menghitung?",
+    "readyToCalculateDesc": "Gunakan kalkulator gratis kami untuk merencanakan keuangan lebih baik",
+    "ctaEmi": "Kalkulator EMI",
+    "ctaSip": "Kalkulator SIP",
+    "backToBlog": "Kembali ke blog",
+    "minRead": "menit baca",
+    "shareThisArticle": "Bagikan artikel ini:",
+    "relatedArticles": "Artikel terkait",
+    "tryOurCalculators": "Coba kalkulator kami",
+    "tryOurCalculatorsDesc": "Terapkan pengetahuan ini dengan kalkulator keuangan gratis kami"
+  }
+}

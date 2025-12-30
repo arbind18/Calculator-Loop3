@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, useState, useEffect, useRef } from "react"
+import { ReactNode, useState, useEffect, useMemo, useRef } from "react"
 import { 
   Activity, LucideIcon, Download, Printer, Share2, RotateCcw, 
   FileText, FileSpreadsheet, FileJson, FileCode, FileImage, 
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useSettings } from "@/components/providers/SettingsProvider"
 import { getMergedTranslations } from "@/lib/translations"
+import { localizeToolMeta } from "@/lib/toolLocalization"
 import { generateReport } from "@/lib/downloadUtils"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -89,7 +90,18 @@ export function ComprehensiveHealthTemplate({
   toolId = "health-calculator"
 }: ComprehensiveHealthTemplateProps) {
   const { language } = useSettings()
-  const t = getMergedTranslations(language)
+  const t = useMemo(() => getMergedTranslations(language), [language])
+
+  const { title: displayTitle, description: displayDescription } = useMemo(
+    () =>
+      localizeToolMeta({
+        dict: t,
+        toolId,
+        fallbackTitle: title,
+        fallbackDescription: description,
+      }),
+    [t, toolId, title, description]
+  )
   
   const [isAutoCalculate, setIsAutoCalculate] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
@@ -343,7 +355,7 @@ export function ComprehensiveHealthTemplate({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": title,
+    "name": displayTitle,
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Any",
     "offers": {
@@ -351,7 +363,7 @@ export function ComprehensiveHealthTemplate({
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": description,
+    "description": displayDescription ?? description,
     "featureList": "Health metrics calculation, Multiple export formats, Health recommendations, Risk assessment",
     "browserRequirements": "Requires JavaScript"
   }
@@ -370,10 +382,10 @@ export function ComprehensiveHealthTemplate({
             <span className="text-sm font-medium text-primary">{categoryName} Calculator</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            {title}
+            {displayTitle}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto px-4">
-            {description}
+            {displayDescription ?? description}
           </p>
         </div>
 

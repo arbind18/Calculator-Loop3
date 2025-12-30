@@ -4,6 +4,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { Sparkles, TrendingUp, Calculator } from 'lucide-react'
 import Link from 'next/link'
 import { implementedCalculatorList } from '@/lib/implementedCalculators'
+import { useSettings } from '@/components/providers/SettingsProvider'
+import { getMergedTranslations } from '@/lib/translations'
+import { localizeToolMeta } from '@/lib/toolLocalization'
 
 const EMPTY_HISTORY: string[] = []
 
@@ -28,6 +31,20 @@ export function AIRecommendations({
 }: AIRecommendationsProps) {
   const [recommendations, setRecommendations] = useState<CalculatorRecommendation[]>([])
   const [loading, setLoading] = useState(true)
+
+  const { language } = useSettings()
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (href.startsWith('#')) return `${prefix}/${href}`
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    if (href === '/') return prefix
+    return `${prefix}${href}`
+  }
 
   const history = userHistory ?? EMPTY_HISTORY
   const historyKey = useMemo(() => history.join('|'), [history])
@@ -136,9 +153,19 @@ export function AIRecommendations({
 
       <div className="grid gap-3">
         {recommendations.map((rec) => (
+          (() => {
+            const title = localizeToolMeta({
+              dict,
+              toolId: rec.id,
+              fallbackTitle: rec.name,
+              fallbackDescription: '',
+            }).title
+            const href = withLocale(`/calculator/${rec.id}`)
+
+            return (
           <Link
             key={rec.id}
-            href={`/calculator/${rec.id}`}
+            href={href}
             className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:border-purple-500 dark:hover:border-purple-500 transition-all hover:shadow-lg"
           >
             <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -150,7 +177,7 @@ export function AIRecommendations({
               
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                  {rec.name}
+                  {title}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1 mt-1">
                   <TrendingUp className="h-3 w-3" />
@@ -165,6 +192,8 @@ export function AIRecommendations({
               )}
             </div>
           </Link>
+            )
+          })()
         ))}
       </div>
     </div>

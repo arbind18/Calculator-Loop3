@@ -49,7 +49,16 @@ export function middleware(request: NextRequest) {
       const rewrittenPath = stripLocaleFromPath(pathname, pathLocale);
       const rewriteUrl = request.nextUrl.clone();
       rewriteUrl.pathname = rewrittenPath;
-      const response = NextResponse.rewrite(rewriteUrl);
+      // Pass locale to the downstream render so server components can read it on the same request.
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set('x-calculator-language', pathLocale);
+      // Preserve the original pathname (including locale prefix) for canonical/hreflang.
+      requestHeaders.set('x-original-pathname', pathname);
+      const response = NextResponse.rewrite(rewriteUrl, {
+        request: {
+          headers: requestHeaders,
+        },
+      });
       response.cookies.set('calculator-language', pathLocale, { path: '/', sameSite: 'lax' });
 
       // Security Headers
@@ -114,7 +123,15 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  const response = NextResponse.next();
+  // For non-locale paths, still pass the original pathname to downstream rendering.
+  // (Useful for canonical/hreflang; does not change routing.)
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-original-pathname', pathname);
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 
   // Security Headers
   

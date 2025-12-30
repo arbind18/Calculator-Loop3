@@ -4,9 +4,6 @@ import { PopularSection } from '@/components/sections/PopularSection'
 export const metadata: Metadata = {
   title: 'Popular Calculators - Calculator Loop',
   description: 'Browse the most popular calculators: EMI, SIP, tax, health, and more. Fast, accurate, and free.',
-  alternates: {
-    canonical: '/popular',
-  },
 }
 
 export default function PopularPage() {

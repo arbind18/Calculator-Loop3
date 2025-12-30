@@ -3,6 +3,16 @@
 import { useEffect } from 'react'
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+
+const SUPPORTED_LOCALES = new Set(['en', 'hi', 'bn', 'gu', 'mr', 'ta', 'te'])
+
+function getPrefixFromPathname(): string {
+  if (typeof window === 'undefined') return ''
+  const maybe = window.location.pathname.split('/')[1] || ''
+  if (maybe && SUPPORTED_LOCALES.has(maybe) && maybe !== 'en') return `/${maybe}`
+  return ''
+}
 
 export default function GlobalError({
   error,
@@ -11,6 +21,9 @@ export default function GlobalError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const prefix = getPrefixFromPathname()
+  const withLocale = (path: string) => `${prefix}${path}`
+
   useEffect(() => {
     console.error('Global Application Error:', error)
   }, [error])
@@ -51,7 +64,7 @@ export default function GlobalError({
                 Try Again
               </Button>
 
-              <a href="/" className="w-full">
+              <Link href={withLocale("/")} className="w-full">
                 <Button
                   variant="outline"
                   className="w-full"
@@ -59,7 +72,7 @@ export default function GlobalError({
                   <Home className="mr-2 h-4 w-4" />
                   Go to Homepage
                 </Button>
-              </a>
+              </Link>
             </div>
 
             <p className="text-xs text-muted-foreground">

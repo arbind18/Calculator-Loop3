@@ -1,8 +1,13 @@
 import Link from 'next/link'
 import { FolderX, Home, Grid3x3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { headers } from 'next/headers'
 
-export default function CategoryNotFound() {
+export default async function CategoryNotFound() {
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-md w-full text-center space-y-6">
@@ -19,13 +24,13 @@ export default function CategoryNotFound() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <Link href="/#categories" className="w-full">
+          <Link href={withLocale('/#categories')} className="w-full">
             <Button className="w-full">
               <Grid3x3 className="mr-2 h-4 w-4" />
               Browse All Categories
             </Button>
           </Link>
-          <Link href="/" className="w-full">
+          <Link href={withLocale('/')} className="w-full">
             <Button variant="outline" className="w-full">
               <Home className="mr-2 h-4 w-4" />
               Go to Homepage

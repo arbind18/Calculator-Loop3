@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { headers } from 'next/headers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +20,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { ShareButtons } from '@/components/sections/ShareButtons';
+import { getMergedTranslations } from '@/lib/translations';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -34,6 +36,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const prefix = language === 'en' ? '' : `/${language}`
   const post = allBlogPosts.find((p) => p.slug === slug);
   if (post) {
     return {
@@ -41,14 +45,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description: post.description,
       keywords: post.tags,
       authors: [{ name: post.author.name }],
-      alternates: {
-        canonical: `/blog/${post.slug}`,
-      },
       openGraph: {
         title: post.title,
         description: post.description,
         type: 'article',
-        url: `https://calculatorloop.com/blog/${post.slug}`,
+        url: `https://calculatorloop.com${prefix}/blog/${post.slug}`,
         publishedTime: post.publishedAt,
         authors: [post.author.name],
         tags: post.tags,
@@ -73,14 +74,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     return {
       title: `${title} - Calculator Loop Blog`,
       description,
-      alternates: {
-        canonical: `/blog/${md.slug}`,
-      },
       openGraph: {
         title,
         description,
         type: 'article',
-        url: `https://calculatorloop.com/blog/${md.slug}`,
+        url: `https://calculatorloop.com${prefix}/blog/${md.slug}`,
         publishedTime: publishedAt,
         modifiedTime: updatedAt,
         images: md.frontmatter.image ? [{ url: md.frontmatter.image }] : undefined,
@@ -98,6 +96,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const dict = getMergedTranslations(language)
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   const { slug } = await params;
   const post = allBlogPosts.find((p) => p.slug === slug);
   const md = post ? null : getMarkdownBlogPostBySlug(slug);
@@ -126,16 +129,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       };
 
   const relatedPosts = post ? getRelatedPosts(post.slug, post.category) : [];
-  const shareUrl = `https://calculatorloop.com/blog/${normalizedPost.slug}`;
+  const shareUrl = `https://calculatorloop.com${withLocale(`/blog/${normalizedPost.slug}`)}`;
+
+  const rawHtml = normalizedPost.content.replace(/\n/g, '<br />')
+  const localizedHtml = prefix
+    ? rawHtml.replace(/(href|src)="\/(?!\/)/g, `$1="${prefix}/`)
+    : rawHtml
 
   return (
     <main className="min-h-screen bg-background">
       <article className="container mx-auto px-4 py-16 max-w-4xl">
         {/* Back Button */}
-        <Link href="/blog">
+        <Link href={withLocale('/blog')}>
           <Button variant="ghost" className="mb-8 gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Blog
+            {dict.blog?.backToBlog || 'Back to Blog'}
           </Button>
         </Link>
 
@@ -170,7 +178,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              {normalizedPost.readingTime} min read
+              {normalizedPost.readingTime} {dict.blog?.minRead || 'min read'}
             </div>
           </div>
 
@@ -200,7 +208,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded
             prose-ul:text-muted-foreground prose-ol:text-muted-foreground
             prose-li:my-1"
-          dangerouslySetInnerHTML={{ __html: normalizedPost.content.replace(/\n/g, '<br />') }}
+          dangerouslySetInnerHTML={{ __html: localizedHtml }}
         />
 
         <Separator className="my-12" />
@@ -209,7 +217,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-muted/50 rounded-lg">
           <div className="flex items-center gap-2">
             <Share2 className="h-5 w-5 text-primary" />
-            <span className="font-medium">Share this article:</span>
+            <span className="font-medium">{dict.blog?.shareThisArticle || 'Share this article:'}</span>
           </div>
           <ShareButtons
             url={shareUrl}
@@ -238,10 +246,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <>
             <Separator className="my-12" />
             <section>
-              <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+              <h2 className="text-2xl font-bold mb-6">{dict.blog?.relatedArticles || 'Related Articles'}</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {relatedPosts.map((relatedPost) => (
-                  <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`}>
+                  <Link key={relatedPost.slug} href={withLocale(`/blog/${relatedPost.slug}`)}>
                     <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
                       <CardContent className="p-6">
                         <Badge variant="secondary" className="mb-3">
@@ -275,17 +283,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* CTA */}
         <Card className="mt-12 bg-primary/5">
           <CardContent className="p-8 text-center">
-            <h3 className="text-2xl font-bold mb-4">Try Our Calculators</h3>
+            <h3 className="text-2xl font-bold mb-4">{dict.blog?.tryOurCalculators || 'Try Our Calculators'}</h3>
             <p className="text-muted-foreground mb-6">
-              Put this knowledge to use with our free financial calculators
+              {dict.blog?.tryOurCalculatorsDesc || 'Put this knowledge to use with our free financial calculators'}
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/calculator/emi-calculator">
-                <Button size="lg">EMI Calculator</Button>
+              <Link href={withLocale('/calculator/emi-calculator')}>
+                <Button size="lg">{dict.blog?.ctaEmi || 'EMI Calculator'}</Button>
               </Link>
-              <Link href="/calculator/sip-calculator">
+              <Link href={withLocale('/calculator/sip-calculator')}>
                 <Button size="lg" variant="outline">
-                  SIP Calculator
+                  {dict.blog?.ctaSip || 'SIP Calculator'}
                 </Button>
               </Link>
             </div>

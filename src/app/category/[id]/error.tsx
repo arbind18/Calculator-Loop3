@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { AlertCircle, Home, Grid3x3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useSettings } from '@/components/providers/SettingsProvider'
 
 export default function CategoryError({
   error,
@@ -12,6 +13,10 @@ export default function CategoryError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const { language } = useSettings()
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   useEffect(() => {
     console.error('Category Error:', error)
   }, [error])
@@ -34,7 +39,7 @@ export default function CategoryError({
           <Button onClick={reset} className="w-full">
             Try Again
           </Button>
-          <Link href="/" className="w-full">
+          <Link href={withLocale('/')} className="w-full">
             <Button variant="outline" className="w-full">
               <Home className="mr-2 h-4 w-4" />
               Go Home

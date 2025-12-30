@@ -1,10 +1,13 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
 import { calculatorComponents } from '@/lib/calculatorRegistry'
 import { toolsData } from '@/lib/toolsData'
 import { BackButton } from '@/components/ui/back-button'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { RelatedCalculators } from '@/components/calculators/RelatedCalculators'
+import { getMergedTranslations } from '@/lib/translations'
+import { localizeToolMeta } from '@/lib/toolLocalization'
 
 function findCategoryForCalculator(id: string): { categoryId: string; subcategoryKey: string; categoryName: string; tool: any } | null {
   for (const [categoryId, category] of Object.entries(toolsData)) {
@@ -21,6 +24,8 @@ function findCategoryForCalculator(id: string): { categoryId: string; subcategor
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const info = findCategoryForCalculator(id)
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const dict = getMergedTranslations(language)
   
   if (!info) {
     return {
@@ -29,24 +34,31 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     }
   }
 
+  const meta = localizeToolMeta({
+    dict,
+    toolId: id,
+    fallbackTitle: info.tool.title,
+    fallbackDescription: info.tool.description,
+  })
+
+  const prefix = language !== 'en' ? `/${language}` : ''
+  const pathname = `${prefix}/calculator/${id}`
+
   return {
-    title: `${info.tool.title} - Free Online Calculator | Calculator Loop`,
-    description: `${info.tool.description} Accurate, fast, and free online ${info.tool.title} with instant results.`,
-    keywords: [info.tool.title, `${info.tool.title} online`, 'financial calculator', 'free calculator', info.categoryName],
-    alternates: {
-      canonical: `/calculator/${id}`
-    },
+    title: `${meta.title} - Free Online Calculator | Calculator Loop`,
+    description: `${meta.description} Accurate, fast, and free online ${meta.title} with instant results.`,
+    keywords: [meta.title, `${meta.title} online`, 'financial calculator', 'free calculator', info.categoryName],
     openGraph: {
-      title: `${info.tool.title} - Free Online Calculator`,
-      description: info.tool.description,
+      title: `${meta.title} - Free Online Calculator`,
+      description: meta.description,
       type: 'website',
-      url: `https://calculatorloop.com/calculator/${id}`,
+      url: `https://calculatorloop.com${pathname}`,
       siteName: 'Calculator Loop',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${info.tool.title} - Free Online Calculator`,
-      description: info.tool.description,
+      title: `${meta.title} - Free Online Calculator`,
+      description: meta.description,
     }
   }
 }
@@ -56,6 +68,18 @@ export default async function CalculatorPage({ params }: { params: Promise<{ id:
   
   const CalculatorComponent = calculatorComponents[id]
   const categoryInfo = findCategoryForCalculator(id)
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const dict = getMergedTranslations(language)
+  const prefix = language !== 'en' ? `/${language}` : ''
+
+  const meta = categoryInfo
+    ? localizeToolMeta({
+        dict,
+        toolId: id,
+        fallbackTitle: categoryInfo.tool.title,
+        fallbackDescription: categoryInfo.tool.description,
+      })
+    : null
 
   if (!CalculatorComponent || !categoryInfo) {
     notFound()
@@ -64,9 +88,10 @@ export default async function CalculatorPage({ params }: { params: Promise<{ id:
   return (
     <div className="min-h-screen bg-background pb-16">
       <StructuredData 
-        tool={categoryInfo.tool} 
+        title={meta?.title ?? categoryInfo.tool.title}
+        description={meta?.description ?? categoryInfo.tool.description}
         categoryName={categoryInfo.categoryName} 
-        url={`/calculator/${id}`} 
+        url={`${prefix}/calculator/${id}`} 
       />
       
       <div className="container mx-auto px-4 pt-6">
@@ -76,8 +101,8 @@ export default async function CalculatorPage({ params }: { params: Promise<{ id:
         
         <CalculatorComponent 
           id={id} 
-          title={categoryInfo.tool.title}
-          description={categoryInfo.tool.description}
+          title={meta?.title ?? categoryInfo.tool.title}
+          description={meta?.description ?? categoryInfo.tool.description}
         />
         
         <RelatedCalculators 

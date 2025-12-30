@@ -1,17 +1,16 @@
-import { Tool } from '@/lib/toolsData'
-
 interface StructuredDataProps {
-  tool: Tool
+  title: string
+  description: string
   categoryName: string
   url: string
 }
 
-export function StructuredData({ tool, categoryName, url }: StructuredDataProps) {
+export function StructuredData({ title, description, categoryName, url }: StructuredDataProps) {
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": tool.title,
-    "description": tool.description,
+    "name": title,
+    "description": description,
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Any",
     "offers": {
@@ -46,7 +45,7 @@ export function StructuredData({ tool, categoryName, url }: StructuredDataProps)
       {
         "@type": "ListItem",
         "position": 3,
-        "name": tool.title,
+        "name": title,
         "item": `https://calculatorloop.com${url}`
       }
     ]

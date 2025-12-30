@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Bookmark, Download, Trash2, Eye, Tag, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -8,6 +8,9 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
+import { useSettings } from '@/components/providers/SettingsProvider'
+import { getMergedTranslations } from '@/lib/translations'
+import { localizeToolMeta } from '@/lib/toolLocalization'
 
 interface SavedCalculation {
   id: string
@@ -22,6 +25,20 @@ interface SavedCalculation {
 
 export function SavedCalculations() {
   const { data: session } = useSession()
+  const { language } = useSettings()
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+
+    const [path, hash] = href.split('#')
+    const localizedPath = path === '/' ? prefix : `${prefix}${path}`
+    return hash ? `${localizedPath}#${hash}` : localizedPath
+  }
+
   const [savedCalcs, setSavedCalcs] = useState<SavedCalculation[]>([])
   const [filteredCalcs, setFilteredCalcs] = useState<SavedCalculation[]>([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -160,7 +177,7 @@ export function SavedCalculations() {
   }
 
   const shareCalculation = async (calc: SavedCalculation) => {
-    const shareUrl = `${window.location.origin}/calculator/${calc.calculatorType}`
+    const shareUrl = `${window.location.origin}${withLocale(`/calculator/${calc.calculatorType}`)}`
     try {
       await navigator.clipboard.writeText(shareUrl)
       toast.success('Link copied to clipboard')
@@ -221,7 +238,12 @@ export function SavedCalculations() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-1">
-                      {calc.calculatorName}
+                      {localizeToolMeta({
+                        dict,
+                        toolId: calc.calculatorType,
+                        fallbackTitle: calc.calculatorName,
+                        fallbackDescription: '',
+                      }).title}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       Saved on {new Date(calc.savedAt).toLocaleString('en-IN', {
@@ -245,7 +267,7 @@ export function SavedCalculations() {
                     >
                       <Download className="h-4 w-4" />
                     </Button>
-                    <Link href={`/calculator/${calc.calculatorType}`}>
+                    <Link href={withLocale(`/calculator/${calc.calculatorType}`)}>
                       <Button variant="outline" size="sm">
                         <Eye className="h-4 w-4" />
                       </Button>

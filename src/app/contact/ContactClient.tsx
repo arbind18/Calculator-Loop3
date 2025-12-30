@@ -8,8 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Mail, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import { useSettings } from '@/components/providers/SettingsProvider';
 
 export default function ContactClient() {
+  const { language } = useSettings();
+  const prefix = language === 'en' ? '' : `/${language}`;
+  const withLocale = (path: string) => `${prefix}${path}`;
+
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,7 +70,7 @@ export default function ContactClient() {
                 <Button onClick={() => setSubmitted(false)} variant="outline">
                   Send Another Message
                 </Button>
-                <Link href="/">
+                <Link href={withLocale('/')}> 
                   <Button>Back to Home</Button>
                 </Link>
               </div>

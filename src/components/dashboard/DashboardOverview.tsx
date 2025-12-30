@@ -1,11 +1,14 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Calculator, Heart, Clock, TrendingUp, Star, Bookmark, Activity, Trophy, Medal, Award, Zap } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
+import { useSettings } from '@/components/providers/SettingsProvider'
+import { getMergedTranslations } from '@/lib/translations'
+import { localizeToolMeta } from '@/lib/toolLocalization'
 
 interface DashboardStats {
   totalCalculations: number
@@ -25,6 +28,20 @@ interface RecentCalculation {
 
 export function DashboardOverview() {
   const { data: session } = useSession()
+  const { language } = useSettings()
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+
+    const [path, hash] = href.split('#')
+    const localizedPath = path === '/' ? prefix : `${prefix}${path}`
+    return hash ? `${localizedPath}#${hash}` : localizedPath
+  }
+
   const [stats, setStats] = useState<DashboardStats>({
     totalCalculations: 0,
     favoriteCalculators: 0,
@@ -238,7 +255,7 @@ export function DashboardOverview() {
             <CardDescription>Shortcuts to your most used features</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-2">
-            <Link href="/calculator/home-loan-emi">
+            <Link href={withLocale("/calculator/home-loan-emi")}>
               <div className="flex items-center p-3 rounded-lg border hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
                 <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3">
                   <Calculator className="h-4 w-4 text-blue-600 dark:text-blue-400" />
@@ -249,7 +266,7 @@ export function DashboardOverview() {
                 </div>
               </div>
             </Link>
-            <Link href="/profile#history">
+            <Link href={withLocale("/profile#history")}>
               <div className="flex items-center p-3 rounded-lg border hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
                 <div className="h-8 w-8 rounded-full bg-orange-100 dark:bg-orange-900 flex items-center justify-center mr-3">
                   <Clock className="h-4 w-4 text-orange-600 dark:text-orange-400" />
@@ -288,7 +305,7 @@ export function DashboardOverview() {
                 <Link
                   key={calc.id}
                   href={{
-                    pathname: `/calculator/${calc.calculatorType === 'home-loan' ? 'home-loan-emi' : calc.calculatorType}`,
+                    pathname: withLocale(`/calculator/${calc.calculatorType === 'home-loan' ? 'home-loan-emi' : calc.calculatorType}`),
                     query: calc.inputs
                   }}
                   className="flex items-center justify-between p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-md transition-all group"
@@ -299,7 +316,12 @@ export function DashboardOverview() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900 dark:text-white">
-                        {calc.calculatorName}
+                        {localizeToolMeta({
+                          dict,
+                          toolId: calc.calculatorType === 'home-loan' ? 'home-loan-emi' : calc.calculatorType,
+                          fallbackTitle: calc.calculatorName,
+                          fallbackDescription: '',
+                        }).title}
                       </h4>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         {new Date(calc.timestamp).toLocaleString('en-IN')}
@@ -316,7 +338,7 @@ export function DashboardOverview() {
 
       {/* Quick Actions */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Link href="/profile#history">
+        <Link href={withLocale("/profile#history")}>
           <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer">
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
@@ -332,7 +354,7 @@ export function DashboardOverview() {
           </Card>
         </Link>
 
-        <Link href="/profile#favorites">
+        <Link href={withLocale("/profile#favorites")}>
           <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer">
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
@@ -348,7 +370,7 @@ export function DashboardOverview() {
           </Card>
         </Link>
 
-        <Link href="/profile#saved">
+        <Link href={withLocale("/profile#saved")}>
           <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer">
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">

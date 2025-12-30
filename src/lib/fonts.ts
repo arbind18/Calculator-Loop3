@@ -1,6 +1,5 @@
 // Font optimization utilities for Next.js
-import localFont from 'next/font/local'
-import { Inter, Poppins, Roboto } from 'next/font/google'
+import { Inter, Poppins, Roboto, Manrope } from 'next/font/google'
 
 // Optimize Google Fonts
 export const inter = Inter({
@@ -30,28 +29,17 @@ export const roboto = Roboto({
   fallback: ['system-ui', 'arial'],
 })
 
-// Local font example (if you have custom fonts)
-export const customFont = localFont({
-  src: [
-    {
-      path: '../../public/fonts/custom-regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/custom-bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-custom',
+export const manrope = Manrope({
+  weight: ['400', '500', '600', '700', '800'],
+  subsets: ['latin'],
   display: 'swap',
-  fallback: ['system-ui'],
+  variable: '--font-manrope',
   preload: true,
+  fallback: ['system-ui', 'arial'],
 })
 
 // Font class names for easy usage
-export const fontClassNames = `${inter.variable} ${poppins.variable}`
+export const fontClassNames = `${inter.variable} ${poppins.variable} ${manrope.variable}`
 
 // Preload critical fonts
 export function preloadFonts() {

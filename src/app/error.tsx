@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { useSettings } from '@/components/providers/SettingsProvider'
 
 export default function Error({
   error,
@@ -11,6 +12,10 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const { language } = useSettings()
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   useEffect(() => {
     console.error('Error:', error)
   }, [error])
@@ -37,7 +42,7 @@ export default function Error({
             Try Again
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/">Go Home</Link>
+            <Link href={withLocale("/")}>Go Home</Link>
           </Button>
         </div>
 

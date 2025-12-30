@@ -3,9 +3,6 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy - Calculator Loop',
   description: 'Privacy Policy for Calculator Loop. Learn what data we collect and how we use it.',
-  alternates: {
-    canonical: '/privacy',
-  },
 }
 
 export default function PrivacyPage() {

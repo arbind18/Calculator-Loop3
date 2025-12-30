@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "ہوم",
+    "popular": "مقبول",
+    "categories": "زمرہ جات",
+    "allCalculators": "تمام کیلکولیٹر",
+    "financial": "مالی",
+    "health": "صحت اور فٹنس",
+    "math": "ریاضی",
+    "datetime": "تاریخ اور وقت",
+    "education": "تعلیم",
+    "technology": "ٹیکنالوجی",
+    "science": "سائنس",
+    "construction": "تعمیرات",
+    "business": "کاروبار",
+    "everyday": "روزمرہ",
+    "favorites": "پسندیدہ",
+    "history": "ہسٹری",
+    "about": "ہمارے بارے میں",
+    "contact": "رابطہ",
+    "blog": "بلاگ",
+    "login": "لاگ اِن"
+  },
+  "hero": {
+    "title": "روزمرہ فیصلوں کے لیے اسمارٹ ٹولز",
+    "subtitle": "ہزاروں صارفین کی اعتماد شدہ سروس — درستگی اور پرائیویسی کے ساتھ۔ نہ کوئی چھپی فیس، نہ ڈیٹا کلیکشن—بس درست نتائج جب آپ کو ضرورت ہو۔",
+    "popularTools": "کیلکولیٹرز دیکھیں"
+  },
+  "popular": {
+    "emiCalculator": "EMI کیلکولیٹر",
+    "emiDescription": "ماہانہ قسط اور کل سود معلوم کریں",
+    "bmiCalculator": "BMI کیلکولیٹر",
+    "bmiDescription": "باڈی ماس انڈیکس اور صحت کی کیٹیگری چیک کریں",
+    "ageCalculator": "عمر کیلکولیٹر",
+    "ageDescription": "سالوں اور مہینوں میں درست عمر معلوم کریں",
+    "percentageCalculator": "فیصد کیلکولیٹر",
+    "percentageDescription": "فیصد اضافہ/کمی تیزی سے نکالیں",
+    "gstCalculator": "GST کیلکولیٹر",
+    "gstDescription": "ٹیکس اور فائنل قیمت معلوم کریں"
+  },
+  "recent": {
+    "yourActivity": "آپ کی سرگرمی",
+    "recentCalculations": "حالیہ حساب",
+    "recentDescription": "اپنے تازہ ترین حسابات دوبارہ دیکھیں",
+    "viewFullHistory": "پوری ہسٹری دیکھیں",
+    "clearHistory": "ہسٹری صاف کریں"
+  },
+  "features": {
+    "whyChooseUs": "ہمیں کیوں منتخب کریں",
+    "whyChooseDescription": "تیز، آسان اور پرائیویسی فرینڈلی کیلکولیٹرز",
+    "lightningFast": "بہت تیز",
+    "lightningDescription": "آپٹمائزڈ پرفارمنس کے ساتھ فوری نتائج",
+    "secure": "محفوظ",
+    "secureDescription": "آپ کا ڈیٹا جتنا ممکن ہو آپ کے ڈیوائس پر رہتا ہے",
+    "mobileFriendly": "موبائل فرینڈلی",
+    "mobileDescription": "فون، ٹیبلٹ اور ڈیسک ٹاپ پر بہتر چلتا ہے",
+    "alwaysUpdated": "ہمیشہ اپڈیٹ",
+    "updatedDescription": "نئے کیلکولیٹرز اور بہتریاں باقاعدگی سے",
+    "freeForever": "ہمیشہ مفت",
+    "freeDescription": "نہ کوئی چھپی فیس نہ سبسکرپشن",
+    "noSignup": "سائن اپ کی ضرورت نہیں",
+    "noSignupDescription": "اکاؤنٹ بنائے بغیر حساب شروع کریں"
+  },
+  "categories": {
+    "financialDescription": "قرضے، سرمایہ کاری، ٹیکس اور بچت",
+    "healthDescription": "BMI، جسمانی میٹرکس اور ویلنیس ٹولز",
+    "mathDescription": "فیصد، الجبرا اور روزمرہ ریاضی",
+    "datetimeDescription": "عمر، تاریخ کا فرق اور وقت",
+    "educationDescription": "مطالعہ، اسکورنگ اور تعلیمی یوٹیلیٹیز",
+    "technologyDescription": "ٹیک اور کمپیوٹنگ یوٹیلیٹیز",
+    "scienceDescription": "سائنسی کیلکولیٹرز اور کنورژن",
+    "constructionDescription": "تعمیراتی اور پیمائش کے ٹولز",
+    "businessDescription": "کاروباری اور منافع کیلکولیٹرز",
+    "everydayDescription": "روزمرہ یوٹیلیٹیز"
+  },
+  "cta": {
+    "findCalculator": "صحیح کیلکولیٹر تلاش کریں",
+    "browseDescription": "زمرہ جات دیکھیں اور سیکنڈز میں ٹول چنیں",
+    "exploreCategories": "زمرہ جات دیکھیں"
+  },
+  "footer": {
+    "tagline": "مالیات، صحت، ریاضی اور مزید کے لیے مفت کیلکولیٹرز۔",
+    "calculators": "کیلکولیٹرز",
+    "resources": "وسائل",
+    "company": "کمپنی",
+    "aboutUs": "ہمارے بارے میں",
+    "contact": "رابطہ",
+    "privacyPolicy": "پرائیویسی پالیسی",
+    "termsOfService": "سروس کی شرائط",
+    "rights": "تمام حقوق محفوظ ہیں۔"
+  },
+  "common": {
+    "calculate": "حساب کریں",
+    "reset": "ری سیٹ",
+    "result": "نتیجہ",
+    "distribution": "تقسیم",
+    "growth_chart": "گروتھ چارٹ",
+    "years": "سال",
+    "tools": "ٹولز",
+    "browseCategory": "زمرہ دیکھیں"
+  },
+  "blog": {
+    "metaDescription": "EMI، قرضوں، سرمایہ کاری اور پلاننگ پر ماہر گائیڈز۔ کیلکولیٹرز اور مثالوں کے ساتھ بہتر فیصلے کریں۔",
+    "badge": "بلاگ اور گائیڈز",
+    "title": "مالی رہنمائی",
+    "subtitle": "قرضوں، سرمایہ کاری اور مالی منصوبہ بندی پر ماہر مضامین—تاکہ آپ بہتر مالی فیصلے کر سکیں۔",
+    "featured": "نمایاں مضامین",
+    "all": "تمام مضامین",
+    "readArticle": "مضمون پڑھیں",
+    "readMore": "مزید پڑھیں",
+    "readyToCalculate": "حساب کے لیے تیار؟",
+    "readyToCalculateDesc": "اپنی مالی پلاننگ بہتر بنانے کے لیے ہمارے مفت کیلکولیٹر استعمال کریں",
+    "ctaEmi": "EMI کیلکولیٹر",
+    "ctaSip": "SIP کیلکولیٹر",
+    "backToBlog": "بلاگ پر واپس",
+    "minRead": "منٹ پڑھنے کا وقت",
+    "shareThisArticle": "اس مضمون کو شیئر کریں:",
+    "relatedArticles": "متعلقہ مضامین",
+    "tryOurCalculators": "ہمارے کیلکولیٹر آزمائیں",
+    "tryOurCalculatorsDesc": "اس علم کو ہمارے مفت مالی کیلکولیٹرز کے ساتھ استعمال کریں"
+  }
+}

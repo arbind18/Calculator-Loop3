@@ -117,6 +117,12 @@
   }
 }
 
+/* Force emoji presentation for flag glyphs (prevents "IN"/"US" letter rendering in some setups) */
+.emoji {
+  font-variant-emoji: emoji;
+  text-rendering: auto;
+}
+
 /* Custom scrollbar - optimized */
 ::-webkit-scrollbar {
   width: 8px;
@@ -140,10 +146,22 @@
 
 /* Smooth scrolling - removed duplicate */
 
-/* Focus visible styles - optimized */
-*:focus-visible {
-  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
-  transition: box-shadow 0.2s;
+/* Focus visible styles - optimized
+   On touch devices, some browsers may apply :focus-visible after taps/navigation,
+   which can look like an unwanted blue box. Keep the ring for desktop pointers.
+*/
+@media (hover: hover) and (pointer: fine) {
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+    transition: box-shadow 0.2s;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  *:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 /* Animations */

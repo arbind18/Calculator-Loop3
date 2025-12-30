@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "popular": "Popular",
+    "categories": "Categorías",
+    "allCalculators": "Todas las calculadoras",
+    "financial": "Finanzas",
+    "health": "Salud y fitness",
+    "math": "Matemáticas",
+    "datetime": "Fecha y hora",
+    "education": "Educación",
+    "technology": "Tecnología",
+    "science": "Ciencia",
+    "construction": "Construcción",
+    "business": "Negocios",
+    "everyday": "Uso diario",
+    "favorites": "Favoritos",
+    "history": "Historial",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "blog": "Blog",
+    "login": "Iniciar sesión"
+  },
+  "hero": {
+    "title": "Herramientas inteligentes para tus decisiones diarias",
+    "subtitle": "Confiado por miles por su precisión y privacidad. Sin cargos ocultos ni recolección de datos: solo resultados exactos cuando los necesitas.",
+    "popularTools": "Explorar calculadoras"
+  },
+  "popular": {
+    "emiCalculator": "Calculadora de EMI",
+    "emiDescription": "Calcula la cuota mensual y el interés total",
+    "bmiCalculator": "Calculadora de IMC",
+    "bmiDescription": "Revisa tu índice de masa corporal y categoría",
+    "ageCalculator": "Calculadora de edad",
+    "ageDescription": "Calcula tu edad exacta en años y meses",
+    "percentageCalculator": "Calculadora de porcentaje",
+    "percentageDescription": "Calcula aumentos/disminuciones rápidamente",
+    "gstCalculator": "Calculadora de GST",
+    "gstDescription": "Calcula el impuesto y el precio final"
+  },
+  "recent": {
+    "yourActivity": "Tu actividad",
+    "recentCalculations": "Cálculos recientes",
+    "recentDescription": "Vuelve a tus últimos cálculos rápidamente",
+    "viewFullHistory": "Ver historial completo",
+    "clearHistory": "Borrar historial"
+  },
+  "features": {
+    "whyChooseUs": "Por qué elegirnos",
+    "whyChooseDescription": "Calculadoras rápidas, simples y respetuosas con la privacidad",
+    "lightningFast": "Súper rápido",
+    "lightningDescription": "Resultados instantáneos con rendimiento optimizado",
+    "secure": "Seguro",
+    "secureDescription": "Tus datos se quedan en tu dispositivo tanto como sea posible",
+    "mobileFriendly": "Amigable para móviles",
+    "mobileDescription": "Funciona bien en teléfonos, tablets y escritorio",
+    "alwaysUpdated": "Siempre actualizado",
+    "updatedDescription": "Nuevas calculadoras y mejoras con frecuencia",
+    "freeForever": "Gratis para siempre",
+    "freeDescription": "Sin cargos ocultos ni suscripciones",
+    "noSignup": "Sin registro",
+    "noSignupDescription": "Empieza a calcular sin crear una cuenta"
+  },
+  "categories": {
+    "financialDescription": "Préstamos, inversiones, impuestos y ahorro",
+    "healthDescription": "IMC, métricas corporales y bienestar",
+    "mathDescription": "Porcentajes, álgebra y matemáticas diarias",
+    "datetimeDescription": "Edad, diferencias de fechas y tiempo",
+    "educationDescription": "Estudio, puntuación y utilidades académicas",
+    "technologyDescription": "Herramientas tecnológicas y de computación",
+    "scienceDescription": "Calculadoras científicas y conversiones",
+    "constructionDescription": "Herramientas de construcción y medición",
+    "businessDescription": "Calculadoras de negocio y rentabilidad",
+    "everydayDescription": "Utilidades diarias"
+  },
+  "cta": {
+    "findCalculator": "Encuentra la calculadora adecuada",
+    "browseDescription": "Explora categorías y elige una herramienta en segundos",
+    "exploreCategories": "Explorar categorías"
+  },
+  "footer": {
+    "tagline": "Calculadoras gratuitas para finanzas, salud, matemáticas y más.",
+    "calculators": "Calculadoras",
+    "resources": "Recursos",
+    "company": "Empresa",
+    "aboutUs": "Acerca de",
+    "contact": "Contacto",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos del servicio",
+    "rights": "Todos los derechos reservados."
+  },
+  "common": {
+    "calculate": "Calcular",
+    "reset": "Restablecer",
+    "result": "Resultado",
+    "distribution": "Distribución",
+    "growth_chart": "Gráfico de crecimiento",
+    "years": "años",
+    "tools": "Herramientas",
+    "browseCategory": "Ver categoría"
+  },
+  "blog": {
+    "metaDescription": "Guías expertas sobre EMI, préstamos, inversiones y planificación. Aprende a tomar mejores decisiones con calculadoras y ejemplos.",
+    "badge": "Blog y guías",
+    "title": "Sabiduría financiera",
+    "subtitle": "Guías expertas sobre préstamos, inversiones y planificación financiera para ayudarte a tomar decisiones más inteligentes.",
+    "featured": "Artículos destacados",
+    "all": "Todos los artículos",
+    "readArticle": "Leer artículo",
+    "readMore": "Leer más",
+    "readyToCalculate": "¿Listo para calcular?",
+    "readyToCalculateDesc": "Usa nuestras calculadoras gratis para planificar mejor tus finanzas",
+    "ctaEmi": "Calculadora de EMI",
+    "ctaSip": "Calculadora SIP",
+    "backToBlog": "Volver al blog",
+    "minRead": "min de lectura",
+    "shareThisArticle": "Comparte este artículo:",
+    "relatedArticles": "Artículos relacionados",
+    "tryOurCalculators": "Prueba nuestras calculadoras",
+    "tryOurCalculatorsDesc": "Pon en práctica este conocimiento con nuestras calculadoras financieras gratuitas"
+  }
+}

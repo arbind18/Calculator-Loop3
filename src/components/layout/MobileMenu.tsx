@@ -1,12 +1,15 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { toolsData } from "@/lib/toolsData"
 import { calculatorComponents } from "@/lib/calculatorRegistry"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
+import { localizeToolMeta } from "@/lib/toolLocalization"
 import { 
   X, 
   Search,
@@ -14,7 +17,8 @@ import {
   ChevronUp,
   ChevronRight,
   ChevronLeft,
-  HandCoins, TrendingUp, FileText, ArrowLeftRight, Landmark, PieChart, Calculator, Ruler, Utensils, Activity, Shapes, BarChart, Clock, GraduationCap, ClipboardCheck, Wifi, Shield, HardDrive, Atom, FlaskConical, Rocket, Microscope, User, Home, Car, Briefcase, Coins, Bike, FastForward, CheckCircle, Percent, Calendar, Scale, ArrowUp, RotateCw, Umbrella, PiggyBank, TrendingDown, Banknote, Wallet, Gift, Receipt, CalendarCheck, Globe, Bitcoin, Ship, Send, Flame, Droplets, HeartPulse, Moon, Apple, Dumbbell, Brain, Sigma, Hourglass, ShoppingCart, Tag, CreditCard, LogOut, LogIn
+  HandCoins, TrendingUp, FileText, ArrowLeftRight, Landmark, PieChart, Calculator, Ruler, Utensils, Activity, Shapes, BarChart, Clock, GraduationCap, ClipboardCheck, Wifi, Shield, HardDrive, Atom, FlaskConical, Rocket, Microscope, User, Home, Car, Briefcase, Coins, Bike, FastForward, CheckCircle, Percent, Calendar, Scale, ArrowUp, RotateCw, Umbrella, PiggyBank, TrendingDown, Banknote, Wallet, Gift, Receipt, CalendarCheck, Globe, Bitcoin, Ship, Send, Flame, Droplets, HeartPulse, Moon, Apple, Dumbbell, Brain, Sigma, Hourglass, ShoppingCart, Tag, CreditCard, LogOut, LogIn,
+  PenSquare, Info, Phone, Heart, History
 } from "lucide-react"
 
 // Icon mapping for subcategories
@@ -161,7 +165,21 @@ export function MobileMenu({
 }: MobileMenuProps) {
   const { data: session } = useSession()
   const router = useRouter()
+  const { language } = useSettings()
   const lastCategoryRef = useRef<string | null>(null)
+
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (href.startsWith('#')) return `${prefix}/${href}`
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    if (href === '/') return prefix
+    return `${prefix}${href}`
+  }
 
   useEffect(() => {
     if (!activeCategory) return
@@ -238,7 +256,7 @@ export function MobileMenu({
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Link href="/profile" onClick={onClose}>
+                  <Link href={withLocale("/profile")} onClick={onClose}>
                     <Button variant="outline" className="w-full justify-start gap-2" size="sm">
                       <User className="h-4 w-4" />
                       Profile
@@ -260,7 +278,7 @@ export function MobileMenu({
                 <div className="text-sm text-muted-foreground text-center">
                   Sign in to save your calculations and access premium features.
                 </div>
-                <Link href="/login" onClick={onClose}>
+                <Link href={withLocale("/login")} onClick={onClose}>
                   <Button className="w-full bg-gradient-to-r from-[#00D4FF] to-[#8B5CF6] text-white border-none hover:opacity-90 gap-2">
                     <LogIn className="h-4 w-4" />
                     Login / Register
@@ -291,6 +309,38 @@ export function MobileMenu({
                       </button>
                     )
                   })}
+                </div>
+
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-6">Quick Links</h3>
+                <div className="grid gap-2">
+                  <Link href={withLocale("/")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <Home className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.home}</span>
+                  </Link>
+                  <Link href={withLocale("/popular")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.popular}</span>
+                  </Link>
+                  <Link href={withLocale("/favorites")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <Heart className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.favorites}</span>
+                  </Link>
+                  <Link href={withLocale("/history")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <History className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.history}</span>
+                  </Link>
+                  <Link href={withLocale("/blog")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <PenSquare className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.blog}</span>
+                  </Link>
+                  <Link href={withLocale("/about")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <Info className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.about}</span>
+                  </Link>
+                  <Link href={withLocale("/contact")} onClick={onClose} className="flex items-center gap-3 p-3 rounded-xl bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">{dict.nav.contact}</span>
+                  </Link>
                 </div>
               </>
             ) : (
@@ -338,21 +388,29 @@ export function MobileMenu({
                           <div className="p-2 space-y-2 bg-background/50 border-t border-border/40">
                             {subcategory.calculators.map((tool) => {
                               const ToolIcon = calculatorIconMap[tool.id] || Calculator
+                              const meta = localizeToolMeta({
+                                dict,
+                                toolId: tool.id,
+                                fallbackTitle: tool.title,
+                                fallbackDescription: tool.description,
+                              })
+                              const href = withLocale(`/calculator/${tool.id}`)
+
                               return (
                               <Link
                                 key={tool.id}
-                                href={`/calculator/${tool.id}`}
+                                href={href}
                                 onClick={onClose}
-                                onMouseEnter={() => router.prefetch(`/calculator/${tool.id}`)}
-                                onFocus={() => router.prefetch(`/calculator/${tool.id}`)}
+                                onMouseEnter={() => router.prefetch(href)}
+                                onFocus={() => router.prefetch(href)}
                                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/60 transition-colors group"
                               >
                                 <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-[#00D4FF] transition-colors">
                                   <ToolIcon className="h-4 w-4" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-medium truncate group-hover:text-[#00D4FF] transition-colors">{tool.title}</div>
-                                  <div className="text-xs text-muted-foreground truncate">{tool.description}</div>
+                                  <div className="text-sm font-medium truncate group-hover:text-[#00D4FF] transition-colors">{meta.title}</div>
+                                  <div className="text-xs text-muted-foreground truncate">{meta.description}</div>
                                 </div>
                                 <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
                               </Link>

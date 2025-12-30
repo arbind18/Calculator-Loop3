@@ -10,6 +10,73 @@ import { tryBuildMathSolveResponse } from '@/lib/logic-ai/mathSolver';
 import { tryBuildNumberTutorResponse } from '@/lib/logic-ai/numberTutorResponder';
 import { tryBuildTrigProofResponse } from '@/lib/logic-ai/trigProofResponder';
 
+const SUPPORTED_LOCALES = new Set([
+  'en',
+  'hi',
+  'ta',
+  'te',
+  'bn',
+  'mr',
+  'gu',
+  // International (kept in sync with middleware)
+  'es',
+  'pt',
+  'fr',
+  'de',
+  'id',
+  'ar',
+  'ur',
+  'ja',
+]);
+
+const getCookie = (cookieHeader: string | null, name: string): string | null => {
+  if (!cookieHeader) return null;
+  const parts = cookieHeader.split(';');
+  for (const part of parts) {
+    const [k, ...rest] = part.trim().split('=');
+    if (k === name) return decodeURIComponent(rest.join('='));
+  }
+  return null;
+};
+
+const hasSupportedLocalePrefix = (path: string) => {
+  const m = path.match(/^\/([a-z]{2})(?:\/|$)/i);
+  if (!m?.[1]) return false;
+  return SUPPORTED_LOCALES.has(m[1].toLowerCase());
+};
+
+const prefixInternalMarkdownLinks = (markdown: string, prefix: string) => {
+  if (!prefix) return markdown;
+
+  return markdown.replace(/\]\((\/[^)\s]+)\)/g, (full, rawPath: string) => {
+    const path = String(rawPath);
+
+    if (!path.startsWith('/')) return full;
+    if (hasSupportedLocalePrefix(path)) return full;
+
+    const isInternalAppPath =
+      path === '/' ||
+      path.startsWith('/calculator/') ||
+      path.startsWith('/category/') ||
+      path.startsWith('/blog/') ||
+      path.startsWith('/login') ||
+      path.startsWith('/register') ||
+      path.startsWith('/profile') ||
+      path.startsWith('/notifications') ||
+      path.startsWith('/about') ||
+      path.startsWith('/contact') ||
+      path.startsWith('/pricing') ||
+      path.startsWith('/popular') ||
+      path.startsWith('/history') ||
+      path.startsWith('/favorites') ||
+      path.startsWith('/privacy') ||
+      path.startsWith('/terms');
+
+    if (!isInternalAppPath) return full;
+    return `](${prefix}${path})`;
+  });
+};
+
 const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
   const q = message.toLowerCase();
   const isHi = lang === 'hi';
@@ -93,6 +160,19 @@ export async function POST(req: Request) {
     const templates = getResponseTemplate(lang);
     let responseContent = '';
 
+    const reqLocaleHeader = req.headers.get('x-calculator-language')?.toLowerCase() ?? null;
+    const cookieLocale = getCookie(req.headers.get('cookie'), 'calculator-language')?.toLowerCase() ?? null;
+    const inferredLocale = reqLocaleHeader || cookieLocale || 'en';
+    const uiLocale = SUPPORTED_LOCALES.has(inferredLocale) ? inferredLocale : 'en';
+    const localePrefix = uiLocale === 'en' ? '' : `/${uiLocale}`;
+
+    const jsonAssistant = (content: string) => {
+      return NextResponse.json({
+        role: 'assistant',
+        content: prefixInternalMarkdownLinks(content, localePrefix),
+      });
+    };
+
     // 0. Check Custom Knowledge Base (Manual Training)
     const lowerMsg = message.toLowerCase();
     const knowledgeMatch = customKnowledge.find(k => 
@@ -122,8 +202,8 @@ export async function POST(req: Request) {
       // Add a short next-step suggestion (category-neutral, language-aware)
       responseContent += `\n${templates.nextStep}\n\n`;
       responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
-      
-      return NextResponse.json({ role: 'assistant', content: responseContent });
+
+      return jsonAssistant(responseContent);
     }
 
     // 0.15 Geometry area (offline)
@@ -132,7 +212,7 @@ export async function POST(req: Request) {
       let fullResponse = areaResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
       fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
-      return NextResponse.json({ role: 'assistant', content: fullResponse });
+      return jsonAssistant(fullResponse);
     }
 
     // 0.2 Numbers tutor (types + big-int calculations)
@@ -141,7 +221,7 @@ export async function POST(req: Request) {
       let fullResponse = numberTutorResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
       fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
-      return NextResponse.json({ role: 'assistant', content: fullResponse });
+      return jsonAssistant(fullResponse);
     }
 
     // 0.3 Trig proof (common Class 12 identities)
@@ -150,7 +230,7 @@ export async function POST(req: Request) {
       let fullResponse = trigProofResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
       fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
-      return NextResponse.json({ role: 'assistant', content: fullResponse });
+      return jsonAssistant(fullResponse);
     }
 
     // 0.35 Algebra identities (common exam patterns)
@@ -159,7 +239,7 @@ export async function POST(req: Request) {
       let fullResponse = algebraIdentityResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
       fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
-      return NextResponse.json({ role: 'assistant', content: fullResponse });
+      return jsonAssistant(fullResponse);
     }
 
     // 0.5 Formula Knowledge (Formula + basic calculation)
@@ -169,7 +249,7 @@ export async function POST(req: Request) {
       let fullResponse = mathSolveResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
       fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
-      return NextResponse.json({ role: 'assistant', content: fullResponse });
+      return jsonAssistant(fullResponse);
     }
 
     // 0.5 Formula Knowledge (Formula + basic calculation)
@@ -178,7 +258,7 @@ export async function POST(req: Request) {
       let fullResponse = formulaResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
       fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
-      return NextResponse.json({ role: 'assistant', content: fullResponse });
+      return jsonAssistant(fullResponse);
     }
 
     // 1. Search for relevant tools (Calculators)
@@ -228,10 +308,7 @@ export async function POST(req: Request) {
       responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
     }
 
-    return NextResponse.json({ 
-      role: 'assistant', 
-      content: responseContent
-    });
+    return jsonAssistant(responseContent);
 
   } catch (error) {
     console.error('Error in chat API:', error);

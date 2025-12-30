@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation"
 import { toolsData } from "@/lib/toolsData"
 import { cn } from "@/lib/utils"
 import { VoiceInput } from "./voice-input"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
+import { localizeToolMeta } from "@/lib/toolLocalization"
 
 interface SearchResult {
   id: string
@@ -20,6 +23,20 @@ export function SmartSearch() {
   const [isOpen, setIsOpen] = React.useState(false)
   const router = useRouter()
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const { language } = useSettings()
+
+  const dict = React.useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (href.startsWith('#')) return `${prefix}/${href}`
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    if (href === '/') return prefix
+    return `${prefix}${href}`
+  }
 
   // Flatten tools data for searching
   const allTools = React.useMemo(() => {
@@ -27,18 +44,24 @@ export function SmartSearch() {
     Object.entries(toolsData).forEach(([catKey, catData]) => {
       Object.entries(catData.subcategories).forEach(([subKey, subData]) => {
         subData.calculators.forEach((tool) => {
+          const meta = localizeToolMeta({
+            dict,
+            toolId: tool.id,
+            fallbackTitle: tool.title,
+            fallbackDescription: tool.description,
+          })
           tools.push({
             id: tool.id,
-            title: tool.title,
+            title: meta.title,
             category: catKey.charAt(0).toUpperCase() + catKey.slice(1),
             subcategory: subData.name,
-            description: tool.description
+            description: meta.description || ""
           })
         })
       })
     })
     return tools
-  }, [])
+  }, [dict])
 
   const filteredTools = React.useMemo(() => {
     if (!query) return []
@@ -61,7 +84,7 @@ export function SmartSearch() {
   }, [])
 
   const handleSelect = (toolId: string) => {
-    router.push(`/calculator/${toolId}`)
+    router.push(withLocale(`/calculator/${toolId}`))
     setIsOpen(false)
     setQuery("")
   }
@@ -78,13 +101,25 @@ export function SmartSearch() {
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [])
 
-  const trendingSearches = [
-    { id: "home-loan-emi", label: "Home Loan EMI" },
-    { id: "bmi-calculator", label: "BMI" },
-    { id: "age-calculator", label: "Age" },
-    { id: "sip-calculator", label: "SIP" },
-    { id: "percentage-calculator", label: "Percentage" },
-  ]
+  const trendingSearches = React.useMemo(() => {
+    const ids = [
+      { id: "home-loan-emi", fallback: "Home Loan EMI" },
+      { id: "bmi-calculator", fallback: "BMI" },
+      { id: "age-calculator", fallback: "Age" },
+      { id: "sip-calculator", fallback: "SIP" },
+      { id: "percentage-calculator", fallback: "Percentage" },
+    ]
+
+    return ids.map((item) => ({
+      id: item.id,
+      label: localizeToolMeta({
+        dict,
+        toolId: item.id,
+        fallbackTitle: item.fallback,
+        fallbackDescription: "",
+      }).title,
+    }))
+  }, [dict])
 
   return (
     <div ref={containerRef} className="relative w-full max-w-2xl mx-auto z-30">

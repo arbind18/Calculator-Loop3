@@ -12,6 +12,9 @@ export function CategorySection() {
   const { language } = useSettings()
   const t = getMergedTranslations(language)
 
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   const categoryMeta: Record<string, { name: string; description: string; icon: any; color: string }> = {
     financial: {
       name: t.nav.financial,
@@ -95,13 +98,13 @@ export function CategorySection() {
         <div className="flex flex-col items-center text-center space-y-4 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800">
             <Calculator className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">Browse Categories</span>
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">{t.cta.exploreCategories}</span>
           </div>
           <h2 id="categories-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Explore by Category
+            {t.cta.exploreCategories}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
-            Find the perfect tool for your specific needs
+            {t.cta.browseDescription}
           </p>
         </div>
 
@@ -112,7 +115,7 @@ export function CategorySection() {
             return (
               <Link
                 key={category.id}
-                href={`/category/${category.id}`}
+                href={withLocale(`/category/${category.id}`)}
                 className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/5 hover:-translate-y-1 block h-full"
               >
                 <div className="flex flex-col h-full">
@@ -121,7 +124,7 @@ export function CategorySection() {
                       <Icon className="h-6 w-6 text-white" />
                     </div>
                     <span className="px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-medium text-gray-600 dark:text-gray-400">
-                      {category.count} Tools
+                      {category.count} {t.common.tools}
                     </span>
                   </div>
 
@@ -135,7 +138,7 @@ export function CategorySection() {
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Browse Category <ArrowRight className="ml-1 h-4 w-4" />
+                    {t.common.browseCategory} <ArrowRight className="ml-1 h-4 w-4" />
                   </div>
                 </div>
               </Link>

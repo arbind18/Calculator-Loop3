@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { formatRelativeTime } from '@/lib/utils'
+import { useSettings } from '@/components/providers/SettingsProvider'
 
 type NotificationItem = {
   id: string
@@ -20,6 +21,9 @@ type NotificationItem = {
 export function NotificationsClient() {
   const router = useRouter()
   const { data: session, status } = useSession()
+  const { language } = useSettings()
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
   const [items, setItems] = useState<NotificationItem[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -74,7 +78,7 @@ export function NotificationsClient() {
         <h1 className="text-2xl font-semibold">Notifications</h1>
         <p className="mt-2 text-muted-foreground">Please login to view your notifications.</p>
         <div className="mt-6">
-          <Link href="/login">
+          <Link href={withLocale('/login')}>
             <Button>Login</Button>
           </Link>
         </div>
@@ -125,7 +129,9 @@ export function NotificationsClient() {
                   }).catch(() => null)
                   setItems((prev) => prev.map((x) => (x.id === n.id ? { ...x, readAt: new Date().toISOString() } : x)))
                   setUnreadCount((c) => (isUnread ? Math.max(0, c - 1) : c))
-                  router.push(n.url || '/')
+                  const target = n.url || '/'
+                  const href = target.startsWith('/') ? withLocale(target) : target
+                  router.push(href)
                 }}
               >
                 <div className="flex items-start justify-between gap-3">

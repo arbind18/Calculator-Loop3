@@ -6,10 +6,26 @@ import { Calculator, TrendingUp, Clock, Heart, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSettings } from "@/components/providers/SettingsProvider"
 import { getMergedTranslations } from "@/lib/translations"
+import { localizeToolMeta } from "@/lib/toolLocalization"
 
 export function PopularSection() {
   const { language } = useSettings()
   const t = getMergedTranslations(language)
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    return href === '/' ? prefix : `${prefix}${href}`
+  }
+
+  const sipMeta = localizeToolMeta({
+    dict: t,
+    toolId: "sip-calculator",
+    fallbackTitle: "SIP Calculator",
+    fallbackDescription: "Calculate returns on your monthly investments",
+  })
 
   const popularCalculators = [
     {
@@ -64,10 +80,10 @@ export function PopularSection() {
     },
     {
       id: "sip-calculator",
-      name: "SIP Calculator",
-      description: "Calculate returns on your monthly investments",
+      name: sipMeta.title,
+      description: sipMeta.description,
       icon: TrendingUp,
-      category: "Financial",
+      category: t.nav.financial,
       uses: "54K",
       color: "from-violet-500 to-purple-500",
       url: "/calculator/sip-calculator"
@@ -104,7 +120,7 @@ export function PopularSection() {
             return (
               <Link
                 key={calc.id}
-                href={calc.url}
+                href={withLocale(calc.url)}
                 className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-purple-500/50 dark:hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1 flex flex-col h-full"
               >
                 {/* Ranking Badge */}
@@ -140,7 +156,7 @@ export function PopularSection() {
         
         <div className="mt-12 text-center">
           <Button variant="outline" size="lg" className="rounded-full px-8 border-2 hover:bg-gray-50 dark:hover:bg-gray-800" asChild>
-            <Link href="/category/financial">
+            <Link href={withLocale("/category/financial")}>
               View All Calculators
             </Link>
           </Button>

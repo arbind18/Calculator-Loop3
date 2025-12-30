@@ -1,12 +1,15 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { Search, X, ArrowRight, Calculator, TrendingUp } from "lucide-react"
 import { toolsData } from "@/lib/toolsData"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { VoiceInput } from "@/components/ui/voice-input"
+import { useSettings } from "@/components/providers/SettingsProvider"
+import { getMergedTranslations } from "@/lib/translations"
+import { localizeToolMeta } from "@/lib/toolLocalization"
 
 interface SearchModalProps {
   isOpen: boolean
@@ -28,18 +31,46 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
-  // Flatten tools data for searching
-  const allTools = Object.entries(toolsData).flatMap(([categoryKey, categoryData]) => 
-    Object.values(categoryData.subcategories).flatMap(subcategory => 
-      subcategory.calculators.map(tool => ({
-        id: tool.id,
-        title: tool.title,
-        description: tool.description,
-        category: categoryKey,
-        url: tool.url || `/calculator/${tool.id}`
-      }))
+  const { language } = useSettings()
+  const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const prefix = language && language !== 'en' ? `/${language}` : ''
+
+  const withLocale = (href: string) => {
+    if (!href) return href
+    if (href.startsWith('http://') || href.startsWith('https://')) return href
+    if (href.startsWith('#')) return `${prefix}/${href}`
+    if (!href.startsWith('/')) return href
+    if (!prefix) return href
+    if (href === '/') return prefix
+    return `${prefix}${href}`
+  }
+
+  // Flatten tools data for searching (localized)
+  const allTools = useMemo(() => {
+    return Object.entries(toolsData).flatMap(([categoryKey, categoryData]) =>
+      Object.values(categoryData.subcategories).flatMap((subcategory) =>
+        subcategory.calculators.map((tool) => {
+          const meta = localizeToolMeta({
+            dict,
+            toolId: tool.id,
+            fallbackTitle: tool.title,
+            fallbackDescription: tool.description,
+          })
+
+          const rawUrl = tool.url || `/calculator/${tool.id}`
+
+          return {
+            id: tool.id,
+            title: meta.title,
+            description: meta.description || "",
+            category: categoryKey,
+            url: withLocale(rawUrl),
+          }
+        })
+      )
     )
-  )
+  }, [dict, language])
 
   useEffect(() => {
     if (isOpen) {
@@ -68,7 +99,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     setResults(filtered)
     setSelectedIndex(0)
-  }, [query])
+  }, [query, allTools])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -181,16 +212,32 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 Popular Searches
               </h3>
               <div className="flex flex-wrap gap-2">
-                {["SIP Calculator", "BMI Calculator", "GST Calculator", "Age Calculator"].map((term) => (
-                  <button
-                    key={term}
-                    onClick={() => setQuery(term)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 transition-colors"
-                  >
-                    <TrendingUp className="h-3 w-3" />
-                    {term}
-                  </button>
-                ))}
+                {(
+                  [
+                    { id: "sip-calculator", fallback: "SIP Calculator" },
+                    { id: "bmi-calculator", fallback: "BMI Calculator" },
+                    { id: "gst-calculator", fallback: "GST Calculator" },
+                    { id: "age-calculator", fallback: "Age Calculator" },
+                  ]
+                ).map((item) => {
+                  const label = localizeToolMeta({
+                    dict,
+                    toolId: item.id,
+                    fallbackTitle: item.fallback,
+                    fallbackDescription: "",
+                  }).title
+
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setQuery(label)}
+                      className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 transition-colors"
+                    >
+                      <TrendingUp className="h-3 w-3" />
+                      {label}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}

@@ -15,10 +15,14 @@ import { ProfileSettings } from "@/components/dashboard/ProfileSettings"
 import { User, History, Star, Bookmark, Settings } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip } from "@/components/ui/tooltip"
+import { useSettings } from "@/components/providers/SettingsProvider"
 
 export default function ProfileClient() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { language } = useSettings()
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
   const [activeTab, setActiveTab] = useState("overview")
   const [profileUser, setProfileUser] = useState<{
     name?: string | null
@@ -34,9 +38,9 @@ export default function ProfileClient() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login")
+      router.push(withLocale("/login"))
     }
-  }, [status, router])
+  }, [status, router, prefix])
 
   useEffect(() => {
     const fetchProfile = async () => {

@@ -1,15 +1,17 @@
 import Link from "next/link"
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'About - Calculator Loop',
   description: 'Learn about Calculator Loop and our mission to make fast, accurate, free calculators for finance, health, math, and time.',
-  alternates: {
-    canonical: '/about',
-  },
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const language = (await headers()).get('x-calculator-language') || 'en'
+  const prefix = language === 'en' ? '' : `/${language}`
+  const withLocale = (path: string) => `${prefix}${path}`
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background via-secondary/10 to-background">
       <div className="container mx-auto px-4 py-16 space-y-10">
@@ -39,8 +41,8 @@ export default function AboutPage() {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Link href="/" className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90">Back to Home</Link>
-          <Link href="/category/financial" className="px-4 py-2 rounded-lg border border-border font-medium hover:border-primary hover:text-primary">Browse Calculators</Link>
+          <Link href={withLocale('/')} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90">Back to Home</Link>
+          <Link href={withLocale('/category/financial')} className="px-4 py-2 rounded-lg border border-border font-medium hover:border-primary hover:text-primary">Browse Calculators</Link>
         </div>
       </div>
     </main>

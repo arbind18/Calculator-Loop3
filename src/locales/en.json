@@ -89,13 +89,35 @@
         "termsOfService": "Terms of Service",
         "rights": "All rights reserved."
     },
+    "blog": {
+        "metaDescription": "Expert guides on EMI, loans, investments, and planning. Learn how to make smarter decisions with calculators and examples.",
+        "badge": "Blog & Guides",
+        "title": "Financial Wisdom",
+        "subtitle": "Expert guides on loans, investments, and financial planning to help you make smarter money decisions.",
+        "featured": "Featured Articles",
+        "all": "All Articles",
+        "readArticle": "Read Article",
+        "readMore": "Read More",
+        "readyToCalculate": "Ready to Calculate?",
+        "readyToCalculateDesc": "Use our free calculators to plan your finances better",
+        "ctaEmi": "EMI Calculator",
+        "ctaSip": "SIP Calculator",
+        "backToBlog": "Back to Blog",
+        "minRead": "min read",
+        "shareThisArticle": "Share this article:",
+        "relatedArticles": "Related Articles",
+        "tryOurCalculators": "Try Our Calculators",
+        "tryOurCalculatorsDesc": "Put this knowledge to use with our free financial calculators"
+    },
     "common":  {
                    "calculate":  "Calculate",
                    "reset":  "Reset",
                    "result":  "Result",
                    "distribution":  "Distribution",
                    "growth_chart":  "Growth Chart",
-                   "years": "years"
+                   "years": "years",
+                   "tools": "Tools",
+                   "browseCategory": "Browse Category"
                },
     "bmi":  {
                 "title":  "BMI Calculator",

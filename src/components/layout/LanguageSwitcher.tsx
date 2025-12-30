@@ -19,19 +19,19 @@ interface Language {
 }
 
 const languages: Language[] = [
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇮🇳🇺🇸🇬🇧🇨🇦' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
   { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳' },
   { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', flag: '🇮🇳' },
   { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', flag: '🇮🇳' },
   { code: 'bn', name: 'Bengali', nativeName: 'বাংলা', flag: '🇧🇩' },
   { code: 'mr', name: 'Marathi', nativeName: 'मराठी', flag: '🇮🇳' },
   { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી', flag: '🇮🇳' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸🇲🇽' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
   { code: 'pt', name: 'Portuguese', nativeName: 'Português', flag: '🇧🇷' },
-  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷🇨🇦' },
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
   { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
   { code: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia', flag: '🇮🇩' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇦🇪🇸🇦' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
   { code: 'ur', name: 'Urdu', nativeName: 'اردو', flag: '🇵🇰' },
   { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵' },
 ];
@@ -74,7 +74,7 @@ export default function LanguageSwitcher() {
         >
           <Languages className="h-4 w-4" />
           <span className="hidden sm:inline-flex items-center gap-1">
-            <span>{currentLanguage.flag}</span>
+            <span className="emoji">{currentLanguage.flag}</span>
             <span className="font-medium">{currentLanguage.code.toUpperCase()}</span>
           </span>
         </Button>
@@ -87,7 +87,7 @@ export default function LanguageSwitcher() {
             className="flex items-center justify-between cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <span className="text-lg">{lang.flag}</span>
+              <span className="emoji text-lg">{lang.flag}</span>
               <div className="flex flex-col">
                 <span className="font-medium">{lang.nativeName}</span>
                 <span className="text-xs text-muted-foreground">{lang.name}</span>
