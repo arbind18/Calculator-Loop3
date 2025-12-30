@@ -10,9 +10,42 @@ export function CurrencyConverter() {
   const [to, setTo] = useState('USD')
   const [result, setResult] = useState<any>(null)
 
+  const internationalCountries = [
+    { country: 'India', flag: '🇮🇳', language: 'Hindi / English', currency: 'Indian Rupee (₹)', code: 'INR' },
+    { country: 'USA', flag: '🇺🇸', language: 'English', currency: 'US Dollar ($)', code: 'USD' },
+    { country: 'UK', flag: '🇬🇧', language: 'English', currency: 'Pound (£)', code: 'GBP' },
+    { country: 'Brazil', flag: '🇧🇷', language: 'Portuguese', currency: 'Real (R$)', code: 'BRL' },
+    { country: 'Spain', flag: '🇪🇸', language: 'Spanish', currency: 'Euro (€)', code: 'EUR' },
+    { country: 'Mexico', flag: '🇲🇽', language: 'Spanish', currency: 'Peso ($)', code: 'MXN' },
+    { country: 'France', flag: '🇫🇷', language: 'French', currency: 'Euro (€)', code: 'EUR' },
+    { country: 'Germany', flag: '🇩🇪', language: 'German', currency: 'Euro (€)', code: 'EUR' },
+    { country: 'Indonesia', flag: '🇮🇩', language: 'Indonesian', currency: 'Rupiah (Rp)', code: 'IDR' },
+    { country: 'UAE', flag: '🇦🇪', language: 'Arabic', currency: 'Dirham (د.إ)', code: 'AED' },
+    { country: 'Saudi Arabia', flag: '🇸🇦', language: 'Arabic', currency: 'Riyal (﷼)', code: 'SAR' },
+    { country: 'Pakistan', flag: '🇵🇰', language: 'Urdu', currency: 'Rupee (₨)', code: 'PKR' },
+    { country: 'Bangladesh', flag: '🇧🇩', language: 'Bengali', currency: 'Taka (৳)', code: 'BDT' },
+    { country: 'Canada', flag: '🇨🇦', language: 'English / French', currency: 'Dollar ($)', code: 'CAD' },
+    { country: 'Japan', flag: '🇯🇵', language: 'Japanese', currency: 'Yen (¥)', code: 'JPY' },
+  ]
+
   const rates: any = {
-    INR: 1, USD: 83.12, EUR: 90.25, GBP: 104.50, AED: 22.63, SAR: 22.16,
-    AUD: 54.89, CAD: 61.23, SGD: 61.78, JPY: 0.56
+    // Base: INR per 1 unit of currency (approx; used for quick calculations)
+    INR: 1,
+    USD: 83.12,
+    EUR: 90.25,
+    GBP: 104.5,
+    JPY: 0.56,
+    AED: 22.63,
+    SAR: 22.16,
+    CAD: 61.23,
+    AUD: 54.89,
+    SGD: 61.78,
+    // Added international currencies (approx)
+    BRL: 16.5,
+    MXN: 4.9,
+    IDR: 0.0052,
+    PKR: 0.3,
+    BDT: 0.76,
   }
 
   const calculate = () => {
@@ -70,6 +103,36 @@ export function CurrencyConverter() {
               >
                 {Object.keys(rates).map(c => <option key={c} value={c}>{c}</option>)}
               </select>
+            </div>
+          </div>
+
+          <div className="rounded-xl border bg-card p-4">
+            <div className="text-sm font-semibold mb-2">🌍 International Countries – Language, Currency &amp; Flag</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-muted-foreground border-b">
+                    <th className="py-2 pr-4">🇺🇳 Country</th>
+                    <th className="py-2 pr-4">🗣️ Language</th>
+                    <th className="py-2 pr-4">💰 Currency</th>
+                    <th className="py-2">🚩 Flag</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {internationalCountries.map((c) => (
+                    <tr key={`${c.country}-${c.code}`} className="border-b last:border-b-0">
+                      <td className="py-2 pr-4 whitespace-nowrap">{c.country}</td>
+                      <td className="py-2 pr-4 whitespace-nowrap">{c.language}</td>
+                      <td className="py-2 pr-4 whitespace-nowrap">{c.currency}</td>
+                      <td className="py-2 whitespace-nowrap">{c.flag}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-3 text-xs text-muted-foreground">
+              Warning: Same symbol can be used by multiple currencies (e.g. $ = USD/CAD/MXN). For exact mapping, use ISO codes.
             </div>
           </div>
         </div>
