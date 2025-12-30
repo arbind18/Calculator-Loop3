@@ -2,13 +2,14 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
+import { getProviders, signIn, type ClientSafeProvider } from "next-auth/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "react-hot-toast"
 import { useSettings } from "@/components/providers/SettingsProvider"
+import { useEffect } from "react"
 
 export default function RegisterClient() {
   const router = useRouter()
@@ -16,12 +17,28 @@ export default function RegisterClient() {
   const prefix = language === 'en' ? '' : `/${language}`
   const withLocale = (path: string) => `${prefix}${path}`
 
+  const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null)
+
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
   })
+
+  useEffect(() => {
+    let mounted = true
+    getProviders()
+      .then((p) => {
+        if (mounted) setProviders(p)
+      })
+      .catch(() => {
+        if (mounted) setProviders(null)
+      })
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   const register = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,13 +54,19 @@ export default function RegisterClient() {
       })
 
       if (!response.ok) {
-        throw new Error("Something went wrong")
+        const json = await response.json().catch(() => null)
+        const message =
+          (json && (json.error || json.message)) ||
+          (Array.isArray(json?.details) ? json.details.join('\n') : null) ||
+          "Something went wrong"
+        throw new Error(message)
       }
 
       toast.success("Account created!")
       router.push(withLocale("/login"))
     } catch (error) {
-      toast.error("Something went wrong!")
+      const message = error instanceof Error ? error.message : "Something went wrong!"
+      toast.error(message || "Something went wrong!")
     } finally {
       setIsLoading(false)
     }
@@ -132,15 +155,17 @@ export default function RegisterClient() {
             </div>
 
             <div className="mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => signIn('google', { callbackUrl: withLocale('/') })}
-              >
-                <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
-                Google
-              </Button>
+              {providers?.google ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => signIn('google', { callbackUrl: withLocale('/') })}
+                >
+                  <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
+                  Google
+                </Button>
+              ) : null}
             </div>
 
             <div className="mt-6 flex justify-center text-sm">

@@ -96,8 +96,28 @@ export async function POST(req: Request) {
     })
   } catch (error) {
     console.error("[REGISTER_ERROR]", error)
+
+    const message = (() => {
+      const err = error as any
+      const name = typeof err?.name === 'string' ? err.name : ''
+      const code = typeof err?.code === 'string' ? err.code : ''
+
+      // Prisma initialization/connectivity issues are common in production when DATABASE_URL is missing
+      // or when using SQLite on a serverless platform.
+      if (
+        name.includes('PrismaClientInitializationError') ||
+        name.includes('PrismaClientKnownRequestError') ||
+        code.startsWith('P1') ||
+        code.startsWith('P2')
+      ) {
+        return 'Database is not configured for production. Please set a persistent DATABASE_URL and run Prisma migrations.'
+      }
+
+      return 'Internal server error'
+    })()
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: message },
       { status: 500 }
     )
   }
