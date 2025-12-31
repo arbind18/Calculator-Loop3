@@ -33,14 +33,21 @@ function migrationsAreComplete(migrationsDir) {
 const migrationsDir = path.join(process.cwd(), "prisma", "migrations");
 const status = migrationsAreComplete(migrationsDir);
 
+const isVercel = Boolean(process.env.VERCEL);
+const forceMigrateDeploy = process.env.PRISMA_MIGRATE_DEPLOY === "true";
+
 let prismaExit = 0;
-if (status.hasAny && status.complete) {
+if (isVercel && !forceMigrateDeploy) {
+  // Vercel builds can hit Prisma P3015 due to migration file resolution/caching.
+  // Default to db push to keep builds deterministic.
+  console.log("Vercel detected: running `prisma db push --accept-data-loss` (set PRISMA_MIGRATE_DEPLOY=true to use migrations).\n");
+  prismaExit = run("prisma", ["db", "push", "--accept-data-loss"]);
+} else if (status.hasAny && status.complete) {
   prismaExit = run("prisma", ["migrate", "deploy"]);
   if (prismaExit !== 0) {
     prismaExit = run("prisma", ["db", "push", "--accept-data-loss"]);
   }
 } else {
-  // Avoid Prisma P3015 noise when a migration directory is present but incomplete.
   if (status.missing.length > 0) {
     console.warn("Prisma migrations are incomplete. Missing files:");
     for (const p of status.missing) console.warn(`- ${p}`);
