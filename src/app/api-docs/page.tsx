@@ -373,7 +373,7 @@ console.log(data.data.results.dailyCalories); // Calorie needs by activity level
     },
     "currency": "INR"
   },
-  "timestamp": "2025-12-22T10:30:00.000Z"
+  "timestamp": "2026-01-02T10:30:00.000Z"
 }`}</code></pre>
                         </div>
                       </div>

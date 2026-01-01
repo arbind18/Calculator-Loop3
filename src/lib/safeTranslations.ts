@@ -36,8 +36,8 @@ export const defaultTranslations = {
     login: "Login"
   },
   hero: {
-    title: "Calculator Loop - Free Online Calculators",
-    subtitle: "Fast, accurate & mobile-friendly calculators. No signup required.",
+    title: "AI-Powered Calculators 2026 for Finance, Health, Math, Date & Time & More",
+    subtitle: "Super fast, secure & mobile-friendly AI-powered calculators across Finance, Health, Math, Date & Time and more—with instant results. No signup required.",
     popularTools: "Explore Calculators"
   }
 }

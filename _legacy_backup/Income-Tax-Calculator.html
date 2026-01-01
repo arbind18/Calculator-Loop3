@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Income Tax Calculator 2025-26 | India Tax Calculator</title>
+    <title>Advanced Income Tax Calculator 2026-27 | India Tax Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
@@ -60,12 +60,12 @@
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-file-invoice-dollar"></i> Income Tax Calculator 2025-26</h1>
+        <h1><i class="fas fa-file-invoice-dollar"></i> Income Tax Calculator 2026-27</h1>
         <p class="subtitle">Calculate your income tax with new and old regime comparison</p>
         
         <div class="regime-selector">
             <button class="regime-btn active" onclick="selectRegime('new')" id="newRegimeBtn">
-                <i class="fas fa-star"></i> New Tax Regime (FY 2025-26)
+                <i class="fas fa-star"></i> New Tax Regime (FY 2026-27)
             </button>
             <button class="regime-btn" onclick="selectRegime('old')" id="oldRegimeBtn">
                 <i class="fas fa-history"></i> Old Tax Regime
@@ -112,7 +112,7 @@
 
                 <h2 class="section-title"><i class="fas fa-hand-holding-usd"></i> Deductions (Old Regime)</h2>
                 <div class="input-group">
-                    <label>80C: PPF, ELSS, Life Insurance (Max ₹1.5L)</label>
+                    <label>80C: PPF, ELSS, Life Insurance (Max â‚¹1.5L)</label>
                     <input type="number" id="section80C" value="150000" placeholder="150000" max="150000">
                 </div>
                 <div class="input-group">
@@ -120,7 +120,7 @@
                     <input type="number" id="section80D" value="25000" placeholder="25000">
                 </div>
                 <div class="input-group">
-                    <label>80CCD(1B): NPS (Max ₹50K)</label>
+                    <label>80CCD(1B): NPS (Max â‚¹50K)</label>
                     <input type="number" id="nps" value="0" placeholder="50000" max="50000">
                 </div>
                 <div class="input-group">
@@ -160,14 +160,14 @@
                 <button class="btn" onclick="calculateTax()"><i class="fas fa-calculator"></i> Calculate Tax</button>
 
                 <div class="info-box">
-                    <h4><i class="fas fa-info-circle"></i> Tax Slabs 2025-26 (New Regime)</h4>
+                    <h4><i class="fas fa-info-circle"></i> Tax Slabs 2026-27 (New Regime)</h4>
                     <ul>
-                        <li>₹0 - ₹3L: NIL</li>
-                        <li>₹3L - ₹7L: 5%</li>
-                        <li>₹7L - ₹10L: 10%</li>
-                        <li>₹10L - ₹12L: 15%</li>
-                        <li>₹12L - ₹15L: 20%</li>
-                        <li>Above ₹15L: 30%</li>
+                        <li>â‚¹0 - â‚¹3L: NIL</li>
+                        <li>â‚¹3L - â‚¹7L: 5%</li>
+                        <li>â‚¹7L - â‚¹10L: 10%</li>
+                        <li>â‚¹10L - â‚¹12L: 15%</li>
+                        <li>â‚¹12L - â‚¹15L: 20%</li>
+                        <li>Above â‚¹15L: 30%</li>
                     </ul>
                 </div>
             </div>
@@ -175,7 +175,7 @@
             <div class="results-section">
                 <div class="tax-card">
                     <h2><i class="fas fa-calculator"></i> Your Tax Liability</h2>
-                    <div class="tax-amount" id="totalTax">₹0</div>
+                    <div class="tax-amount" id="totalTax">â‚¹0</div>
                     <div class="tax-status" id="taxStatus">New Tax Regime</div>
                     <p style="margin-top: 20px; font-size: 1.1rem; opacity: 0.9;">Effective Tax Rate: <strong id="effectiveRate">0%</strong></p>
                 </div>
@@ -183,19 +183,19 @@
                 <div class="summary-grid">
                     <div class="summary-card">
                         <h3><i class="fas fa-wallet"></i> Gross Income</h3>
-                        <div class="summary-value" id="grossIncome">₹0</div>
+                        <div class="summary-value" id="grossIncome">â‚¹0</div>
                     </div>
                     <div class="summary-card" style="border-top-color: #10b981;">
                         <h3><i class="fas fa-hand-holding-usd"></i> Total Deductions</h3>
-                        <div class="summary-value" id="totalDeductions">₹0</div>
+                        <div class="summary-value" id="totalDeductions">â‚¹0</div>
                     </div>
                     <div class="summary-card" style="border-top-color: #f5576c;">
                         <h3><i class="fas fa-money-bill-wave"></i> Taxable Income</h3>
-                        <div class="summary-value" id="taxableIncome">₹0</div>
+                        <div class="summary-value" id="taxableIncome">â‚¹0</div>
                     </div>
                     <div class="summary-card" style="border-top-color: #ffc107;">
                         <h3><i class="fas fa-percent"></i> Tax + Cess</h3>
-                        <div class="summary-value" id="taxWithCess">₹0</div>
+                        <div class="summary-value" id="taxWithCess">â‚¹0</div>
                     </div>
                 </div>
 
@@ -215,12 +215,12 @@
                     <div class="comparison-grid">
                         <div class="comparison-item">
                             <h4><i class="fas fa-star"></i> New Tax Regime</h4>
-                            <div class="comparison-value" id="newRegimeTax">₹0</div>
+                            <div class="comparison-value" id="newRegimeTax">â‚¹0</div>
                             <p style="color: #666;">Lower rates, no deductions</p>
                         </div>
                         <div class="comparison-item">
                             <h4><i class="fas fa-history"></i> Old Tax Regime</h4>
-                            <div class="comparison-value" id="oldRegimeTax">₹0</div>
+                            <div class="comparison-value" id="oldRegimeTax">â‚¹0</div>
                             <p style="color: #666;">Higher rates, with deductions</p>
                         </div>
                     </div>
@@ -273,9 +273,9 @@
         }
 
         function fmt(n) {
-            if (n >= 10000000) return '₹' + (n / 10000000).toFixed(2) + ' Cr';
-            if (n >= 100000) return '₹' + (n / 100000).toFixed(2) + ' L';
-            return '₹' + Math.round(n).toLocaleString('en-IN');
+            if (n >= 10000000) return 'â‚¹' + (n / 10000000).toFixed(2) + ' Cr';
+            if (n >= 100000) return 'â‚¹' + (n / 100000).toFixed(2) + ' L';
+            return 'â‚¹' + Math.round(n).toLocaleString('en-IN');
         }
 
         function calculateTax() {
@@ -339,7 +339,7 @@
                 if (taxableInSlab > 0) {
                     const taxInSlab = taxableInSlab * slab.rate;
                     tax += taxInSlab;
-                    breakdown.push({ slab: `₹${(prevLimit/100000).toFixed(1)}L - ₹${slab.limit === Infinity ? '∞' : (slab.limit/100000).toFixed(1)+'L'}`, income: taxableInSlab, rate: (slab.rate*100).toFixed(0)+'%', tax: taxInSlab });
+                    breakdown.push({ slab: `â‚¹${(prevLimit/100000).toFixed(1)}L - â‚¹${slab.limit === Infinity ? 'âˆž' : (slab.limit/100000).toFixed(1)+'L'}`, income: taxableInSlab, rate: (slab.rate*100).toFixed(0)+'%', tax: taxInSlab });
                 }
                 if (taxableIncome <= slab.limit) break;
                 prevLimit = slab.limit;
@@ -380,7 +380,7 @@
                 if (taxableInSlab > 0) {
                     const taxInSlab = taxableInSlab * slab.rate;
                     tax += taxInSlab;
-                    breakdown.push({ slab: `₹${(prevLimit/100000).toFixed(1)}L - ₹${slab.limit === Infinity ? '∞' : (slab.limit/100000).toFixed(1)+'L'}`, income: taxableInSlab, rate: (slab.rate*100).toFixed(0)+'%', tax: taxInSlab });
+                    breakdown.push({ slab: `â‚¹${(prevLimit/100000).toFixed(1)}L - â‚¹${slab.limit === Infinity ? 'âˆž' : (slab.limit/100000).toFixed(1)+'L'}`, income: taxableInSlab, rate: (slab.rate*100).toFixed(0)+'%', tax: taxInSlab });
                 }
                 if (taxableIncome <= slab.limit) break;
                 prevLimit = slab.limit;
@@ -482,7 +482,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } } }
+                    scales: { y: { beginAtZero: true, ticks: { callback: v => 'â‚¹' + (v/1000).toFixed(0) + 'K' } } }
                 }
             });
         }
@@ -491,4 +491,5 @@
     </script>
 </body>
 </html>
+
 

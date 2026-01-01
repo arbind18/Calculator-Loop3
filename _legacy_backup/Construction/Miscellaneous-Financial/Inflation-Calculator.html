@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💸 Inflation Calculator 2025 - Calculate Inflation Impact</title>
+    <title>ðŸ’¸ Inflation Calculator 2026 - Calculate Inflation Impact</title>
     <meta name="description" content="Free Inflation Calculator - Calculate inflation impact on money value over time. Perfect for financial planning and investment analysis.">
     <link rel="canonical" href="https://calculatorloop.com/Financial/Miscellaneous-Financial/Inflation-Calculator.html">
     <meta name="keywords" content="inflation calculator, inflation rate, purchasing power, money value calculator, inflation impact">
@@ -92,7 +92,7 @@
         <div class="calculator-section">
             <div class="input-row">
                 <div class="input-group">
-                    <label><i class="fas fa-rupee-sign"></i> Current Amount (₹)</label>
+                    <label><i class="fas fa-rupee-sign"></i> Current Amount (â‚¹)</label>
                     <input type="number" id="amount" value="100000" min="0" step="1000">
                 </div>
                 <div class="input-group">
@@ -113,7 +113,7 @@
             <div class="result-grid">
                 <div class="result-card highlight">
                     <div class="result-label">Future Value</div>
-                    <div class="result-value" id="futureValue">₹1,79,085</div>
+                    <div class="result-value" id="futureValue">â‚¹1,79,085</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Purchasing Power Loss</div>
@@ -121,15 +121,15 @@
                 </div>
                 <div class="result-card">
                     <div class="result-label">Equivalent Today</div>
-                    <div class="result-value" id="equivalentToday">₹55,839</div>
+                    <div class="result-value" id="equivalentToday">â‚¹55,839</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Total Inflation</div>
-                    <div class="result-value" id="totalInflation">₹79,085</div>
+                    <div class="result-value" id="totalInflation">â‚¹79,085</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Real Value Loss</div>
-                    <div class="result-value" id="realLoss">₹44,161</div>
+                    <div class="result-value" id="realLoss">â‚¹44,161</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Doubling Price Time</div>
@@ -140,13 +140,13 @@
                 <canvas id="inflationChart"></canvas>
             </div>
             <div class="info-box">
-                <div class="info-title">💡 Understanding Inflation</div>
+                <div class="info-title">ðŸ’¡ Understanding Inflation</div>
                 <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.8;">
                     <li><strong>Inflation:</strong> Rise in prices, decrease in purchasing power over time</li>
                     <li><strong>India Average:</strong> 5-7% annual inflation rate</li>
-                    <li><strong>Impact:</strong> ₹100 today ≠ ₹100 in 10 years</li>
+                    <li><strong>Impact:</strong> â‚¹100 today â‰  â‚¹100 in 10 years</li>
                     <li><strong>Protection:</strong> Invest in assets that beat inflation (stocks, real estate, gold)</li>
-                    <li><strong>Formula:</strong> Future Value = Present Value × (1 + Rate)^Years</li>
+                    <li><strong>Formula:</strong> Future Value = Present Value Ã— (1 + Rate)^Years</li>
                 </ul>
             </div>
         </div>
@@ -186,10 +186,10 @@
             const purchasingPower = -((amount - equivalentToday) / amount) * 100;
             const doublingTime = rate > 0 ? Math.ceil(72 / rate) : 0;
             
-            document.getElementById('futureValue').textContent = '₹' + Math.round(futureValue).toLocaleString('en-IN');
-            document.getElementById('equivalentToday').textContent = '₹' + Math.round(equivalentToday).toLocaleString('en-IN');
-            document.getElementById('totalInflation').textContent = '₹' + Math.round(totalInflation).toLocaleString('en-IN');
-            document.getElementById('realLoss').textContent = '₹' + Math.round(realLoss).toLocaleString('en-IN');
+            document.getElementById('futureValue').textContent = 'â‚¹' + Math.round(futureValue).toLocaleString('en-IN');
+            document.getElementById('equivalentToday').textContent = 'â‚¹' + Math.round(equivalentToday).toLocaleString('en-IN');
+            document.getElementById('totalInflation').textContent = 'â‚¹' + Math.round(totalInflation).toLocaleString('en-IN');
+            document.getElementById('realLoss').textContent = 'â‚¹' + Math.round(realLoss).toLocaleString('en-IN');
             document.getElementById('purchasingPower').textContent = purchasingPower.toFixed(1) + '%';
             document.getElementById('doublingTime').textContent = doublingTime + ' years';
             
@@ -252,7 +252,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN')
+                                label: ctx => ctx.dataset.label + ': â‚¹' + ctx.parsed.y.toLocaleString('en-IN')
                             }
                         }
                     },
@@ -261,7 +261,7 @@
                             beginAtZero: false,
                             ticks: {
                                 color: isDark ? '#d1d5db' : '#6b7280',
-                                callback: val => '₹' + (val/1000).toFixed(0) + 'k'
+                                callback: val => 'â‚¹' + (val/1000).toFixed(0) + 'k'
                             },
                             grid: { color: isDark ? '#4b5563' : '#e5e7eb' }
                         },
@@ -299,3 +299,4 @@
     </script>
 </body>
 </html>
+

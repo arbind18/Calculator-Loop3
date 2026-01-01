@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free Life Expectancy Calculator - Calculate your estimated lifespan based on age, gender, lifestyle, health factors & habits. Get personalized longevity insights, health recommendations & retirement planning. Most accurate life expectancy tool 2025!">
+    <meta name="description" content="Free Life Expectancy Calculator - Calculate your estimated lifespan based on age, gender, lifestyle, health factors & habits. Get personalized longevity insights, health recommendations & retirement planning. Most accurate life expectancy tool 2026!">
     <meta name="keywords" content="life expectancy calculator, how long will i live, lifespan calculator, longevity calculator, health calculator, life calculator, retirement planning, mortality calculator, age expectancy, health assessment">
     <meta name="author" content="CalculatorLoop">
     <meta name="robots" content="index, follow">
@@ -15,7 +15,7 @@
     <meta name="twitter:title" content="Life Expectancy Calculator">
     <meta name="twitter:description" content="Discover your estimated lifespan with lifestyle & health factors!">
     <link rel="canonical" href="https://calculatorloop.com/datetime/age-birthdate/life-expectancy-calculator">
-    <title>Life Expectancy Calculator 📊 How Long Will I Live? - Lifespan Tool 2025</title>
+    <title>Life Expectancy Calculator ðŸ“Š How Long Will I Live? - Lifespan Tool 2026</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -665,7 +665,7 @@
 
     <section class="hero">
         <div data-aos="fade-up">
-            <h2>📊 Life Expectancy Calculator</h2>
+            <h2>ðŸ“Š Life Expectancy Calculator</h2>
             <p>Calculate your estimated lifespan based on age, health, lifestyle factors, and personal habits. Get personalized longevity insights!</p>
         </div>
     </section>
@@ -702,7 +702,7 @@
                                 <option value="normal">Normal (18.5-24.9)</option>
                                 <option value="underweight">Underweight (< 18.5)</option>
                                 <option value="overweight">Overweight (25-29.9)</option>
-                                <option value="obese">Obese (≥ 30)</option>
+                                <option value="obese">Obese (â‰¥ 30)</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -806,7 +806,7 @@
 
             <!-- Result Hero -->
             <div class="result-hero" id="resultHero">
-                <div class="lifespan-icon">⏳</div>
+                <div class="lifespan-icon">â³</div>
                 <div class="lifespan-years" id="lifeExpectancyYears">85</div>
                 <div class="lifespan-subtitle">Estimated Life Expectancy (Years)</div>
             </div>
@@ -1113,8 +1113,9 @@ function calculateLifeExpectancy(currentAge,gender){let lifeExpectancy=getBaseLi
 function getBaseLifeExpectancy(age,gender){const ageGroup=Math.floor(age/5)*5;const clampedAge=Math.max(20,Math.min(85,ageGroup));if(age<20){return gender==='male'?77:82;}return baseLifeExpectancy[gender][clampedAge]||(gender==='male'?77:82);}
 function displayResults(currentAge,lifeExpectancy,adjustments){document.getElementById('resultHero').classList.add('active');document.getElementById('resultsDashboard').classList.add('active');document.getElementById('lifeExpectancyYears').textContent=lifeExpectancy;const yearsRemaining=Math.max(0,lifeExpectancy-currentAge);document.getElementById('yearsRemaining').textContent=yearsRemaining;const lifeLived=(currentAge/lifeExpectancy*100).toFixed(1);document.getElementById('lifeLivedPercent').textContent=`${lifeLived}%`;document.getElementById('lifeProgressBar').style.width=`${lifeLived}%`;const retirementAge=65;let retirementYears=0;if(currentAge<retirementAge){retirementYears=Math.max(0,lifeExpectancy-retirementAge);}else{retirementYears=Math.max(0,lifeExpectancy-currentAge);}document.getElementById('retirementYears').textContent=retirementYears;displayRecommendations(adjustments);document.getElementById('resultHero').scrollIntoView({behavior:'smooth',block:'center'});}
 function displayRecommendations(adjustments){const recommendationsList=document.getElementById('recommendations');recommendationsList.innerHTML='';adjustments.sort((a,b)=>a.impact-b.impact);const topRecommendations=adjustments.slice(0,8);topRecommendations.forEach(adj=>{const li=document.createElement('li');li.className='recommendation-item';const icon=adj.impact<0?'fa-exclamation-triangle':'fa-check-circle';const iconColor=adj.impact<0?'color: #ef4444;':'color: #10b981;';li.innerHTML=`<i class="fas ${icon}" style="${iconColor}"></i><div class="recommendation-content"><h5>${adj.factor} (${adj.impact>0?'+':''}${adj.impact} years)</h5><p>${adj.recommendation}</p></div>`;recommendationsList.appendChild(li);});}
-document.getElementById('shareBtn').addEventListener('click',()=>{const lifeExpectancy=document.getElementById('lifeExpectancyYears').textContent;const shareText=`I calculated my life expectancy: ${lifeExpectancy} years! 📊 Calculate yours now!`;if(navigator.share){navigator.share({title:'Life Expectancy Calculator',text:shareText,url:window.location.href}).catch(err=>console.log('Share cancelled'));}else{navigator.clipboard.writeText(shareText+'\n'+window.location.href).then(()=>alert('Results copied to clipboard!')).catch(()=>alert('Unable to share. Please copy manually.'));}});
+document.getElementById('shareBtn').addEventListener('click',()=>{const lifeExpectancy=document.getElementById('lifeExpectancyYears').textContent;const shareText=`I calculated my life expectancy: ${lifeExpectancy} years! ðŸ“Š Calculate yours now!`;if(navigator.share){navigator.share({title:'Life Expectancy Calculator',text:shareText,url:window.location.href}).catch(err=>console.log('Share cancelled'));}else{navigator.clipboard.writeText(shareText+'\n'+window.location.href).then(()=>alert('Results copied to clipboard!')).catch(()=>alert('Unable to share. Please copy manually.'));}});
 document.getElementById('resetBtn').addEventListener('click',()=>{document.getElementById('lifeExpectancyForm').reset();document.getElementById('resultHero').classList.remove('active');document.getElementById('resultsDashboard').classList.remove('active');document.querySelector('.calculator-card').scrollIntoView({behavior:'smooth',block:'start'});});
     </script>
 </body>
 </html>
+

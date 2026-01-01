@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏷️ Discount & GST Calculator 2025 - Calculate Final Price</title>
+    <title>ðŸ·ï¸ Discount & GST Calculator 2026 - Calculate Final Price</title>
     <meta name="description" content="Free Discount & GST Calculator - Calculate discounts with GST. Find final price after discount and GST application. Perfect for shopping and business.">
     <link rel="canonical" href="https://calculatorloop.com/Financial/Miscellaneous-Financial/Discount-GST-Calculator.html">
     <meta name="keywords" content="discount calculator, GST calculator, discount with GST, final price calculator, shopping calculator">
@@ -82,7 +82,7 @@
         </div>
         <div class="calculator-section">
             <div class="input-group">
-                <label><i class="fas fa-rupee-sign"></i> Original Price (₹)</label>
+                <label><i class="fas fa-rupee-sign"></i> Original Price (â‚¹)</label>
                 <input type="number" id="originalPrice" value="10000" min="0" step="1">
             </div>
             <div class="input-group">
@@ -102,27 +102,27 @@
             <div class="result-cards">
                 <div class="result-card">
                     <div class="result-label">Original Price</div>
-                    <div class="result-value" id="originalResult">₹10,000</div>
+                    <div class="result-value" id="originalResult">â‚¹10,000</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Discount Amount</div>
-                    <div class="result-value" id="discountResult">₹2,000</div>
+                    <div class="result-value" id="discountResult">â‚¹2,000</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">After Discount</div>
-                    <div class="result-value" id="afterDiscountResult">₹8,000</div>
+                    <div class="result-value" id="afterDiscountResult">â‚¹8,000</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">GST Amount</div>
-                    <div class="result-value" id="gstResult">₹1,440</div>
+                    <div class="result-value" id="gstResult">â‚¹1,440</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Final Price</div>
-                    <div class="result-value" id="finalResult">₹9,440</div>
+                    <div class="result-value" id="finalResult">â‚¹9,440</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Total Savings</div>
-                    <div class="result-value" id="savingsResult">₹560</div>
+                    <div class="result-value" id="savingsResult">â‚¹560</div>
                 </div>
             </div>
             <div class="chart-container">
@@ -159,12 +159,12 @@
             const finalPrice = afterDiscount + gstAmt;
             const savings = original + (original * gstRate / 100) - finalPrice;
             
-            document.getElementById('originalResult').textContent = '₹' + original.toLocaleString('en-IN');
-            document.getElementById('discountResult').textContent = '₹' + discountAmt.toLocaleString('en-IN');
-            document.getElementById('afterDiscountResult').textContent = '₹' + afterDiscount.toLocaleString('en-IN');
-            document.getElementById('gstResult').textContent = '₹' + gstAmt.toLocaleString('en-IN', {maximumFractionDigits: 2});
-            document.getElementById('finalResult').textContent = '₹' + finalPrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
-            document.getElementById('savingsResult').textContent = '₹' + savings.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('originalResult').textContent = 'â‚¹' + original.toLocaleString('en-IN');
+            document.getElementById('discountResult').textContent = 'â‚¹' + discountAmt.toLocaleString('en-IN');
+            document.getElementById('afterDiscountResult').textContent = 'â‚¹' + afterDiscount.toLocaleString('en-IN');
+            document.getElementById('gstResult').textContent = 'â‚¹' + gstAmt.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('finalResult').textContent = 'â‚¹' + finalPrice.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('savingsResult').textContent = 'â‚¹' + savings.toLocaleString('en-IN', {maximumFractionDigits: 2});
             
             createChart(afterDiscount, gstAmt, discountAmt);
         }
@@ -218,3 +218,4 @@
     </script>
 </body>
 </html>
+

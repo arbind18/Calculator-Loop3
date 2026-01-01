@@ -1,22 +1,50 @@
 interface StructuredDataProps {
   title: string
   description: string
+  categoryId: string
   categoryName: string
-  url: string
+  pathname: string
+  baseUrl?: string
 }
 
-export function StructuredData({ title, description, categoryName, url }: StructuredDataProps) {
+export function StructuredData({ title, description, categoryId, categoryName, pathname, baseUrl = 'https://calculatorloop.com' }: StructuredDataProps) {
+  const canonicalUrl = `${baseUrl}${pathname}`
+
+  const supportedLocales = new Set([
+    'hi',
+    'ta',
+    'te',
+    'bn',
+    'mr',
+    'gu',
+    'es',
+    'pt',
+    'fr',
+    'de',
+    'id',
+    'ar',
+    'ur',
+    'ja',
+  ])
+
+  const segments = pathname.split('/').filter(Boolean)
+  const maybeLocale = segments[0]
+  const localePrefix = maybeLocale && supportedLocales.has(maybeLocale) ? `/${maybeLocale}` : ''
+  const categoryUrl = `${baseUrl}${localePrefix}/category/${categoryId}`
+
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": title,
     "description": description,
-    "applicationCategory": "FinanceApplication",
+    "url": canonicalUrl,
+    "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
+    "isAccessibleForFree": true,
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "USD"
+      "priceCurrency": "INR"
     },
     "featureList": [
       "Instant Calculation",
@@ -34,28 +62,41 @@ export function StructuredData({ title, description, categoryName, url }: Struct
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://calculatorloop.com"
+        "item": baseUrl
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": categoryName,
-        "item": `https://calculatorloop.com/category/${url.split('/')[2]}` // Assuming url is /category/financial/calculator-id
+        "item": categoryUrl
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": title,
-        "item": `https://calculatorloop.com${url}`
+        "item": canonicalUrl
       }
     ]
+  }
+
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": title,
+    "description": description,
+    "url": canonicalUrl,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Calculator Loop",
+      "url": baseUrl,
+    },
   }
 
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify([softwareApplicationSchema, breadcrumbSchema])
+        __html: JSON.stringify([softwareApplicationSchema, breadcrumbSchema, webPageSchema])
       }}
     />
   )

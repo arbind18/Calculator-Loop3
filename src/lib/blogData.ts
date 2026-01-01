@@ -1,4 +1,4 @@
-export interface BlogPost {
+﻿export interface BlogPost {
   slug: string;
   title: string;
   description: string;
@@ -91,11 +91,11 @@ EMI stands for **Equated Monthly Installment**. It's a fixed payment amount you 
 
 The EMI is calculated using this formula:
 
-**EMI = [P × r × (1 + r)^n] / [(1 + r)^n - 1]**
+**EMI = [P Ã— r Ã— (1 + r)^n] / [(1 + r)^n - 1]**
 
 Where:
 - P = Principal loan amount
-- r = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+- r = Monthly interest rate (annual rate Ã· 12 Ã· 100)
 - n = Loan tenure in months
 
 ## Components of EMI
@@ -169,8 +169,8 @@ A score above 750 can help you get better interest rates.
 ## Tax Benefits on EMI
 
 ### Home Loans:
-- Principal repayment: Deduction up to ₹1.5 lakh under Section 80C
-- Interest payment: Deduction up to ₹2 lakh under Section 24(b)
+- Principal repayment: Deduction up to â‚¹1.5 lakh under Section 80C
+- Interest payment: Deduction up to â‚¹2 lakh under Section 24(b)
 
 ### Education Loans:
 - Interest deduction under Section 80E (no upper limit)
@@ -200,7 +200,7 @@ Understanding EMI is essential for financial planning. Use our calculator to mak
 
 ---
 
-*Published on: December 22, 2025*  
+*Published on: December 22, 2026*  
 *Reading Time: 5 minutes*
     `,
     category: 'financial',
@@ -210,17 +210,17 @@ Understanding EMI is essential for financial planning. Use our calculator to mak
       avatar: '/authors/rajesh.jpg',
       bio: 'Financial advisor with 15+ years of experience in loan management and personal finance.',
     },
-    publishedAt: '2025-12-22',
+    publishedAt: '2026-12-22',
     readingTime: 5,
     featured: true,
     relatedPosts: ['home-loan-tips-india', 'reduce-loan-interest'],
   },
   {
     slug: 'home-loan-tips-india',
-    title: '10 Smart Tips to Get the Best Home Loan in India (2025)',
-    description: 'Expert tips to secure the best home loan rates, reduce processing fees, and save lakhs on your home purchase. Updated for 2025.',
+    title: '10 Smart Tips to Get the Best Home Loan in India (2026)',
+    description: 'Expert tips to secure the best home loan rates, reduce processing fees, and save lakhs on your home purchase. Updated for 2026.',
     content: `
-# 10 Smart Tips to Get the Best Home Loan in India (2025)
+# 10 Smart Tips to Get the Best Home Loan in India (2026)
 
 Buying a home is one of the biggest financial decisions you'll make. Getting the right home loan can save you lakhs of rupees over the loan tenure. Here are 10 expert tips to help you secure the best deal.
 
@@ -244,14 +244,14 @@ Your **CIBIL score** is the first thing lenders check. Here's what you need to k
 
 Don't settle for the first offer! Banks compete for customers, and rates can vary significantly.
 
-### Current Market Rates (2025):
+### Current Market Rates (2026):
 - **SBI**: 8.50% - 9.15%
 - **HDFC**: 8.60% - 9.25%
 - **ICICI**: 8.65% - 9.30%
 - **LIC Housing**: 8.45% - 9.10%
 - **PNB**: 8.55% - 9.20%
 
-**Tip**: Even 0.25% difference on ₹50 lakh loan over 20 years = ₹1.5 lakh savings!
+**Tip**: Even 0.25% difference on â‚¹50 lakh loan over 20 years = â‚¹1.5 lakh savings!
 
 ## 3. Choose Between Fixed and Floating Rates Wisely
 
@@ -267,7 +267,7 @@ Don't settle for the first offer! Banks compete for customers, and rates can var
 - Higher initial rate
 - Good if you expect rates to rise
 
-**2025 Recommendation**: Go for floating rate as RBI is maintaining stable rates.
+**2026 Recommendation**: Go for floating rate as RBI is maintaining stable rates.
 
 ## 4. Maximize Your Down Payment
 
@@ -302,10 +302,10 @@ Common tenures and their impact:
 - Significantly higher interest
 - Long commitment
 
-**Example**: ₹50 lakh at 8.5%
-- 15 years: EMI ₹49,247 | Total Interest: ₹38.64 lakh
-- 20 years: EMI ₹43,391 | Total Interest: ₹54.14 lakh  
-- 30 years: EMI ₹38,445 | Total Interest: ₹88.40 lakh
+**Example**: â‚¹50 lakh at 8.5%
+- 15 years: EMI â‚¹49,247 | Total Interest: â‚¹38.64 lakh
+- 20 years: EMI â‚¹43,391 | Total Interest: â‚¹54.14 lakh  
+- 30 years: EMI â‚¹38,445 | Total Interest: â‚¹88.40 lakh
 
 ## 6. Understand Processing Fees and Hidden Charges
 
@@ -314,7 +314,7 @@ Don't just focus on interest rates! Other charges matter:
 ### Common Charges:
 - **Processing Fee**: 0.25% - 1% of loan amount
 - **Prepayment Charges**: 2-5% (floating usually free)
-- **Legal Fees**: ₹5,000 - ₹15,000
+- **Legal Fees**: â‚¹5,000 - â‚¹15,000
 - **Stamp Duty**: State-specific
 - **Insurance**: Property + Life insurance
 
@@ -323,28 +323,28 @@ Don't just focus on interest rates! Other charges matter:
 ## 7. Take Advantage of Government Schemes
 
 ### PMAY (Pradhan Mantri Awas Yojana):
-- Interest subsidy up to ₹2.67 lakh
+- Interest subsidy up to â‚¹2.67 lakh
 - For first-time home buyers
 - Income-based eligibility
 
 ### Eligibility:
-- EWS: Annual income up to ₹3 lakh
-- LIG: ₹3-6 lakh
-- MIG-I: ₹6-12 lakh
-- MIG-II: ₹12-18 lakh
+- EWS: Annual income up to â‚¹3 lakh
+- LIG: â‚¹3-6 lakh
+- MIG-I: â‚¹6-12 lakh
+- MIG-II: â‚¹12-18 lakh
 
 ## 8. Claim Maximum Tax Benefits
 
 ### Section 80C (Principal):
-- Deduction up to ₹1.5 lakh per year
+- Deduction up to â‚¹1.5 lakh per year
 
 ### Section 24(b) (Interest):
-- Deduction up to ₹2 lakh per year
+- Deduction up to â‚¹2 lakh per year
 
 ### Section 80EE (First-time buyers):
-- Additional ₹50,000 on interest
+- Additional â‚¹50,000 on interest
 
-**Combined Benefit**: Save up to ₹3.5 lakh in taxes annually!
+**Combined Benefit**: Save up to â‚¹3.5 lakh in taxes annually!
 
 ## 9. Consider Balance Transfer
 
@@ -363,7 +363,7 @@ If you have an existing loan, consider **balance transfer**:
 4. Complete documentation
 5. New lender pays off old loan
 
-**Savings Example**: Transferring ₹40 lakh from 9.5% to 8.5% can save ₹8-10 lakh over 15 years!
+**Savings Example**: Transferring â‚¹40 lakh from 9.5% to 8.5% can save â‚¹8-10 lakh over 15 years!
 
 ## 10. Negotiate Everything!
 
@@ -412,7 +412,7 @@ Getting a home loan requires research and patience. Use these tips to:
 
 ---
 
-*Published on: December 20, 2025*  
+*Published on: December 20, 2026*  
 *Reading Time: 6 minutes*
     `,
     category: 'loans',
@@ -422,7 +422,7 @@ Getting a home loan requires research and patience. Use these tips to:
       avatar: '/authors/priya.jpg',
       bio: 'Real estate finance expert and certified financial planner specializing in home loans.',
     },
-    publishedAt: '2025-12-20',
+    publishedAt: '2026-12-20',
     readingTime: 6,
     featured: true,
   },
@@ -442,7 +442,7 @@ A mutual fund pools money from many investors and invests it in stocks, bonds, o
 ### Key Benefits:
 - Professional management
 - Diversification
-- Affordable (start with ₹500)
+- Affordable (start with â‚¹500)
 - Liquidity
 - Regulated by SEBI
 
@@ -490,14 +490,14 @@ Track market indices like Nifty 50 or Sensex.
 - Rupee cost averaging
 - Disciplined investing
 - Power of compounding
-- Affordability (start ₹500)
+- Affordability (start â‚¹500)
 - Automatic deductions
 
 ### SIP Example:
-**₹5,000 monthly for 20 years at 12% return**
-- Total Investment: ₹12 lakh
-- Final Value: ₹49.95 lakh
-- Wealth Created: ₹37.95 lakh
+**â‚¹5,000 monthly for 20 years at 12% return**
+- Total Investment: â‚¹12 lakh
+- Final Value: â‚¹49.95 lakh
+- Wealth Created: â‚¹37.95 lakh
 
 ## How to Start Investing
 
@@ -575,7 +575,7 @@ Choose funds with expense ratio under 1% for equity, 0.5% for debt.
 
 ### Equity Funds:
 - **Short-term** (< 1 year): 15% tax
-- **Long-term** (> 1 year): 10% on gains above ₹1 lakh
+- **Long-term** (> 1 year): 10% on gains above â‚¹1 lakh
 
 ### Debt Funds:
 - **Short-term** (< 3 years): As per tax slab
@@ -597,7 +597,7 @@ Choose funds with expense ratio under 1% for equity, 0.5% for debt.
 ## FAQs
 
 **Q: How much to invest monthly?**
-Start with whatever you can afford. Even ₹500 is great!
+Start with whatever you can afford. Even â‚¹500 is great!
 
 **Q: When to redeem?**
 Only when you reach your goal or need emergency funds.
@@ -627,7 +627,7 @@ Mutual fund investing is simple:
 
 ---
 
-*Published on: December 18, 2025*  
+*Published on: December 18, 2026*  
 *Reading Time: 7 minutes*
     `,
     category: 'investments',
@@ -637,7 +637,7 @@ Mutual fund investing is simple:
       avatar: '/authors/amit.jpg',
       bio: 'SEBI registered investment advisor with expertise in mutual funds and portfolio management.',
     },
-    publishedAt: '2025-12-18',
+    publishedAt: '2026-12-18',
     readingTime: 7,
     featured: true,
   },
@@ -645,7 +645,7 @@ Mutual fund investing is simple:
   {
     slug: 'nutrition-calorie-tracking-guide',
     title: 'Nutrition & Calorie Tracking: Complete Guide (TDEE, Macros, Fasting + Tools)',
-    description: 'A practical guide to tracking calories and macros, estimating TDEE, planning meals, and using fasting windows—plus links to the exact calculators on Calculator Loop.',
+    description: 'A practical guide to tracking calories and macros, estimating TDEE, planning meals, and using fasting windowsâ€”plus links to the exact calculators on Calculator Loop.',
     content: `
 <h1>Nutrition & Calorie Tracking: Complete Guide</h1>
 
@@ -689,8 +689,8 @@ Mutual fund investing is simple:
 </ul>
 
 <h2>Quick FAQs</h2>
-<p><strong>Do I need to track forever?</strong> No—track long enough to learn portions and patterns. Many people switch to a simpler system after a few months.</p>
-<p><strong>What matters most?</strong> Consistency. A “good enough” plan followed 6 days/week beats a perfect plan followed 2 days/week.</p>
+<p><strong>Do I need to track forever?</strong> Noâ€”track long enough to learn portions and patterns. Many people switch to a simpler system after a few months.</p>
+<p><strong>What matters most?</strong> Consistency. A â€œgood enoughâ€ plan followed 6 days/week beats a perfect plan followed 2 days/week.</p>
 
 <p><em>Note:</em> This content is for general education and not medical advice.</p>
     `,
@@ -701,8 +701,8 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
-    updatedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
+    updatedAt: '2026-12-27',
     readingTime: 7,
     featured: true,
     relatedPosts: [
@@ -718,7 +718,7 @@ Mutual fund investing is simple:
     content: `
 <h1>TDEE Calculator Guide</h1>
 
-<p>Your TDEE (Total Daily Energy Expenditure) is the number of calories you burn per day. It’s the best starting point for setting your calorie target.</p>
+<p>Your TDEE (Total Daily Energy Expenditure) is the number of calories you burn per day. Itâ€™s the best starting point for setting your calorie target.</p>
 
 <p>Use the calculator: <a href="/calculator/tdee-calculator">TDEE Calculator</a></p>
 
@@ -744,7 +744,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
     relatedPosts: [
       'nutrition-calorie-tracking-guide',
@@ -764,7 +764,7 @@ Mutual fund investing is simple:
 <p>Use the calculator: <a href="/calculator/macro-calculator">Macro Calculator</a></p>
 
 <h2>Protein first (most important)</h2>
-<p>If you’re not sure where to start, set protein with: <a href="/calculator/protein-calculator">Protein Calculator</a></p>
+<p>If youâ€™re not sure where to start, set protein with: <a href="/calculator/protein-calculator">Protein Calculator</a></p>
 
 <h2>Common macro approaches</h2>
 <ul>
@@ -789,7 +789,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 6,
     relatedPosts: [
       'nutrition-calorie-tracking-guide',
@@ -810,7 +810,7 @@ Mutual fund investing is simple:
 
 <h2>How to apply the result</h2>
 <ul>
-  <li>Track your weight 3–7 days/week and use a weekly average</li>
+  <li>Track your weight 3â€“7 days/week and use a weekly average</li>
   <li>Adjust calories in small steps if progress stalls</li>
   <li>Keep protein consistent to protect muscle during fat loss</li>
 </ul>
@@ -831,7 +831,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
     relatedPosts: [
       'nutrition-calorie-tracking-guide',
@@ -852,7 +852,7 @@ Mutual fund investing is simple:
 
 <h2>How to make your target easy to follow</h2>
 <ul>
-  <li>Split protein across 3–5 meals</li>
+  <li>Split protein across 3â€“5 meals</li>
   <li>Use simple staples you repeat weekly</li>
   <li>Adjust only if progress or appetite demands it</li>
 </ul>
@@ -873,7 +873,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
     relatedPosts: [
       'nutrition-calorie-tracking-guide',
@@ -911,7 +911,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -920,7 +920,7 @@ Mutual fund investing is simple:
     description: 'Learn how electrolytes (especially sodium) relate to hydration and use our Hydration & Electrolyte Calculator as a practical baseline.',
     content: `
 <h1>Hydration & Electrolyte Calculator Guide</h1>
-<p>On heavy sweat days, hydration is not just water—electrolytes can matter for comfort and performance.</p>
+<p>On heavy sweat days, hydration is not just waterâ€”electrolytes can matter for comfort and performance.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/hydration-electrolyte-calculator">Hydration & Electrolyte Calculator</a></p>
 
 <h2>Best use cases</h2>
@@ -944,7 +944,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -960,7 +960,7 @@ Mutual fund investing is simple:
 <ol>
   <li>Estimate calories: <a href="/calculator/tdee-calculator">TDEE Calculator</a></li>
   <li>Set protein: <a href="/calculator/protein-calculator">Protein Calculator</a></li>
-  <li>Plan 2–3 breakfast options, 3–5 lunch/dinner options</li>
+  <li>Plan 2â€“3 breakfast options, 3â€“5 lunch/dinner options</li>
 </ol>
 
 <h2>Related tools</h2>
@@ -976,7 +976,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -985,7 +985,7 @@ Mutual fund investing is simple:
     description: 'Understand glycemic index, how it differs from glycemic load, and how to use our GI calculator for smarter meal choices.',
     content: `
 <h1>Glycemic Index (GI) Calculator Guide</h1>
-<p>GI estimates how quickly a carbohydrate-containing food may raise blood glucose. It’s useful for some people, but meal context matters.</p>
+<p>GI estimates how quickly a carbohydrate-containing food may raise blood glucose. Itâ€™s useful for some people, but meal context matters.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/glycemic-index-calculator">Glycemic Index (GI) Calculator</a></p>
 
 <h2>Remember</h2>
@@ -1007,7 +1007,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1038,7 +1038,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1052,7 +1052,7 @@ Mutual fund investing is simple:
 
 <h2>Increase fiber without discomfort</h2>
 <ul>
-  <li>Increase slowly over 1–2 weeks</li>
+  <li>Increase slowly over 1â€“2 weeks</li>
   <li>Hydrate more: <a href="/calculator/water-intake-calculator">Water Intake Calculator</a></li>
   <li>Use simple staples: legumes, oats, fruits, vegetables</li>
 </ul>
@@ -1069,7 +1069,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1101,7 +1101,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1110,7 +1110,7 @@ Mutual fund investing is simple:
     description: 'Most sodium comes from packaged and restaurant foods. Use our Sodium Intake Calculator and make simple swaps without feeling restricted.',
     content: `
 <h1>Sodium Intake Calculator Guide</h1>
-<p>Most sodium comes from packaged foods, sauces, and restaurant meals—not just table salt. Tracking helps you find the biggest sources fast.</p>
+<p>Most sodium comes from packaged foods, sauces, and restaurant mealsâ€”not just table salt. Tracking helps you find the biggest sources fast.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/sodium-intake-calculator">Sodium Intake Calculator</a></p>
 
 <h2>Simple sodium-reduction strategies</h2>
@@ -1133,7 +1133,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -1164,7 +1164,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1196,7 +1196,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1212,7 +1212,7 @@ Mutual fund investing is simple:
 <ul>
   <li>Track intake from fortified foods</li>
   <li>Consider safe sun exposure when appropriate</li>
-  <li>Discuss supplements if you’re low</li>
+  <li>Discuss supplements if youâ€™re low</li>
 </ul>
 <p><em>Note:</em> General education only; not medical advice.</p>
     `,
@@ -1223,7 +1223,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1255,7 +1255,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -1271,7 +1271,7 @@ Mutual fund investing is simple:
 <ul>
   <li>Hit protein daily: <a href="/calculator/protein-calculator">Protein Calculator</a></li>
   <li>Plan meals inside the window: <a href="/calculator/meal-planner">Meal Planner Calculator</a></li>
-  <li>Don’t compensate with ultra-processed food</li>
+  <li>Donâ€™t compensate with ultra-processed food</li>
 </ul>
 
 <h2>Related tool</h2>
@@ -1286,7 +1286,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -1314,7 +1314,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1346,7 +1346,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -1378,7 +1378,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1387,7 +1387,7 @@ Mutual fund investing is simple:
     description: 'Carb cycling aligns carbs with training intensity. Use our Carb Cycling Planner as a starting framework and keep weekly calories controlled.',
     content: `
 <h1>Carb Cycling Planner Guide</h1>
-<p>Carb cycling is optional: eat more carbs on hard training days and fewer on rest days—while keeping weekly calories in check.</p>
+<p>Carb cycling is optional: eat more carbs on hard training days and fewer on rest daysâ€”while keeping weekly calories in check.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/carb-cycling-planner">Carb Cycling Planner</a></p>
 
 <h2>Keep it simple</h2>
@@ -1410,7 +1410,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1442,7 +1442,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1451,14 +1451,14 @@ Mutual fund investing is simple:
     description: 'Meal frequency is mostly preference. Use our Meal Frequency Calculator to pick a schedule you can follow and hit calories/protein consistently.',
     content: `
 <h1>Meal Frequency Calculator Guide</h1>
-<p>Meal frequency isn’t magic. Choose the schedule that helps you hit calories and protein consistently.</p>
+<p>Meal frequency isnâ€™t magic. Choose the schedule that helps you hit calories and protein consistently.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/meal-frequency-calculator">Meal Frequency Calculator</a></p>
 
 <h2>How to choose</h2>
 <ul>
-  <li>2–3 meals: simpler</li>
-  <li>3–4 meals: good balance</li>
-  <li>4–6 meals: may help appetite management</li>
+  <li>2â€“3 meals: simpler</li>
+  <li>3â€“4 meals: good balance</li>
+  <li>4â€“6 meals: may help appetite management</li>
 </ul>
 
 <h2>Related tools</h2>
@@ -1474,7 +1474,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1483,14 +1483,14 @@ Mutual fund investing is simple:
     description: 'Portions are where most calorie mistakes happen. Use our Portion Size Calculator to estimate servings and stay consistent.',
     content: `
 <h1>Portion Size Calculator Guide</h1>
-<p>Portion control doesn’t mean tiny meals—it means portions that match your goal and keep you consistent.</p>
+<p>Portion control doesnâ€™t mean tiny mealsâ€”it means portions that match your goal and keep you consistent.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/portion-size-calculator">Portion Size Calculator</a></p>
 
 <h2>Practical tips</h2>
 <ul>
   <li>Use repeatable bowls/plates</li>
   <li>Prioritize protein and vegetables</li>
-  <li>Track portions for 1–2 weeks to learn your baseline</li>
+  <li>Track portions for 1â€“2 weeks to learn your baseline</li>
 </ul>
 
 <h2>Related tools</h2>
@@ -1506,7 +1506,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1538,7 +1538,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1571,7 +1571,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -1599,7 +1599,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1630,7 +1630,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1657,7 +1657,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1684,7 +1684,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1711,7 +1711,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1736,7 +1736,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1763,7 +1763,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1788,7 +1788,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 3,
   },
   {
@@ -1820,7 +1820,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1847,7 +1847,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1856,13 +1856,13 @@ Mutual fund investing is simple:
     description: 'Hit your protein goal on a vegan diet with practical planning. Use our Vegan Protein Calculator and build repeatable meals.',
     content: `
 <h1>Vegan Protein Calculator Guide</h1>
-<p>Plant-based diets can hit high protein targets—planning matters. Focus on legumes, tofu/tempeh, soy milk, and high-protein grains.</p>
+<p>Plant-based diets can hit high protein targetsâ€”planning matters. Focus on legumes, tofu/tempeh, soy milk, and high-protein grains.</p>
 <p><strong>Use the tool:</strong> <a href="/calculator/vegan-protein-calculator">Vegan Protein Calculator</a></p>
 
 <h2>Practical tips</h2>
 <ul>
   <li>Anchor meals with a primary protein source</li>
-  <li>Track for 1–2 weeks to learn portions</li>
+  <li>Track for 1â€“2 weeks to learn portions</li>
   <li>Use labels for packaged foods</li>
 </ul>
 
@@ -1879,7 +1879,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 5,
   },
   {
@@ -1893,7 +1893,7 @@ Mutual fund investing is simple:
 
 <h2>Simple distribution approach</h2>
 <ul>
-  <li>Divide protein across 3–5 meals</li>
+  <li>Divide protein across 3â€“5 meals</li>
   <li>Include protein at breakfast</li>
   <li>Use repeatable snacks if needed</li>
 </ul>
@@ -1910,7 +1910,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1941,7 +1941,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -1972,7 +1972,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   // Coming-soon tools (blogs added for topical coverage; calculator pages not live yet)
@@ -2001,7 +2001,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2010,7 +2010,7 @@ Mutual fund investing is simple:
     description: 'A beginner-friendly creatine guide: what it is, why consistency matters, and common questions about dosing (general info).',
     content: `
 <h1>Creatine Intake Guide</h1>
-<p>Creatine is one of the most researched sports supplements. For most people, consistency matters more than “perfect timing”.</p>
+<p>Creatine is one of the most researched sports supplements. For most people, consistency matters more than â€œperfect timingâ€.</p>
 
 <h2>Practical approach</h2>
 <ul>
@@ -2029,7 +2029,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2038,7 +2038,7 @@ Mutual fund investing is simple:
     description: 'A simple overview of beta-alanine, typical use cases, and safety notes. (General education, not a dosing prescription.)',
     content: `
 <h1>Beta-Alanine Guide</h1>
-<p>Beta-alanine is commonly used for high-intensity exercise performance. Effects are not instant—consistency matters.</p>
+<p>Beta-alanine is commonly used for high-intensity exercise performance. Effects are not instantâ€”consistency matters.</p>
 
 <h2>Common notes</h2>
 <ul>
@@ -2057,13 +2057,13 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
     slug: 'citrulline-malate-guide',
     title: 'Citrulline Malate Guide: Performance Basics and Safety Notes',
-    description: 'A general guide to citrulline malate: why it’s used, what to consider, and when to avoid it.',
+    description: 'A general guide to citrulline malate: why itâ€™s used, what to consider, and when to avoid it.',
     content: `
 <h1>Citrulline Malate Guide</h1>
 <p>Citrulline malate is a common pre-workout ingredient. If you use it, keep the rest of your plan simple: training + protein + calories.</p>
@@ -2084,7 +2084,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2111,7 +2111,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2138,7 +2138,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2166,7 +2166,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2175,7 +2175,7 @@ Mutual fund investing is simple:
     description: 'A practical guide to leucine as part of protein quality and how to plan protein per meal without overcomplicating it.',
     content: `
 <h1>Leucine Threshold Guide</h1>
-<p>Leucine is one of the amino acids linked with muscle protein synthesis. You don’t need to micromanage it if your protein intake is consistent.</p>
+<p>Leucine is one of the amino acids linked with muscle protein synthesis. You donâ€™t need to micromanage it if your protein intake is consistent.</p>
 
 <h2>Practical approach</h2>
 <ul>
@@ -2193,7 +2193,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2202,7 +2202,7 @@ Mutual fund investing is simple:
     description: 'Electrolytes are most relevant on heavy sweat days. Learn the basics and how to avoid common hydration mistakes.',
     content: `
 <h1>Electrolyte Balance Guide</h1>
-<p>Electrolytes matter most when sweat loss is high. Most casual gym sessions don’t require complicated electrolyte planning.</p>
+<p>Electrolytes matter most when sweat loss is high. Most casual gym sessions donâ€™t require complicated electrolyte planning.</p>
 
 <h2>Start simple</h2>
 <ul>
@@ -2220,7 +2220,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2229,7 +2229,7 @@ Mutual fund investing is simple:
     description: 'Collagen is popular for joints/skin. Learn realistic expectations and why overall protein and diet quality still matter most.',
     content: `
 <h1>Collagen Guide</h1>
-<p>Collagen is commonly used for joint/skin goals. Evidence varies by use case, and it’s not a replacement for overall protein and nutrition.</p>
+<p>Collagen is commonly used for joint/skin goals. Evidence varies by use case, and itâ€™s not a replacement for overall protein and nutrition.</p>
 
 <h2>Start with the basics</h2>
 <ul>
@@ -2247,7 +2247,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2274,7 +2274,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2296,7 +2296,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 3,
   },
   {
@@ -2323,7 +2323,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 4,
   },
   {
@@ -2344,7 +2344,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 3,
   },
   {
@@ -2365,7 +2365,8 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2025-12-27',
+    publishedAt: '2026-12-27',
     readingTime: 3,
   },
 ];
+

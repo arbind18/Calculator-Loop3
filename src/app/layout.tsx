@@ -128,10 +128,10 @@ export async function generateMetadata(): Promise<Metadata> {
       template: '%s | Calculator Loop',
     },
     description:
-      'Free online calculator tools for 2025! Calculate EMI, SIP returns, BMI, GST, income tax, loan payments, retirement planning & more. Fast, accurate & mobile-friendly calculators. No signup required.',
+      'Free online calculator tools for 2026! Calculate EMI, SIP returns, BMI, GST, income tax, loan payments, retirement planning & more. Fast, accurate & mobile-friendly calculators. No signup required.',
     keywords: [
       'online calculator',
-      'free calculator 2025',
+      'free calculator 2026',
       'EMI calculator India',
       'SIP calculator',
       'GST calculator India',
@@ -141,7 +141,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'loan calculator',
       'home loan EMI',
       'investment calculator',
-      'income tax calculator 2025',
+      'income tax calculator 2026',
     ],
     authors: [{ name: 'Calculator Loop' }],
     creator: 'Calculator Loop',
@@ -164,7 +164,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Calculator Loop',
       title: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, Tax Calculator',
       description:
-        'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive calculator tools available.',
+        'Free online calculators for 2026! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive calculator tools available.',
       images: [
         {
           url: '/og-image.png',
@@ -180,7 +180,7 @@ export async function generateMetadata(): Promise<Metadata> {
       creator: '@calculatorloop',
       title: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, Tax',
       description:
-        'Free online calculators for 2025! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive tools available.',
+        'Free online calculators for 2026! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive tools available.',
       images: ['/twitter-image.png'],
     },
     verification: {

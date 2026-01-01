@@ -1,6 +1,6 @@
-# All categories readiness (registry-level)
+﻿# All categories readiness (registry-level)
 
-Generated: 2025-12-26T09:39:47.040Z
+Generated: 2026-12-26T09:39:47.040Z
 Categories scanned: 9
 Categories with missing tools/files: 0
 
@@ -24,4 +24,4 @@ Categories with missing tools/files: 0
 
 ## Notes
 
-- This report is based on `*-tools-report.json` files and reflects registry/data coverage, not UI-level “Not Configured” fallbacks inside individual Generic*Tool components.
+- This report is based on `*-tools-report.json` files and reflects registry/data coverage, not UI-level â€œNot Configuredâ€ fallbacks inside individual Generic*Tool components.

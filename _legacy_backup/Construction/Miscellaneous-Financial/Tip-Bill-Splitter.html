@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧾 Tip & Bill Splitter Calculator 2025 - Split Bills Easily</title>
+    <title>ðŸ§¾ Tip & Bill Splitter Calculator 2026 - Split Bills Easily</title>
     <meta name="description" content="Free Tip & Bill Splitter - Calculate tips and split bills among friends. Fair bill splitting with custom tip percentages. Perfect for restaurants and group dining.">
     <link rel="canonical" href="https://calculatorloop.com/Financial/Miscellaneous-Financial/Tip-Bill-Splitter.html">
     <meta name="keywords" content="tip calculator, bill splitter, split bill calculator, tip percentage calculator, restaurant calculator">
@@ -85,7 +85,7 @@
         </div>
         <div class="calculator-section">
             <div class="input-group">
-                <label><i class="fas fa-rupee-sign"></i> Bill Amount (₹)</label>
+                <label><i class="fas fa-rupee-sign"></i> Bill Amount (â‚¹)</label>
                 <input type="number" id="billAmount" value="1000" min="0" step="1">
             </div>
             <div class="input-group">
@@ -105,19 +105,19 @@
             <div class="result-cards">
                 <div class="result-card">
                     <div class="result-label">Bill Amount</div>
-                    <div class="result-value" id="billResult">₹1,000</div>
+                    <div class="result-value" id="billResult">â‚¹1,000</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Tip Amount</div>
-                    <div class="result-value" id="tipResult">₹100</div>
+                    <div class="result-value" id="tipResult">â‚¹100</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Total Amount</div>
-                    <div class="result-value" id="totalResult">₹1,100</div>
+                    <div class="result-value" id="totalResult">â‚¹1,100</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Per Person</div>
-                    <div class="result-value" id="perPersonResult">₹550</div>
+                    <div class="result-value" id="perPersonResult">â‚¹550</div>
                 </div>
             </div>
         </div>
@@ -157,10 +157,10 @@
             const total = bill + tipAmt;
             const perPerson = total / people;
             
-            document.getElementById('billResult').textContent = '₹' + bill.toLocaleString('en-IN');
-            document.getElementById('tipResult').textContent = '₹' + tipAmt.toLocaleString('en-IN', {maximumFractionDigits: 2});
-            document.getElementById('totalResult').textContent = '₹' + total.toLocaleString('en-IN', {maximumFractionDigits: 2});
-            document.getElementById('perPersonResult').textContent = '₹' + perPerson.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('billResult').textContent = 'â‚¹' + bill.toLocaleString('en-IN');
+            document.getElementById('tipResult').textContent = 'â‚¹' + tipAmt.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('totalResult').textContent = 'â‚¹' + total.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('perPersonResult').textContent = 'â‚¹' + perPerson.toLocaleString('en-IN', {maximumFractionDigits: 2});
         }
         
         document.getElementById('billAmount').addEventListener('input', calculate);
@@ -174,3 +174,4 @@
     </script>
 </body>
 </html>
+

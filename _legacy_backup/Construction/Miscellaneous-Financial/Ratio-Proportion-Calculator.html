@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Ratio & Proportion Calculator 2025 - Solve Ratios Instantly</title>
+    <title>ðŸ“Š Ratio & Proportion Calculator 2026 - Solve Ratios Instantly</title>
     <meta name="description" content="Free Ratio & Proportion Calculator - Solve ratios, find missing values, simplify ratios. Perfect for math, cooking, construction and financial calculations.">
     <link rel="canonical" href="https://calculatorloop.com/Financial/Miscellaneous-Financial/Ratio-Proportion-Calculator.html">
     <meta name="keywords" content="ratio calculator, proportion calculator, simplify ratio, solve proportion, ratio finder">
@@ -129,7 +129,7 @@
                 </div>
                 <div class="result-box">
                     <div class="result-label">Split Result</div>
-                    <div class="result-value" id="splitResult">₹400 : ₹600</div>
+                    <div class="result-value" id="splitResult">â‚¹400 : â‚¹600</div>
                 </div>
             </div>
         </div>
@@ -195,13 +195,13 @@
             const r2 = parseFloat(document.getElementById('split2').value) || 0;
             const sum = r1 + r2;
             if(sum === 0) {
-                document.getElementById('splitResult').textContent = '₹0 : ₹0';
+                document.getElementById('splitResult').textContent = 'â‚¹0 : â‚¹0';
                 return;
             }
             const part1 = total * (r1 / sum);
             const part2 = total * (r2 / sum);
             document.getElementById('splitResult').textContent = 
-                '₹' + part1.toLocaleString('en-IN', {maximumFractionDigits: 2}) + ' : ₹' + part2.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                'â‚¹' + part1.toLocaleString('en-IN', {maximumFractionDigits: 2}) + ' : â‚¹' + part2.toLocaleString('en-IN', {maximumFractionDigits: 2});
         }
         
         document.getElementById('ratio1').addEventListener('input', simplifyRatio);
@@ -219,3 +219,4 @@
     </script>
 </body>
 </html>
+

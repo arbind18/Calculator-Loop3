@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💰 Budget Planner Calculator 2025 - Plan Your Monthly Budget</title>
+    <title>ðŸ’° Budget Planner Calculator 2026 - Plan Your Monthly Budget</title>
     <meta name="description" content="Free Budget Planner - Create monthly budgets, track income vs expenses. Categorize spending and manage finances. Perfect for personal financial planning.">
     <link rel="canonical" href="https://calculatorloop.com/Financial/Miscellaneous-Financial/Budget-Planner.html">
     <meta name="keywords" content="budget planner, monthly budget calculator, expense tracker, income vs expense, personal finance calculator">
@@ -93,11 +93,11 @@
             <h2 class="section-title"><i class="fas fa-money-bill-wave"></i> Income</h2>
             <div class="category-grid">
                 <div class="input-group">
-                    <label><i class="fas fa-briefcase"></i> Salary (₹)</label>
+                    <label><i class="fas fa-briefcase"></i> Salary (â‚¹)</label>
                     <input type="number" id="salary" value="50000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-chart-line"></i> Other Income (₹)</label>
+                    <label><i class="fas fa-chart-line"></i> Other Income (â‚¹)</label>
                     <input type="number" id="otherIncome" value="5000" min="0" step="100">
                 </div>
             </div>
@@ -106,35 +106,35 @@
             <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Expenses</h2>
             <div class="category-grid">
                 <div class="input-group">
-                    <label><i class="fas fa-home"></i> Housing (₹)</label>
+                    <label><i class="fas fa-home"></i> Housing (â‚¹)</label>
                     <input type="number" class="expense" id="housing" value="15000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-utensils"></i> Food & Dining (₹)</label>
+                    <label><i class="fas fa-utensils"></i> Food & Dining (â‚¹)</label>
                     <input type="number" class="expense" id="food" value="8000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-car"></i> Transportation (₹)</label>
+                    <label><i class="fas fa-car"></i> Transportation (â‚¹)</label>
                     <input type="number" class="expense" id="transport" value="5000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-bolt"></i> Utilities (₹)</label>
+                    <label><i class="fas fa-bolt"></i> Utilities (â‚¹)</label>
                     <input type="number" class="expense" id="utilities" value="3000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-heartbeat"></i> Healthcare (₹)</label>
+                    <label><i class="fas fa-heartbeat"></i> Healthcare (â‚¹)</label>
                     <input type="number" class="expense" id="healthcare" value="2000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-film"></i> Entertainment (₹)</label>
+                    <label><i class="fas fa-film"></i> Entertainment (â‚¹)</label>
                     <input type="number" class="expense" id="entertainment" value="4000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-graduation-cap"></i> Education (₹)</label>
+                    <label><i class="fas fa-graduation-cap"></i> Education (â‚¹)</label>
                     <input type="number" class="expense" id="education" value="3000" min="0" step="100">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-ellipsis-h"></i> Miscellaneous (₹)</label>
+                    <label><i class="fas fa-ellipsis-h"></i> Miscellaneous (â‚¹)</label>
                     <input type="number" class="expense" id="misc" value="5000" min="0" step="100">
                 </div>
             </div>
@@ -143,15 +143,15 @@
             <div class="result-cards">
                 <div class="result-card">
                     <div class="result-label">Total Income</div>
-                    <div class="result-value" id="totalIncome">₹55,000</div>
+                    <div class="result-value" id="totalIncome">â‚¹55,000</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Total Expenses</div>
-                    <div class="result-value" id="totalExpenses">₹45,000</div>
+                    <div class="result-value" id="totalExpenses">â‚¹45,000</div>
                 </div>
                 <div class="result-card surplus" id="balanceCard">
                     <div class="result-label">Balance</div>
-                    <div class="result-value" id="balance">₹10,000</div>
+                    <div class="result-value" id="balance">â‚¹10,000</div>
                 </div>
                 <div class="result-card">
                     <div class="result-label">Savings Rate</div>
@@ -199,9 +199,9 @@
             const balance = totalIncome - totalExpenses;
             const savingsRate = totalIncome > 0 ? (balance / totalIncome * 100) : 0;
             
-            document.getElementById('totalIncome').textContent = '₹' + totalIncome.toLocaleString('en-IN');
-            document.getElementById('totalExpenses').textContent = '₹' + totalExpenses.toLocaleString('en-IN');
-            document.getElementById('balance').textContent = '₹' + balance.toLocaleString('en-IN');
+            document.getElementById('totalIncome').textContent = 'â‚¹' + totalIncome.toLocaleString('en-IN');
+            document.getElementById('totalExpenses').textContent = 'â‚¹' + totalExpenses.toLocaleString('en-IN');
+            document.getElementById('balance').textContent = 'â‚¹' + balance.toLocaleString('en-IN');
             document.getElementById('savingsRate').textContent = savingsRate.toFixed(1) + '%';
             
             const balanceCard = document.getElementById('balanceCard');
@@ -270,3 +270,4 @@
     </script>
 </body>
 </html>
+
