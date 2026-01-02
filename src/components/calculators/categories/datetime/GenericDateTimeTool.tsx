@@ -77,6 +77,60 @@ function parseUserDate(value: string): Date | null {
   return null;
 }
 
+function formatDateInputLive(value: string) {
+  const raw = (value ?? '').trim();
+  if (!raw) return '';
+
+  // If the user already typed/pasted separators, keep their intent and just normalize.
+  // This avoids mangling inputs like "2026-01-02".
+  if (/[\-/.]/.test(raw)) {
+    const cleaned = raw.replace(/[^0-9\-/.]/g, '');
+    return cleaned.replace(/[/.]/g, '-').replace(/-+/g, '-').slice(0, 10);
+  }
+
+  // Digits-only: live format as DD-MM-YYYY.
+  const digits = raw.replace(/[^0-9]/g, '').slice(0, 8);
+  const dd = digits.slice(0, 2);
+  const mm = digits.slice(2, 4);
+  const yyyy = digits.slice(4, 8);
+
+  if (digits.length <= 2) return dd;
+  if (digits.length <= 4) return `${dd}-${mm}`;
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function splitDatePartsForUi(value: string): { day: string; month: string; year: string } {
+  const raw = (value ?? '').trim();
+  if (!raw) return { day: '', month: '', year: '' };
+
+  const normalized = raw.replace(/[/.]/g, '-');
+  if (normalized.includes('-')) {
+    const parts = normalized.split('-').filter(Boolean);
+    if (parts[0]?.length === 4) {
+      const [yyyy = '', mm = '', dd = ''] = parts;
+      return {
+        day: dd ? String(Number(dd.slice(0, 2))) : '',
+        month: mm ? String(Number(mm.slice(0, 2))) : '',
+        year: yyyy.slice(0, 4),
+      };
+    }
+    const [dd = '', mm = '', yyyy = ''] = parts;
+    return {
+      day: dd ? String(Number(dd.slice(0, 2))) : '',
+      month: mm ? String(Number(mm.slice(0, 2))) : '',
+      year: yyyy.slice(0, 4),
+    };
+  }
+
+  // Digits-only: interpret as DDMMYYYY (partial allowed)
+  const digits = raw.replace(/[^0-9]/g, '').slice(0, 8);
+  return {
+    day: digits.slice(0, 2) ? String(Number(digits.slice(0, 2))) : '',
+    month: digits.slice(2, 4) ? String(Number(digits.slice(2, 4))) : '',
+    year: digits.slice(4, 8),
+  };
+}
+
 interface CalculatorConfig {
   id: string;
   title: string;
@@ -106,6 +160,11 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   const [results, setResults] = useState<any>(null);
   const [isAutoCalculate, setIsAutoCalculate] = useState(false);
   const [restoreSnapshot, setRestoreSnapshot] = useState<{ [key: string]: string | number } | null>(null);
+  const [focusedDateInput, setFocusedDateInput] = useState<string | null>(null);
+  const [datePartsByName, setDatePartsByName] = useState<Record<string, { day: string; month: string; year: string }>>({});
+
+  const exampleYear = new Date().getFullYear();
+  const exampleDatePlaceholder = `31-12-${exampleYear}`;
 
   const getCalculatorConfig = (calculatorId: string): CalculatorConfig => {
     switch (calculatorId) {
@@ -363,6 +422,17 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
 
   const config = getCalculatorConfig(id);
 
+  const syncDatePartsFromInputs = (nextInputs: { [key: string]: string | number }) => {
+    setDatePartsByName(prev => {
+      const next = { ...prev };
+      config.inputs.forEach((input) => {
+        if (input.type !== 'date') return;
+        next[input.name] = splitDatePartsForUi(String(nextInputs[input.name] ?? ''));
+      });
+      return next;
+    });
+  };
+
   useEffect(() => {
     const defaultInputs: { [key: string]: string | number } = {};
     config.inputs.forEach(input => {
@@ -377,6 +447,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
       }
     });
     setInputs(defaultInputs);
+    syncDatePartsFromInputs(defaultInputs);
   }, [id]);
 
   const handleInputChange = (name: string, value: string | number) => {
@@ -406,6 +477,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
       }
     });
     setInputs(defaultInputs);
+    syncDatePartsFromInputs(defaultInputs);
     setResults(null);
   };
 
@@ -432,12 +504,14 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
       }
     });
     setInputs(clearedInputs);
+    syncDatePartsFromInputs(clearedInputs);
     setResults(null);
   };
 
   const handleRestoreInputs = () => {
     if (!restoreSnapshot) return;
     setInputs(restoreSnapshot);
+    syncDatePartsFromInputs(restoreSnapshot);
     setResults(null);
   };
 
@@ -795,15 +869,102 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                       ))}
                     </select>
                   ) : input.type === 'date' ? (
-                    <Input
-                      id={input.name}
-                      type="text"
-                      inputMode="numeric"
-                      placeholder={input.placeholder || 'DD-MM-YYYY'}
-                      value={inputs[input.name] || ''}
-                      onChange={(e) => handleInputChange(input.name, e.target.value)}
-                      className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
-                    />
+                    (() => {
+                      const parts = datePartsByName[input.name] ?? { day: '', month: '', year: '' };
+                      const setParts = (next: { day: string; month: string; year: string }) => {
+                        setDatePartsByName((prev) => ({ ...prev, [input.name]: next }));
+
+                        const pad2 = (s: string) => (s ? String(Number(s)).padStart(2, '0') : '');
+                        const d = pad2(next.day);
+                        const m = pad2(next.month);
+                        const y = (next.year ?? '').slice(0, 4);
+
+                        const nextValue = d && m && y ? `${d}-${m}-${y}` : d && m ? `${d}-${m}` : '';
+                        handleInputChange(input.name, nextValue);
+                      };
+
+                      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                      const monthPlaceholder = 'Mon';
+                      const dayPlaceholder = '31';
+                      const yearPlaceholder = String(exampleYear);
+
+                      const monthNum = Number(parts.month);
+                      const yearNum = parts.year.length === 4 ? Number(parts.year) : exampleYear;
+                      const maxDay = monthNum >= 1 && monthNum <= 12
+                        ? new Date(yearNum, monthNum, 0).getDate()
+                        : 31;
+
+                      const dayValueNum = Number(parts.day);
+                      const clampedDay = dayValueNum && dayValueNum > maxDay ? String(maxDay) : parts.day;
+                      if (clampedDay !== parts.day) {
+                        queueMicrotask(() => setParts({ ...parts, day: clampedDay }));
+                      }
+
+                      return (
+                        <div
+                          className="space-y-2"
+                          onFocusCapture={() => setFocusedDateInput(input.name)}
+                          onBlurCapture={(e) => {
+                            const nextTarget = e.relatedTarget as Node | null;
+                            if (nextTarget && e.currentTarget.contains(nextTarget)) return;
+                            setFocusedDateInput((prev) => (prev === input.name ? null : prev));
+                          }}
+                        >
+                          <div className="grid grid-cols-3 gap-2">
+                            <select
+                              aria-label={`${input.label} month`}
+                              value={parts.month}
+                              onChange={(e) => {
+                                const nextMonth = e.target.value;
+                                setParts({ day: parts.day, month: nextMonth, year: parts.year });
+                              }}
+                              className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition py-6"
+                            >
+                              <option value="" disabled>
+                                {monthPlaceholder}
+                              </option>
+                              {monthNames.map((m, idx) => (
+                                <option key={m} value={String(idx + 1)}>
+                                  {m}
+                                </option>
+                              ))}
+                            </select>
+
+                            <select
+                              aria-label={`${input.label} day`}
+                              value={clampedDay}
+                              disabled={!parts.month}
+                              onChange={(e) => {
+                                const nextDay = e.target.value;
+                                setParts({ day: nextDay, month: parts.month, year: parts.year });
+                              }}
+                              className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition py-6"
+                            >
+                              <option value="" disabled>
+                                {dayPlaceholder}
+                              </option>
+                              {Array.from({ length: maxDay }, (_, i) => i + 1).map((d) => (
+                                <option key={d} value={String(d)}>
+                                  {d}
+                                </option>
+                              ))}
+                            </select>
+
+                            <Input
+                              aria-label={`${input.label} year`}
+                              inputMode="numeric"
+                              placeholder={yearPlaceholder}
+                              value={parts.year}
+                              onChange={(e) => {
+                                const nextYear = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
+                                setParts({ day: parts.day, month: parts.month, year: nextYear });
+                              }}
+                              className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 rounded-xl py-6 text-base tracking-wide transition-all duration-200 focus:shadow-lg focus:shadow-purple-500/10"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })()
                   ) : (
                     input.type === 'number' ? (
                       <div className="relative">
@@ -831,6 +992,12 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                         className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
                       />
                     )
+                  )}
+
+                  {input.type === 'date' && focusedDateInput === input.name && (
+                    <div className="text-xs text-muted-foreground animate-fadeIn">
+                      Tip: day me <span className="font-medium">31</span>, month me <span className="font-medium">12</span>, aur year me <span className="font-medium">{exampleYear}</span> jaisa — example <span className="font-medium">{exampleDatePlaceholder}</span>.
+                    </div>
                   )}
                 </div>
               ))}
