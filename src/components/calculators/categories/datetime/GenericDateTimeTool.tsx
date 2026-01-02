@@ -11,7 +11,19 @@ import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 import {
   Download,
+  Database,
+  FileArchive,
+  FileCode,
+  FileImage,
+  FileJson,
+  FileKey,
+  FileSpreadsheet,
+  FileText,
   FileType,
+  Image,
+  Link as LinkIcon,
+  Lock,
+  Presentation,
   Printer,
   RefreshCw,
   Share2,
@@ -27,7 +39,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
-import { generateReport } from '@/lib/downloadUtils';
+import { downloadFile, generateReport } from '@/lib/downloadUtils';
 
 interface CalculatorConfig {
   id: string;
@@ -406,39 +418,96 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
     window.print();
   };
 
-  const handleDownload = async (format: 'png' | 'pdf') => {
-    if (format === 'png') {
-      await generateReport('png', config.id, [], [], config.title);
-      return;
-    }
+  const getSafeBaseFileName = () => {
+    return (
+      config.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .slice(0, 60) || 'calculator'
+    );
+  };
 
-    if (!results) {
-      toast.error('Please calculate first to download a PDF.');
-      return;
-    }
-
-    const headers = ['Label', 'Value'];
+  const buildExportTable = () => {
+    const headers = ['Section', 'Label', 'Value'];
     const rows: (string | number)[][] = [];
 
+    // Inputs
+    rows.push(['Inputs', '', '']);
+    for (const input of config.inputs) {
+      const value = inputs[input.name];
+      rows.push(['Inputs', input.label, value === undefined || value === '' ? '-' : String(value)]);
+    }
+
+    // Results
     if (results?.results?.length) {
+      rows.push(['Results', '', '']);
       for (const r of results.results as Array<{ label: string; value: string | number; unit?: string }>) {
         const value = `${r.value}${r.unit ? ` ${r.unit}` : ''}`;
-        rows.push([r.label, value]);
+        rows.push(['Results', r.label, value]);
       }
+    } else {
+      rows.push(['Results', 'Note', 'No results yet (turn Auto Calculate ON or click Calculate).']);
     }
 
     if (results?.breakdown?.length) {
-      rows.push(['', '']);
-      rows.push(['Details', '']);
+      rows.push(['Details', '', '']);
       for (const b of results.breakdown as Array<{ label: string; value: string | number; unit?: string }>) {
         const value = `${b.value}${b.unit ? ` ${b.unit}` : ''}`;
-        rows.push([b.label, value]);
+        rows.push(['Details', b.label, value]);
       }
     }
 
-    await generateReport('pdf', config.id, headers, rows, config.title, {
+    return { headers, rows };
+  };
+
+  const handleDownload = async (format: string) => {
+    if (format === 'api') {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success('API link copied!');
+      return;
+    }
+
+    if (format === 'sqlite') {
+      toast.message('SQLite export is coming soon.');
+      return;
+    }
+
+    if (format === 'svg') {
+      const element = document.getElementById('calculator-content');
+      if (!element) {
+        toast.error('Calculator content not found');
+        return;
+      }
+
+      const html2canvas = (await import('html2canvas')).default;
+      const canvas = await html2canvas(element, { backgroundColor: '#ffffff', scale: 2 });
+      const pngDataUrl = canvas.toDataURL('image/png');
+      const width = canvas.width;
+      const height = canvas.height;
+
+      const svg = `<?xml version="1.0" encoding="UTF-8"?>\n` +
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">` +
+        `<image href="${pngDataUrl}" width="${width}" height="${height}" />` +
+        `</svg>`;
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      const base = getSafeBaseFileName();
+      downloadFile(svg, `${base}_${timestamp}.svg`, 'image/svg+xml');
+      return;
+    }
+
+    // Image formats use the existing screenshot exporter in generateReport
+    if (format === 'png' || format === 'jpg') {
+      await generateReport(format, getSafeBaseFileName(), [], [], config.title);
+      return;
+    }
+
+    const { headers, rows } = buildExportTable();
+    await generateReport(format, getSafeBaseFileName(), headers, rows, config.title, {
       Tool: config.title,
       Generated: new Date().toLocaleString(),
+      URL: window.location.href,
     });
   };
 
@@ -537,16 +606,124 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                       <Download className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-44">
-                    <DropdownMenuLabel>Download As</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => handleDownload('png')}>
-                      <FileType className="mr-2 h-4 w-4" />
-                      <span>Image (PNG)</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleDownload('pdf')}>
-                      <FileType className="mr-2 h-4 w-4" />
-                      <span>PDF</span>
-                    </DropdownMenuItem>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-[500px] p-4 max-h-[80vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/50"
+                  >
+                    <DropdownMenuLabel className="px-2 py-1.5 text-lg font-bold border-b mb-3">
+                      Download Options
+                    </DropdownMenuLabel>
+
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+                      {/* Left Column */}
+                      <div className="space-y-4">
+                        {/* Basic Section */}
+                        <div className="space-y-1">
+                          <div className="px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                            Basic & Standard
+                          </div>
+                          <DropdownMenuItem onClick={() => handleDownload('csv')} className="rounded-lg cursor-pointer">
+                            <FileText className="mr-2 h-4 w-4 text-green-600" />
+                            <span>CSV (Excel)</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('excel')} className="rounded-lg cursor-pointer">
+                            <FileSpreadsheet className="mr-2 h-4 w-4 text-green-600" />
+                            <span>Excel (.xlsx)</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('pdf')} className="rounded-lg cursor-pointer">
+                            <FileType className="mr-2 h-4 w-4 text-red-500" />
+                            <span>PDF Document</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('json')} className="rounded-lg cursor-pointer">
+                            <FileJson className="mr-2 h-4 w-4 text-yellow-500" />
+                            <span>JSON Data</span>
+                          </DropdownMenuItem>
+                        </div>
+
+                        {/* Images Section */}
+                        <div className="space-y-1">
+                          <div className="px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                            Images & Visuals
+                          </div>
+                          <DropdownMenuItem onClick={() => handleDownload('png')} className="rounded-lg cursor-pointer">
+                            <Image className="mr-2 h-4 w-4 text-purple-500" />
+                            <span>PNG Image</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('jpg')} className="rounded-lg cursor-pointer">
+                            <FileImage className="mr-2 h-4 w-4 text-orange-500" />
+                            <span>JPG Image</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('svg')} className="rounded-lg cursor-pointer">
+                            <FileCode className="mr-2 h-4 w-4 text-pink-500" />
+                            <span>SVG Vector</span>
+                          </DropdownMenuItem>
+                        </div>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className="space-y-4">
+                        {/* Advanced Section */}
+                        <div className="space-y-1">
+                          <div className="px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                            Advanced Docs
+                          </div>
+                          <DropdownMenuItem onClick={() => handleDownload('html')} className="rounded-lg cursor-pointer">
+                            <FileCode className="mr-2 h-4 w-4 text-orange-600" />
+                            <span>HTML Report</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('docx')} className="rounded-lg cursor-pointer">
+                            <FileText className="mr-2 h-4 w-4 text-blue-700" />
+                            <span>Word (.docx)</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('pptx')} className="rounded-lg cursor-pointer">
+                            <Presentation className="mr-2 h-4 w-4 text-orange-700" />
+                            <span>PowerPoint (.pptx)</span>
+                          </DropdownMenuItem>
+                        </div>
+
+                        {/* Developer Section */}
+                        <div className="space-y-1">
+                          <div className="px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                            Developer Data
+                          </div>
+                          <DropdownMenuItem onClick={() => handleDownload('xml')} className="rounded-lg cursor-pointer">
+                            <FileCode className="mr-2 h-4 w-4 text-gray-500" />
+                            <span>XML Data</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('api')} className="rounded-lg cursor-pointer">
+                            <LinkIcon className="mr-2 h-4 w-4 text-indigo-500" />
+                            <span>API Link</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('sql')} className="rounded-lg cursor-pointer">
+                            <Database className="mr-2 h-4 w-4 text-blue-400" />
+                            <span>SQL Insert</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('sqlite')} className="rounded-lg cursor-pointer">
+                            <Database className="mr-2 h-4 w-4 text-cyan-600" />
+                            <span>SQLite DB</span>
+                          </DropdownMenuItem>
+                        </div>
+
+                        {/* Security Section */}
+                        <div className="space-y-1">
+                          <div className="px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                            Archives & Security
+                          </div>
+                          <DropdownMenuItem onClick={() => handleDownload('zip')} className="rounded-lg cursor-pointer">
+                            <FileArchive className="mr-2 h-4 w-4 text-yellow-600" />
+                            <span>ZIP Archive</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('pdf-encrypted')} className="rounded-lg cursor-pointer">
+                            <Lock className="mr-2 h-4 w-4 text-red-600" />
+                            <span>Encrypted PDF</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownload('zip-encrypted')} className="rounded-lg cursor-pointer">
+                            <FileKey className="mr-2 h-4 w-4 text-slate-600" />
+                            <span>Password ZIP</span>
+                          </DropdownMenuItem>
+                        </div>
+                      </div>
+                    </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
