@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
+import { RefreshCw } from 'lucide-react';
 
 interface CalculatorConfig {
   id: string;
@@ -419,7 +420,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                 variant="outline"
                 className="px-6 border-2 border-purple-300 hover:bg-purple-50 dark:border-purple-700 dark:hover:bg-purple-950"
               >
-                <i className="fas fa-redo mr-2"></i>
+                <RefreshCw className="mr-2 h-4 w-4" />
                 Reset
               </Button>
             </div>
