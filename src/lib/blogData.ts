@@ -1038,7 +1038,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-12-27',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1069,7 +1069,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-12-27',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1101,7 +1101,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-12-27',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1133,7 +1133,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 5,
   },
   {
@@ -1164,7 +1164,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1196,7 +1196,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1223,7 +1223,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1255,7 +1255,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 5,
   },
   {
@@ -1286,7 +1286,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 5,
   },
   {
@@ -1314,7 +1314,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1346,7 +1346,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 5,
   },
   {
@@ -1378,7 +1378,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1410,7 +1410,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1442,7 +1442,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1474,7 +1474,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1506,7 +1506,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1538,7 +1538,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1571,7 +1571,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 5,
   },
   {
@@ -1599,7 +1599,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1630,7 +1630,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1657,7 +1657,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1684,7 +1684,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1711,7 +1711,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1736,7 +1736,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1763,7 +1763,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1788,7 +1788,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 3,
   },
   {
@@ -1820,7 +1820,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1847,7 +1847,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1879,7 +1879,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 5,
   },
   {
@@ -1910,7 +1910,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1941,7 +1941,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -1972,7 +1972,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   // Coming-soon tools (blogs added for topical coverage; calculator pages not live yet)
@@ -2001,7 +2001,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2029,7 +2029,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2057,7 +2057,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2084,7 +2084,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2111,7 +2111,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2138,7 +2138,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2166,7 +2166,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2193,7 +2193,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2220,7 +2220,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2247,7 +2247,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2274,7 +2274,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2296,7 +2296,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 3,
   },
   {
@@ -2323,7 +2323,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 4,
   },
   {
@@ -2344,7 +2344,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 3,
   },
   {
@@ -2365,7 +2365,7 @@ Mutual fund investing is simple:
       avatar: '/authors/aisha.jpg',
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
-    publishedAt: '2026-01-02',
+    publishedAt: '2025-12-27',
     readingTime: 3,
   },
 ];

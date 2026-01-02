@@ -1,14 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar, Clock, Cake } from "lucide-react"
+import { Calendar, Cake, RefreshCw } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { AgeSeoContent } from "@/components/calculators/seo/MiscSeo"
 import { VoiceDateInput } from "@/components/ui/VoiceDateInput"
+import { Button } from "@/components/ui/button"
 
 export function AdvancedAgeCalculator() {
   const [dob, setDob] = useState('2000-01-01')
   const [result, setResult] = useState<any>(null)
+
+  const handleReload = () => {
+    setDob('2000-01-01')
+  }
 
   const calculateAge = () => {
     const birthDate = new Date(dob)
@@ -81,6 +86,19 @@ export function AdvancedAgeCalculator() {
       seoContent={<AgeSeoContent />}
       inputs={
         <div className="space-y-6">
+          <div className="flex items-start justify-end">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={handleReload}
+              className="h-10 w-10 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/10"
+              title="Reload"
+              aria-label="Reload"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+          </div>
           <VoiceDateInput
             label="Date of Birth"
             value={dob}
