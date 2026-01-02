@@ -9,7 +9,23 @@ import { Switch } from '@/components/ui/switch';
 import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
-import { Download, Printer, RefreshCw, Share2, Trash2, Zap, ZapOff } from 'lucide-react';
+import {
+  Download,
+  FileType,
+  Printer,
+  RefreshCw,
+  Share2,
+  Trash2,
+  Zap,
+  ZapOff,
+} from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 import { generateReport } from '@/lib/downloadUtils';
 
@@ -390,8 +406,40 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
     window.print();
   };
 
-  const handleDownload = async () => {
-    await generateReport('png', config.id, [], [], config.title);
+  const handleDownload = async (format: 'png' | 'pdf') => {
+    if (format === 'png') {
+      await generateReport('png', config.id, [], [], config.title);
+      return;
+    }
+
+    if (!results) {
+      toast.error('Please calculate first to download a PDF.');
+      return;
+    }
+
+    const headers = ['Label', 'Value'];
+    const rows: (string | number)[][] = [];
+
+    if (results?.results?.length) {
+      for (const r of results.results as Array<{ label: string; value: string | number; unit?: string }>) {
+        const value = `${r.value}${r.unit ? ` ${r.unit}` : ''}`;
+        rows.push([r.label, value]);
+      }
+    }
+
+    if (results?.breakdown?.length) {
+      rows.push(['', '']);
+      rows.push(['Details', '']);
+      for (const b of results.breakdown as Array<{ label: string; value: string | number; unit?: string }>) {
+        const value = `${b.value}${b.unit ? ` ${b.unit}` : ''}`;
+        rows.push([b.label, value]);
+      }
+    }
+
+    await generateReport('pdf', config.id, headers, rows, config.title, {
+      Tool: config.title,
+      Generated: new Date().toLocaleString(),
+    });
   };
 
   return (
@@ -478,15 +526,29 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                   <Printer className="h-4 w-4" />
                 </Button>
 
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleDownload}
-                  className="h-10 w-10 border-primary/20 hover:bg-primary/5 hover:text-primary shadow-sm rounded-xl"
-                  title="Download"
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-10 w-10 border-primary/20 hover:bg-primary/5 hover:text-primary shadow-sm rounded-xl"
+                      title="Download"
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-44">
+                    <DropdownMenuLabel>Download As</DropdownMenuLabel>
+                    <DropdownMenuItem onClick={() => handleDownload('png')}>
+                      <FileType className="mr-2 h-4 w-4" />
+                      <span>Image (PNG)</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDownload('pdf')}>
+                      <FileType className="mr-2 h-4 w-4" />
+                      <span>PDF</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
