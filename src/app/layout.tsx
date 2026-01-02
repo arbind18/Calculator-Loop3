@@ -95,6 +95,9 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+  const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+  const yandexVerification = process.env.NEXT_PUBLIC_YANDEX_VERIFICATION
+  const twitterHandle = process.env.NEXT_PUBLIC_TWITTER_HANDLE ?? '@calculatorloop'
   const uiLocale = await getUiLocaleFromRequest()
   const { canonical, languages } = await buildAlternates()
 
@@ -167,7 +170,7 @@ export async function generateMetadata(): Promise<Metadata> {
         'Free online calculators for 2026! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive calculator tools available.',
       images: [
         {
-          url: '/og-image.png',
+          url: '/opengraph-image',
           width: 1200,
           height: 630,
           alt: 'Calculator Loop - Free Online Calculators',
@@ -176,17 +179,17 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      site: '@calculatorloop',
-      creator: '@calculatorloop',
+      site: twitterHandle,
+      creator: twitterHandle,
       title: 'Calculator Loop - Free Online Calculators | EMI, SIP, BMI, Tax',
       description:
         'Free online calculators for 2026! Calculate EMI, SIP returns, BMI, GST, income tax & more. Fast, accurate & mobile-friendly. Extensive tools available.',
-      images: ['/twitter-image.png'],
+      images: ['/twitter-image'],
     },
-    verification: {
-      google: 'your-google-verification-code',
-      yandex: 'your-yandex-verification-code',
-    },
+    verification: googleVerification || yandexVerification ? {
+      ...(googleVerification ? { google: googleVerification } : {}),
+      ...(yandexVerification ? { yandex: yandexVerification } : {}),
+    } : undefined,
     icons: {
       icon: [
         { url: '/favicon.ico', type: 'image/x-icon' },

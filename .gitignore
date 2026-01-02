@@ -25,6 +25,7 @@ yarn-error.log*
 # Local temp/debug artifacts
 tmp_pdf_text.txt
 scripts/compute-sqrt-bigint.mjs
+tmp_*.json
 
 # Local env files
 .env

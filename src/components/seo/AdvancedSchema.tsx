@@ -3,33 +3,24 @@ interface SchemaProps {
   data?: any
 }
 
+const getBaseUrl = () => process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+
 // Organization Schema for Homepage
 export function OrganizationSchema() {
+  const baseUrl = getBaseUrl()
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Calculator Hub India",
-    alternateName: "CalcHub",
-    url: "https://calculatorhub.in",
-    logo: "https://calculatorhub.in/logo.png",
-    description: "India's most comprehensive online calculator platform with 100+ free calculators for EMI, Tax, GST, SIP, BMI, and more.",
+    name: "Calculator Loop",
+    alternateName: "CalculatorLoop",
+    url: baseUrl,
+    logo: `${baseUrl}/logo.svg`,
+    description: "Free online calculator platform with calculators for EMI, Tax, GST, SIP, BMI, Age, Math and more.",
     address: {
       "@type": "PostalAddress",
       addressCountry: "IN",
       addressRegion: "India"
     },
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "Customer Support",
-      email: "support@calculatorhub.in",
-      availableLanguage: ["en", "hi"]
-    },
-    sameAs: [
-      "https://facebook.com/calculatorhub",
-      "https://twitter.com/calculatorhub",
-      "https://linkedin.com/company/calculatorhub",
-      "https://instagram.com/calculatorhub"
-    ],
     foundingDate: "2024",
     keywords: "calculator, financial calculator, EMI calculator, tax calculator, GST calculator, SIP calculator, loan calculator, India"
   }
@@ -44,20 +35,13 @@ export function OrganizationSchema() {
 
 // Website Schema
 export function WebsiteSchema() {
+  const baseUrl = getBaseUrl()
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Calculator Hub India",
-    url: "https://calculatorhub.in",
+    name: "Calculator Loop",
+    url: baseUrl,
     description: "Free online calculators for financial planning, health, education, and more. Calculate EMI, Tax, GST, SIP, BMI instantly.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://calculatorhub.in/search?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    },
     inLanguage: ["en-IN", "hi-IN"]
   }
 
@@ -84,8 +68,8 @@ export function CalculatorSchema({
   description, 
   url, 
   category,
-  ratingValue = 4.8,
-  ratingCount = 12500
+  ratingValue,
+  ratingCount
 }: CalculatorSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
@@ -101,13 +85,6 @@ export function CalculatorSchema({
       price: "0",
       priceCurrency: "INR"
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: ratingValue.toString(),
-      ratingCount: ratingCount.toString(),
-      bestRating: "5",
-      worstRating: "1"
-    },
     featureList: [
       "Free to use",
       "No registration required",
@@ -119,10 +96,20 @@ export function CalculatorSchema({
     softwareVersion: "2.0",
     author: {
       "@type": "Organization",
-      name: "Calculator Hub India"
+      name: "Calculator Loop"
     },
     inLanguage: "en-IN",
     countriesSupported: "IN"
+  }
+
+  if (typeof ratingValue === 'number' && typeof ratingCount === 'number') {
+    ;(schema as any).aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: ratingValue.toString(),
+      ratingCount: ratingCount.toString(),
+      bestRating: "5",
+      worstRating: "1",
+    }
   }
 
   return (
@@ -213,7 +200,7 @@ export function HowToSchema({ name, description, steps, totalTime = "PT2M" }: Ho
     })),
     tool: [{
       "@type": "HowToTool",
-      name: "Calculator Hub"
+      name: "Calculator Loop"
     }]
   }
 
@@ -242,9 +229,10 @@ export function ArticleSchema({
   url,
   datePublished,
   dateModified,
-  authorName = "Calculator Hub Team",
-  imageUrl = "https://calculatorhub.in/og-image.png"
+  authorName = "Calculator Loop Team",
+  imageUrl
 }: ArticleSchemaProps) {
+  const baseUrl = getBaseUrl()
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -259,13 +247,13 @@ export function ArticleSchema({
     },
     publisher: {
       "@type": "Organization",
-      name: "Calculator Hub India",
+      name: "Calculator Loop",
       logo: {
         "@type": "ImageObject",
-        url: "https://calculatorhub.in/logo.png"
+        url: `${baseUrl}/logo.svg`
       }
     },
-    image: imageUrl,
+    image: imageUrl ?? `${baseUrl}/opengraph-image`,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url
@@ -298,6 +286,7 @@ export function VideoSchema({
   duration,
   contentUrl
 }: VideoSchemaProps) {
+  const baseUrl = getBaseUrl()
   const schema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -310,10 +299,10 @@ export function VideoSchema({
     embedUrl: contentUrl,
     publisher: {
       "@type": "Organization",
-      name: "Calculator Hub India",
+      name: "Calculator Loop",
       logo: {
         "@type": "ImageObject",
-        url: "https://calculatorhub.in/logo.png"
+        url: `${baseUrl}/logo.svg`
       }
     }
   }

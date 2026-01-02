@@ -59,13 +59,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       type: 'website',
       url: canonical,
       siteName: 'Calculator Loop',
-      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: meta.title }],
+      images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: meta.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${meta.title} - Free Online Calculator`,
       description: meta.description,
-      images: ['/twitter-image.png'],
+      images: ['/twitter-image'],
     }
   }
 }

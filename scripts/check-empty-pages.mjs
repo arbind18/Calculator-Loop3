@@ -28,6 +28,21 @@ function getAllFiles(dirPath, arrayOfFiles) {
 const pages = getAllFiles(rootDir);
 const suspiciousPages = [];
 
+function hasEmptyDefaultExportReturn(content) {
+  // Heuristic: only scan the default export's body (avoid false positives in helper functions)
+  const m = content.match(/export\s+default\s+(?:async\s+)?function\s+\w*\s*\([^)]*\)\s*\{([\s\S]*?)\n\}/m);
+  const body = m?.[1];
+  if (!body) return false;
+
+  return (
+    /return\s+null\s*;?/.test(body) ||
+    /return\s*<\s*><\s*\/\s*>\s*;?/.test(body) ||
+    /return\s*<\s*\/\s*>\s*;?/.test(body) ||
+    /return\s*<div\s*><\s*\/div\s*>\s*;?/.test(body) ||
+    /return\s*<div\s*\/\s*>\s*;?/.test(body)
+  );
+}
+
 pages.forEach(page => {
   const content = fs.readFileSync(page, 'utf8');
   const lines = content.split('\n').length;
@@ -38,15 +53,16 @@ pages.forEach(page => {
   const hasComingSoon = content.toLowerCase().includes('coming soon');
   const hasUnderConstruction = content.toLowerCase().includes('under construction');
   const hasTodo = content.includes('TODO');
-  const isEmptyReturn = content.includes('return null') || content.includes('return <></>') || content.includes('return <div></div>');
+  const isEmptyReturn = hasEmptyDefaultExportReturn(content);
 
-  if (isSmall || hasComingSoon || hasUnderConstruction || isEmptyReturn) {
+  if (isSmall || hasComingSoon || hasUnderConstruction || hasTodo || isEmptyReturn) {
     suspiciousPages.push({
       path: page.replace(rootDir, ''),
       reason: [
         isSmall ? 'Small file size' : null,
         hasComingSoon ? '"Coming Soon" text' : null,
         hasUnderConstruction ? '"Under Construction" text' : null,
+        hasTodo ? 'TODO marker' : null,
         isEmptyReturn ? 'Empty return' : null
       ].filter(Boolean).join(', '),
       size,

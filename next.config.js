@@ -8,12 +8,6 @@ const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
-
-  // Ensure Turbopack uses this project folder as root (prevents it from
-  // incorrectly selecting a parent directory when multiple lockfiles exist).
-  turbopack: {
-    root: __dirname,
-  },
   
   experimental: {
     optimizePackageImports: ['lucide-react'],
