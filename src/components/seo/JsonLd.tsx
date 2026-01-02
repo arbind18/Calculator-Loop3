@@ -27,7 +27,7 @@ export function JsonLd() {
     "url": "https://calculatorloop.com/",
     "description": "Comprehensive online calculator suite with extensive collection of calculators for financial planning, health metrics, mathematical operations, date-time calculations, and more.",
     "datePublished": "2024-01-01",
-    "dateModified": "2026-01-02",
+    "dateModified": "2025-11-11",
     "author": {
       "@type": "Organization",
       "name": "Calculator Loop"

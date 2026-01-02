@@ -479,7 +479,7 @@ const genericDateTimeToolIds = [
 
   // Date Calculations (10 tools)
   'date-calculator',
-  'date-difference', 'date-add-subtract', 'workday-calculator',
+  'date-difference', 'date-add-subtract', 'workday-calculator', 'age-calculator',
   'leap-year-calculator', 'day-of-week', 'week-number', 'day-of-year',
   'quarter-calculator', 'business-days',
   'days-between-dates',

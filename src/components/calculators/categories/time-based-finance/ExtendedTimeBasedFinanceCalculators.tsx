@@ -358,8 +358,8 @@ export function SickLeaveCalculator() {
 }
 
 export function ContractDurationCalculator() {
-  const [startDate, setStartDate] = useState("2026-01-01")
-  const [endDate, setEndDate] = useState("2026-12-31")
+  const [startDate, setStartDate] = useState("2025-01-01")
+  const [endDate, setEndDate] = useState("2025-12-31")
   const [dailyRate, setDailyRate] = useState(3_000)
 
   const result = useMemo(() => {
@@ -379,8 +379,8 @@ export function ContractDurationCalculator() {
       calculate={() => {}}
       values={[startDate, endDate, dailyRate]}
       onClear={() => {
-        setStartDate("2026-01-01")
-        setEndDate("2026-12-31")
+        setStartDate("2025-01-01")
+        setEndDate("2025-12-31")
         setDailyRate(3_000)
       }}
       onRestoreAction={(vals) => {

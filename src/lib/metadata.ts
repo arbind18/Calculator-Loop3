@@ -29,7 +29,7 @@ export function generateCalculatorMetadata({
     "online calculator",
     "free calculator",
     "India calculator",
-    "calculator 2026",
+    "calculator 2025",
     "financial calculator",
   ]
 
@@ -145,7 +145,7 @@ export function generateHealthMetadata(calculatorName: string, description: stri
 
 export function generateTaxMetadata(calculatorName: string, description: string, path: string): Metadata {
   return generateCalculatorMetadata({
-    title: `${calculatorName} | India Tax Calculator 2026-27`,
+    title: `${calculatorName} | India Tax Calculator 2025-26`,
     description: description,
     path: path,
     keywords: [
@@ -154,7 +154,7 @@ export function generateTaxMetadata(calculatorName: string, description: string,
       "GST calculator",
       "tax calculator India",
       "tax saving",
-      "India tax 2026",
+      "India tax 2025",
     ],
   })
 }

@@ -4430,8 +4430,8 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
       title: 'Contract Duration Calculator',
       description: 'Calculate days/months between contract start and end.',
       inputs: [
-        { name: 'startDate', label: 'Start Date (YYYY-MM-DD)', type: 'text', defaultValue: '2026-01-01' },
-        { name: 'endDate', label: 'End Date (YYYY-MM-DD)', type: 'text', defaultValue: '2026-12-31' },
+        { name: 'startDate', label: 'Start Date (YYYY-MM-DD)', type: 'text', defaultValue: '2025-01-01' },
+        { name: 'endDate', label: 'End Date (YYYY-MM-DD)', type: 'text', defaultValue: '2025-12-31' },
       ],
       calculate: (inputs) => {
         const start = new Date(String(inputs.startDate));

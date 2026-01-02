@@ -73,7 +73,7 @@ export function filterScheduleByYearRange<T extends { year?: number }>(
     if (month) return Math.floor((month - 1) / 12) + 1
 
     const year = typeof row?.year === "number" && Number.isFinite(row.year) ? row.year : 0
-    // If 'year' is a calendar year (e.g. 2026), treat it as the first year bucket.
+    // If 'year' is a calendar year (e.g. 2025), treat it as the first year bucket.
     if (year >= 1900) return 1
     return year
   }

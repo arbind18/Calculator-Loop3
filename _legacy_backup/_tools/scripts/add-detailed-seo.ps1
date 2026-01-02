@@ -1,4 +1,4 @@
-﻿# Enhanced SEO Content Addition - Detailed 3000+ Words Articles
+# Enhanced SEO Content Addition - Detailed 3000+ Words Articles
 $calculatorsPath = "c:\Users\dell\Desktop\calculatorloop.com\Financial\Investment-and-Returns\"
 
 Write-Output "=== Adding Detailed SEO Content (3000+ Words) ==="
@@ -41,7 +41,7 @@ foreach ($file in $files) {
 <!-- SEO Content Section - Detailed Article -->
 <div style="max-width: 1400px; margin: 40px auto; background: white; border-radius: 25px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
     <article>
-        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #10b981; padding-bottom: 15px;">Complete Guide to Fixed Deposit (FD) Calculator 2026</h2>
+        <h2 style="color: #1a1a2e; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 4px solid #10b981; padding-bottom: 15px;">Complete Guide to Fixed Deposit (FD) Calculator 2025</h2>
         
         <div style="color: #666; line-height: 1.8; font-size: 1.05rem;">
             <p style="margin-bottom: 20px; font-size: 1.15rem; color: #444;"><strong>Fixed Deposit (FD)</strong> is one of the most popular and safest investment options in India. Our FD calculator helps you instantly calculate the maturity amount and interest earned on your fixed deposit investment across different banks and tenures.</p>
@@ -80,7 +80,7 @@ foreach ($file in $files) {
                 <p style="margin-top: 10px; color: #666;">Where: n = Compounding frequency (Quarterly=4, Monthly=12, Annual=1)</p>
             </div>
 
-            <h3 style="color: #10b981; font-size: 1.8rem; margin: 30px 0 15px;">Best FD Rates in India 2026</h3>
+            <h3 style="color: #10b981; font-size: 1.8rem; margin: 30px 0 15px;">Best FD Rates in India 2025</h3>
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background: #f8f9fa;">
                     <thead>
@@ -101,7 +101,7 @@ foreach ($file in $files) {
                 </table>
             </div>
 
-            <h3 style="color: #10b981; font-size: 1.8rem; margin: 30px 0 15px;">FD Taxation Rules 2026</h3>
+            <h3 style="color: #10b981; font-size: 1.8rem; margin: 30px 0 15px;">FD Taxation Rules 2025</h3>
             <ul style="margin-left: 30px; margin-bottom: 20px;">
                 <li style="margin-bottom: 10px;"><strong>Interest Taxable:</strong> FD interest is fully taxable as per your income tax slab</li>
                 <li style="margin-bottom: 10px;"><strong>TDS Deduction:</strong> 10% TDS if interest exceeds Rs.40,000/year (Rs.50,000 for senior citizens)</li>
@@ -240,4 +240,3 @@ Write-Output ""
 Write-Output "=== Summary ==="
 Write-Output "Enhanced $processed calculators with detailed 3000+ word content"
 Write-Output "All calculators now have professional SEO-optimized articles!"
-

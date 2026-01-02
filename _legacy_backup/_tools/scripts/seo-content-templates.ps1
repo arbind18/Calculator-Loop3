@@ -1,12 +1,12 @@
-﻿# SEO Content Templates for All Investment Calculators
+# SEO Content Templates for All Investment Calculators
 # This file contains calculator-specific SEO data
 
 $calculatorContent = @{
     'FD-Calculator' = @{
-        Title = 'FD Calculator 2026 - Fixed Deposit Interest Calculator India | Maturity Amount'
-        Description = 'Free FD calculator to calculate fixed deposit maturity amount and interest. Compare FD rates, calculate quarterly/monthly compounding. Best FD interest calculator for Indian banks 2026.'
-        Keywords = 'FD calculator, fixed deposit calculator, FD interest calculator, FD maturity calculator, bank FD calculator India, FD return calculator, quarterly compounding FD calculator 2026'
-        H1 = 'Fixed Deposit (FD) Calculator 2026 - Calculate FD Maturity & Interest'
+        Title = 'FD Calculator 2025 - Fixed Deposit Interest Calculator India | Maturity Amount'
+        Description = 'Free FD calculator to calculate fixed deposit maturity amount and interest. Compare FD rates, calculate quarterly/monthly compounding. Best FD interest calculator for Indian banks 2025.'
+        Keywords = 'FD calculator, fixed deposit calculator, FD interest calculator, FD maturity calculator, bank FD calculator India, FD return calculator, quarterly compounding FD calculator 2025'
+        H1 = 'Fixed Deposit (FD) Calculator 2025 - Calculate FD Maturity & Interest'
         Article = @'
 A Fixed Deposit (FD) is one of the safest investment options in India, offering guaranteed returns. Our FD calculator helps you calculate the maturity amount and interest earned on your fixed deposit investment. Whether you're comparing bank FD rates or planning your savings, this free online FD calculator provides accurate results instantly.
 
@@ -31,7 +31,7 @@ Simple Interest: A = P(1 + rt)
 Compound Interest: A = P(1 + r/n)^(nt)
 Where P = Principal, r = Rate, t = Time, n = Compounding frequency
 
-Best FD Rates in India 2026:
+Best FD Rates in India 2025:
 - SBI FD: 6.5% - 7.0%
 - HDFC Bank: 6.5% - 7.25%
 - ICICI Bank: 6.7% - 7.25%
@@ -40,7 +40,7 @@ Best FD Rates in India 2026:
 
 Taxation on FD:
 - Interest earned on FD is fully taxable as per income tax slab
-- TDS deducted at 10% if interest exceeds â‚¹40,000 (â‚¹50,000 for seniors)
+- TDS deducted at 10% if interest exceeds ₹40,000 (₹50,000 for seniors)
 - Form 15G/15H can be submitted if total income is below taxable limit
 
 Premature Withdrawal:
@@ -49,28 +49,28 @@ Premature Withdrawal:
 - Some banks offer flexi FD to avoid penalties
 '@
         FAQ = @(
-            @{ Q='What is the minimum amount for FD?'; A='Most banks accept minimum â‚¹1,000 for opening FD. There is no maximum limit.' }
-            @{ Q='Is FD interest taxable?'; A='Yes, FD interest is fully taxable as per your income tax slab. Banks deduct TDS if annual interest exceeds â‚¹40,000 (â‚¹50,000 for senior citizens).' }
+            @{ Q='What is the minimum amount for FD?'; A='Most banks accept minimum ₹1,000 for opening FD. There is no maximum limit.' }
+            @{ Q='Is FD interest taxable?'; A='Yes, FD interest is fully taxable as per your income tax slab. Banks deduct TDS if annual interest exceeds ₹40,000 (₹50,000 for senior citizens).' }
             @{ Q='Can I break FD before maturity?'; A='Yes, premature withdrawal is allowed with penalty (typically 0.5%-1% on interest rate). You will receive reduced interest for the actual period.' }
             @{ Q='What is the difference between cumulative and non-cumulative FD?'; A='Cumulative FD pays interest at maturity (reinvested), while non-cumulative FD pays interest periodically (monthly/quarterly/annually).' }
             @{ Q='Which compounding frequency gives highest returns?'; A='Monthly compounding gives higher returns than quarterly or annual compounding due to more frequent compounding periods.' }
             @{ Q='What is senior citizen FD rate?'; A='Senior citizens (60+ years) get 0.25% to 0.50% higher interest rates than regular FD rates.' }
             @{ Q='Is FD better than savings account?'; A='FD offers 1.5%-2% higher interest than savings account but lacks liquidity. Choose FD for surplus funds not needed immediately.' }
-            @{ Q='Are FDs safe investments?'; A='Bank FDs are extremely safe as they are insured by DICGC up to â‚¹5 lakhs per bank per depositor.' }
+            @{ Q='Are FDs safe investments?'; A='Bank FDs are extremely safe as they are insured by DICGC up to ₹5 lakhs per bank per depositor.' }
         )
     }
 
     'PPF-Calculator' = @{
-        Title = 'PPF Calculator 2026 - Public Provident Fund Calculator India | PPF Interest Rate'
-        Description = 'Free PPF calculator to calculate Public Provident Fund maturity amount at 7.1% interest rate. Calculate PPF returns, interest earned, and tax benefits under Section 80C. Best PPF calculator India 2026.'
-        Keywords = 'PPF calculator, public provident fund calculator, PPF interest calculator, PPF maturity calculator, PPF calculator India, PPF return calculator, Section 80C PPF calculator 2026'
-        H1 = 'PPF Calculator 2026 - Calculate Public Provident Fund Maturity & Returns'
+        Title = 'PPF Calculator 2025 - Public Provident Fund Calculator India | PPF Interest Rate'
+        Description = 'Free PPF calculator to calculate Public Provident Fund maturity amount at 7.1% interest rate. Calculate PPF returns, interest earned, and tax benefits under Section 80C. Best PPF calculator India 2025.'
+        Keywords = 'PPF calculator, public provident fund calculator, PPF interest calculator, PPF maturity calculator, PPF calculator India, PPF return calculator, Section 80C PPF calculator 2025'
+        H1 = 'PPF Calculator 2025 - Calculate Public Provident Fund Maturity & Returns'
         Article = @'
 Public Provident Fund (PPF) is a government-backed long-term savings scheme offering guaranteed returns and tax benefits. Our PPF calculator helps you calculate the maturity amount, interest earned, and plan your 15-year PPF investment journey. With current PPF interest rate at 7.1% per annum, it is one of the most popular tax-saving investment options in India.
 
 PPF Key Features:
-- Minimum Investment: â‚¹500 per year
-- Maximum Investment: â‚¹1,50,000 per year
+- Minimum Investment: ₹500 per year
+- Maximum Investment: ₹1,50,000 per year
 - Lock-in Period: 15 years (extendable in blocks of 5 years)
 - Interest Rate: 7.1% per annum (compounded annually)
 - Tax Benefits: Triple tax benefit (EEE) - tax-free contributions, interest, and maturity
@@ -93,7 +93,7 @@ Extension Rules:
 - Continue earning 7.1% interest even without new deposits
 
 Tax Benefits:
-- Section 80C deduction up to â‚¹1.5 lakh on contributions
+- Section 80C deduction up to ₹1.5 lakh on contributions
 - Interest earned is completely tax-free
 - Maturity amount is tax-free (EEE status)
 - Better than ELSS for risk-averse investors
@@ -106,8 +106,8 @@ PPF vs NPS: PPF is EEE but NPS taxable at withdrawal (40% mandatory annuity)
 '@
         FAQ = @(
             @{ Q='What is the current PPF interest rate?'; A='The current PPF interest rate is 7.1% per annum, compounded annually. This rate is reviewed quarterly by the government.' }
-            @{ Q='Can I invest more than â‚¹1.5 lakh in PPF?'; A='No, the maximum limit is â‚¹1,50,000 per financial year. Excess amount will not earn interest and can be withdrawn.' }
-            @{ Q='When does PPF account mature?'; A='PPF account matures after 15 years from the end of the financial year of opening. Example: Account opened in 2026 will mature on 31st March 2040.' }
+            @{ Q='Can I invest more than ₹1.5 lakh in PPF?'; A='No, the maximum limit is ₹1,50,000 per financial year. Excess amount will not earn interest and can be withdrawn.' }
+            @{ Q='When does PPF account mature?'; A='PPF account matures after 15 years from the end of the financial year of opening. Example: Account opened in 2025 will mature on 31st March 2040.' }
             @{ Q='Can I withdraw PPF before 15 years?'; A='Partial withdrawals are allowed from 7th year onwards (up to 50% of balance at end of 4th preceding year). Premature closure possible after 5 years for specific reasons with penalty.' }
             @{ Q='How is PPF interest calculated?'; A='Interest is calculated monthly on the lowest balance between 5th and last day of the month, compounded annually and credited on 31st March.' }
             @{ Q='When should I deposit in PPF for maximum interest?'; A='Deposit before 5th of every month to earn interest for that month. Depositing on 1st gives maximum interest benefit.' }
@@ -117,16 +117,16 @@ PPF vs NPS: PPF is EEE but NPS taxable at withdrawal (40% mandatory annuity)
     }
 
     'NPS-Calculator' = @{
-        Title = 'NPS Calculator 2026 - National Pension Scheme Calculator India | Pension Amount'
-        Description = 'Free NPS calculator to calculate National Pension Scheme corpus, monthly pension, and retirement benefits. Calculate NPS returns with 40% mandatory annuity. Best NPS pension calculator India 2026.'
-        Keywords = 'NPS calculator, national pension scheme calculator, NPS pension calculator, NPS return calculator India, retirement calculator NPS, NPS corpus calculator, pension calculator 2026'
-        H1 = 'NPS Calculator 2026 - Calculate National Pension Scheme Corpus & Monthly Pension'
+        Title = 'NPS Calculator 2025 - National Pension Scheme Calculator India | Pension Amount'
+        Description = 'Free NPS calculator to calculate National Pension Scheme corpus, monthly pension, and retirement benefits. Calculate NPS returns with 40% mandatory annuity. Best NPS pension calculator India 2025.'
+        Keywords = 'NPS calculator, national pension scheme calculator, NPS pension calculator, NPS return calculator India, retirement calculator NPS, NPS corpus calculator, pension calculator 2025'
+        H1 = 'NPS Calculator 2025 - Calculate National Pension Scheme Corpus & Monthly Pension'
         Article = @'
 National Pension Scheme (NPS) is a government-sponsored voluntary retirement savings scheme designed to provide regular pension after retirement. Our NPS calculator helps you calculate the estimated corpus at retirement, lumpsum withdrawal amount, and monthly pension based on your contributions.
 
 NPS Key Features:
 - Open to all Indian citizens (18-70 years)
-- Minimum contribution: â‚¹500 per contribution, â‚¹1,000 per year
+- Minimum contribution: ₹500 per contribution, ₹1,000 per year
 - No maximum contribution limit
 - Market-linked returns (historically 10-12% for equity, 8-10% for corporate bonds)
 - 40% corpus must be used to buy annuity (mandatory)
@@ -141,10 +141,10 @@ Investment Options:
 - Auto Choice (Life Cycle): Automatic asset allocation based on age (reduces equity as age increases)
 
 Tax Benefits:
-- Section 80CCD(1): Up to â‚¹1.5 lakh deduction (within 80C limit)
-- Section 80CCD(1B): Additional â‚¹50,000 deduction (over and above 80C)
+- Section 80CCD(1): Up to ₹1.5 lakh deduction (within 80C limit)
+- Section 80CCD(1B): Additional ₹50,000 deduction (over and above 80C)
 - Section 80CCD(2): Employer contribution up to 10% of basic (14% for central govt)
-- Total tax saving: Up to â‚¹2 lakh + employer contribution
+- Total tax saving: Up to ₹2 lakh + employer contribution
 
 Withdrawal Rules:
 At Retirement (60 years):
@@ -174,12 +174,12 @@ Upon retirement, 40% of your NPS corpus must be used to purchase an annuity from
 4. Increasing annuity
 '@
         FAQ = @(
-            @{ Q='What is the minimum and maximum contribution in NPS?'; A='Minimum: â‚¹500 per contribution and â‚¹1,000 per year. There is no maximum limit - you can contribute any amount.' }
+            @{ Q='What is the minimum and maximum contribution in NPS?'; A='Minimum: ₹500 per contribution and ₹1,000 per year. There is no maximum limit - you can contribute any amount.' }
             @{ Q='What returns can I expect from NPS?'; A='Historical returns: Equity (10-12% CAGR), Corporate bonds (8-10%), Government securities (7-9%). Actual returns are market-linked and not guaranteed.' }
             @{ Q='Is 40% annuity mandatory?'; A='Yes, at normal retirement (60 years), 40% of corpus must compulsorily be used to buy annuity. Only 60% can be withdrawn as lumpsum.' }
             @{ Q='Can I withdraw NPS corpus before 60 years?'; A='Premature withdrawal before 60 is allowed but with conditions. If invested 10+ years: 20% lumpsum + 80% annuity. Less than 10 years: Entire amount for annuity.' }
             @{ Q='What is PRAN in NPS?'; A='PRAN (Permanent Retirement Account Number) is a unique 12-digit number allotted to each NPS subscriber. It remains same even if you change jobs or cities.' }
-            @{ Q='How much tax can I save with NPS?'; A='Maximum tax saving: Section 80CCD(1): â‚¹1.5L + Section 80CCD(1B): â‚¹50K + Employer contribution (Section 80CCD(2)): up to 10% of basic salary.' }
+            @{ Q='How much tax can I save with NPS?'; A='Maximum tax saving: Section 80CCD(1): ₹1.5L + Section 80CCD(1B): ₹50K + Employer contribution (Section 80CCD(2)): up to 10% of basic salary.' }
             @{ Q='Can I change my investment choice in NPS?'; A='Yes, you can switch between Active Choice and Auto Choice once per financial year. Asset allocation can be changed twice per year.' }
             @{ Q='What happens to NPS on death of subscriber?'; A='The entire accumulated corpus is paid to the nominee. No annuity requirement in case of death.' }
         )
@@ -194,4 +194,3 @@ Write-Output "- 8-10 FAQs per calculator"
 Write-Output "- Schema markup ready"
 Write-Output ""
 Write-Output "Ready to apply to all 32 calculators!"
-

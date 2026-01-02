@@ -9,118 +9,6 @@ import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-function isValidDate(d: Date) {
-  return Number.isFinite(d.getTime());
-}
-
-function parseDateOnlyInput(value: unknown): Date | null {
-  const s = String(value ?? '').trim();
-  if (!s) return null;
-
-  // Prefer stable date-only parsing (YYYY-MM-DD) -> UTC midnight
-  const match = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.exec(s);
-  if (match) {
-    const year = Number(match[1]);
-    const monthIndex = Number(match[2]) - 1;
-    const day = Number(match[3]);
-    const utc = new Date(Date.UTC(year, monthIndex, day));
-    return isValidDate(utc) ? utc : null;
-  }
-
-  const d = new Date(s);
-  return isValidDate(d) ? d : null;
-}
-
-function daysInMonthUTC(year: number, monthIndex: number) {
-  // monthIndex: 0..11
-  return new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
-}
-
-function addMonthsClampedUTC(base: Date, deltaMonths: number) {
-  const year = base.getUTCFullYear();
-  const month = base.getUTCMonth();
-  const day = base.getUTCDate();
-
-  const targetMonthIndex = month + deltaMonths;
-  const targetYear = year + Math.floor(targetMonthIndex / 12);
-  const normalizedMonth = ((targetMonthIndex % 12) + 12) % 12;
-
-  const maxDay = daysInMonthUTC(targetYear, normalizedMonth);
-  const clampedDay = Math.min(day, maxDay);
-  return new Date(Date.UTC(targetYear, normalizedMonth, clampedDay));
-}
-
-function addYearsClampedUTC(base: Date, deltaYears: number) {
-  const targetYear = base.getUTCFullYear() + deltaYears;
-  const month = base.getUTCMonth();
-  const day = base.getUTCDate();
-  const maxDay = daysInMonthUTC(targetYear, month);
-  const clampedDay = Math.min(day, maxDay);
-  return new Date(Date.UTC(targetYear, month, clampedDay));
-}
-
-function addDaysUTC(base: Date, deltaDays: number) {
-  return new Date(base.getTime() + deltaDays * MS_PER_DAY);
-}
-
-function formatWeekday(date: Date) {
-  try {
-    return new Intl.DateTimeFormat(undefined, { weekday: 'long' }).format(date);
-  } catch {
-    return date.toLocaleDateString();
-  }
-}
-
-function formatDateLong(date: Date) {
-  try {
-    return new Intl.DateTimeFormat(undefined, {
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
-    }).format(date);
-  } catch {
-    return date.toLocaleDateString();
-  }
-}
-
-function diffCalendarYMDUTC(from: Date, to: Date) {
-  // Assumes from <= to (UTC midnight date-only)
-  let years = to.getUTCFullYear() - from.getUTCFullYear();
-  let months = to.getUTCMonth() - from.getUTCMonth();
-  let days = to.getUTCDate() - from.getUTCDate();
-
-  if (days < 0) {
-    months -= 1;
-    const prevMonthYear = to.getUTCMonth() === 0 ? to.getUTCFullYear() - 1 : to.getUTCFullYear();
-    const prevMonthIndex = to.getUTCMonth() === 0 ? 11 : to.getUTCMonth() - 1;
-    days += daysInMonthUTC(prevMonthYear, prevMonthIndex);
-  }
-  if (months < 0) {
-    years -= 1;
-    months += 12;
-  }
-
-  return { years, months, days };
-}
-
-function formatYMD(ymd: { years: number; months: number; days: number }) {
-  return `${ymd.years} years, ${ymd.months} months, ${ymd.days} days`;
-}
-
-function ageAtDateUTC(dateOfBirth: Date, atDate: Date) {
-  const dobTime = dateOfBirth.getTime();
-  const atTime = atDate.getTime();
-  const earlier = dobTime <= atTime ? dateOfBirth : atDate;
-  const later = dobTime <= atTime ? atDate : dateOfBirth;
-  const ymd = diffCalendarYMDUTC(earlier, later);
-  return {
-    ymd,
-    direction: dobTime <= atTime ? 'After birth' : 'Before birth',
-  };
-}
-
 interface CalculatorConfig {
   id: string;
   title: string;
@@ -151,100 +39,6 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
 
   const getCalculatorConfig = (calculatorId: string): CalculatorConfig => {
     switch (calculatorId) {
-      case 'date-calculator':
-      case 'date-add-subtract':
-        return {
-          id: 'date-calculator',
-          title: 'Date Calculator',
-          description: 'Add or subtract years, months, and days from a date with detailed breakdown.',
-          inputs: [
-            { name: 'customNote', label: 'Custom Detail (optional)', type: 'text', placeholder: 'e.g., Project deadline / Visa date' },
-            { name: 'baseDate', label: 'Base Date', type: 'date' },
-            { name: 'baseLabel', label: 'Base Date Label (optional)', type: 'text', placeholder: 'e.g., Joining date' },
-            { name: 'dateOfBirth', label: 'Date of Birth (optional)', type: 'date' },
-            {
-              name: 'operation',
-              label: 'Operation',
-              type: 'select',
-              options: [
-                { value: 'add', label: 'Add' },
-                { value: 'subtract', label: 'Subtract' },
-              ],
-            },
-            { name: 'years', label: 'Years', type: 'number', placeholder: '0' },
-            { name: 'months', label: 'Months', type: 'number', placeholder: '0' },
-            { name: 'days', label: 'Days', type: 'number', placeholder: '0' },
-          ],
-          calculate: (inputs) => {
-            const base = parseDateOnlyInput(inputs.baseDate);
-            if (!base) {
-              return {
-                results: [{ label: 'Error', value: 'Please select a valid base date.' }],
-                breakdown: [],
-              };
-            }
-
-            const customNote = String(inputs.customNote ?? '').trim();
-            const baseLabel = String(inputs.baseLabel ?? '').trim();
-            const dob = parseDateOnlyInput(inputs.dateOfBirth);
-
-            const operation = String(inputs.operation || 'add');
-            const sign = operation === 'subtract' ? -1 : 1;
-            const years = Math.trunc(Number(inputs.years) || 0) * sign;
-            const months = Math.trunc(Number(inputs.months) || 0) * sign;
-            const days = Math.trunc(Number(inputs.days) || 0) * sign;
-
-            const afterYears = addYearsClampedUTC(base, years);
-            const afterYearsMonths = addMonthsClampedUTC(afterYears, months);
-            const finalDate = addDaysUTC(afterYearsMonths, days);
-
-            const totalDeltaDays = Math.trunc((finalDate.getTime() - base.getTime()) / MS_PER_DAY);
-            const absTotalDays = Math.abs(totalDeltaDays);
-            const weeks = Math.floor(absTotalDays / 7);
-            const remDays = absTotalDays % 7;
-
-            const earlier = base.getTime() <= finalDate.getTime() ? base : finalDate;
-            const later = base.getTime() <= finalDate.getTime() ? finalDate : base;
-            const ymd = diffCalendarYMDUTC(earlier, later);
-
-            const baseAge = dob ? ageAtDateUTC(dob, base) : null;
-            const resultAge = dob ? ageAtDateUTC(dob, finalDate) : null;
-            const ageDelta = (baseAge && resultAge)
-              ? diffCalendarYMDUTC(
-                  (dob.getTime() <= base.getTime()) ? base : dob,
-                  (dob.getTime() <= finalDate.getTime()) ? finalDate : dob
-                )
-              : null;
-
-            return {
-              results: [
-                { label: 'Result Date', value: formatDateLong(finalDate) },
-                { label: 'Result Weekday', value: formatWeekday(finalDate) },
-                { label: 'Net Change', value: formatYMD(ymd) },
-                { label: 'Total Days Change', value: absTotalDays.toLocaleString(), unit: 'days' },
-              ],
-              breakdown: [
-                ...(customNote ? [{ label: 'Custom Detail', value: customNote }] : []),
-                { label: 'Base Date', value: formatDateLong(base) },
-                ...(baseLabel ? [{ label: 'Base Label', value: baseLabel }] : []),
-                { label: 'Base Weekday', value: formatWeekday(base) },
-                ...(dob ? [{ label: 'Date of Birth', value: formatDateLong(dob) }] : []),
-                ...(baseAge ? [{ label: 'Age at Base Date', value: `${formatYMD(baseAge.ymd)} (${baseAge.direction})` }] : []),
-                ...(resultAge ? [{ label: 'Age at Result Date', value: `${formatYMD(resultAge.ymd)} (${resultAge.direction})` }] : []),
-                ...(ageDelta ? [{ label: 'Age Change (calendar)', value: formatYMD(ageDelta) }] : []),
-                { label: 'Operation', value: operation === 'subtract' ? 'Subtract' : 'Add' },
-                { label: 'Applied Years', value: years },
-                { label: 'Applied Months', value: months },
-                { label: 'Applied Days', value: days },
-                { label: 'After Years', value: formatDateLong(afterYears) },
-                { label: 'After Years + Months', value: formatDateLong(afterYearsMonths) },
-                { label: 'Weeks + Days', value: `${weeks} weeks, ${remDays} days` },
-                { label: 'Direction', value: totalDeltaDays >= 0 ? 'Forward' : 'Backward' },
-              ],
-            };
-          },
-        };
-
       case 'age-calculator':
         return {
           id: 'age-calculator',
@@ -300,64 +94,43 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
           title: 'Date Difference Calculator',
           description: 'Calculate the difference between two dates.',
           inputs: [
-            { name: 'customNote', label: 'Custom Detail (optional)', type: 'text', placeholder: 'e.g., Notice period / Visa duration' },
             { name: 'startDate', label: 'Start Date', type: 'date' },
-            { name: 'startLabel', label: 'Start Label (optional)', type: 'text', placeholder: 'e.g., Joining date' },
             { name: 'endDate', label: 'End Date', type: 'date' },
-            { name: 'endLabel', label: 'End Label (optional)', type: 'text', placeholder: 'e.g., Relieving date' },
-            { name: 'dateOfBirth', label: 'Date of Birth (optional)', type: 'date' },
           ],
           calculate: (inputs) => {
-            const start = parseDateOnlyInput(inputs.startDate);
-            const end = parseDateOnlyInput(inputs.endDate);
-            if (!start || !end) {
-              return {
-                results: [{ label: 'Error', value: 'Please select both valid dates.' }],
-                breakdown: [],
-              };
+            const start = new Date(String(inputs.startDate));
+            const end = new Date(String(inputs.endDate));
+            
+            const diffTime = Math.abs(end.getTime() - start.getTime());
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            // Calculate YMD
+            let years = end.getFullYear() - start.getFullYear();
+            let months = end.getMonth() - start.getMonth();
+            let days = end.getDate() - start.getDate();
+
+            if (days < 0) {
+              months--;
+              const lastMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+              days += lastMonth.getDate();
             }
-
-            const customNote = String(inputs.customNote ?? '').trim();
-            const startLabel = String(inputs.startLabel ?? '').trim();
-            const endLabel = String(inputs.endLabel ?? '').trim();
-            const dob = parseDateOnlyInput(inputs.dateOfBirth);
-
-            const startTime = start.getTime();
-            const endTime = end.getTime();
-            const isForward = endTime >= startTime;
-            const earlier = isForward ? start : end;
-            const later = isForward ? end : start;
-
-            const diffDays = Math.trunc((later.getTime() - earlier.getTime()) / MS_PER_DAY);
-            const inclusiveDays = diffDays + 1;
-            const weeks = Math.floor(diffDays / 7);
-            const remDays = diffDays % 7;
-            const ymd = diffCalendarYMDUTC(earlier, later);
-
-            const startAge = dob ? ageAtDateUTC(dob, start) : null;
-            const endAge = dob ? ageAtDateUTC(dob, end) : null;
-
+            if (months < 0) {
+              years--;
+              months += 12;
+            }
+            
+            // Adjust for negative if end < start (though we took abs time, YMD logic assumes end > start)
+            // For simplicity, we just show the absolute difference
+            
             return {
               results: [
-                { label: 'Difference (Y/M/D)', value: `${ymd.years} years, ${ymd.months} months, ${ymd.days} days` },
-                { label: 'Total Days (exclusive)', value: diffDays.toLocaleString(), unit: 'days' },
-                { label: 'Weeks + Days', value: `${weeks} weeks, ${remDays} days` },
+                { label: 'Difference', value: `${Math.abs(years)} years, ${Math.abs(months)} months, ${Math.abs(days)} days` },
+                { label: 'Total Days', value: diffDays.toLocaleString(), unit: 'days' },
               ],
               breakdown: [
-                ...(customNote ? [{ label: 'Custom Detail', value: customNote }] : []),
-                { label: 'Start Date', value: formatDateLong(start) },
-                ...(startLabel ? [{ label: 'Start Label', value: startLabel }] : []),
-                { label: 'Start Weekday', value: formatWeekday(start) },
-                { label: 'End Date', value: formatDateLong(end) },
-                ...(endLabel ? [{ label: 'End Label', value: endLabel }] : []),
-                { label: 'End Weekday', value: formatWeekday(end) },
-                ...(dob ? [{ label: 'Date of Birth', value: formatDateLong(dob) }] : []),
-                ...(startAge ? [{ label: 'Age at Start', value: `${formatYMD(startAge.ymd)} (${startAge.direction})` }] : []),
-                ...(endAge ? [{ label: 'Age at End', value: `${formatYMD(endAge.ymd)} (${endAge.direction})` }] : []),
-                { label: 'Direction', value: isForward ? 'Forward (End after Start)' : 'Backward (End before Start)' },
-                { label: 'Earlier Date', value: formatDateLong(earlier) },
-                { label: 'Later Date', value: formatDateLong(later) },
-                { label: 'Total Days (inclusive)', value: inclusiveDays.toLocaleString(), unit: 'days' },
+                { label: 'Start Date', value: start.toLocaleDateString() },
+                { label: 'End Date', value: end.toLocaleDateString() },
+                { label: 'Total Weeks', value: (diffDays / 7).toFixed(1), unit: 'weeks' },
                 { label: 'Total Hours', value: (diffDays * 24).toLocaleString(), unit: 'hours' },
               ]
             };

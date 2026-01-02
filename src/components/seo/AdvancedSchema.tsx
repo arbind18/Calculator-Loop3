@@ -8,11 +8,11 @@ export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Calculator Loop",
-    alternateName: "Calculator Loop",
-    url: "https://calculatorloop.com",
-    logo: "https://calculatorloop.com/logo.png",
-    description: "Free online calculator platform with 300+ calculators for EMI, Tax, GST, SIP, BMI, and more.",
+    name: "Calculator Hub India",
+    alternateName: "CalcHub",
+    url: "https://calculatorhub.in",
+    logo: "https://calculatorhub.in/logo.png",
+    description: "India's most comprehensive online calculator platform with 100+ free calculators for EMI, Tax, GST, SIP, BMI, and more.",
     address: {
       "@type": "PostalAddress",
       addressCountry: "IN",
@@ -21,13 +21,14 @@ export function OrganizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Support",
-      email: "support@calculatorloop.com",
+      email: "support@calculatorhub.in",
       availableLanguage: ["en", "hi"]
     },
     sameAs: [
-      "https://twitter.com/calculatorloop",
-      "https://facebook.com/calculatorloop",
-      "https://linkedin.com/company/calculatorloop"
+      "https://facebook.com/calculatorhub",
+      "https://twitter.com/calculatorhub",
+      "https://linkedin.com/company/calculatorhub",
+      "https://instagram.com/calculatorhub"
     ],
     foundingDate: "2024",
     keywords: "calculator, financial calculator, EMI calculator, tax calculator, GST calculator, SIP calculator, loan calculator, India"
@@ -46,14 +47,14 @@ export function WebsiteSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Calculator Loop",
-    url: "https://calculatorloop.com",
+    name: "Calculator Hub India",
+    url: "https://calculatorhub.in",
     description: "Free online calculators for financial planning, health, education, and more. Calculate EMI, Tax, GST, SIP, BMI instantly.",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://calculatorloop.com/?q={search_term_string}"
+        urlTemplate: "https://calculatorhub.in/search?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     },
