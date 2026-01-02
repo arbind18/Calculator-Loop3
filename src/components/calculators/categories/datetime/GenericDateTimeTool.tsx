@@ -312,17 +312,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   }, [id]);
 
   const handleInputChange = (name: string, value: string | number) => {
-    setInputs(prev => {
-      const next = { ...prev, [name]: value };
-      if (isAutoCalculate) {
-        try {
-          setResults(config.calculate(next));
-        } catch {
-          // ignore invalid intermediate states
-        }
-      }
-      return next;
-    });
+    setInputs(prev => ({ ...prev, [name]: value }));
   };
 
   const handleCalculate = () => {
@@ -346,6 +336,18 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
     setInputs(defaultInputs);
     setResults(null);
   };
+
+  useEffect(() => {
+    if (!isAutoCalculate) return;
+
+    try {
+      const next = config.calculate(inputs);
+      setResults(next);
+    } catch {
+      // Ignore invalid intermediate states (e.g., empty/partial dates)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAutoCalculate, inputs, id]);
 
   const handleDeleteInputs = () => {
     setRestoreSnapshot(inputs);
@@ -542,15 +544,17 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
             </div>
 
             {/* Action Buttons */}
-            <div>
-              <Button
-                onClick={handleCalculate}
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg shadow-lg transition transform hover:scale-[1.02]"
-              >
-                <i className="fas fa-calculator mr-2"></i>
-                Calculate
-              </Button>
-            </div>
+            {!isAutoCalculate && (
+              <div>
+                <Button
+                  onClick={handleCalculate}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg shadow-lg transition transform hover:scale-[1.02]"
+                >
+                  <i className="fas fa-calculator mr-2"></i>
+                  Calculate
+                </Button>
+              </div>
+            )}
           </div>
         </Card>
 
