@@ -65,7 +65,7 @@ function parseVoiceDate(rawText: string): string | null {
     }
   }
 
-  // "27 12 2025" or "27 12" (assume current year)
+  // "27 12 2026" or "27 12" (assume current year)
   const spaced = cleaned.match(/\b(\d{1,2})\s+(\d{1,2})(?:\s+(\d{4}))?\b/)
   if (spaced) {
     const day = Number(spaced[1])
@@ -79,7 +79,7 @@ function parseVoiceDate(rawText: string): string | null {
   }
 
   // Month-name formats (best-effort)
-  // Examples: "27 december 2025", "december 27 2025", "27 dec", "dec 27"
+  // Examples: "27 december 2026", "december 27 2026", "27 dec", "dec 27"
   const monthMap: Record<string, number> = {
     january: 1,
     jan: 1,
@@ -107,7 +107,7 @@ function parseVoiceDate(rawText: string): string | null {
     dec: 12,
   }
 
-  // "27 december 2025" / "27 dec 2025"
+  // "27 december 2026" / "27 dec 2026"
   const dMonthY = cleaned.match(/\b(\d{1,2})\s+([a-z]{3,9})\s+(\d{4})\b/)
   if (dMonthY) {
     const day = Number(dMonthY[1])
@@ -121,7 +121,7 @@ function parseVoiceDate(rawText: string): string | null {
     }
   }
 
-  // "december 27 2025" / "dec 27 2025"
+  // "december 27 2026" / "dec 27 2026"
   const monthDY = cleaned.match(/\b([a-z]{3,9})\s+(\d{1,2})\s+(\d{4})\b/)
   if (monthDY) {
     const month = monthMap[monthDY[1]]

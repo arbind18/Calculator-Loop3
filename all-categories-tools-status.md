@@ -1,6 +1,6 @@
 # All categories readiness (registry-level)
 
-Generated: 2025-12-26T09:39:47.040Z
+Generated: 2026-01-02T09:39:47.040Z
 Categories scanned: 9
 Categories with missing tools/files: 0
 

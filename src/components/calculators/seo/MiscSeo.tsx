@@ -64,7 +64,7 @@ export const AgeSeoContent = () => (
       <div className="space-y-4">
         <FaqItem 
           question="How is age calculated exactly?"
-          answer="Age = Current Date - Birth Date. Completed years + months + days. Example: Born Jan 15, 2000, today Dec 22, 2025 = 25 years, 11 months, 7 days. You're only 26 after Jan 15, 2026. Calculator accounts for leap years."
+          answer="Age = Current Date - Birth Date. Completed years + months + days. Example: Born Jan 15, 2000, today Dec 22, 2026 = 26 years, 11 months, 7 days. You're only 27 after Jan 15, 2027. Calculator accounts for leap years."
         />
         <FaqItem 
           question="How many days have I been alive?"
@@ -103,7 +103,7 @@ export const DatePlusDurationSeoContent = () => (
       <div className="space-y-4">
         <FaqItem 
           question="How do I add days to a date?"
-          answer="Start Date + Number of Days = End Date. Example: Jan 1, 2025 + 90 days = April 1, 2025. Calculator handles month-end variations (28, 30, 31 days) and leap years automatically. Use negative numbers to subtract."
+          answer="Start Date + Number of Days = End Date. Example: Jan 1, 2026 + 90 days = April 1, 2026. Calculator handles month-end variations (28, 30, 31 days) and leap years automatically. Use negative numbers to subtract."
         />
         <FaqItem 
           question="What is 90 days from today's date?"
