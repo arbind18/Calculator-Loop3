@@ -5,10 +5,13 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
-import { RefreshCw } from 'lucide-react';
+import { Download, Printer, RefreshCw, Share2, Trash2, Zap, ZapOff } from 'lucide-react';
+import { toast } from 'sonner';
+import { generateReport } from '@/lib/downloadUtils';
 
 interface CalculatorConfig {
   id: string;
@@ -37,6 +40,8 @@ interface GenericDateTimeToolProps {
 export default function GenericDateTimeTool({ id, title, description }: GenericDateTimeToolProps) {
   const [inputs, setInputs] = useState<{ [key: string]: string | number }>({});
   const [results, setResults] = useState<any>(null);
+  const [isAutoCalculate, setIsAutoCalculate] = useState(false);
+  const [restoreSnapshot, setRestoreSnapshot] = useState<{ [key: string]: string | number } | null>(null);
 
   const getCalculatorConfig = (calculatorId: string): CalculatorConfig => {
     switch (calculatorId) {
@@ -307,7 +312,17 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   }, [id]);
 
   const handleInputChange = (name: string, value: string | number) => {
-    setInputs(prev => ({ ...prev, [name]: value }));
+    setInputs(prev => {
+      const next = { ...prev, [name]: value };
+      if (isAutoCalculate) {
+        try {
+          setResults(config.calculate(next));
+        } catch {
+          // ignore invalid intermediate states
+        }
+      }
+      return next;
+    });
   };
 
   const handleCalculate = () => {
@@ -332,6 +347,51 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
     setResults(null);
   };
 
+  const handleDeleteInputs = () => {
+    setRestoreSnapshot(inputs);
+    const clearedInputs: { [key: string]: string | number } = {};
+    config.inputs.forEach(input => {
+      if (input.type === 'select' && input.options) {
+        clearedInputs[input.name] = input.options[0].value;
+      } else {
+        clearedInputs[input.name] = '';
+      }
+    });
+    setInputs(clearedInputs);
+    setResults(null);
+  };
+
+  const handleRestoreInputs = () => {
+    if (!restoreSnapshot) return;
+    setInputs(restoreSnapshot);
+    setResults(null);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: config.title,
+          text: config.description,
+          url: window.location.href,
+        });
+        return;
+      } catch {
+        // fall back to clipboard
+      }
+    }
+    await navigator.clipboard.writeText(window.location.href);
+    toast.success('Link copied to clipboard!');
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownload = async () => {
+    await generateReport('png', config.id, [], [], config.title);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-red-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900 py-8 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -351,8 +411,83 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
         </div>
 
         {/* Calculator Card */}
-        <Card className="p-6 shadow-xl border-2 border-purple-100 dark:border-purple-900">
+        <Card id="calculator-content" className="p-6 shadow-xl border-2 border-purple-100 dark:border-purple-900">
           <div className="space-y-6">
+            {/* Action Toolbar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-2 rounded-2xl bg-secondary/10 border border-border/50 print:hidden">
+              {/* Left Side: Auto Calculate Toggle */}
+              <div className="flex items-center gap-3 px-4 py-2 rounded-xl w-full sm:w-auto justify-between sm:justify-start">
+                <div className="flex items-center gap-2.5">
+                  <div className={isAutoCalculate ? "p-2 rounded-lg transition-colors bg-yellow-500/10 text-yellow-600" : "p-2 rounded-lg transition-colors bg-muted text-muted-foreground"}>
+                    {isAutoCalculate ? <Zap className="h-4 w-4 fill-current" /> : <ZapOff className="h-4 w-4" />}
+                  </div>
+                  <Label htmlFor="auto-calculate" className="text-sm font-medium cursor-pointer select-none">
+                    Auto Calculate
+                  </Label>
+                </div>
+                <Switch
+                  id="auto-calculate"
+                  checked={isAutoCalculate}
+                  onCheckedChange={setIsAutoCalculate}
+                  className="data-[state=checked]:bg-yellow-500 ml-2"
+                />
+              </div>
+
+              {/* Right Side: Actions */}
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end px-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDeleteInputs}
+                  className="h-10 w-10 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-colors"
+                  title="Delete"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleRestoreInputs}
+                  disabled={!restoreSnapshot}
+                  className="h-10 w-10 text-muted-foreground hover:text-emerald-600 hover:bg-emerald-600/10 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title={restoreSnapshot ? "Reload last inputs" : "Reload last inputs (after delete)"}
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+
+                <div className="h-6 w-px bg-border mx-2 hidden sm:block" />
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleShare}
+                  className="h-10 w-10 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-colors"
+                  title="Share"
+                >
+                  <Share2 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handlePrint}
+                  className="h-10 w-10 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-colors"
+                  title="Print"
+                >
+                  <Printer className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleDownload}
+                  className="h-10 w-10 border-primary/20 hover:bg-primary/5 hover:text-primary shadow-sm rounded-xl"
+                  title="Download"
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
             {/* Input Fields */}
             <div className="grid md:grid-cols-2 gap-4">
               {config.inputs.map((input) => (
@@ -420,7 +555,6 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                 variant="outline"
                 className="px-6 border-2 border-purple-300 hover:bg-purple-50 dark:border-purple-700 dark:hover:bg-purple-950"
               >
-                <RefreshCw className="mr-2 h-4 w-4" />
                 Reset
               </Button>
             </div>
