@@ -542,20 +542,13 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3">
+            <div>
               <Button
                 onClick={handleCalculate}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg shadow-lg transition transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg shadow-lg transition transform hover:scale-[1.02]"
               >
                 <i className="fas fa-calculator mr-2"></i>
                 Calculate
-              </Button>
-              <Button
-                onClick={handleReset}
-                variant="outline"
-                className="px-6 border-2 border-purple-300 hover:bg-purple-50 dark:border-purple-700 dark:hover:bg-purple-950"
-              >
-                Reset
               </Button>
             </div>
           </div>
