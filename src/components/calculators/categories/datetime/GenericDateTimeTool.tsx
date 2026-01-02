@@ -41,6 +41,42 @@ import {
 import { toast } from 'sonner';
 import { downloadFile, generateReport } from '@/lib/downloadUtils';
 
+function formatDDMMYYYY(date: Date) {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const yyyy = String(date.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function parseUserDate(value: string): Date | null {
+  const raw = (value ?? '').trim();
+  if (!raw) return null;
+
+  // Accept YYYY-MM-DD
+  const isoMatch = raw.match(/^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})$/);
+  if (isoMatch) {
+    const yyyy = Number(isoMatch[1]);
+    const mm = Number(isoMatch[2]);
+    const dd = Number(isoMatch[3]);
+    const date = new Date(yyyy, mm - 1, dd);
+    if (date.getFullYear() !== yyyy || date.getMonth() !== mm - 1 || date.getDate() !== dd) return null;
+    return date;
+  }
+
+  // Accept DD-MM-YYYY / DD/MM/YYYY / DD.MM.YYYY
+  const dmyMatch = raw.match(/^([0-9]{1,2})[-/.]([0-9]{1,2})[-/.]([0-9]{4})$/);
+  if (dmyMatch) {
+    const dd = Number(dmyMatch[1]);
+    const mm = Number(dmyMatch[2]);
+    const yyyy = Number(dmyMatch[3]);
+    const date = new Date(yyyy, mm - 1, dd);
+    if (date.getFullYear() !== yyyy || date.getMonth() !== mm - 1 || date.getDate() !== dd) return null;
+    return date;
+  }
+
+  return null;
+}
+
 interface CalculatorConfig {
   id: string;
   title: string;
@@ -83,8 +119,10 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
             { name: 'targetDate', label: 'Calculate Age At', type: 'date' },
           ],
           calculate: (inputs) => {
-            const birth = new Date(String(inputs.birthdate));
-            const target = inputs.targetDate ? new Date(String(inputs.targetDate)) : new Date();
+            const birth = parseUserDate(String(inputs.birthdate));
+            const target = inputs.targetDate ? parseUserDate(String(inputs.targetDate)) : new Date();
+            if (!birth) throw new Error('Please enter a valid Date of Birth (DD-MM-YYYY).');
+            if (!target) throw new Error('Please enter a valid Target Date (DD-MM-YYYY).');
             
             let years = target.getFullYear() - birth.getFullYear();
             let months = target.getMonth() - birth.getMonth();
@@ -132,8 +170,10 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
             { name: 'endDate', label: 'End Date', type: 'date' },
           ],
           calculate: (inputs) => {
-            const start = new Date(String(inputs.startDate));
-            const end = new Date(String(inputs.endDate));
+            const start = parseUserDate(String(inputs.startDate));
+            const end = parseUserDate(String(inputs.endDate));
+            if (!start) throw new Error('Please enter a valid Start Date (DD-MM-YYYY).');
+            if (!end) throw new Error('Please enter a valid End Date (DD-MM-YYYY).');
             
             const diffTime = Math.abs(end.getTime() - start.getTime());
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -329,7 +369,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
       if (input.type === 'select' && input.options) {
         defaultInputs[input.name] = input.options[0].value;
       } else if (input.type === 'date') {
-        defaultInputs[input.name] = new Date().toISOString().split('T')[0];
+        defaultInputs[input.name] = formatDDMMYYYY(new Date());
       } else if (input.type === 'time') {
         defaultInputs[input.name] = '12:00';
       } else {
@@ -344,8 +384,12 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   };
 
   const handleCalculate = () => {
-    const result = config.calculate(inputs);
-    setResults(result);
+    try {
+      const result = config.calculate(inputs);
+      setResults(result);
+    } catch (e: any) {
+      toast.error(e?.message || 'Please check your inputs.');
+    }
   };
 
   const handleReset = () => {
@@ -354,7 +398,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
       if (input.type === 'select' && input.options) {
         defaultInputs[input.name] = input.options[0].value;
       } else if (input.type === 'date') {
-        defaultInputs[input.name] = new Date().toISOString().split('T')[0];
+        defaultInputs[input.name] = formatDDMMYYYY(new Date());
       } else if (input.type === 'time') {
         defaultInputs[input.name] = '12:00';
       } else {
@@ -750,6 +794,16 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                         </option>
                       ))}
                     </select>
+                  ) : input.type === 'date' ? (
+                    <Input
+                      id={input.name}
+                      type="text"
+                      inputMode="numeric"
+                      placeholder={input.placeholder || 'DD-MM-YYYY'}
+                      value={inputs[input.name] || ''}
+                      onChange={(e) => handleInputChange(input.name, e.target.value)}
+                      className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
+                    />
                   ) : (
                     input.type === 'number' ? (
                       <div className="relative">
