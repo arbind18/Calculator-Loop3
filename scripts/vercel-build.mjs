@@ -58,5 +58,7 @@ if (isVercel && !forceMigrateDeploy) {
 
 if (prismaExit !== 0) process.exit(prismaExit);
 
-const nextExit = run("next", ["build"]);
+// Next.js 16 enables Turbopack by default for builds. This project uses a custom
+// webpack config (see `next.config.js`), so explicitly select webpack.
+const nextExit = run("next", ["build", "--webpack"]);
 process.exit(nextExit);
