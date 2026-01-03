@@ -5,6 +5,7 @@ import { Calendar, Cake, Timer, Hourglass, CalendarDays, Heart, Wind, Eye, Bed, 
 import { FinancialCalculatorTemplate, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { AgeSeoContent } from "@/components/calculators/seo/MiscSeo"
 import { VoiceDateInput } from "@/components/ui/VoiceDateInput"
+import { VoiceTimeInput } from "@/components/ui/VoiceTimeInput"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -54,6 +55,7 @@ function parseDateTimeLocal(dateStr: string, timeStr: string) {
   if (dt.getFullYear() !== y || dt.getMonth() !== mo || dt.getDate() !== d) return null
   return dt
 }
+
 
 function countLeapDaysLived(birth: Date, now: Date) {
   const startYear = birth.getFullYear()
@@ -360,12 +362,7 @@ export function AdvancedAgeCalculator() {
 
           <div className="space-y-2">
             <Label className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Time of Birth (Optional)</Label>
-            <Input
-              type="time"
-              value={tob}
-              onChange={(e) => setTob(e.target.value)}
-              className="p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
-            />
+            <VoiceTimeInput value={tob} onChange={setTob} />
             <p className="text-xs text-muted-foreground">Leave as 00:00 if you don't know the exact time.</p>
           </div>
 
@@ -381,15 +378,16 @@ export function AdvancedAgeCalculator() {
                 }}
                 className="flex-1 p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
               />
-              <Input
-                type="time"
-                value={asOfTime}
-                onChange={(e) => {
-                  setAsOfTime(e.target.value)
-                  setUseLiveMode(false)
-                }}
-                className="w-32 p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg"
-              />
+              <div className="w-64">
+                <VoiceTimeInput
+                  value={asOfTime}
+                  onChange={(next) => {
+                    setAsOfTime(next)
+                    setUseLiveMode(false)
+                  }}
+                  disabled={useLiveMode}
+                />
+              </div>
             </div>
             <div className="flex items-center gap-2 mt-2">
               <input
