@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { Mic, MicOff } from "lucide-react"
+import { Clock, Mic, MicOff } from "lucide-react"
 import toast from "react-hot-toast"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -167,53 +167,59 @@ export function VoiceTimeInput({ value, onChange, disabled, showSeconds = false 
   }
 
   const parts = parseTimeParts(value)
-  const selectClass = "p-4 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/30 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium text-lg disabled:opacity-60 appearance-none text-center min-w-[4rem]"
+  const selectClass = "h-10 px-2 rounded-lg bg-transparent border border-transparent focus:outline-none font-semibold text-base disabled:opacity-60 appearance-none text-center"
 
   return (
-    <div className="flex items-center gap-3">
-      <div className={cn("grid gap-2 flex-1", showSeconds ? "grid-cols-3" : "grid-cols-2")}>
-        <div className="relative">
-          <select
-            aria-label="Hour"
-            value={parts.hh}
-            disabled={disabled}
-            onChange={(e) => onChange(setTimePartWithMode(value, 'hh', e.target.value, showSeconds))}
-            className={selectClass}
-          >
-            {Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0')).map((h) => (
-              <option key={h} value={h}>
-                {h}
-              </option>
-            ))}
-          </select>
-          <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground text-xs">H</span>
-        </div>
+    <div
+      className={cn(
+        "relative w-full h-14 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800",
+        "flex items-center gap-2 px-3",
+        "focus-within:ring-2 focus-within:ring-purple-500 focus-within:border-transparent",
+        disabled && "opacity-60"
+      )}
+    >
+      <Clock className="h-5 w-5 text-muted-foreground shrink-0" />
 
-        <div className="relative">
-          <select
-            aria-label="Minute"
-            value={parts.mm}
-            disabled={disabled}
-            onChange={(e) => onChange(setTimePartWithMode(value, 'mm', e.target.value, showSeconds))}
-            className={selectClass}
-          >
-            {Array.from({ length: 60 }, (_, m) => String(m).padStart(2, '0')).map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
-          <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground text-xs">M</span>
-        </div>
+      <div className="flex items-center gap-2 flex-1">
+        <select
+          aria-label="Hour"
+          value={parts.hh}
+          disabled={disabled}
+          onChange={(e) => onChange(setTimePartWithMode(value, 'hh', e.target.value, showSeconds))}
+          className={cn(selectClass, "w-14")}
+        >
+          {Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0')).map((h) => (
+            <option key={h} value={h}>
+              {h}
+            </option>
+          ))}
+        </select>
+
+        <span className="text-muted-foreground font-semibold">:</span>
+
+        <select
+          aria-label="Minute"
+          value={parts.mm}
+          disabled={disabled}
+          onChange={(e) => onChange(setTimePartWithMode(value, 'mm', e.target.value, showSeconds))}
+          className={cn(selectClass, "w-14")}
+        >
+          {Array.from({ length: 60 }, (_, m) => String(m).padStart(2, '0')).map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
 
         {showSeconds && (
-          <div className="relative">
+          <>
+            <span className="text-muted-foreground font-semibold">:</span>
             <select
               aria-label="Second"
               value={parts.ss}
               disabled={disabled}
               onChange={(e) => onChange(setTimePartWithMode(value, 'ss', e.target.value, true))}
-              className={selectClass}
+              className={cn(selectClass, "w-14")}
             >
               {Array.from({ length: 60 }, (_, s) => String(s).padStart(2, '0')).map((s) => (
                 <option key={s} value={s}>
@@ -221,24 +227,23 @@ export function VoiceTimeInput({ value, onChange, disabled, showSeconds = false 
                 </option>
               ))}
             </select>
-            <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground text-xs">S</span>
-          </div>
+          </>
         )}
       </div>
 
       <Button
         type="button"
-        variant={isListening ? "destructive" : "outline"}
+        variant="ghost"
         size="icon"
         onClick={isListening ? stopListening : startListening}
         disabled={disabled}
         className={cn(
-          "h-14 w-14 rounded-xl shrink-0 transition-all",
-          isListening ? "animate-pulse shadow-lg shadow-red-500/20" : "hover:bg-primary/10 hover:text-primary hover:border-primary/30"
+          "h-10 w-10 rounded-lg shrink-0",
+          isListening && "bg-red-500/10 text-red-600 animate-pulse"
         )}
         title="Speak time (e.g. '10:30 PM')"
       >
-        {isListening ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
+        {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
       </Button>
     </div>
   )

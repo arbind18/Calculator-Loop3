@@ -11,9 +11,11 @@ import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 import { VoiceTimeInput } from "@/components/ui/VoiceTimeInput"
+import { cn } from '@/lib/utils';
 import {
   Download,
   Database,
+  Calendar,
   FileArchive,
   FileCode,
   FileImage,
@@ -171,6 +173,16 @@ function splitDatePartsForUi(value: string): { day: string; month: string; year:
   };
 }
 
+function ddmmyyyyToIso(value: string): string {
+  const raw = (value ?? '').trim()
+  const m = raw.match(/^([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})$/)
+  if (!m) return ''
+  const dd = String(Number(m[1])).padStart(2, '0')
+  const mm = String(Number(m[2])).padStart(2, '0')
+  const yyyy = String(m[3]).slice(0, 4)
+  return `${yyyy}-${mm}-${dd}`
+}
+
 interface CalculatorConfig {
   id: string;
   title: string;
@@ -190,6 +202,7 @@ interface CalculatorConfig {
   ) => {
     results: { label: string; value: string | number; unit?: string }[];
     breakdown?: { label: string; value: string | number; unit?: string }[];
+    biological?: { label: string; value: string | number; unit?: string }[];
     live?: {
       clock: string;
       isLive: boolean;
@@ -274,6 +287,25 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
             const totalDays = Math.floor(diffMs / MS_PER_DAY);
             const totalWeeks = Math.floor(totalDays / 7);
 
+            // Biological estimates (simple averages; not medical advice)
+            const HEARTBEATS_PER_MINUTE = 72;
+            const BREATHS_PER_MINUTE = 16;
+            const BLINKS_PER_MINUTE = 15;
+            const SLEEP_HOURS_PER_DAY = 8;
+            const MEALS_PER_DAY = 3;
+            const WATER_LITERS_PER_DAY = 2;
+            const SMILES_PER_DAY = 20;
+            const STEPS_PER_DAY = 7500;
+
+            const heartbeats = Math.max(0, totalMinutes) * HEARTBEATS_PER_MINUTE;
+            const breathsTaken = Math.max(0, totalMinutes) * BREATHS_PER_MINUTE;
+            const timesBlinked = Math.max(0, totalMinutes) * BLINKS_PER_MINUTE;
+            const hoursSlept = Math.max(0, totalDays) * SLEEP_HOURS_PER_DAY;
+            const mealsEaten = Math.max(0, totalDays) * MEALS_PER_DAY;
+            const waterDrunkLiters = Math.max(0, totalDays) * WATER_LITERS_PER_DAY;
+            const timesSmiled = Math.max(0, totalDays) * SMILES_PER_DAY;
+            const stepsWalked = Math.max(0, totalDays) * STEPS_PER_DAY;
+
             const dayRemainder = diffMs % MS_PER_DAY;
             const clockHours = Math.floor(dayRemainder / MS_PER_HOUR);
             const clockMinutes = Math.floor((dayRemainder % MS_PER_HOUR) / MS_PER_MINUTE);
@@ -290,6 +322,16 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                 { label: 'Total Hours', value: totalHours.toLocaleString(), unit: 'hours' },
                 { label: 'Total Minutes', value: totalMinutes.toLocaleString(), unit: 'minutes' },
                 { label: 'Total Seconds', value: totalSeconds.toLocaleString(), unit: 'seconds' },
+              ],
+              biological: [
+                { label: '❤️ Heartbeats', value: Number(heartbeats).toLocaleString('en-IN') },
+                { label: '🫁 Breaths Taken', value: Number(breathsTaken).toLocaleString('en-IN') },
+                { label: '👁️ Times Blinked', value: Number(timesBlinked).toLocaleString('en-IN') },
+                { label: '🛏️ Hours Slept', value: Number(hoursSlept).toLocaleString('en-IN') },
+                { label: '🍽️ Meals Eaten', value: Number(mealsEaten).toLocaleString('en-IN') },
+                { label: '💧 Water Drunk (Liters)', value: Number(waterDrunkLiters).toLocaleString('en-IN') },
+                { label: '😊 Times Smiled', value: Number(timesSmiled).toLocaleString('en-IN') },
+                { label: '👣 Steps Walked (approx)', value: Number(stepsWalked).toLocaleString('en-IN') },
               ],
               breakdown: [
                 { label: 'Date of Birth', value: birth.toLocaleString() },
@@ -509,6 +551,8 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   };
 
   const config = getCalculatorConfig(id);
+
+  const isAgeCalculator = id === 'age-calculator';
 
   useEffect(() => {
     if (id !== 'age-calculator') return;
@@ -945,165 +989,280 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
             </div>
 
             {/* Input Fields */}
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className={cn('grid gap-4', isAgeCalculator ? 'grid-cols-1' : 'md:grid-cols-2')}>
               {config.inputs.map((input) => (
-                <div key={input.name} className="space-y-2">
-                  <Label htmlFor={input.name} className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {input.label}
-                    {input.unit && <span className="text-purple-600 ml-1">({input.unit})</span>}
-                  </Label>
-                  {input.type === 'select' ? (
-                    <select
-                      id={input.name}
-                      value={inputs[input.name] || ''}
-                      onChange={(e) => handleInputChange(input.name, e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-                    >
-                      {input.options?.map(option => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : input.type === 'date' ? (
-                    (() => {
-                      const parts = datePartsByName[input.name] ?? { day: '', month: '', year: '' };
-                      const setParts = (next: { day: string; month: string; year: string }) => {
-                        setDatePartsByName((prev) => ({ ...prev, [input.name]: next }));
+                  <div key={input.name} className="space-y-2">
+                    <Label htmlFor={input.name} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {input.label}
+                      {input.unit && <span className="text-purple-600 ml-1">({input.unit})</span>}
+                    </Label>
 
-                        const pad2 = (s: string) => (s ? String(Number(s)).padStart(2, '0') : '');
-                        const d = pad2(next.day);
-                        const m = pad2(next.month);
-                        const y = (next.year ?? '').slice(0, 4);
+                    {input.type === 'select' ? (
+                      <select
+                        id={input.name}
+                        value={inputs[input.name] || ''}
+                        onChange={(e) => handleInputChange(input.name, e.target.value)}
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                      >
+                        {input.options?.map(option => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    ) : input.type === 'date' ? (
+                      (() => {
+                        if (isAgeCalculator && (input.name === 'birthdate' || input.name === 'targetDate')) {
+                          const rawValue = String(inputs[input.name] ?? '')
+                          const isoValue = rawValue.includes('-') && rawValue.split('-')[0]?.length === 4
+                            ? rawValue
+                            : ddmmyyyyToIso(rawValue)
 
-                        const nextValue = d && m && y ? `${d}-${m}-${y}` : d && m ? `${d}-${m}` : '';
-                        handleInputChange(input.name, nextValue);
-                      };
+                          const parts = datePartsByName[input.name] ?? splitDatePartsForUi(rawValue)
+                          const setParts = (next: { day: string; month: string; year: string }) => {
+                            setDatePartsByName((prev) => ({ ...prev, [input.name]: next }))
 
-                      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                      const monthPlaceholder = 'Mon';
-                      const dayPlaceholder = '31';
-                      const yearPlaceholder = String(exampleYear);
+                            const pad2 = (s: string) => (s ? String(Number(s)).padStart(2, '0') : '')
+                            const d = pad2(next.day)
+                            const m = pad2(next.month)
+                            const y = (next.year ?? '').slice(0, 4)
+                            const nextValue = d && m && y ? `${d}-${m}-${y}` : d && m ? `${d}-${m}` : ''
+                            handleInputChange(input.name, nextValue)
+                          }
 
-                      const monthNum = Number(parts.month);
-                      const yearNum = parts.year.length === 4 ? Number(parts.year) : exampleYear;
-                      const maxDay = monthNum >= 1 && monthNum <= 12
-                        ? new Date(yearNum, monthNum, 0).getDate()
-                        : 31;
+                          const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                          const monthPlaceholder = 'Mon'
+                          const dayPlaceholder = '31'
+                          const yearPlaceholder = String(exampleYear)
 
-                      const dayValueNum = Number(parts.day);
-                      const clampedDay = dayValueNum && dayValueNum > maxDay ? String(maxDay) : parts.day;
-                      if (clampedDay !== parts.day) {
-                        queueMicrotask(() => setParts({ ...parts, day: clampedDay }));
-                      }
+                          const monthNum = Number(parts.month)
+                          const yearNum = parts.year.length === 4 ? Number(parts.year) : exampleYear
+                          const maxDay = monthNum >= 1 && monthNum <= 12 ? new Date(yearNum, monthNum, 0).getDate() : 31
+                          const dayValueNum = Number(parts.day)
+                          const clampedDay = dayValueNum && dayValueNum > maxDay ? String(maxDay) : parts.day
 
-                      return (
-                        <div
-                          className="space-y-2"
-                          onFocusCapture={() => setFocusedDateInput(input.name)}
-                          onBlurCapture={(e) => {
-                            const nextTarget = e.relatedTarget as Node | null;
-                            if (nextTarget && e.currentTarget.contains(nextTarget)) return;
-                            setFocusedDateInput((prev) => (prev === input.name ? null : prev));
-                          }}
-                        >
-                          <div className="grid grid-cols-3 gap-2">
-                            <select
-                              aria-label={`${input.label} month`}
-                              value={parts.month}
-                              onChange={(e) => {
-                                const nextMonth = e.target.value;
-                                setParts({ day: parts.day, month: nextMonth, year: parts.year });
-                              }}
-                              className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition py-6"
-                            >
-                              <option value="" disabled>
-                                {monthPlaceholder}
-                              </option>
-                              {monthNames.map((m, idx) => (
-                                <option key={m} value={String(idx + 1)}>
-                                  {m}
-                                </option>
-                              ))}
-                            </select>
+                          return (
+                            <div className="space-y-2">
+                              <div className="relative w-full h-14 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center gap-2 px-3 focus-within:ring-2 focus-within:ring-purple-500 focus-within:border-transparent">
+                                <Calendar className="h-5 w-5 text-muted-foreground shrink-0" />
+                                <Input
+                                  id={input.name}
+                                  type="date"
+                                  value={isoValue}
+                                  onChange={(e) => {
+                                    const nextIso = e.target.value
+                                    handleInputChange(input.name, nextIso)
+                                    const m = nextIso.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/)
+                                    if (m) {
+                                      setDatePartsByName((prev) => ({
+                                        ...prev,
+                                        [input.name]: {
+                                          year: m[1] ?? '',
+                                          month: String(Number(m[2] ?? '')),
+                                          day: String(Number(m[3] ?? '')),
+                                        },
+                                      }))
+                                    }
+                                  }}
+                                  className="h-10 flex-1 border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
+                                />
+                              </div>
 
-                            <select
-                              aria-label={`${input.label} day`}
-                              value={clampedDay}
-                              disabled={!parts.month}
-                              onChange={(e) => {
-                                const nextDay = e.target.value;
-                                setParts({ day: nextDay, month: parts.month, year: parts.year });
-                              }}
-                              className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition py-6"
-                            >
-                              <option value="" disabled>
-                                {dayPlaceholder}
-                              </option>
-                              {Array.from({ length: maxDay }, (_, i) => i + 1).map((d) => (
-                                <option key={d} value={String(d)}>
-                                  {d}
-                                </option>
-                              ))}
-                            </select>
+                              <div className="grid grid-cols-3 gap-3">
+                                <select
+                                  aria-label={`${input.label} month`}
+                                  value={parts.month}
+                                  onChange={(e) => {
+                                    const nextMonth = e.target.value
+                                    setParts({ day: parts.day, month: nextMonth, year: parts.year })
+                                  }}
+                                  className="w-full min-w-0 h-14 px-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition text-base"
+                                >
+                                  <option value="" disabled>
+                                    {monthPlaceholder}
+                                  </option>
+                                  {monthNames.map((m, idx) => (
+                                    <option key={m} value={String(idx + 1)}>
+                                      {m}
+                                    </option>
+                                  ))}
+                                </select>
 
-                            <Input
-                              aria-label={`${input.label} year`}
-                              inputMode="numeric"
-                              placeholder={yearPlaceholder}
-                              value={parts.year}
-                              onChange={(e) => {
-                                const nextYear = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
-                                setParts({ day: parts.day, month: parts.month, year: nextYear });
-                              }}
-                              className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 rounded-xl py-6 text-base tracking-wide transition-all duration-200 focus:shadow-lg focus:shadow-purple-500/10"
-                            />
+                                <select
+                                  aria-label={`${input.label} day`}
+                                  value={clampedDay}
+                                  disabled={!parts.month}
+                                  onChange={(e) => {
+                                    const nextDay = e.target.value
+                                    setParts({ day: nextDay, month: parts.month, year: parts.year })
+                                  }}
+                                  className="w-full min-w-0 h-14 px-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition text-base"
+                                >
+                                  <option value="" disabled>
+                                    {dayPlaceholder}
+                                  </option>
+                                  {Array.from({ length: maxDay }, (_, i) => i + 1).map((d) => (
+                                    <option key={d} value={String(d)}>
+                                      {d}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                <Input
+                                  aria-label={`${input.label} year`}
+                                  inputMode="numeric"
+                                  placeholder={yearPlaceholder}
+                                  value={parts.year}
+                                  onChange={(e) => {
+                                    const nextYear = e.target.value.replace(/[^0-9]/g, '').slice(0, 4)
+                                    setParts({ day: parts.day, month: parts.month, year: nextYear })
+                                  }}
+                                  className="w-full min-w-0 h-14 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 rounded-xl px-4 text-base tracking-wide transition-all duration-200 focus:shadow-lg focus:shadow-purple-500/10"
+                                />
+                              </div>
+                            </div>
+                          )
+                        }
+
+                        const parts = datePartsByName[input.name] ?? { day: '', month: '', year: '' };
+                        const setParts = (next: { day: string; month: string; year: string }) => {
+                          setDatePartsByName((prev) => ({ ...prev, [input.name]: next }));
+
+                          const pad2 = (s: string) => (s ? String(Number(s)).padStart(2, '0') : '');
+                          const d = pad2(next.day);
+                          const m = pad2(next.month);
+                          const y = (next.year ?? '').slice(0, 4);
+
+                          const nextValue = d && m && y ? `${d}-${m}-${y}` : d && m ? `${d}-${m}` : '';
+                          handleInputChange(input.name, nextValue);
+                        };
+
+                        const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                        const monthPlaceholder = 'Mon';
+                        const dayPlaceholder = '31';
+                        const yearPlaceholder = String(exampleYear);
+
+                        const monthNum = Number(parts.month);
+                        const yearNum = parts.year.length === 4 ? Number(parts.year) : exampleYear;
+                        const maxDay = monthNum >= 1 && monthNum <= 12
+                          ? new Date(yearNum, monthNum, 0).getDate()
+                          : 31;
+
+                        const dayValueNum = Number(parts.day);
+                        const clampedDay = dayValueNum && dayValueNum > maxDay ? String(maxDay) : parts.day;
+                        if (clampedDay !== parts.day) {
+                          queueMicrotask(() => setParts({ ...parts, day: clampedDay }));
+                        }
+
+                        return (
+                          <div
+                            className="space-y-3"
+                            onFocusCapture={() => setFocusedDateInput(input.name)}
+                            onBlurCapture={(e) => {
+                              const nextTarget = e.relatedTarget as Node | null;
+                              if (nextTarget && e.currentTarget.contains(nextTarget)) return;
+                              setFocusedDateInput((prev) => (prev === input.name ? null : prev));
+                            }}
+                          >
+                            <div className="grid gap-3 grid-cols-1">
+                              <div className="grid grid-cols-3 gap-2">
+                                <select
+                                  aria-label={`${input.label} month`}
+                                  value={parts.month}
+                                  onChange={(e) => {
+                                    const nextMonth = e.target.value;
+                                    setParts({ day: parts.day, month: nextMonth, year: parts.year });
+                                  }}
+                                  className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition py-6"
+                                >
+                                  <option value="" disabled>
+                                    {monthPlaceholder}
+                                  </option>
+                                  {monthNames.map((m, idx) => (
+                                    <option key={m} value={String(idx + 1)}>
+                                      {m}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                <select
+                                  aria-label={`${input.label} day`}
+                                  value={clampedDay}
+                                  disabled={!parts.month}
+                                  onChange={(e) => {
+                                    const nextDay = e.target.value;
+                                    setParts({ day: nextDay, month: parts.month, year: parts.year });
+                                  }}
+                                  className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition py-6"
+                                >
+                                  <option value="" disabled>
+                                    {dayPlaceholder}
+                                  </option>
+                                  {Array.from({ length: maxDay }, (_, i) => i + 1).map((d) => (
+                                    <option key={d} value={String(d)}>
+                                      {d}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                <Input
+                                  aria-label={`${input.label} year`}
+                                  inputMode="numeric"
+                                  placeholder={yearPlaceholder}
+                                  value={parts.year}
+                                  onChange={(e) => {
+                                    const nextYear = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
+                                    setParts({ day: parts.day, month: parts.month, year: nextYear });
+                                  }}
+                                  className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 rounded-xl py-6 text-base tracking-wide transition-all duration-200 focus:shadow-lg focus:shadow-purple-500/10"
+                                />
+                              </div>
+                            </div>
+
+                            {focusedDateInput === input.name && (
+                              <div className="text-xs text-muted-foreground animate-fadeIn">
+                                Tip: day me <span className="font-medium">31</span>, month me <span className="font-medium">12</span>, aur year me <span className="font-medium">{exampleYear}</span> jaisa — example <span className="font-medium">{exampleDatePlaceholder}</span>.
+                              </div>
+                            )}
                           </div>
+                        );
+                      })()
+                    ) : (
+                      input.type === 'time' ? (
+                        <VoiceTimeInput
+                          value={String(inputs[input.name] || '')}
+                          onChange={(v) => handleInputChange(input.name, v)}
+                          showSeconds={Boolean(input.showSeconds)}
+                        />
+                      ) : input.type === 'number' ? (
+                        <div className="relative">
+                          <Input
+                            id={input.name}
+                            type={input.type}
+                            placeholder={input.placeholder}
+                            value={inputs[input.name] || ''}
+                            onChange={(e) => handleInputChange(input.name, Number(e.target.value))}
+                            className="pr-12 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
+                          />
+                          <VoiceNumberButton
+                            label={input.label}
+                            onValueAction={(v) => handleInputChange(input.name, v)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2"
+                          />
                         </div>
-                      );
-                    })()
-                  ) : (
-                    input.type === 'time' ? (
-                      <VoiceTimeInput
-                        value={String(inputs[input.name] || '')}
-                        onChange={(v) => handleInputChange(input.name, v)}
-                        showSeconds={Boolean(input.showSeconds)}
-                      />
-                    ) : input.type === 'number' ? (
-                      <div className="relative">
+                      ) : (
                         <Input
                           id={input.name}
                           type={input.type}
                           placeholder={input.placeholder}
                           value={inputs[input.name] || ''}
-                          onChange={(e) => handleInputChange(input.name, Number(e.target.value))}
-                          className="pr-12 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
+                          onChange={(e) => handleInputChange(input.name, e.target.value)}
+                          className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
                         />
-                        <VoiceNumberButton
-                          label={input.label}
-                          onValueAction={(v) => handleInputChange(input.name, v)}
-                          className="absolute right-2 top-1/2 -translate-y-1/2"
-                        />
-                      </div>
-                    ) : (
-                      <Input
-                        id={input.name}
-                        type={input.type}
-                        placeholder={input.placeholder}
-                        value={inputs[input.name] || ''}
-                        onChange={(e) => handleInputChange(input.name, e.target.value)}
-                        className="border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
-                      />
-                    )
-                  )}
-
-                  {input.type === 'date' && focusedDateInput === input.name && (
-                    <div className="text-xs text-muted-foreground animate-fadeIn">
-                      Tip: day me <span className="font-medium">31</span>, month me <span className="font-medium">12</span>, aur year me <span className="font-medium">{exampleYear}</span> jaisa — example <span className="font-medium">{exampleDatePlaceholder}</span>.
-                    </div>
-                  )}
-                </div>
-              ))}
+                      )
+                    )}
+                  </div>
+                ))}
             </div>
 
             {/* Action Buttons */}
@@ -1137,6 +1296,31 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                   <div className="mt-2 text-sm text-white/70">
                     You have been alive for <span className="font-semibold text-white">{Number(results.live.totalSeconds || 0).toLocaleString()}</span> seconds
                   </div>
+                </div>
+              </Card>
+            )}
+
+            {id === 'age-calculator' && results.biological && results.biological.length > 0 && (
+              <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 border-2 border-blue-200 dark:border-blue-800 shadow-xl">
+                <div className="flex items-center gap-2 text-sm font-bold text-blue-900 dark:text-blue-100 mb-4">
+                  <span className="text-xl">💫</span>
+                  BIOLOGICAL ESTIMATES
+                </div>
+                <div className="space-y-3">
+                  {results.biological.map((item: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center py-3 px-4 bg-white/60 dark:bg-gray-800/40 rounded-xl border border-blue-100 dark:border-blue-900 hover:shadow-md transition-shadow"
+                    >
+                      <span className="text-gray-700 dark:text-gray-300 font-medium">{item.label}</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400 text-lg">
+                        {item.value} {item.unit && <span className="text-sm text-gray-500">{item.unit}</span>}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 text-xs text-blue-700 dark:text-blue-300 bg-blue-100/50 dark:bg-blue-900/30 rounded-lg p-3">
+                  ℹ️ Estimates use simple averages (not medical advice).
                 </div>
               </Card>
             )}
