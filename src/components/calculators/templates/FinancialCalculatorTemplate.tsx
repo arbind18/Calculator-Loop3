@@ -40,6 +40,7 @@ interface FinancialCalculatorTemplateProps {
   schedule?: ReactNode
   calculate: () => void
   calculateLabel?: string
+  defaultAutoCalculate?: boolean
   onClear?: () => void
   onRestoreAction?: (values: any[]) => void
   onDownload?: (format: string) => void
@@ -71,6 +72,7 @@ export function FinancialCalculatorTemplate({
   schedule,
   calculate,
   calculateLabel = "Calculate",
+  defaultAutoCalculate = false,
   onClear,
   onRestoreAction,
   onDownload,
@@ -86,6 +88,8 @@ export function FinancialCalculatorTemplate({
   const { language } = useSettings()
   const dict = useMemo(() => getMergedTranslations(language), [language])
 
+  const resultsRef = useRef<HTMLDivElement | null>(null)
+
   const { title: displayTitle, description: displayDescription } = useMemo(
     () =>
       localizeToolMeta({
@@ -100,7 +104,7 @@ export function FinancialCalculatorTemplate({
   const resolvedCalculateLabel =
     calculateLabel === 'Calculate' ? getDictString(dict, 'common.calculate', 'Calculate') : calculateLabel
   
-  const [isAutoCalculate, setIsAutoCalculate] = useState(false)
+  const [isAutoCalculate, setIsAutoCalculate] = useState(defaultAutoCalculate)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [pendingFormat, setPendingFormat] = useState<string | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
@@ -119,6 +123,14 @@ export function FinancialCalculatorTemplate({
   })
 
   const hasResult = Boolean(result)
+
+  const handleCalculateClick = () => {
+    calculate()
+    // Ensure users see the output immediately (especially on mobile where results are below).
+    requestAnimationFrame(() => {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    })
+  }
 
   const handleDeleteInputs = () => {
     if (!onClear) return
@@ -732,7 +744,8 @@ export function FinancialCalculatorTemplate({
               {/* Calculate Button */}
               {!isAutoCalculate && (
                 <Button 
-                  onClick={calculate} 
+                  type="button"
+                  onClick={handleCalculateClick} 
                   size="lg"
                   className="w-full bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 text-white py-7 text-lg font-semibold shadow-xl shadow-primary/25 transition-all hover:scale-[1.02] rounded-xl"
                 >
@@ -744,7 +757,7 @@ export function FinancialCalculatorTemplate({
 
             {/* Results Section - Right Column on Desktop */}
             {result && (
-              <div className="lg:col-span-7 space-y-8 animate-fadeInUp">
+              <div ref={resultsRef} className="lg:col-span-7 space-y-8 animate-fadeInUp">
                 <div className="h-px w-full bg-border/50 my-8 lg:hidden" />
                 
                 {/* Key Metrics */}

@@ -329,6 +329,8 @@ export function AdvancedAgeCalculator() {
       icon={Calendar}
       calculate={calculateAge}
       calculateLabel="Analyze My Life"
+      defaultAutoCalculate
+      values={[dob, tob, asOfDate, asOfTime, useLiveMode]}
       onClear={resetAll}
       seoContent={<AgeSeoContent />}
       inputs={

@@ -158,7 +158,7 @@ interface GenericDateTimeToolProps {
 export default function GenericDateTimeTool({ id, title, description }: GenericDateTimeToolProps) {
   const [inputs, setInputs] = useState<{ [key: string]: string | number }>({});
   const [results, setResults] = useState<any>(null);
-  const [isAutoCalculate, setIsAutoCalculate] = useState(false);
+  const [isAutoCalculate, setIsAutoCalculate] = useState(() => id === 'age-calculator');
   const [restoreSnapshot, setRestoreSnapshot] = useState<{ [key: string]: string | number } | null>(null);
   const [focusedDateInput, setFocusedDateInput] = useState<string | null>(null);
   const [datePartsByName, setDatePartsByName] = useState<Record<string, { day: string; month: string; year: string }>>({});
@@ -448,6 +448,8 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
     });
     setInputs(defaultInputs);
     syncDatePartsFromInputs(defaultInputs);
+    setResults(null);
+    setIsAutoCalculate(id === 'age-calculator');
   }, [id]);
 
   const handleInputChange = (name: string, value: string | number) => {
