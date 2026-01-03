@@ -5,7 +5,6 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
@@ -524,8 +523,6 @@ export default function GenericTechnologyTool({ id, title, description }: Generi
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 py-8 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
-        <BackButton />
-        
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-block p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl shadow-lg">

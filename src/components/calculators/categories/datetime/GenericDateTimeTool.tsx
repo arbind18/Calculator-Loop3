@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 import { VoiceTimeInput } from "@/components/ui/VoiceTimeInput"
@@ -773,8 +772,6 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-red-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900 py-8 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
-        <BackButton />
-        
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-block p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg">
