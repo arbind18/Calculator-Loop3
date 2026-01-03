@@ -362,7 +362,7 @@ export function AdvancedAgeCalculator() {
 
           <div className="space-y-2">
             <Label className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Time of Birth (Optional)</Label>
-            <VoiceTimeInput value={tob} onChange={setTob} />
+            <VoiceTimeInput value={tob} onChange={setTob} showSeconds />
             <p className="text-xs text-muted-foreground">Leave as 00:00 if you don't know the exact time.</p>
           </div>
 
@@ -386,6 +386,7 @@ export function AdvancedAgeCalculator() {
                     setUseLiveMode(false)
                   }}
                   disabled={useLiveMode}
+                  showSeconds
                 />
               </div>
             </div>
