@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { BackButton } from '@/components/ui/back-button';
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
+import { VoiceTimeInput } from "@/components/ui/VoiceTimeInput"
 import {
   Download,
   Database,
@@ -77,6 +79,44 @@ function parseUserDate(value: string): Date | null {
   return null;
 }
 
+function parseTimeToHms(value: string): { h: number; m: number; s: number } | null {
+  const raw = (value ?? '').trim()
+  if (!raw) return { h: 0, m: 0, s: 0 }
+  const tm = raw.match(/^([0-9]{1,2}):([0-9]{2})(?::([0-9]{2}))?$/)
+  if (!tm) return null
+  const h = Number(tm[1])
+  const m = Number(tm[2])
+  const s = Number(tm[3] ?? '0')
+  if (!Number.isFinite(h) || !Number.isFinite(m) || !Number.isFinite(s)) return null
+  if (h < 0 || h > 23 || m < 0 || m > 59 || s < 0 || s > 59) return null
+  return { h, m, s }
+}
+
+function parseDateTimeInput(dateValue: string, timeValue: string): Date | null {
+  const d = parseUserDate(String(dateValue ?? ''))
+  if (!d) return null
+  const hms = parseTimeToHms(String(timeValue ?? ''))
+  if (!hms) return null
+  d.setHours(hms.h, hms.m, hms.s, 0)
+  return d
+}
+
+function diffYmdDateOnly(start: Date, end: Date) {
+  let years = end.getFullYear() - start.getFullYear()
+  let months = end.getMonth() - start.getMonth()
+  let days = end.getDate() - start.getDate()
+  if (days < 0) {
+    months--
+    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0)
+    days += prevMonth.getDate()
+  }
+  if (months < 0) {
+    years--
+    months += 12
+  }
+  return { years, months, days }
+}
+
 function formatDateInputLive(value: string) {
   const raw = (value ?? '').trim();
   if (!raw) return '';
@@ -142,10 +182,19 @@ interface CalculatorConfig {
     placeholder?: string;
     unit?: string;
     options?: { value: string; label: string }[];
+    showSeconds?: boolean;
   }[];
-  calculate: (inputs: { [key: string]: number | string }) => {
+  calculate: (
+    inputs: { [key: string]: number | string },
+    ctx?: { now?: Date; toolId?: string; isAutoCalculate?: boolean }
+  ) => {
     results: { label: string; value: string | number; unit?: string }[];
     breakdown?: { label: string; value: string | number; unit?: string }[];
+    live?: {
+      clock: string;
+      isLive: boolean;
+      totalSeconds: number;
+    };
   };
 }
 
@@ -159,6 +208,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
   const [inputs, setInputs] = useState<{ [key: string]: string | number }>({});
   const [results, setResults] = useState<any>(null);
   const [isAutoCalculate, setIsAutoCalculate] = useState(() => id === 'age-calculator');
+  const [liveNow, setLiveNow] = useState(() => new Date());
   const [restoreSnapshot, setRestoreSnapshot] = useState<{ [key: string]: string | number } | null>(null);
   const [focusedDateInput, setFocusedDateInput] = useState<string | null>(null);
   const [datePartsByName, setDatePartsByName] = useState<Record<string, { day: string; month: string; year: string }>>({});
@@ -175,45 +225,83 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
           description: 'Calculate your exact age in years, months, and days.',
           inputs: [
             { name: 'birthdate', label: 'Date of Birth', type: 'date' },
+            { name: 'birthTime', label: 'Time of Birth (Optional)', type: 'time', showSeconds: true },
             { name: 'targetDate', label: 'Calculate Age At', type: 'date' },
+            { name: 'targetTime', label: 'Target Time (Optional)', type: 'time', showSeconds: true },
           ],
-          calculate: (inputs) => {
-            const birth = parseUserDate(String(inputs.birthdate));
-            const target = inputs.targetDate ? parseUserDate(String(inputs.targetDate)) : new Date();
+          calculate: (inputs, ctx) => {
+            const birth = parseDateTimeInput(String(inputs.birthdate), String(inputs.birthTime ?? '00:00'));
+            const now = ctx?.now ?? new Date();
+            const targetDateInput = String(inputs.targetDate ?? '').trim();
+            const targetTimeInput = String(inputs.targetTime ?? '').trim();
+
+            const parsedTarget = targetDateInput ? parseUserDate(targetDateInput) : null;
+            const sameCalendarDayAsNow = (d: Date) =>
+              d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+
+            // Live behavior:
+            // - If target date is empty OR equals today's date, use the current time (updates every second).
+            // - If target date is a different day, use selected target time (or 00:00:00).
+            const parsedTargetWithTime = parsedTarget
+              ? parseDateTimeInput(
+                  formatDDMMYYYY(parsedTarget),
+                  targetTimeInput || (targetDateInput ? '00:00' : '00:00')
+                )
+              : null;
+
+            const target = parsedTarget
+              ? (sameCalendarDayAsNow(parsedTarget) ? now : (parsedTargetWithTime ?? parsedTarget))
+              : now;
+
             if (!birth) throw new Error('Please enter a valid Date of Birth (DD-MM-YYYY).');
-            if (!target) throw new Error('Please enter a valid Target Date (DD-MM-YYYY).');
-            
-            let years = target.getFullYear() - birth.getFullYear();
-            let months = target.getMonth() - birth.getMonth();
-            let days = target.getDate() - birth.getDate();
+            if (parsedTarget === null && targetDateInput) throw new Error('Please enter a valid Target Date (DD-MM-YYYY).');
+            if (birth.getTime() > target.getTime()) throw new Error('Target date cannot be before birth date.');
 
-            if (days < 0) {
-              months--;
-              const lastMonth = new Date(target.getFullYear(), target.getMonth(), 0);
-              days += lastMonth.getDate();
-            }
-            if (months < 0) {
-              years--;
-              months += 12;
-            }
+            const ymd = diffYmdDateOnly(birth, target);
+            const years = ymd.years;
+            const months = ymd.months;
+            const days = ymd.days;
 
-            const diffTime = Math.abs(target.getTime() - birth.getTime());
-            const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-            const totalHours = Math.floor(diffTime / (1000 * 60 * 60));
+            const diffMs = target.getTime() - birth.getTime();
+            const MS_PER_SECOND = 1000;
+            const MS_PER_MINUTE = 60 * MS_PER_SECOND;
+            const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+            const MS_PER_DAY = 24 * MS_PER_HOUR;
+
+            const totalSeconds = Math.floor(diffMs / MS_PER_SECOND);
+            const totalMinutes = Math.floor(diffMs / MS_PER_MINUTE);
+            const totalHours = Math.floor(diffMs / MS_PER_HOUR);
+            const totalDays = Math.floor(diffMs / MS_PER_DAY);
             const totalWeeks = Math.floor(totalDays / 7);
+
+            const dayRemainder = diffMs % MS_PER_DAY;
+            const clockHours = Math.floor(dayRemainder / MS_PER_HOUR);
+            const clockMinutes = Math.floor((dayRemainder % MS_PER_HOUR) / MS_PER_MINUTE);
+            const clockSeconds = Math.floor((dayRemainder % MS_PER_MINUTE) / MS_PER_SECOND);
+
+            const pad2 = (n: number) => String(n).padStart(2, '0');
+            const liveClock = `${years}y ${months}m ${days}d ${pad2(clockHours)}:${pad2(clockMinutes)}:${pad2(clockSeconds)}`;
 
             return {
               results: [
                 { label: 'Age', value: `${years} years, ${months} months, ${days} days` },
                 { label: 'Total Days', value: totalDays.toLocaleString(), unit: 'days' },
                 { label: 'Total Weeks', value: totalWeeks.toLocaleString(), unit: 'weeks' },
+                { label: 'Total Hours', value: totalHours.toLocaleString(), unit: 'hours' },
+                { label: 'Total Minutes', value: totalMinutes.toLocaleString(), unit: 'minutes' },
+                { label: 'Total Seconds', value: totalSeconds.toLocaleString(), unit: 'seconds' },
               ],
               breakdown: [
-                { label: 'Date of Birth', value: birth.toLocaleDateString() },
-                { label: 'Target Date', value: target.toLocaleDateString() },
-                { label: 'Total Hours', value: totalHours.toLocaleString(), unit: 'hours' },
+                { label: 'Date of Birth', value: birth.toLocaleString() },
+                { label: 'Target Date', value: target.toLocaleString() },
+                { label: 'As Of (Clock)', value: target.toLocaleTimeString() },
                 { label: 'Next Birthday', value: new Date(target.getFullYear() + (target < new Date(target.getFullYear(), birth.getMonth(), birth.getDate()) ? 0 : 1), birth.getMonth(), birth.getDate()).toLocaleDateString() },
-              ]
+              ],
+              live: {
+                clock: liveClock,
+                isLive: target === now,
+                totalSeconds,
+              }
             };
           }
         };
@@ -422,6 +510,13 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
 
   const config = getCalculatorConfig(id);
 
+  useEffect(() => {
+    if (id !== 'age-calculator') return;
+    if (!isAutoCalculate) return;
+    const t = setInterval(() => setLiveNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, [id, isAutoCalculate]);
+
   const syncDatePartsFromInputs = (nextInputs: { [key: string]: string | number }) => {
     setDatePartsByName(prev => {
       const next = { ...prev };
@@ -441,7 +536,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
       } else if (input.type === 'date') {
         defaultInputs[input.name] = formatDDMMYYYY(new Date());
       } else if (input.type === 'time') {
-        defaultInputs[input.name] = '12:00';
+        defaultInputs[input.name] = input.showSeconds ? '00:00:00' : '00:00';
       } else {
         defaultInputs[input.name] = '';
       }
@@ -458,7 +553,7 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
 
   const handleCalculate = () => {
     try {
-      const result = config.calculate(inputs);
+      const result = config.calculate(inputs, { now: liveNow, toolId: id, isAutoCalculate });
       setResults(result);
     } catch (e: any) {
       toast.error(e?.message || 'Please check your inputs.');
@@ -487,13 +582,13 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
     if (!isAutoCalculate) return;
 
     try {
-      const next = config.calculate(inputs);
+      const next = config.calculate(inputs, { now: liveNow, toolId: id, isAutoCalculate });
       setResults(next);
     } catch {
       // Ignore invalid intermediate states (e.g., empty/partial dates)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAutoCalculate, inputs, id]);
+  }, [isAutoCalculate, inputs, id, liveNow]);
 
   const handleDeleteInputs = () => {
     setRestoreSnapshot(inputs);
@@ -968,7 +1063,13 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
                       );
                     })()
                   ) : (
-                    input.type === 'number' ? (
+                    input.type === 'time' ? (
+                      <VoiceTimeInput
+                        value={String(inputs[input.name] || '')}
+                        onChange={(v) => handleInputChange(input.name, v)}
+                        showSeconds={Boolean(input.showSeconds)}
+                      />
+                    ) : input.type === 'number' ? (
                       <div className="relative">
                         <Input
                           id={input.name}
@@ -1023,6 +1124,23 @@ export default function GenericDateTimeTool({ id, title, description }: GenericD
         {/* Results */}
         {results && (
           <div className="space-y-4 animate-fadeIn">
+            {id === 'age-calculator' && results.live?.clock && (
+              <Card className="p-6 bg-gradient-to-br from-slate-900 to-indigo-950 border border-white/10 shadow-xl">
+                <div className="flex items-center justify-center gap-3 text-xs font-bold tracking-widest text-white/70 mb-3">
+                  <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  LIVE AGE TRACKER
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl md:text-5xl font-extrabold text-white">
+                    {results.live.clock}
+                  </div>
+                  <div className="mt-2 text-sm text-white/70">
+                    You have been alive for <span className="font-semibold text-white">{Number(results.live.totalSeconds || 0).toLocaleString()}</span> seconds
+                  </div>
+                </div>
+              </Card>
+            )}
+
             <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 border-2 border-purple-200 dark:border-purple-800 shadow-xl">
               <h2 className="text-2xl font-bold text-purple-900 dark:text-purple-100 mb-4 flex items-center">
                 <i className="fas fa-chart-line mr-3 text-purple-600"></i>
