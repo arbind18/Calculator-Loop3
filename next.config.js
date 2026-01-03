@@ -8,6 +8,10 @@ const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+
+  // Avoid Next.js auto-selecting a parent folder as the workspace root when
+  // multiple lockfiles exist on the machine.
+  outputFileTracingRoot: __dirname,
   
   experimental: {
     optimizePackageImports: ['lucide-react'],
