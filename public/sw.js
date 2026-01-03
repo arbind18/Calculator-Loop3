@@ -1,7 +1,7 @@
 // public/sw.js - Service Worker for Caching
 
-const CACHE_NAME = 'calculator-loop-v3'
-const RUNTIME_CACHE = 'calculator-runtime-v3'
+const CACHE_NAME = 'calculator-loop-v4'
+const RUNTIME_CACHE = 'calculator-runtime-v4'
 
 // Assets to cache immediately
 const PRECACHE_ASSETS = [
@@ -66,6 +66,21 @@ self.addEventListener('fetch', (event) => {
   // Never cache Next.js internals (especially in dev). These change frequently.
   if (url.pathname.startsWith('/_next/')) return
 
+  // Avoid sticky old calculator UIs: always fetch calculator pages fresh.
+  // (Prevents serving stale cached HTML that can reference older JS chunks.)
+  const accepts = request.headers.get('accept') || ''
+  const isHtml = request.destination === 'document' || accepts.includes('text/html')
+  if (isHtml && url.pathname.startsWith('/calculator/')) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .catch(() => {
+          // Fallback to cache only when offline
+          return caches.match(request).then((cachedResponse) => cachedResponse || caches.match('/offline'))
+        })
+    )
+    return
+  }
+
   // Network-first for icons/manifest to avoid sticky old branding
   if (NETWORK_FIRST_PATHS.has(url.pathname)) {
     event.respondWith(
@@ -119,9 +134,10 @@ self.addEventListener('fetch', (event) => {
 
   // Network-first strategy for pages
   event.respondWith(
-    fetch(request)
+    fetch(request, isHtml ? { cache: 'no-store' } : undefined)
       .then((response) => {
         // Clone and cache successful responses
+        // For HTML pages, still allow caching (except /calculator/* handled above).
         if (response.status === 200) {
           const responseToCache = response.clone()
           caches.open(RUNTIME_CACHE).then((cache) => {
