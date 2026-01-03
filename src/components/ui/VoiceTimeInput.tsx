@@ -42,6 +42,19 @@ function setTimePart(timeStr: string, part: 'hh' | 'mm' | 'ss', value: string) {
   return `${next.hh}:${next.mm}:${next.ss}`
 }
 
+function setTimePartWithMode(
+  timeStr: string,
+  part: 'hh' | 'mm' | 'ss',
+  value: string,
+  forceSeconds: boolean
+) {
+  const { hh, mm, ss } = parseTimeParts(timeStr)
+  const next = { hh, mm, ss, [part]: value }
+  if (forceSeconds) return `${next.hh}:${next.mm}:${next.ss}`
+  if (next.ss === '00') return `${next.hh}:${next.mm}`
+  return `${next.hh}:${next.mm}:${next.ss}`
+}
+
 function parseVoiceTime(rawText: string): string | null {
   const cleaned = rawText.toLowerCase().replace(/[.,]/g, " ").replace(/\s+/g, " ").trim()
   
@@ -164,7 +177,7 @@ export function VoiceTimeInput({ value, onChange, disabled, showSeconds = false 
             aria-label="Hour"
             value={parts.hh}
             disabled={disabled}
-            onChange={(e) => onChange(setTimePart(value, 'hh', e.target.value))}
+            onChange={(e) => onChange(setTimePartWithMode(value, 'hh', e.target.value, showSeconds))}
             className={selectClass}
           >
             {Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0')).map((h) => (
@@ -181,7 +194,7 @@ export function VoiceTimeInput({ value, onChange, disabled, showSeconds = false 
             aria-label="Minute"
             value={parts.mm}
             disabled={disabled}
-            onChange={(e) => onChange(setTimePart(value, 'mm', e.target.value))}
+            onChange={(e) => onChange(setTimePartWithMode(value, 'mm', e.target.value, showSeconds))}
             className={selectClass}
           >
             {Array.from({ length: 60 }, (_, m) => String(m).padStart(2, '0')).map((m) => (
@@ -199,7 +212,7 @@ export function VoiceTimeInput({ value, onChange, disabled, showSeconds = false 
               aria-label="Second"
               value={parts.ss}
               disabled={disabled}
-              onChange={(e) => onChange(setTimePart(value, 'ss', e.target.value))}
+              onChange={(e) => onChange(setTimePartWithMode(value, 'ss', e.target.value, true))}
               className={selectClass}
             >
               {Array.from({ length: 60 }, (_, s) => String(s).padStart(2, '0')).map((s) => (
