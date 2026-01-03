@@ -1589,6 +1589,8 @@ export const calculatorComponents: Record<string, any> = {
   ...genericEducationToolIds.reduce((acc, id) => ({ ...acc, [id]: genericEducationTool }), {}),
   ...genericConstructionToolIds.reduce((acc, id) => ({ ...acc, [id]: genericConstructionTool }), {}),
   ...genericTechnologyToolIds.reduce((acc, id) => ({ ...acc, [id]: genericTechnologyTool }), {}),
+  // Date & Time (keep after other generic spreads so it can win for shared IDs like 'age-calculator')
+  ...genericDateTimeToolIds.reduce((acc, id) => ({ ...acc, [id]: genericDateTimeTool }), {}),
   // Loan & EMI Calculators
   'personal-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/PersonalLoanEMI').then(m => ({ default: m.PersonalLoanEMI }))),
   'home-loan-emi': dynamic(() => import('@/components/calculators/categories/loan/HomeLoanEMI').then(m => ({ default: m.HomeLoanEMI }))),
@@ -1793,7 +1795,6 @@ export const calculatorComponents: Record<string, any> = {
 
   // Misc
   'tip-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.TipCalculator }))),
-  'age-calculator': dynamic(() => import('@/components/calculators/categories/misc/AdvancedAgeCalculator').then(m => ({ default: m.AdvancedAgeCalculator }))),
   'date-difference': dynamic(() => import('@/components/calculators/categories/datetime/GenericDateTimeTool')),
   'date-plus-duration': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.DatePlusDurationCalculator }))),
   'percentage-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.PercentageCalculator }))),
@@ -2302,9 +2303,7 @@ export const calculatorComponents: Record<string, any> = {
   'aspect-ratio-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.AspectRatioCalculator }))),
   'pixels-to-rem-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.PixelsToRemCalculator }))),
   'golden-ratio-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.GoldenRatioCalculator }))),
-  'time-duration-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.TimeDurationCalculator }))),
   'age-difference-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.AgeDifferenceCalculator }))),
-  'zodiac-sign-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.ZodiacSignCalculator }))),
   'love-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.LoveCalculator }))),
   'grade-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.GradeCalculator }))),
   'gpa-calculator': dynamic(() => import('@/components/calculators/categories/misc/ExtendedMiscCalculators').then(m => ({ default: m.GPACalculator }))),

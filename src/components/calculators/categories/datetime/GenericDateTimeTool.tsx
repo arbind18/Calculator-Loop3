@@ -43,6 +43,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 import { downloadFile, generateReport } from '@/lib/downloadUtils';
+import { EngineDateTimeTool } from './EngineDateTimeTool'
+import { getDateTimeToolDefinitionOrNull } from '@/lib/datetime/definitions'
 
 function formatDDMMYYYY(date: Date) {
   const dd = String(date.getDate()).padStart(2, '0');
@@ -217,6 +219,15 @@ interface GenericDateTimeToolProps {
 }
 
 export default function GenericDateTimeTool({ id, title, description }: GenericDateTimeToolProps) {
+  const engineDef = getDateTimeToolDefinitionOrNull(id)
+  if (engineDef) {
+    return <EngineDateTimeTool id={id} title={title} description={description} />
+  }
+
+  return <LegacyGenericDateTimeTool id={id} title={title} description={description} />
+}
+
+function LegacyGenericDateTimeTool({ id, title, description }: GenericDateTimeToolProps) {
   const [inputs, setInputs] = useState<{ [key: string]: string | number }>({});
   const [results, setResults] = useState<any>(null);
   const [isAutoCalculate, setIsAutoCalculate] = useState(() => id === 'age-calculator');
