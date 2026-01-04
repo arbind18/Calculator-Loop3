@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { headers } from 'next/headers'
 import { toolsData } from '@/lib/toolsData'
 import { implementedCalculatorIds } from '@/lib/implementedCalculators'
 import { CategoryPageClient } from '@/components/pages/CategoryPageClient'
@@ -11,8 +10,6 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const categoryId = id || ''
-  const language = (await headers()).get('x-calculator-language') || 'en'
-  const prefix = language === 'en' ? '' : `/${language}`
 
   const readableNames: Record<string, string> = {
     financial: 'Financial Calculators',
@@ -50,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     openGraph: {
       title,
       description,
-      url: `https://calculatorloop.com${prefix}/category/${categoryId}`,
+      url: `https://calculatorloop.com/category/${categoryId}`,
       siteName: 'Calculator Loop',
       type: 'website',
     },
