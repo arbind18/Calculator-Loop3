@@ -1,9 +1,11 @@
+import { getSiteUrl } from '@/lib/siteUrl'
+
 interface SchemaProps {
   type: "calculator" | "faq" | "breadcrumb" | "organization" | "website"
   data?: any
 }
 
-const getBaseUrl = () => process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+const getBaseUrl = () => getSiteUrl()
 
 // Organization Schema for Homepage
 export function OrganizationSchema() {

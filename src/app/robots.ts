@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
+import { getSiteUrl } from '@/lib/siteUrl'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+  const baseUrl = getSiteUrl()
 
   const locales = ['hi', 'ta', 'te', 'bn', 'mr', 'gu', 'es', 'pt', 'fr', 'de', 'id', 'ar', 'ur', 'ja']
   const localeVariants = (path: string) => locales.map((l) => `/${l}${path}`)

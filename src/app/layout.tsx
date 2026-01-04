@@ -15,26 +15,12 @@ import ToastProvider from '@/components/providers/ToastProvider'
 import AnalyticsProvider from '@/components/providers/AnalyticsProvider'
 import ClarityScript from '@/components/analytics/ClarityScript'
 import { fontClassNames } from '@/lib/fonts'
+import { getSiteUrl } from '@/lib/siteUrl'
 import './globals.css'
 
 const SUPPORTED_LOCALES = ['en', 'hi', 'ta', 'te', 'bn', 'mr', 'gu', 'es', 'pt', 'fr', 'de', 'id', 'ar', 'ur', 'ja'] as const
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]
 const SUPPORTED_LOCALE_SET = new Set<string>(SUPPORTED_LOCALES)
-
-const FALLBACK_SITE_URL = 'https://calculatorloop.com'
-
-const normalizeSiteUrl = (raw: string | undefined | null): string => {
-  const trimmed = String(raw ?? '').trim()
-  if (!trimmed) return FALLBACK_SITE_URL
-
-  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`
-  try {
-    const u = new URL(withProtocol)
-    return u.origin
-  } catch {
-    return FALLBACK_SITE_URL
-  }
-}
 
 const getCookie = (cookieHeader: string | null, name: string): string | null => {
   if (!cookieHeader) return null
@@ -74,7 +60,7 @@ const getUiLocaleFromRequest = async (): Promise<SupportedLocale> => {
 
 const buildAlternates = async () => {
   const h = await headers()
-  const baseUrl = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
+  const baseUrl = getSiteUrl()
   const originalPathname = h.get('x-original-pathname') ?? '/'
   const basePathNoLocale = stripLocalePrefix(originalPathname)
 
@@ -109,7 +95,7 @@ export const viewport: Viewport = {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
+  const baseUrl = getSiteUrl()
   const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
   const yandexVerification = process.env.NEXT_PUBLIC_YANDEX_VERIFICATION
   const twitterHandle = process.env.NEXT_PUBLIC_TWITTER_HANDLE ?? '@calculatorloop'

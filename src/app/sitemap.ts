@@ -3,9 +3,10 @@ import { toolsData } from '@/lib/toolsData'
 import { implementedCalculatorIds } from '@/lib/implementedCalculators'
 import { allBlogPosts } from '@/lib/blogData'
 import { getAllMarkdownBlogPosts } from '@/lib/blogMarkdown'
+import { getSiteUrl } from '@/lib/siteUrl'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+  const baseUrl = getSiteUrl()
   const currentDate = new Date()
 
   const locales = ['en', 'hi', 'mr', 'ta', 'te', 'bn', 'gu', 'es', 'pt', 'fr', 'de', 'id', 'ar', 'ur', 'ja'] as const

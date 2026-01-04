@@ -8,6 +8,7 @@ import { StructuredData } from '@/components/seo/StructuredData'
 import { RelatedCalculators } from '@/components/calculators/RelatedCalculators'
 import { getMergedTranslations } from '@/lib/translations'
 import { localizeToolMeta } from '@/lib/toolLocalization'
+import { getSiteUrl } from '@/lib/siteUrl'
 
 function normalizeCalculatorId(raw: string): string {
   const decoded = (() => {
@@ -64,7 +65,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   const prefix = language !== 'en' ? `/${language}` : ''
   const pathname = `${prefix}/calculator/${id}`
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+  const baseUrl = getSiteUrl()
   const canonical = `${baseUrl}${pathname}`
 
   return {
@@ -105,7 +106,7 @@ export default async function CalculatorPage({ params }: { params: Promise<{ id:
   const language = (await headers()).get('x-calculator-language') || 'en'
   const dict = getMergedTranslations(language)
   const prefix = language !== 'en' ? `/${language}` : ''
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://calculatorloop.com'
+  const baseUrl = getSiteUrl()
   const pathname = `${prefix}/calculator/${id}`
 
   const meta = categoryInfo
