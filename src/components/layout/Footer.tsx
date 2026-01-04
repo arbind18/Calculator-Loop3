@@ -15,12 +15,6 @@ export function Footer() {
   const withLocale = (path: string) => `${prefix}${path}`
 
   const footerLinks = {
-    calculators: [
-      { label: t.nav.financial, href: withLocale("/category/financial") },
-      { label: t.nav.health, href: withLocale("/category/health") },
-      { label: t.nav.math, href: withLocale("/category/math") },
-      { label: t.nav.datetime, href: withLocale("/category/datetime") },
-    ],
     resources: [
       { label: t.hero.popularTools, href: withLocale("/popular") },
       { label: t.nav.blog, href: withLocale("/blog") },
@@ -77,23 +71,6 @@ export function Footer() {
             <div className="pt-2">
               <NewsletterSignup variant="footer" />
             </div>
-          </div>
-
-          {/* Calculators */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-sm">{t.footer.calculators}</h3>
-            <ul className="space-y-2">
-              {footerLinks.calculators.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Resources */}

@@ -2,7 +2,7 @@
 "use client"
 
 import Link from 'next/link'
-import { Calculator, Heart, Calendar, DollarSign, Binary, GraduationCap, Laptop, FlaskConical, Wrench, Briefcase, Home, ArrowRight } from "lucide-react"
+import { Heart, Calendar, DollarSign, Binary, GraduationCap, Laptop, FlaskConical, Wrench, Briefcase, Home, ArrowRight } from "lucide-react"
 import { toolsData } from '@/lib/toolsData'
 import { implementedCalculatorIds } from '@/lib/implementedCalculators'
 import { useSettings } from "@/components/providers/SettingsProvider"
@@ -92,22 +92,8 @@ export function CategorySection() {
     .filter((category) => category.count > 0 && categoryMeta[category.id])
 
   return (
-    <section id="categories" className="w-full py-16 md:py-24 bg-background" aria-labelledby="categories-heading">
+    <section id="categories" className="w-full py-16 md:py-24 bg-background" aria-label="Categories">
       <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex flex-col items-center text-center space-y-4 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800">
-            <Calculator className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">{t.cta.exploreCategories}</span>
-          </div>
-          <h2 id="categories-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {t.cta.exploreCategories}
-          </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
-            {t.cta.browseDescription}
-          </p>
-        </div>
-
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {categories.map((category, index) => {
