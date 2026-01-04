@@ -34,11 +34,74 @@ function stripLocaleFromPath(pathname: string, locale: string): string {
   return stripped.length ? stripped : '/';
 }
 
+function normalizeLegacyCalculatorId(raw: string): string {
+  const decoded = (() => {
+    try {
+      return decodeURIComponent(String(raw ?? ''))
+    } catch {
+      return String(raw ?? '')
+    }
+  })()
+
+  const slug = decoded.trim().toLowerCase()
+  const noExt = slug.replace(/\.(html?|php)$/i, '')
+  const normalized = noExt.replace(/_/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-')
+  return normalized
+}
+
+function getLastPathSegment(pathname: string): string {
+  const parts = pathname.split('/').filter(Boolean)
+  return parts[parts.length - 1] ?? ''
+}
+
 /**
  * Global middleware for security headers and rate limiting
  */
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  // Legacy URL redirects (SEO): handle old .html/.php calculator pages indexed by Google.
+  // Supports locale-prefixed URLs too (e.g. /hi/financial-calculators/sip-calculator.html).
+  if (!pathname.startsWith('/api')) {
+    const pathLocale = getLocaleFromPath(pathname)
+    const prefix = pathLocale ? `/${pathLocale}` : ''
+    const basePath = pathLocale ? stripLocaleFromPath(pathname, pathLocale) : pathname
+
+    const lowerBasePath = basePath.toLowerCase()
+
+    // /index.html -> /
+    if (/^\/index\.(html?|php)$/i.test(basePath)) {
+      const redirectUrl = request.nextUrl.clone()
+      redirectUrl.pathname = `${prefix}/`
+      redirectUrl.search = search
+      return NextResponse.redirect(redirectUrl, 308)
+    }
+
+    // Any legacy extension: map to canonical calculator route.
+    if (/\.(html?|php)$/i.test(lowerBasePath)) {
+      const last = getLastPathSegment(basePath)
+      const id = normalizeLegacyCalculatorId(last)
+      if (id) {
+        const redirectUrl = request.nextUrl.clone()
+        redirectUrl.pathname = `${prefix}/calculator/${id}`
+        redirectUrl.search = search
+        return NextResponse.redirect(redirectUrl, 308)
+      }
+    }
+
+    // Legacy folder patterns without extension (common in old sites): /financial-calculators/<id>
+    // Only apply to paths that look like calculator listings to avoid accidental redirects.
+    const baseParts = basePath.split('/').filter(Boolean)
+    if (baseParts.length === 2 && baseParts[0].includes('calculators')) {
+      const id = normalizeLegacyCalculatorId(baseParts[1])
+      if (id) {
+        const redirectUrl = request.nextUrl.clone()
+        redirectUrl.pathname = `${prefix}/calculator/${id}`
+        redirectUrl.search = search
+        return NextResponse.redirect(redirectUrl, 308)
+      }
+    }
+  }
 
   // Locale routing (skip API routes)
   if (!pathname.startsWith('/api')) {

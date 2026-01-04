@@ -109,6 +109,14 @@ const nextConfig = {
   // Redirects for SEO
   async redirects() {
     return [
+      // Legacy: old financial calculator URLs (often indexed by Google)
+      // Example: /financial-calculators/sip-calculator.html -> /calculator/sip-calculator.html
+      // The calculator route will then normalize/strip .html and redirect to /calculator/sip-calculator.
+      {
+        source: '/financial-calculators/:path*',
+        destination: '/calculator/:path*',
+        permanent: true,
+      },
       {
         source: '/:path*',
         has: [
