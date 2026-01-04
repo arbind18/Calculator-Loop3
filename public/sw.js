@@ -1,7 +1,7 @@
 // public/sw.js - Service Worker for Caching
 
-const CACHE_NAME = 'calculator-loop-v5'
-const RUNTIME_CACHE = 'calculator-runtime-v5'
+const CACHE_NAME = 'calculator-loop-v6'
+const RUNTIME_CACHE = 'calculator-runtime-v6'
 
 // Assets to cache immediately
 const PRECACHE_ASSETS = [
@@ -81,6 +81,16 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
+  // For all HTML documents, avoid caching the response.
+  // This prevents stale cached HTML from referencing older JS chunk URLs after a deploy,
+  // which can make links/buttons look like they “don’t work”.
+  if (isHtml) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' }).catch(() => caches.match('/offline'))
+    )
+    return
+  }
+
   // Network-first for icons/manifest to avoid sticky old branding
   if (NETWORK_FIRST_PATHS.has(url.pathname)) {
     event.respondWith(
@@ -132,12 +142,10 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // Network-first strategy for pages
+  // Network-first strategy for everything else (non-HTML)
   event.respondWith(
-    fetch(request, isHtml ? { cache: 'no-store' } : undefined)
+    fetch(request)
       .then((response) => {
-        // Clone and cache successful responses
-        // For HTML pages, still allow caching (except /calculator/* handled above).
         if (response.status === 200) {
           const responseToCache = response.clone()
           caches.open(RUNTIME_CACHE).then((cache) => {
@@ -146,16 +154,7 @@ self.addEventListener('fetch', (event) => {
         }
         return response
       })
-      .catch(() => {
-        // Fallback to cache
-        return caches.match(request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse
-          }
-          // Return offline page
-          return caches.match('/offline')
-        })
-      })
+      .catch(() => caches.match(request))
   )
 })
 
