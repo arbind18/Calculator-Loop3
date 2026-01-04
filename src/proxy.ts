@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 const SUPPORTED_LANGS = new Set([
   'en',
@@ -18,20 +18,20 @@ const SUPPORTED_LANGS = new Set([
   'ar',
   'ur',
   'ja',
-]);
+])
 
 function getLocaleFromPath(pathname: string): string | null {
-  const parts = pathname.split('/');
-  const maybe = parts[1];
-  if (maybe && SUPPORTED_LANGS.has(maybe)) return maybe;
-  return null;
+  const parts = pathname.split('/')
+  const maybe = parts[1]
+  if (maybe && SUPPORTED_LANGS.has(maybe)) return maybe
+  return null
 }
 
 function stripLocaleFromPath(pathname: string, locale: string): string {
-  const prefix = `/${locale}`;
-  if (!pathname.startsWith(prefix)) return pathname;
-  const stripped = pathname.slice(prefix.length);
-  return stripped.length ? stripped : '/';
+  const prefix = `/${locale}`
+  if (!pathname.startsWith(prefix)) return pathname
+  const stripped = pathname.slice(prefix.length)
+  return stripped.length ? stripped : '/'
 }
 
 function normalizeLegacyCalculatorId(raw: string): string {
@@ -55,10 +55,10 @@ function getLastPathSegment(pathname: string): string {
 }
 
 /**
- * Global middleware for security headers and rate limiting
+ * Global proxy for legacy redirects, locale routing, and security headers.
  */
-export function middleware(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+export function proxy(request: NextRequest) {
+  const { pathname, search } = request.nextUrl
 
   // Legacy URL redirects (SEO): handle old .html/.php calculator pages indexed by Google.
   // Supports locale-prefixed URLs too (e.g. /hi/financial-calculators/sip-calculator.html).
@@ -105,24 +105,24 @@ export function middleware(request: NextRequest) {
 
   // Locale routing (skip API routes)
   if (!pathname.startsWith('/api')) {
-    const pathLocale = getLocaleFromPath(pathname);
+    const pathLocale = getLocaleFromPath(pathname)
 
     // If URL contains a locale prefix, rewrite to the underlying route and persist the locale.
     if (pathLocale) {
-      const rewrittenPath = stripLocaleFromPath(pathname, pathLocale);
-      const rewriteUrl = request.nextUrl.clone();
-      rewriteUrl.pathname = rewrittenPath;
+      const rewrittenPath = stripLocaleFromPath(pathname, pathLocale)
+      const rewriteUrl = request.nextUrl.clone()
+      rewriteUrl.pathname = rewrittenPath
       // Pass locale to the downstream render so server components can read it on the same request.
-      const requestHeaders = new Headers(request.headers);
-      requestHeaders.set('x-calculator-language', pathLocale);
+      const requestHeaders = new Headers(request.headers)
+      requestHeaders.set('x-calculator-language', pathLocale)
       // Preserve the original pathname (including locale prefix) for canonical/hreflang.
-      requestHeaders.set('x-original-pathname', pathname);
+      requestHeaders.set('x-original-pathname', pathname)
       const response = NextResponse.rewrite(rewriteUrl, {
         request: {
           headers: requestHeaders,
         },
-      });
-      response.cookies.set('calculator-language', pathLocale, { path: '/', sameSite: 'lax' });
+      })
+      response.cookies.set('calculator-language', pathLocale, { path: '/', sameSite: 'lax' })
 
       // Security Headers
       response.headers.set(
@@ -138,67 +138,56 @@ export function middleware(request: NextRequest) {
           "base-uri 'self'",
           "form-action 'self'",
         ].join('; ')
-      );
-      response.headers.set('X-Frame-Options', 'DENY');
-      response.headers.set('X-Content-Type-Options', 'nosniff');
-      response.headers.set('X-XSS-Protection', '1; mode=block');
-      response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-      response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
+      )
+      response.headers.set('X-Frame-Options', 'DENY')
+      response.headers.set('X-Content-Type-Options', 'nosniff')
+      response.headers.set('X-XSS-Protection', '1; mode=block')
+      response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+      response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()')
 
       if (process.env.NODE_ENV === 'production') {
-        response.headers.set(
-          'Strict-Transport-Security',
-          'max-age=31536000; includeSubDomains; preload'
-        );
+        response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
       }
 
       if (request.nextUrl.pathname.startsWith('/api/v1')) {
-        response.headers.set('Access-Control-Allow-Origin', '*');
-        response.headers.set(
-          'Access-Control-Allow-Methods',
-          'GET, POST, PUT, DELETE, OPTIONS'
-        );
-        response.headers.set(
-          'Access-Control-Allow-Headers',
-          'Content-Type, Authorization, X-API-Key'
-        );
-        response.headers.set('Access-Control-Max-Age', '86400');
+        response.headers.set('Access-Control-Allow-Origin', '*')
+        response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-API-Key')
+        response.headers.set('Access-Control-Max-Age', '86400')
       }
 
       if (request.method === 'OPTIONS') {
         return new NextResponse(null, {
           status: 200,
           headers: response.headers,
-        });
+        })
       }
 
-      return response;
+      return response
     }
 
     // If URL has no locale prefix, redirect to the saved locale to keep the locale in the URL.
-    const savedLocale = request.cookies.get('calculator-language')?.value;
+    const savedLocale = request.cookies.get('calculator-language')?.value
     if (savedLocale && SUPPORTED_LANGS.has(savedLocale) && savedLocale !== 'en') {
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = `/${savedLocale}${pathname}`;
+      const redirectUrl = request.nextUrl.clone()
+      redirectUrl.pathname = `/${savedLocale}${pathname}`
       // search is preserved by clone, but keep this explicit to avoid regressions
-      redirectUrl.search = search;
-      return NextResponse.redirect(redirectUrl);
+      redirectUrl.search = search
+      return NextResponse.redirect(redirectUrl)
     }
   }
 
   // For non-locale paths, still pass the original pathname to downstream rendering.
   // (Useful for canonical/hreflang; does not change routing.)
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-original-pathname', pathname);
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-original-pathname', pathname)
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
-  });
+  })
 
   // Security Headers
-  
-  // Content Security Policy
   response.headers.set(
     'Content-Security-Policy',
     [
@@ -212,62 +201,37 @@ export function middleware(request: NextRequest) {
       "base-uri 'self'",
       "form-action 'self'",
     ].join('; ')
-  );
+  )
 
-  // Prevent clickjacking
-  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Frame-Options', 'DENY')
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-XSS-Protection', '1; mode=block')
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()')
 
-  // Prevent MIME type sniffing
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-
-  // XSS Protection
-  response.headers.set('X-XSS-Protection', '1; mode=block');
-
-  // Referrer Policy
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-  // Permissions Policy
-  response.headers.set(
-    'Permissions-Policy',
-    'camera=(), microphone=(self), geolocation=()'
-  );
-
-  // HSTS (HTTP Strict Transport Security)
-  // Enable only in production with HTTPS
   if (process.env.NODE_ENV === 'production') {
-    response.headers.set(
-      'Strict-Transport-Security',
-      'max-age=31536000; includeSubDomains; preload'
-    );
+    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
   }
 
-  // CORS headers for API routes
   if (request.nextUrl.pathname.startsWith('/api/v1')) {
-    response.headers.set('Access-Control-Allow-Origin', '*');
-    response.headers.set(
-      'Access-Control-Allow-Methods',
-      'GET, POST, PUT, DELETE, OPTIONS'
-    );
-    response.headers.set(
-      'Access-Control-Allow-Headers',
-      'Content-Type, Authorization, X-API-Key'
-    );
-    response.headers.set('Access-Control-Max-Age', '86400');
+    response.headers.set('Access-Control-Allow-Origin', '*')
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-API-Key')
+    response.headers.set('Access-Control-Max-Age', '86400')
   }
 
-  // Handle preflight requests
   if (request.method === 'OPTIONS') {
     return new NextResponse(null, {
       status: 200,
       headers: response.headers,
-    });
+    })
   }
 
-  return response;
+  return response
 }
 
 /**
- * Configure which routes should use this middleware
+ * Configure which routes should use this proxy.
  */
 export const config = {
   matcher: [
@@ -280,4 +244,4 @@ export const config = {
      */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
-};
+}

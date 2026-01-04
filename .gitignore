@@ -22,6 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 build_log.txt
+build.log
 
 # Local temp/debug artifacts
 tmp_pdf_text.txt
