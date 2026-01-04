@@ -413,7 +413,7 @@ function LegacyGenericDateTimeTool({ id, title, description }: GenericDateTimeTo
       case 'time-zone-converter':
         return {
           id: 'time-zone-converter',
-          title: 'Time Zone Converter',
+          title: 'Time Zone Calculator',
           description: 'Convert time between different time zones.',
           inputs: [
             { name: 'time', label: 'Time', type: 'time' },

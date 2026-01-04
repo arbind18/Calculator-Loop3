@@ -23,6 +23,9 @@ import {
   safeNumber,
   secondsDiff,
   toHmsFromSeconds,
+  getTimeZoneAbbreviation,
+  getTimeZoneOffsetMinutes,
+  zonedWallClockToUtcInstant,
 } from './utils'
 
 // Optional: astronomy tools. This import is ESM-friendly and works in the browser.
@@ -1752,32 +1755,279 @@ function dateMetaTools(): Record<string, DateTimeToolDefinition> {
   }
 }
 
+const popularCities = [
+  { city: 'New York, USA', zone: 'America/New_York', country: 'USA', abbr: 'EST/EDT' },
+  { city: 'Los Angeles, USA', zone: 'America/Los_Angeles', country: 'USA', abbr: 'PST/PDT' },
+  { city: 'Chicago, USA', zone: 'America/Chicago', country: 'USA', abbr: 'CST/CDT' },
+  { city: 'London, UK', zone: 'Europe/London', country: 'UK', abbr: 'GMT/BST' },
+  { city: 'Paris, France', zone: 'Europe/Paris', country: 'France', abbr: 'CET/CEST' },
+  { city: 'Berlin, Germany', zone: 'Europe/Berlin', country: 'Germany', abbr: 'CET/CEST' },
+  { city: 'Dubai, UAE', zone: 'Asia/Dubai', country: 'UAE', abbr: 'GST' },
+  { city: 'Mumbai, India', zone: 'Asia/Kolkata', country: 'India', abbr: 'IST' },
+  { city: 'Delhi, India', zone: 'Asia/Kolkata', country: 'India', abbr: 'IST' },
+  { city: 'Tokyo, Japan', zone: 'Asia/Tokyo', country: 'Japan', abbr: 'JST' },
+  { city: 'Singapore', zone: 'Asia/Singapore', country: 'Singapore', abbr: 'SGT' },
+  { city: 'Hong Kong', zone: 'Asia/Hong_Kong', country: 'Hong Kong', abbr: 'HKT' },
+  { city: 'Sydney, Australia', zone: 'Australia/Sydney', country: 'Australia', abbr: 'AEST/AEDT' },
+  { city: 'Melbourne, Australia', zone: 'Australia/Melbourne', country: 'Australia', abbr: 'AEST/AEDT' },
+  { city: 'Auckland, New Zealand', zone: 'Pacific/Auckland', country: 'New Zealand', abbr: 'NZST/NZDT' },
+  { city: 'Toronto, Canada', zone: 'America/Toronto', country: 'Canada', abbr: 'EST/EDT' },
+  { city: 'Vancouver, Canada', zone: 'America/Vancouver', country: 'Canada', abbr: 'PST/PDT' },
+  { city: 'Beijing, China', zone: 'Asia/Shanghai', country: 'China', abbr: 'CST' },
+  { city: 'Shanghai, China', zone: 'Asia/Shanghai', country: 'China', abbr: 'CST' },
+  { city: 'Seoul, South Korea', zone: 'Asia/Seoul', country: 'South Korea', abbr: 'KST' },
+  { city: 'Bangkok, Thailand', zone: 'Asia/Bangkok', country: 'Thailand', abbr: 'ICT' },
+  { city: 'Kuala Lumpur, Malaysia', zone: 'Asia/Kuala_Lumpur', country: 'Malaysia', abbr: 'MYT' },
+  { city: 'Jakarta, Indonesia', zone: 'Asia/Jakarta', country: 'Indonesia', abbr: 'WIB' },
+  { city: 'Moscow, Russia', zone: 'Europe/Moscow', country: 'Russia', abbr: 'MSK' },
+  { city: 'Istanbul, Turkey', zone: 'Europe/Istanbul', country: 'Turkey', abbr: 'TRT' },
+  { city: 'Riyadh, Saudi Arabia', zone: 'Asia/Riyadh', country: 'Saudi Arabia', abbr: 'AST' },
+  { city: 'Karachi, Pakistan', zone: 'Asia/Karachi', country: 'Pakistan', abbr: 'PKT' },
+  { city: 'Cairo, Egypt', zone: 'Africa/Cairo', country: 'Egypt', abbr: 'EET' },
+  { city: 'Johannesburg, South Africa', zone: 'Africa/Johannesburg', country: 'South Africa', abbr: 'SAST' },
+  { city: 'São Paulo, Brazil', zone: 'America/Sao_Paulo', country: 'Brazil', abbr: 'BRT' },
+  { city: 'Mexico City, Mexico', zone: 'America/Mexico_City', country: 'Mexico', abbr: 'CST/CDT' },
+  { city: 'Buenos Aires, Argentina', zone: 'America/Argentina/Buenos_Aires', country: 'Argentina', abbr: 'ART' },
+]
+
 function timeZoneExtras(): Record<string, DateTimeToolDefinition> {
   const zones = listIanaTimeZones()
+  // Ensure unique option values (React keys + select values must be unique).
+  // Multiple cities can share a zone (e.g., Mumbai/Delhi -> Asia/Kolkata), so keep the first.
+  const cityOptions = Array.from(
+    new Map(popularCities.map((c) => [c.zone, { value: c.zone, label: `${c.city} (${c.abbr})` }])).values()
+  )
+  
   return {
     'time-zone-converter': simpleTool({
       id: 'time-zone-converter',
-      title: 'Time Zone Converter',
-      description: 'Format a date/time across time zones (best-effort using Intl formatting).',
+      title: 'Time Zone Calculator',
+      description: 'Convert time between cities/countries worldwide. Compare multiple time zones, check DST, and find best meeting times.',
       inputs: [
+        { name: 'inputMode', label: 'Input Mode', type: 'select', options: [
+          { value: 'date-time', label: '📅 Use Date + Time' },
+          { value: 'ymdhms', label: '🔢 Use Year/Month/Day + Hour/Minute/Second' },
+          { value: 'current', label: '🕐 Use Current Time' },
+        ] },
+        { name: 'timeFormat', label: 'Time Format', type: 'select', options: [
+          { value: '24h', label: '24-Hour Format' },
+          { value: '12h', label: '12-Hour (AM/PM)' },
+        ] },
         { name: 'date', label: 'Date', type: 'date' },
         { name: 'time', label: 'Time', type: 'time', showSeconds: true },
-        { name: 'fromZone', label: 'From Time Zone', type: 'timezone', options: zones },
-        { name: 'toZone', label: 'To Time Zone', type: 'timezone', options: zones },
+        { name: 'year', label: 'Year', type: 'number', min: 1, max: 9999, step: 1 },
+        { name: 'month', label: 'Month', type: 'number', min: 1, max: 12, step: 1 },
+        { name: 'day', label: 'Day', type: 'number', min: 1, max: 31, step: 1 },
+        { name: 'hour', label: 'Hour', type: 'number', min: 0, max: 23, step: 1 },
+        { name: 'minute', label: 'Minute', type: 'number', min: 0, max: 59, step: 1 },
+        { name: 'second', label: 'Second', type: 'number', min: 0, max: 59, step: 1 },
+        { name: 'fromCity', label: 'From City/Country', type: 'select', options: cityOptions },
+        { name: 'fromZone', label: 'Or Enter Time Zone', type: 'timezone', options: zones, placeholder: 'Search or select...' },
+        { name: 'toCity', label: 'To City/Country', type: 'select', options: cityOptions },
+        { name: 'toZone', label: 'Or Enter Time Zone', type: 'timezone', options: zones, placeholder: 'Search or select...' },
+        { name: 'compareCity1', label: '🔄 Compare City 1 (Optional)', type: 'select', options: [{ value: '', label: 'None' }, ...cityOptions] },
+        { name: 'compareCity2', label: '🔄 Compare City 2 (Optional)', type: 'select', options: [{ value: '', label: 'None' }, ...cityOptions] },
       ],
       defaultAutoCalculate: true,
-      calculate: (v) => {
-        const fromZone = String(v.fromZone ?? 'UTC')
-        const toZone = String(v.toZone ?? 'Asia/Kolkata')
-        const dt = asDateTime(v.date, v.time ?? '00:00', 'Date', 'Time')
+      calculate: (v, ctx) => {
+        const mode = String(v.inputMode ?? 'date-time')
+        const timeFormat = String(v.timeFormat ?? '24h')
+        const is12h = timeFormat === '12h'
+        
+        const normalizeZone = (value: unknown, fallback: string) => {
+          const s = String(value ?? '').trim()
+          return s ? s : fallback
+        }
+        
+        const fromCityZone = String(v.fromCity ?? '').trim()
+        const toCityZone = String(v.toCity ?? '').trim()
+        const fromZone = normalizeZone(fromCityZone || v.fromZone, 'UTC')
+        const toZone = normalizeZone(toCityZone || v.toZone, 'Asia/Kolkata')
+        
+        const fromCityName = popularCities.find(c => c.zone === fromZone)?.city || fromZone
+        const toCityName = popularCities.find(c => c.zone === toZone)?.city || toZone
+
+        const clampInt = (value: unknown, fallback: number, min: number, max: number) =>
+          Math.min(max, Math.max(min, Math.floor(safeNumber(value, fallback))))
+
+        let y: number
+        let mo: number
+        let d: number
+        let hh: number
+        let mm: number
+        let ss: number
+
+        if (mode === 'current') {
+          const now = ctx?.now ?? new Date()
+          y = now.getFullYear()
+          mo = now.getMonth() + 1
+          d = now.getDate()
+          hh = now.getHours()
+          mm = now.getMinutes()
+          ss = now.getSeconds()
+        } else if (mode === 'ymdhms') {
+          y = clampInt(v.year, new Date().getFullYear(), 1, 9999)
+          mo = clampInt(v.month, new Date().getMonth() + 1, 1, 12)
+          d = clampInt(v.day, new Date().getDate(), 1, 31)
+          hh = clampInt(v.hour, 0, 0, 23)
+          mm = clampInt(v.minute, 0, 0, 59)
+          ss = clampInt(v.second, 0, 0, 59)
+
+          // Validate actual date (e.g., 31 Feb)
+          const check = new Date(y, mo - 1, d, hh, mm, ss, 0)
+          if (check.getFullYear() !== y || check.getMonth() !== mo - 1 || check.getDate() !== d) {
+            throw new Error('Please enter a valid Year/Month/Day combination.')
+          }
+        } else {
+          const date = asDate(v.date, 'Date')
+          const t = asTime(v.time ?? '00:00', 'Time')
+          y = date.getFullYear()
+          mo = date.getMonth() + 1
+          d = date.getDate()
+          hh = t.h
+          mm = t.m
+          ss = t.s
+        }
+
+        // Interpret the wall-clock date/time in the *source* time zone.
+        const utcInstant = zonedWallClockToUtcInstant({
+          year: y,
+          month: mo,
+          day: d,
+          hour: hh,
+          minute: mm,
+          second: ss,
+          timeZone: fromZone,
+        })
+
+        const fromOffset = getTimeZoneOffsetMinutes(utcInstant, fromZone)
+        const toOffset = getTimeZoneOffsetMinutes(utcInstant, toZone)
+        const fromAbbr = getTimeZoneAbbreviation(utcInstant, fromZone)
+        const toAbbr = getTimeZoneAbbreviation(utcInstant, toZone)
+
+        const fromText = formatInTimeZone(utcInstant, fromZone)
+        const toText = formatInTimeZone(utcInstant, toZone)
+        const diffMin = fromOffset != null && toOffset != null ? toOffset - fromOffset : null
+
+        const splitParts = (instant: Date, zone: string) => {
+          try {
+            const parts = new Intl.DateTimeFormat('en-US', {
+              timeZone: zone,
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false,
+            }).formatToParts(instant)
+            const get = (type: string) => parts.find((p) => p.type === type)?.value ?? ''
+            return {
+              year: get('year'),
+              month: get('month'),
+              day: get('day'),
+              hour: get('hour'),
+              minute: get('minute'),
+              second: get('second'),
+            }
+          } catch {
+            return { year: '', month: '', day: '', hour: '', minute: '', second: '' }
+          }
+        }
+
+        const fromSplit = splitParts(utcInstant, fromZone)
+        const toSplit = splitParts(utcInstant, toZone)
+
+        // DST detection (best-effort): compare Jan vs Jul offsets for the same zone.
+        const isDst = (zone: string) => {
+          try {
+            const y = utcInstant.getUTCFullYear()
+            const jan = new Date(Date.UTC(y, 0, 1, 12, 0, 0))
+            const jul = new Date(Date.UTC(y, 6, 1, 12, 0, 0))
+            const offJan = getTimeZoneOffsetMinutes(jan, zone)
+            const offJul = getTimeZoneOffsetMinutes(jul, zone)
+            const offNow = getTimeZoneOffsetMinutes(utcInstant, zone)
+            if (offJan == null || offJul == null || offNow == null) return 'Unknown'
+            if (offJan === offJul) return 'No'
+            return offNow === Math.max(offJan, offJul) ? 'Yes' : 'No'
+          } catch {
+            return 'Unknown'
+          }
+        }
+        
+        const formatTime12h = (h: string, m: string, s: string) => {
+          let hour = parseInt(h, 10)
+          const ampm = hour >= 12 ? 'PM' : 'AM'
+          if (hour === 0) hour = 12
+          else if (hour > 12) hour -= 12
+          return `${hour}:${m}:${s} ${ampm}`
+        }
+        
+        const dayChange = (fromD: string, toD: string) => {
+          const fd = parseInt(fromD, 10)
+          const td = parseInt(toD, 10)
+          if (td > fd) return '+1 Day'
+          if (td < fd) return '-1 Day'
+          return 'Same Day'
+        }
+
+        const fromTimeFormatted = is12h 
+          ? formatTime12h(fromSplit.hour, fromSplit.minute, fromSplit.second)
+          : `${fromSplit.hour}:${fromSplit.minute}:${fromSplit.second}`
+        
+        const toTimeFormatted = is12h
+          ? formatTime12h(toSplit.hour, toSplit.minute, toSplit.second)
+          : `${toSplit.hour}:${toSplit.minute}:${toSplit.second}`
+        
+        const dayIndicator = dayChange(fromSplit.day, toSplit.day)
+        
+        const results: any[] = [
+          { label: `🌍 ${fromCityName}`, value: `${fromSplit.year}-${fromSplit.month}-${fromSplit.day} ${fromTimeFormatted}${fromAbbr ? ` (${fromAbbr})` : ''}` },
+          { label: `🌍 ${toCityName}`, value: `${toSplit.year}-${toSplit.month}-${toSplit.day} ${toTimeFormatted}${toAbbr ? ` (${toAbbr})` : ''}` },
+          { label: '📅 Day Change', value: dayIndicator },
+          ...(diffMin == null ? [] : [
+            { label: '⏱️ Time Difference', value: `${diffMin >= 0 ? '+' : ''}${formatNumber(diffMin / 60, 2)} hours` },
+          ]),
+        ]
+        
+        // Add comparison cities if selected
+        const comp1Zone = String(v.compareCity1 ?? '').trim()
+        const comp2Zone = String(v.compareCity2 ?? '').trim()
+        
+        if (comp1Zone) {
+          const comp1Split = splitParts(utcInstant, comp1Zone)
+          const comp1City = popularCities.find(c => c.zone === comp1Zone)?.city || comp1Zone
+          const comp1Abbr = getTimeZoneAbbreviation(utcInstant, comp1Zone)
+          const comp1Time = is12h
+            ? formatTime12h(comp1Split.hour, comp1Split.minute, comp1Split.second)
+            : `${comp1Split.hour}:${comp1Split.minute}:${comp1Split.second}`
+          results.push({ label: `🔄 ${comp1City}`, value: `${comp1Split.year}-${comp1Split.month}-${comp1Split.day} ${comp1Time}${comp1Abbr ? ` (${comp1Abbr})` : ''}` })
+        }
+        
+        if (comp2Zone) {
+          const comp2Split = splitParts(utcInstant, comp2Zone)
+          const comp2City = popularCities.find(c => c.zone === comp2Zone)?.city || comp2Zone
+          const comp2Abbr = getTimeZoneAbbreviation(utcInstant, comp2Zone)
+          const comp2Time = is12h
+            ? formatTime12h(comp2Split.hour, comp2Split.minute, comp2Split.second)
+            : `${comp2Split.hour}:${comp2Split.minute}:${comp2Split.second}`
+          results.push({ label: `🔄 ${comp2City}`, value: `${comp2Split.year}-${comp2Split.month}-${comp2Split.day} ${comp2Time}${comp2Abbr ? ` (${comp2Abbr})` : ''}` })
+        }
+        
         return {
-          results: [
-            { label: `In ${fromZone}`, value: formatInTimeZone(dt, fromZone) },
-            { label: `In ${toZone}`, value: formatInTimeZone(dt, toZone) },
-          ],
+          results,
+          live: mode === 'current' ? { isLive: true, refreshEveryMs: 1000 } : undefined,
           breakdown: [
-            { label: 'Input Instant', value: dt.toISOString() },
-            { label: 'Note', value: 'For exact “interpret input as fromZone” conversions, a full timezone parsing library is required. This tool formats the same instant in different zones.' },
+            { label: '📍 From Zone', value: `${fromZone}${fromAbbr ? ` (${fromAbbr})` : ''}` },
+            { label: '📍 To Zone', value: `${toZone}${toAbbr ? ` (${toAbbr})` : ''}` },
+            { label: '🕐 From UTC Offset', value: fromOffset == null ? '—' : `UTC ${fromOffset >= 0 ? '+' : ''}${formatNumber(fromOffset / 60, 2)}` },
+            { label: '🕐 To UTC Offset', value: toOffset == null ? '—' : `UTC ${toOffset >= 0 ? '+' : ''}${formatNumber(toOffset / 60, 2)}` },
+            { label: '☀️ From DST Active?', value: isDst(fromZone) },
+            { label: '☀️ To DST Active?', value: isDst(toZone) },
+            { label: '🔢 Format', value: is12h ? '12-Hour (AM/PM)' : '24-Hour' },
+            { label: '⏰ UTC Instant', value: utcInstant.toISOString() },
+            { label: '📝 Input', value: mode === 'current' ? 'Current Time' : mode === 'ymdhms' ? 'Manual Y/M/D + H/M/S' : 'Date + Time' },
+            { label: '💡 Meeting Tip', value: diffMin && Math.abs(diffMin / 60) > 6 ? 'Large time difference - consider async communication' : 'Good for live meetings' },
           ],
         }
       },

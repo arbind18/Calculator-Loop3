@@ -239,6 +239,86 @@ export function formatCalendarWithIntl(date: Date, calendar: string, locale = 'e
   }
 }
 
+function parseGmtOffsetToMinutes(value: string): number | null {
+  // Examples: "GMT", "UTC", "GMT+5", "GMT+05", "GMT+05:30", "UTC-04:00"
+  const v = (value ?? '').trim().toUpperCase()
+  if (!v) return null
+  if (v === 'GMT' || v === 'UTC') return 0
+  const m = v.match(/^(?:GMT|UTC)([+-])(\d{1,2})(?::?(\d{2}))?$/)
+  if (!m) return null
+  const sign = m[1] === '-' ? -1 : 1
+  const hh = Number(m[2])
+  const mm = Number(m[3] ?? '0')
+  if (!Number.isFinite(hh) || !Number.isFinite(mm)) return null
+  if (hh < 0 || hh > 23 || mm < 0 || mm > 59) return null
+  return sign * (hh * 60 + mm)
+}
+
+export function getTimeZoneOffsetMinutes(instant: Date, timeZone: string): number | null {
+  // Uses Intl "shortOffset" (supported on modern browsers / Node).
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      timeZoneName: 'shortOffset',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(instant)
+    const tz = parts.find((p) => p.type === 'timeZoneName')?.value ?? ''
+    return parseGmtOffsetToMinutes(tz)
+  } catch {
+    return null
+  }
+}
+
+export function getTimeZoneAbbreviation(instant: Date, timeZone: string): string {
+  // Best-effort abbreviation like IST, EDT, GMT+5:30, etc.
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      timeZoneName: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(instant)
+    return parts.find((p) => p.type === 'timeZoneName')?.value ?? ''
+  } catch {
+    return ''
+  }
+}
+
+export function zonedWallClockToUtcInstant(args: {
+  year: number
+  month: number
+  day: number
+  hour: number
+  minute: number
+  second: number
+  timeZone: string
+}): Date {
+  // Convert a wall-clock date/time in a target IANA zone into a UTC instant.
+  // We do a small fixed-point iteration to handle DST transitions.
+  const { year, month, day, hour, minute, second, timeZone } = args
+  const localMs = Date.UTC(year, month - 1, day, hour, minute, second, 0)
+
+  // Initial guess: treat the wall-clock as UTC.
+  let guess = new Date(localMs)
+
+  for (let i = 0; i < 3; i++) {
+    const offsetMin = getTimeZoneOffsetMinutes(guess, timeZone)
+    if (offsetMin == null) break
+    const correctedMs = localMs - offsetMin * 60_000
+    const corrected = new Date(correctedMs)
+    if (Math.abs(corrected.getTime() - guess.getTime()) < 1000) {
+      guess = corrected
+      break
+    }
+    guess = corrected
+  }
+
+  return guess
+}
+
 export function assertDefined<T>(value: T | null | undefined, message: string): T {
   if (value === null || value === undefined) throw new Error(message)
   return value

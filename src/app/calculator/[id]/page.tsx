@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { calculatorComponents } from '@/lib/calculatorRegistry'
 import { toolsData } from '@/lib/toolsData'
@@ -8,6 +8,26 @@ import { StructuredData } from '@/components/seo/StructuredData'
 import { RelatedCalculators } from '@/components/calculators/RelatedCalculators'
 import { getMergedTranslations } from '@/lib/translations'
 import { localizeToolMeta } from '@/lib/toolLocalization'
+
+function normalizeCalculatorId(raw: string): string {
+  const decoded = (() => {
+    try {
+      return decodeURIComponent(String(raw ?? ''))
+    } catch {
+      return String(raw ?? '')
+    }
+  })()
+
+  const slug = decoded.trim().toLowerCase()
+  const noExt = slug.replace(/\.(html?|php)$/i, '')
+  const normalized = noExt.replace(/_/g, '-').replace(/\s+/g, '-')
+
+  // Legacy alias: timezone-* -> time-zone-*
+  const timezoneNormalized = normalized.replace(/^timezone-/, 'time-zone-').replace(/-timezone-/, '-time-zone-')
+  if (timezoneNormalized === 'timezone-converter') return 'time-zone-converter'
+
+  return timezoneNormalized
+}
 
 function findCategoryForCalculator(id: string): { categoryId: string; subcategoryKey: string; categoryName: string; tool: any } | null {
   for (const [categoryId, category] of Object.entries(toolsData)) {
@@ -22,7 +42,8 @@ function findCategoryForCalculator(id: string): { categoryId: string; subcategor
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const { id } = await params
+  const { id: rawId } = await params
+  const id = normalizeCalculatorId(rawId)
   const info = findCategoryForCalculator(id)
   const language = (await headers()).get('x-calculator-language') || 'en'
   const dict = getMergedTranslations(language)
@@ -71,7 +92,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function CalculatorPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+  const { id: rawId } = await params
+  const id = normalizeCalculatorId(rawId)
+
+  // Force canonical id so we always render the correct calculator implementation.
+  if (id && id !== rawId) {
+    redirect(`/calculator/${id}`)
+  }
   
   const CalculatorComponent = calculatorComponents[id]
   const categoryInfo = findCategoryForCalculator(id)

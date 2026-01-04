@@ -1,15 +1,10 @@
 import { toast } from "react-hot-toast"
+import { saveAs } from "file-saver"
 
 export const downloadFile = (content: Blob | string, fileName: string, type: string) => {
   const blob = content instanceof Blob ? content : new Blob([content], { type: `${type};charset=utf-8;` })
-  const link = document.createElement('a')
-  const url = URL.createObjectURL(blob)
-  link.setAttribute('href', url)
-  link.setAttribute('download', fileName)
-  link.style.visibility = 'hidden'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  // FileSaver is more reliable than <a download> for async-generated files.
+  saveAs(blob, fileName)
 }
 
 export const generateReport = async (
@@ -22,7 +17,14 @@ export const generateReport = async (
 ) => {
   try {
     const timestamp = new Date().toISOString().split('T')[0]
-    const fullFileName = `${fileName}_${timestamp}`
+    const base = String(fileName || 'report')
+      .replace(/\s+/g, '_')
+      .replace(/[^a-zA-Z0-9._-]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .slice(0, 80)
+
+    const hasDateSuffix = /_\d{4}-\d{2}-\d{2}$/.test(base)
+    const fullFileName = hasDateSuffix ? base : `${base}_${timestamp}`
 
     switch (format) {
       case 'csv': {

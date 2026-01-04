@@ -29,6 +29,7 @@ import { getDictString, localizeToolMeta } from "@/lib/toolLocalization"
 import { generateReport } from "@/lib/downloadUtils"
 import { CalculatorSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/AdvancedSchema"
 import { AIRecommendations } from "@/components/ui-ai/AIRecommendations"
+import { toolsData } from "@/lib/toolsData"
 
 interface FinancialCalculatorTemplateProps {
   title: string
@@ -87,6 +88,28 @@ export function FinancialCalculatorTemplate({
   const { data: session } = useSession()
   const { language } = useSettings()
   const dict = useMemo(() => getMergedTranslations(language), [language])
+
+  const categoryLabel = useMemo(() => {
+    const raw = String(category || "Financial")
+    return raw.replace(/([a-z])([A-Z])/g, "$1 $2").trim() || "Financial"
+  }, [category])
+
+  const subcategoryLabel = useMemo(() => {
+    if (!calculatorId) return null
+
+    for (const categoryItem of Object.values(toolsData)) {
+      for (const subcategory of Object.values(categoryItem.subcategories)) {
+        const hit = subcategory.calculators?.some((t) => t.id === calculatorId)
+        if (hit) {
+          const raw = String(subcategory.name || "").trim()
+          if (!raw) return null
+          // Remove leading emoji/symbols for a cleaner pill label.
+          return raw.replace(/^[^A-Za-z0-9]+\s*/, "").trim() || raw
+        }
+      }
+    }
+    return null
+  }, [calculatorId])
 
   const resultsRef = useRef<HTMLDivElement | null>(null)
 
@@ -429,7 +452,7 @@ export function FinancialCalculatorTemplate({
         <div className="text-center mb-6 md:mb-10 animate-fadeIn print:hidden">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4 md:mb-6 shadow-sm">
             <Icon className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Financial Calculator</span>
+            <span className="text-sm font-medium text-primary">{subcategoryLabel ? `${categoryLabel} • ${subcategoryLabel}` : `${categoryLabel} Calculator`}</span>
           </div>
           <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 tracking-tight">
             {displayTitle}
@@ -1020,7 +1043,7 @@ export function InputGroup({
   suffix,
   helpText,
   disabled,
-  enableVoice = true,
+  enableVoice = false,
   voiceLang = "en-IN"
 }: InputGroupProps) {
   const { currency } = useSettings()
@@ -1259,17 +1282,82 @@ export function ResultCard({ label, value, subtext, type = "default", icon: Icon
   const isLong = valueStr.length > 12
   const isVeryLong = valueStr.length > 20
 
+  const isCurrency = Boolean(prefix) && (prefix === '₹' || displayPrefix === currency.symbol)
+  const numericValue = typeof value === 'number' ? value : null
+
+  const formatCompactINR = (n: number) => {
+    const abs = Math.abs(n)
+
+    // Thousand Crore (KCr) for very large numbers to keep cards readable.
+    if (abs >= 10_000_000_000) {
+      const kcr = n / 10_000_000_000
+      const kcrStr = kcr
+        .toFixed(kcr >= 100 ? 0 : kcr >= 10 ? 1 : 2)
+        .replace(/\.0+$/, '')
+        .replace(/(\.[0-9]*?)0+$/, '$1')
+      return `${displayPrefix ?? ''}${kcrStr}KCr`
+    }
+
+    // Crore (1,00,00,000)
+    if (abs >= 10_000_000) {
+      const cr = n / 10_000_000
+      const crStr = cr.toFixed(cr >= 100 ? 0 : cr >= 10 ? 1 : 2).replace(/\.0+$/, '').replace(/(\.[0-9]*?)0+$/, '$1')
+      return `${displayPrefix ?? ''}${crStr}Cr`
+    }
+    // Lakh (1,00,000)
+    if (abs >= 100_000) {
+      const l = n / 100_000
+      const lStr = l.toFixed(l >= 100 ? 0 : l >= 10 ? 1 : 2).replace(/\.0+$/, '').replace(/(\.[0-9]*?)0+$/, '$1')
+      return `${displayPrefix ?? ''}${lStr}L`
+    }
+    return `${displayPrefix ?? ''}${n.toLocaleString('en-IN')}`
+  }
+
+  const showCompact = Boolean(isCurrency && numericValue != null && Math.abs(numericValue) >= 100_000)
+  const mainValueText = (() => {
+    if (showCompact && numericValue != null) return `${formatCompactINR(numericValue)}${suffix ?? ''}`
+    return `${displayPrefix ?? ''}${value}${suffix ?? ''}`
+  })()
+
+  const mainLen = mainValueText.length
+  const compactIsVeryLong = showCompact && mainLen >= 10
+  const compactIsLong = showCompact && mainLen >= 8
+
+  const autoSubtext = (() => {
+    if (subtext) return subtext
+    if (!showCompact || numericValue == null) return undefined
+    const full = `${displayPrefix ?? ''}${numericValue.toLocaleString('en-IN')}${suffix ?? ''}`
+    return full
+  })()
+
   return (
-    <div className={cn("p-6 rounded-2xl border flex flex-col items-center justify-center text-center space-y-3 transition-all hover:shadow-lg hover:-translate-y-1 duration-300 overflow-hidden", styles[type], className)} {...props}>
+    <div className={cn(
+      "p-4 sm:p-6 rounded-2xl border flex flex-col items-center justify-center text-center space-y-3 transition-all hover:shadow-lg hover:-translate-y-1 duration-300 overflow-hidden",
+      styles[type],
+      className
+    )} {...props}>
       {Icon && <Icon className="w-8 h-8 mb-1 opacity-80" />}
       <p className="text-sm font-medium opacity-70 uppercase tracking-wider">{label}</p>
       <p className={cn(
-        "font-bold tracking-tight break-words w-full px-2",
-        isVeryLong ? "text-lg md:text-xl" : isLong ? "text-2xl md:text-3xl" : "text-3xl md:text-4xl"
+        "font-bold tracking-tight tabular-nums w-full px-2 leading-none",
+        showCompact ? "whitespace-nowrap" : "break-words",
+        compactIsVeryLong
+          ? "text-lg sm:text-xl"
+          : compactIsLong
+            ? "text-xl sm:text-2xl"
+            : isVeryLong
+              ? "text-lg sm:text-xl"
+              : isLong
+                ? "text-2xl sm:text-3xl"
+                : "text-3xl sm:text-4xl"
       )}>
-        {displayPrefix}{value}{suffix}
+        {mainValueText}
       </p>
-      {subtext && <p className="text-xs opacity-70 font-medium bg-background/50 px-2 py-1 rounded-full">{subtext}</p>}
+      {autoSubtext && (
+        <p className="text-xs opacity-70 font-medium bg-background/50 px-2 py-1 rounded-full tabular-nums whitespace-nowrap max-w-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {autoSubtext}
+        </p>
+      )}
     </div>
   )
 }

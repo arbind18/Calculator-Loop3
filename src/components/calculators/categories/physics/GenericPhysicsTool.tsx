@@ -1266,7 +1266,10 @@ const getCategoryTheme = () => ({
 
 export const GenericPhysicsTool = ({ id }: { id: string }) => {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
+  return <GenericPhysicsToolInner id={id} />;
+};
 
+function GenericPhysicsToolInner({ id }: { id: string }) {
   const config = useMemo(() => getToolConfig(id), [id]);
   const theme = useMemo(() => getCategoryTheme(), []);
   const [inputs, setInputs] = useState<Record<string, any>>({});

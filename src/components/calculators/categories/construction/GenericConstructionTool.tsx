@@ -5678,7 +5678,10 @@ const getCategoryTheme = () => ({
 
 export function GenericConstructionTool({ id }: { id: string }) {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
+  return <GenericConstructionToolInner id={id} />;
+}
 
+function GenericConstructionToolInner({ id }: { id: string }) {
   const config = getToolConfig(id);
   const theme = getCategoryTheme();
   const [inputs, setInputs] = useState<Record<string, any>>({});

@@ -27,6 +27,7 @@ build_log.txt
 tmp_pdf_text.txt
 scripts/compute-sqrt-bigint.mjs
 tmp_*.json
+tmp_*.log
 
 # Local env files
 .env

@@ -1,7 +1,7 @@
 // public/sw.js - Service Worker for Caching
 
-const CACHE_NAME = 'calculator-loop-v4'
-const RUNTIME_CACHE = 'calculator-runtime-v4'
+const CACHE_NAME = 'calculator-loop-v5'
+const RUNTIME_CACHE = 'calculator-runtime-v5'
 
 // Assets to cache immediately
 const PRECACHE_ASSETS = [

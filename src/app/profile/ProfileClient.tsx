@@ -156,6 +156,10 @@ export default function ProfileClient() {
     ? occupationLabels[profileUser.occupation] || profileUser.occupation
     : null
 
+  const memberSince = profileUser?.createdAt
+    ? new Date(profileUser.createdAt).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
+    : null
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto py-10 px-4">
@@ -175,7 +179,7 @@ export default function ProfileClient() {
                   <p className="text-sm text-muted-foreground mt-1">{occupationDisplay}</p>
                 )}
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Member since {new Date(profileUser?.createdAt || Date.now()).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}
+                  Member since {memberSince ?? '—'}
                 </p>
               </div>
               <div>

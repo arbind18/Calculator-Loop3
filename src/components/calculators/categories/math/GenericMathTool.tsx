@@ -1028,7 +1028,10 @@ const getCategoryTheme = () => ({
 
 export function GenericMathTool({ id }: { id: string }) {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
+  return <GenericMathToolInner id={id} />;
+}
 
+function GenericMathToolInner({ id }: { id: string }) {
   const config = getToolConfig(id);
   const theme = getCategoryTheme();
 

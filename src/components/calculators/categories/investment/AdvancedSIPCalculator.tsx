@@ -157,17 +157,21 @@ export function AdvancedSIPCalculator() {
             onChange={setMonthlyInvestment} 
             prefix="₹" 
             min={500} 
-            max={1000000} 
+            max={100000000} 
             step={500}
+            enableVoice={false}
+            helpText="You can type any amount (not limited to the slider)."
           />
           <InputGroup 
             label="Expected Return Rate (p.a)" 
             value={expectedReturn} 
             onChange={setExpectedReturn} 
             suffix="%" 
-            min={1} 
-            max={30} 
+            min={0} 
+            max={100} 
             step={0.1}
+            enableVoice={false}
+            helpText="Enter any annual return percentage you want to test."
           />
           <InputGroup 
             label="Time Period" 
@@ -175,7 +179,9 @@ export function AdvancedSIPCalculator() {
             onChange={setTimePeriod} 
             suffix={` ${t('investment.time_period').split(' ')[2] || 'Years'}`}
             min={1} 
-            max={40} 
+            max={60} 
+            enableVoice={false}
+            helpText="Type any number of years."
           />
           
           <Separator />
@@ -196,7 +202,8 @@ export function AdvancedSIPCalculator() {
                         onChange={setStepUpRate}
                         suffix="%"
                         min={0}
-                        max={50}
+                      max={100}
+                      enableVoice={false}
                     />
                 </div>
             </div>
@@ -219,8 +226,9 @@ export function AdvancedSIPCalculator() {
                     onChange={setInflationRate} 
                     suffix="%" 
                     min={1} 
-                    max={15} 
+                  max={30} 
                     step={0.1}
+                  enableVoice={false}
                 />
                 </div>
             )}
@@ -241,16 +249,19 @@ export function AdvancedSIPCalculator() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ResultCard 
               label={t('investment.invested_amount')} 
-              value={`₹${result.totalInvested.toLocaleString()}`} 
+              value={Number(result.totalInvested ?? 0)}
+              prefix="₹"
             />
             <ResultCard 
               label={t('investment.est_returns')} 
-              value={`₹${result.returns.toLocaleString()}`} 
+              value={Number(result.returns ?? 0)}
+              prefix="₹"
               type="success" 
             />
             <ResultCard 
               label={t('investment.total_value')} 
-              value={`₹${result.maturityAmount.toLocaleString()}`} 
+              value={Number(result.maturityAmount ?? 0)}
+              prefix="₹"
               type="highlight" 
             />
           </div>
@@ -261,14 +272,14 @@ export function AdvancedSIPCalculator() {
                 <div className="p-4 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg flex items-center justify-between">
                     <div>
                         <p className="text-sm text-red-600 dark:text-red-400">{t('investment.tax_payable')}</p>
-                        <p className="text-xl font-bold text-red-700 dark:text-red-300">- ₹{result.taxAmount.toLocaleString()}</p>
+                    <p className="text-xl font-bold text-red-700 dark:text-red-300 tabular-nums whitespace-nowrap">- ₹{result.taxAmount.toLocaleString()}</p>
                     </div>
                     <Coins className="h-8 w-8 text-red-200 dark:text-red-800" />
                 </div>
                 <div className="p-4 bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg flex items-center justify-between">
                     <div>
                         <p className="text-sm text-green-600 dark:text-green-400">{t('investment.post_tax_value')}</p>
-                        <p className="text-xl font-bold text-green-700 dark:text-green-300">₹{result.postTaxMaturity.toLocaleString()}</p>
+                    <p className="text-xl font-bold text-green-700 dark:text-green-300 tabular-nums whitespace-nowrap">₹{result.postTaxMaturity.toLocaleString()}</p>
                     </div>
                     <TrendingUp className="h-8 w-8 text-green-200 dark:text-green-800" />
                 </div>
@@ -280,7 +291,7 @@ export function AdvancedSIPCalculator() {
               <Info className="h-5 w-5 text-amber-600 mt-0.5" />
               <div>
                 <p className="font-semibold text-amber-800 dark:text-amber-200">{t('investment.inflation_adjusted_value')}</p>
-                <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">₹{result.realMaturityAmount.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-amber-700 dark:text-amber-300 tabular-nums whitespace-nowrap">₹{result.realMaturityAmount.toLocaleString()}</p>
                 <p className="text-xs text-amber-600/80 dark:text-amber-400">
                   {t('investment.inflation_note')} ({inflationRate}%).
                 </p>

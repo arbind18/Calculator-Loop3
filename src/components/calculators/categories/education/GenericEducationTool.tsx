@@ -1101,7 +1101,10 @@ const getCategoryTheme = () => ({
 
 export function GenericEducationTool({ id }: { id: string }) {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
+  return <GenericEducationToolInner id={id} />;
+}
 
+function GenericEducationToolInner({ id }: { id: string }) {
   const config = getToolConfig(id);
   const theme = getCategoryTheme();
   const [inputs, setInputs] = useState<Record<string, any>>({});

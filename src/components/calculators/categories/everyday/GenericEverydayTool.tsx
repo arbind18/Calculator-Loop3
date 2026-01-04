@@ -98,7 +98,7 @@ const getToolConfig = (id: string | undefined): EverydayToolConfig => {
   // TIME ZONE CONVERTER
   if (id.includes('time-zone') || id.includes('timezone')) {
     return {
-      title: 'Time Zone Converter',
+      title: 'Time Zone Calculator',
       description: 'Convert time between different time zones.',
       inputs: [
         { name: 'hour', label: 'Hour (24h format)', type: 'number', defaultValue: 14, min: 0, max: 23 },
@@ -4551,7 +4551,10 @@ const getCategoryTheme = (id: string) => {
 
 export function GenericEverydayTool({ id }: { id: string }) {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
-  
+  return <GenericEverydayToolInner id={id} />;
+}
+
+function GenericEverydayToolInner({ id }: { id: string }) {
   const config = getToolConfig(id);
   const theme = getCategoryTheme(id);
   const ThemeIcon = theme.icon;

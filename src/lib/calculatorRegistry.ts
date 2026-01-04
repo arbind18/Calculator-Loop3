@@ -232,7 +232,6 @@ const genericConstructionToolIds = [
 const genericEverydayToolIds = [
   // Time & Productivity (13 tools)
   'pomodoro-timer-calculator',
-  'time-zone-converter',
   'meeting-time-finder',
   'work-hours-calculator',
   'overtime-calculator',
@@ -507,6 +506,7 @@ const genericDateTimeToolIds = [
 
   // World Time & Zones (10 tools)
   'world-clock', 'time-zone-difference', 'ist-to-utc', 'utc-to-local',
+  'time-zone-converter',
   'gmt-converter', 'dst-calculator', 'international-meeting-time', 'time-zone-map',
   'sunrise-sunset', 'golden-hour-calculator',
 

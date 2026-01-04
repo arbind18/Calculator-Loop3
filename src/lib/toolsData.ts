@@ -1660,7 +1660,7 @@ const baseToolsData: Record<string, Category> = {
         name: '🔄 Time Conversion & Units',
         icon: 'fas fa-exchange-alt',
         calculators: [
-          { id: 'time-zone-converter', title: 'Time Zone Converter', description: 'Convert time between different time zones worldwide.', icon: 'fas fa-globe-americas', action: 'Calculate Now' },
+          { id: 'time-zone-converter', title: 'Time Zone Calculator', description: 'Convert time between different time zones worldwide.', icon: 'fas fa-globe-americas', action: 'Calculate Now' },
           { id: 'unix-timestamp-converter', title: 'Unix Timestamp Converter', description: 'Convert Unix/Epoch timestamp to human-readable date.', icon: 'fas fa-code', action: 'Calculate Now' },
           { id: 'hours-to-minutes', title: 'Hours to Minutes Converter', description: 'Convert hours to minutes, seconds, and days.', icon: 'fas fa-clock', action: 'Calculate Now' },
           { id: 'minutes-to-hours', title: 'Minutes to Hours Converter', description: 'Convert minutes to hours, days, and weeks.', icon: 'fas fa-hourglass-half', action: 'Calculate Now' },

@@ -4621,7 +4621,10 @@ const getCategoryTheme = () => ({
 
 export const GenericBusinessTool = ({ id }: { id: string }) => {
   if (!id) return <div className="p-8 text-center text-muted-foreground">Calculator configuration not found</div>;
+  return <GenericBusinessToolInner id={id} />;
+};
 
+function GenericBusinessToolInner({ id }: { id: string }) {
   const config = useMemo(() => getToolConfig(id), [id]);
   const theme = getCategoryTheme();
   const [inputs, setInputs] = useState<Record<string, any>>({});
