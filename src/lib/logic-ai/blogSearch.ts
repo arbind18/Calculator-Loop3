@@ -14,6 +14,27 @@ export interface SearchResult {
   matchingParagraph: string;
 }
 
+const STOPWORDS = new Set([
+  // English
+  'the', 'a', 'an', 'and', 'or', 'to', 'of', 'in', 'on', 'for', 'with', 'from', 'by', 'as', 'is', 'are', 'was', 'were',
+  'be', 'been', 'it', 'this', 'that', 'these', 'those', 'your', 'you', 'we', 'our',
+  // Hindi (Roman)
+  'kya', 'ka', 'ki', 'ke', 'se', 'me', 'mein', 'mera', 'meri', 'mere', 'aap', 'ap', 'tum', 'hum', 'hai', 'hain',
+  'tha', 'thi', 'the', 'hoga', 'hogi', 'hogaa', 'kab', 'kaise', 'kitna', 'kitni', 'kyu', 'kyun', 'aur', 'ya', 'par',
+]);
+
+const tokenize = (query: string): string[] => {
+  return query
+    .toLowerCase()
+    .replace(/[₹,]/g, ' ')
+    .replace(/[^\p{L}\p{N}%]+/gu, ' ') // unicode letters+numbers
+    .split(/\s+/)
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .filter((t) => t.length >= 3)
+    .filter((t) => !STOPWORDS.has(t));
+};
+
 // Helper to recursively get all markdown files
 const getFiles = (dir: string): string[] => {
   const subdirs = fs.readdirSync(dir);
@@ -34,7 +55,14 @@ export const searchContent = (query: string): SearchResult[] => {
   const files = getFiles(contentDir).filter(f => f.endsWith('.md'));
   const results: SearchResult[] = [];
   const lowerQuery = query.toLowerCase();
-  const queryTerms = lowerQuery.split(' ').filter(t => t.length > 3); // Only significant words
+  const queryTerms = tokenize(query);
+
+  // If we can't extract meaningful tokens, avoid returning random matches.
+  if (queryTerms.length === 0) return [];
+
+  // Tune these if needed.
+  const MIN_SCORE = 6;
+  const MIN_PARAGRAPH_MATCHES = 2;
 
   files.forEach(filePath => {
     const content = fs.readFileSync(filePath, 'utf-8');
@@ -62,9 +90,10 @@ export const searchContent = (query: string): SearchResult[] => {
       let paraScore = 0;
       const lowerPara = para.toLowerCase();
       
-      queryTerms.forEach(term => {
+      // Count unique token hits in this paragraph
+      for (const term of queryTerms) {
         if (lowerPara.includes(term)) paraScore += 1;
-      });
+      }
 
       if (paraScore > maxParagraphScore) {
         maxParagraphScore = paraScore;
@@ -74,9 +103,14 @@ export const searchContent = (query: string): SearchResult[] => {
 
     // Scoring logic
     if (title.toLowerCase().includes(lowerQuery)) score += 10;
+    // Partial title hits
+    for (const term of queryTerms) {
+      if (title.toLowerCase().includes(term)) score += 3;
+    }
     score += maxParagraphScore * 2;
 
-    if (score > 0) {
+    // Avoid very weak / accidental matches
+    if (score >= MIN_SCORE && maxParagraphScore >= MIN_PARAGRAPH_MATCHES) {
       results.push({
         post: { title, content: body, toolId, path: filePath },
         score,

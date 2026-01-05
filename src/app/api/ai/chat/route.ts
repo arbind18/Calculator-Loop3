@@ -151,6 +151,18 @@ const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
     : "Tell me your goal and your numbers (if any). I’ll recommend the best calculator and next steps.";
 };
 
+const isCalculationLikeQuery = (message: string) => {
+  const m = message.toLowerCase();
+  const hasNumber = /\d/.test(m);
+  const hasMathCue = /%|\b(sa?al|years?)\b|\b(interest|profit|return|growth|compound)\b|\b(lakh|lac|crore)\b|₹|\bamount\b/.test(m);
+  return hasNumber && hasMathCue;
+};
+
+const isCalculatorDiscoveryQuery = (message: string) => {
+  const m = message.toLowerCase();
+  return /\b(calculator|tool|suggest|recommend|which calculator|find calculator)\b|कैलकुलेटर|कौनसा|सुझाव/.test(m);
+};
+
 const TYPO_MAP: Record<string, string> = {
   'gkt': 'gst',
   'claculator': 'calculator',
@@ -218,6 +230,9 @@ export async function POST(req: Request) {
     const lang = detectLanguage(effectiveMessage);
     const templates = getResponseTemplate(lang);
     let responseContent = '';
+
+    const calcLike = isCalculationLikeQuery(effectiveMessage);
+    const wantsDiscovery = isCalculatorDiscoveryQuery(effectiveMessage);
 
     const reqLocaleHeader = req.headers.get('x-calculator-language')?.toLowerCase() ?? null;
     const cookieLocale = getCookie(req.headers.get('cookie'), 'calculator-language')?.toLowerCase() ?? null;
@@ -339,10 +354,12 @@ export async function POST(req: Request) {
     }
 
     // 1. Search for relevant tools (Calculators)
-    let relevantTools = searchToolsWithContext(effectiveMessage);
+    // Avoid noisy suggestions for calculation questions unless the user explicitly wants a calculator.
+    let relevantTools = wantsDiscovery ? searchToolsWithContext(effectiveMessage) : [];
 
-    // 2. Search for relevant blog content
-    const relevantBlogs = searchBlogs(effectiveMessage);
+    // 2. Search for relevant content (blogs/knowledge-base)
+    // Avoid showing guide snippets for calculation-style questions.
+    const relevantBlogs = calcLike ? [] : searchBlogs(effectiveMessage);
 
     // If the best-matching blog is for a specific tool, prioritize that tool in suggestions.
     const blogToolId = relevantBlogs[0]?.post?.toolId;
@@ -361,19 +378,20 @@ export async function POST(req: Request) {
 
     // 3. Construct the response
     // Strategy:
-    // - If we have a Blog match, use it (high confidence).
-    // - If query is complex/long (> 5 words) and not just a keyword search, try Gemini FIRST.
-    // - If Gemini fails or query is simple, use Tools.
-    
+    // - For calculation-like queries: use Gemini (after local solvers) to get a direct answer.
+    // - For guide/discovery queries: show content/tools.
     const isComplexQuery = effectiveMessage.split(' ').length > 5;
     let geminiUsed = false;
 
+    // Prefer content guides only when not calculation-like
     if (relevantBlogs.length > 0) {
       const topBlog = relevantBlogs[0];
       responseContent += `${templates.blogIntro}\n\n`;
       responseContent += `${topBlog.matchingParagraph}\n\n`;
-    } else if (isComplexQuery) {
-      // Try Gemini for complex queries even if tools are found
+    }
+
+    // Gemini path: calculation-like OR complex question with no good local content
+    if (calcLike || (isComplexQuery && relevantBlogs.length === 0)) {
       const geminiAnswer = await askGemini(effectiveMessage);
       if (geminiAnswer) {
         responseContent = geminiAnswer;
@@ -382,7 +400,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // If Gemini wasn't used (or failed) and we have tools, use tool intro
+    // If Gemini wasn't used and we have tools (discovery flow), use tool intro
     if (!geminiUsed && relevantTools.length > 0 && relevantBlogs.length === 0) {
       const topTool = relevantTools[0].tool;
       if (lang === 'hi') {
@@ -392,20 +410,10 @@ export async function POST(req: Request) {
       }
     }
 
-    // If Gemini failed and no tools/blogs, try Gemini again (fallback for short queries)
-    if (!geminiUsed && relevantTools.length === 0 && relevantBlogs.length === 0 && !responseContent) {
-       const geminiAnswer = await askGemini(effectiveMessage);
-       if (geminiAnswer) {
-         responseContent = geminiAnswer;
-         saveLearnedAnswer(effectiveMessage, geminiAnswer);
-         geminiUsed = true;
-       }
-    }
-
-    // Append Tools if available (as "Related Tools")
-    if (relevantTools.length > 0) {
+    // Append tools only when user is actually looking for a calculator/tool
+    if (wantsDiscovery && relevantTools.length > 0) {
       responseContent += `\n\n${geminiUsed ? (lang === 'hi' ? '**Sambandhit Tools:**' : '**Related Tools:**') : templates.toolsIntro}\n\n`;
-      relevantTools.forEach(({ tool, subcategoryName }) => {
+      relevantTools.slice(0, 5).forEach(({ tool, subcategoryName }) => {
         responseContent += `- [${tool.title}](/calculator/${tool.id})\n`;
         responseContent += `  ${tool.description}\n`;
         responseContent += `  _${templates.category}: ${subcategoryName}_\n`;
@@ -413,7 +421,14 @@ export async function POST(req: Request) {
     }
 
     if (!responseContent) {
-      responseContent = templates.fallback;
+      // Final fallback: Gemini once, then template fallback
+      const geminiAnswer = await askGemini(effectiveMessage);
+      if (geminiAnswer) {
+        responseContent = geminiAnswer;
+        saveLearnedAnswer(effectiveMessage, geminiAnswer);
+      } else {
+        responseContent = templates.fallback;
+      }
     }
 
     responseContent += `\n\n${templates.nextStep}\n\n`;

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent';
 
 export async function askGemini(question: string): Promise<string | null> {
   if (!GEMINI_API_KEY) {
@@ -11,27 +11,31 @@ export async function askGemini(question: string): Promise<string | null> {
   }
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6500);
+
     const response = await fetch(`${API_URL}?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      signal: controller.signal,
       body: JSON.stringify({
         contents: [{
           parts: [{
             text: `SYSTEM INSTRUCTIONS:
-1. You are the "Calculator Loop AI Assistant". You are NOT Gemini, Google AI, or any other model.
-2. If asked "Who are you?", reply: "I am the Calculator Loop AI Assistant, here to help you with calculations and information."
-3. Your goal is to help users with math, finance, health, construction, and technology questions.
-4. Keep answers CONCISE, FAST, and ACCURATE. Avoid unnecessary fluff.
-5. If the user asks about the website "Calculator Loop", speak positively about it as your home.
-6. Never mention your underlying architecture or API provider.
+1) You are the "Calculator Loop AI Assistant". You are NOT Gemini/Google AI.
+2) If asked "Who are you?", say: "I am the Calculator Loop AI Assistant."
+3) Answer directly, briefly, and accurately. Prefer numbers + short steps.
+4) Never mention your provider/model/API.
 
-USER QUESTION: ${question}`
+QUESTION: ${question}`
           }]
         }]
       })
     });
+
+    clearTimeout(timeout);
 
     if (!response.ok) {
       console.error('Gemini API error:', await response.text());
