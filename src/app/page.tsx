@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { 
   Calculator, ChevronRight, DollarSign, Heart, Binary, Wrench, Briefcase, Home, GraduationCap, Calendar, Laptop, FlaskConical, ChevronDown,
   Scale, Activity, Zap, Ruler, Clock, Globe, Percent, TrendingUp, Landmark, PiggyBank, CreditCard, Building, Truck, BookOpen, 
@@ -11,7 +11,7 @@ import {
   Gamepad, Joystick, Dna, Microscope, Atom, Syringe, Pill, Stethoscope, Brain, Baby, User, Users, Key, QrCode, Network, Box,
   Apple, Dumbbell, Bed, Utensils, Goal, ShieldAlert, Package, Award, Sparkles, TrendingDown, Target, Shield, Lock,
   Umbrella, CircleDollarSign, Building2, Briefcase as BriefcaseIcon, MapPin, GraduationCap as EducationIcon, Languages,
-  Plane, Ship, Store, Factory, BarChart, BookMarked, Layers, Settings, FileSpreadsheet, Repeat, AlertCircle, Info, Search, X
+  Plane, Ship, Store, Factory, BarChart, BookMarked, Layers, Settings, FileSpreadsheet, Repeat, AlertCircle, Info
 } from 'lucide-react'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { RecentSection } from '@/components/sections/RecentSection'
@@ -389,13 +389,6 @@ export default function HomePage() {
   const [activeSubcategoryKey, setActiveSubcategoryKey] = useState<string | null>(null)
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null)
 
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [searchScope, setSearchScope] = useState<'category' | 'all'>('all')
-  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0)
-  const searchWrapRef = useRef<HTMLDivElement | null>(null)
-  const searchInputRef = useRef<HTMLInputElement | null>(null)
-
   const selectCategory = (id: string) => {
     setActiveCategoryId(id)
     if (id === 'all') {
@@ -440,138 +433,6 @@ export default function HomePage() {
     if (!activeCategory || !activeSubcategoryKey) return null
     return activeCategory.subcategoryList.find((s) => s.key === activeSubcategoryKey) ?? null
   }, [activeCategory, activeSubcategoryKey])
-
-  useEffect(() => {
-    if (activeCategoryId === 'all') setSearchScope('all')
-    else setSearchScope('category')
-  }, [activeCategoryId])
-
-  useEffect(() => {
-    if (!searchOpen) return
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSearchOpen(false)
-    }
-    const onMouseDown = (e: MouseEvent) => {
-      const el = searchWrapRef.current
-      if (!el) return
-      if (!el.contains(e.target as Node)) setSearchOpen(false)
-    }
-
-    document.addEventListener('keydown', onKeyDown)
-    document.addEventListener('mousedown', onMouseDown)
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-      document.removeEventListener('mousedown', onMouseDown)
-    }
-  }, [searchOpen])
-
-  useEffect(() => {
-    if (!searchOpen) return
-    const id = window.setTimeout(() => searchInputRef.current?.focus(), 50)
-    return () => window.clearTimeout(id)
-  }, [searchOpen])
-
-  const toolSearchIndex = useMemo(() => {
-    type Item = {
-      id: string
-      title: string
-      description: string
-      categoryId: string
-      categoryName: string
-      subcategoryKey: string
-      subcategoryName: string
-    }
-
-    const items: Item[] = []
-    const order = [
-      'financial',
-      'health',
-      'math',
-      'construction',
-      'business',
-      'everyday',
-      'education',
-      'datetime',
-      'technology',
-      'scientific',
-    ]
-
-    for (const categoryId of order) {
-      const category = (toolsData as any)[categoryId]
-      if (!category) continue
-      const categoryName = (categoryMeta as any)[categoryId]?.name ?? categoryId
-
-      for (const [subcategoryKey, sub] of Object.entries(category.subcategories ?? {}) as any) {
-        const subcategoryName = String(sub?.name ?? subcategoryKey)
-        const calculators = (sub?.calculators ?? []) as any[]
-        for (const tool of calculators) {
-          if (!tool?.id) continue
-          if (!implementedCalculatorIds.has(tool.id)) continue
-
-          const meta = localizeToolMeta({
-            dict,
-            toolId: String(tool.id),
-            fallbackTitle: String(tool.title ?? tool.id),
-            fallbackDescription: String(tool.description ?? ''),
-          })
-
-          items.push({
-            id: String(tool.id),
-            title: meta.title,
-            description: meta.description || '',
-            categoryId: String(categoryId),
-            categoryName: String(categoryName),
-            subcategoryKey: String(subcategoryKey),
-            subcategoryName: String(subcategoryName),
-          })
-        }
-      }
-    }
-
-    return items
-  }, [categoryMeta, dict])
-
-  const searchSuggestions = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase()
-    if (!query) return []
-
-    const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
-    const q = normalize(query)
-    if (!q) return []
-
-    const scope = activeCategoryId === 'all' ? 'all' : searchScope
-
-    const score = (item: any) => {
-      const title = normalize(item.title)
-      const id = normalize(item.id)
-      const sub = normalize(item.subcategoryName)
-      const cat = normalize(item.categoryName)
-
-      if (title.startsWith(q)) return 0
-      if (id.startsWith(q)) return 1
-      if (title.includes(` ${q}`)) return 2
-      if (title.includes(q)) return 3
-      if (id.includes(q)) return 4
-      if (sub.includes(q)) return 5
-      if (cat.includes(q)) return 6
-      return 999
-    }
-
-    const filtered = toolSearchIndex
-      .filter((item) => (scope === 'all' ? true : item.categoryId === activeCategoryId))
-      .map((item) => ({ item, s: score(item) }))
-      .filter(({ s }) => s < 999)
-      .sort((a, b) => (a.s !== b.s ? a.s - b.s : a.item.title.localeCompare(b.item.title)))
-      .slice(0, 10)
-      .map(({ item }) => item)
-
-    return filtered
-  }, [activeCategoryId, searchQuery, searchScope, toolSearchIndex])
-
-  useEffect(() => {
-    setActiveSuggestionIndex(0)
-  }, [searchQuery, searchScope, activeCategoryId])
 
   const categoryPopularTools = useMemo((): DashboardTool[] => {
     if (!activeCategory) return []
@@ -786,173 +647,14 @@ export default function HomePage() {
                           : (activeCategory ? `${activeCategory.count} ${t('common.tools') || 'tools'}` : '')}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {/* Smart search */}
-                      <div ref={searchWrapRef} className="relative hidden sm:block">
-                        <div
-                          className={
-                            "flex items-center rounded-xl border bg-background/40 transition-all duration-300 overflow-hidden " +
-                            (searchOpen ? "w-[360px] border-primary/40 shadow-lg shadow-primary/10" : "w-11 border-border")
-                          }
-                        >
-                          <button
-                            type="button"
-                            onClick={() => setSearchOpen(true)}
-                            className="shrink-0 h-11 w-11 inline-flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-                            aria-label="Search tools"
-                          >
-                            <Search className="h-5 w-5" />
-                          </button>
-
-                          {searchOpen ? (
-                            <>
-                              <input
-                                ref={searchInputRef}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyDown={(e) => {
-                                  if (!searchSuggestions.length) return
-                                  if (e.key === 'ArrowDown') {
-                                    e.preventDefault()
-                                    setActiveSuggestionIndex((i) => Math.min(i + 1, searchSuggestions.length - 1))
-                                  } else if (e.key === 'ArrowUp') {
-                                    e.preventDefault()
-                                    setActiveSuggestionIndex((i) => Math.max(i - 1, 0))
-                                  } else if (e.key === 'Enter') {
-                                    e.preventDefault()
-                                    const item = searchSuggestions[activeSuggestionIndex]
-                                    if (!item) return
-                                    window.location.href = `${prefix}/calculator/${item.id}`
-                                  } else if (e.key === 'Escape') {
-                                    setSearchOpen(false)
-                                  }
-                                }}
-                                placeholder={tr('common.searchTools', 'Search tools…')}
-                                className="h-11 flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground/70"
-                              />
-
-                              {activeCategoryId !== 'all' ? (
-                                <button
-                                  type="button"
-                                  onClick={() => setSearchScope((s) => (s === 'category' ? 'all' : 'category'))}
-                                  className="mr-1 shrink-0 rounded-lg px-2 py-1 text-[11px] font-semibold border bg-secondary/40 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
-                                  aria-label="Toggle search scope"
-                                >
-                                  {searchScope === 'category' ? (activeCategory?.name ?? 'This category') : 'All'}
-                                </button>
-                              ) : null}
-
-                              {searchQuery ? (
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setSearchQuery('')
-                                    searchInputRef.current?.focus()
-                                  }}
-                                  className="shrink-0 h-11 w-10 inline-flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-                                  aria-label="Clear search"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={() => setSearchOpen(false)}
-                                  className="shrink-0 h-11 w-10 inline-flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-                                  aria-label="Close search"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              )}
-                            </>
-                          ) : null}
-                        </div>
-
-                        {searchOpen ? (
-                          <div
-                            className="absolute right-0 mt-2 w-[420px] max-w-[90vw] rounded-xl border bg-card shadow-xl shadow-black/10 overflow-hidden"
-                            style={{ animation: 'fadeInUp 0.25s ease-out forwards' }}
-                          >
-                            {searchQuery.trim() ? (
-                              searchSuggestions.length ? (
-                                <div className="max-h-[360px] overflow-y-auto">
-                                  {searchSuggestions.map((item, idx) => {
-                                    const isActive = idx === activeSuggestionIndex
-                                    const SpecificIcon = toolIcons[item.id]
-                                    const CategoryIcon = (categoryMeta as any)[item.categoryId]?.icon
-                                    const DisplayIcon = SpecificIcon || CategoryIcon || Calculator
-                                    return (
-                                      <Link
-                                        key={item.id}
-                                        href={`${prefix}/calculator/${item.id}`}
-                                        onClick={() => setSearchOpen(false)}
-                                        className={
-                                          "flex items-start gap-3 px-4 py-3 text-sm transition-colors " +
-                                          (isActive
-                                            ? 'bg-primary/10 text-foreground'
-                                            : 'hover:bg-secondary/50 text-muted-foreground hover:text-foreground')
-                                        }
-                                        onMouseEnter={() => setActiveSuggestionIndex(idx)}
-                                      >
-                                        <div className="mt-0.5 shrink-0 h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                                          <DisplayIcon className="h-5 w-5 text-primary" />
-                                        </div>
-                                        <div className="min-w-0 flex-1">
-                                          <div className="font-semibold truncate">{item.title}</div>
-                                          {item.description ? (
-                                            <div className="text-xs text-muted-foreground line-clamp-1">
-                                              {item.description}
-                                            </div>
-                                          ) : null}
-                                          <div className="text-xs text-muted-foreground truncate">
-                                            {item.categoryName} • {item.subcategoryName}
-                                          </div>
-                                        </div>
-                                        <ChevronRight className="h-4 w-4 mt-1 text-muted-foreground" />
-                                      </Link>
-                                    )
-                                  })}
-                                </div>
-                              ) : (
-                                <div className="px-4 py-4 text-sm text-muted-foreground">
-                                  {tr('common.noResults', 'No matching tools found.')}
-                                </div>
-                              )
-                            ) : (
-                              <div className="px-4 py-4 text-sm text-muted-foreground">
-                                {tr('common.searchHint', 'Type to search tools with smart suggestions.')}
-                              </div>
-                            )}
-
-                            {activeCategoryId !== 'all' ? (
-                              <div className="border-t px-4 py-2 text-[11px] text-muted-foreground flex items-center justify-between">
-                                <span>
-                                  {searchScope === 'category'
-                                    ? `Searching in ${activeCategory?.name ?? 'this category'}`
-                                    : 'Searching in all categories'}
-                                </span>
-                                <button
-                                  type="button"
-                                  className="font-semibold text-primary hover:underline"
-                                  onClick={() => setSearchScope((s) => (s === 'category' ? 'all' : 'category'))}
-                                >
-                                  {searchScope === 'category' ? 'Search all' : 'Search category'}
-                                </button>
-                              </div>
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </div>
-
-                      {activeCategoryId !== 'all' && (
-                        <Link
-                          href={(categories.find((c) => c.id === activeCategoryId)?.href) ?? withLocale('/')}
-                          className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
-                        >
-                          {t('common.browseCategory') || 'Browse category'} <ChevronRight className="h-4 w-4" />
-                        </Link>
-                      )}
-                    </div>
+                    {activeCategoryId !== 'all' && (
+                      <Link
+                        href={(categories.find((c) => c.id === activeCategoryId)?.href) ?? withLocale('/')}
+                        className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                      >
+                        {t('common.browseCategory') || 'Browse category'} <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    )}
                   </div>
                 </div>
 
