@@ -46,10 +46,10 @@ export default function NotFound() {
             </Button>
           </Link>
 
-          <Link href={withLocale('/#categories')} className="w-full">
+          <Link href={withLocale('/')} className="w-full">
             <Button variant="outline" className="w-full">
               <Calculator className="mr-2 h-4 w-4" />
-              Browse Calculators
+              Browse Tools
             </Button>
           </Link>
 

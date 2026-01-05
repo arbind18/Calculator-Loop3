@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { toolsData } from '@/lib/toolsData'
 import { implementedCalculatorIds } from '@/lib/implementedCalculators'
 import { CategoryPageClient } from '@/components/pages/CategoryPageClient'
+import { getSiteUrl } from '@/lib/siteUrl'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -10,6 +11,8 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const categoryId = id || ''
+
+  const baseUrl = getSiteUrl()
 
   const readableNames: Record<string, string> = {
     financial: 'Financial Calculators',
@@ -41,20 +44,28 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const title = `${categoryName} (${calculatorsCount}+ Tools) | Calculator Loop`
   const description = `Explore ${categoryName.toLowerCase()} with ${calculatorsCount}+ free online tools. Fast, accurate, mobile-friendly calculators with instant results.`
 
+  const canonical = `${baseUrl}/category/${categoryId}`
+
   return {
     title,
     description,
+    robots: { index: true, follow: true },
+    alternates: {
+      canonical,
+    },
     openGraph: {
       title,
       description,
-      url: `https://calculatorloop.com/category/${categoryId}`,
+      url: canonical,
       siteName: 'Calculator Loop',
       type: 'website',
+      images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: ['/twitter-image'],
     },
   }
 }

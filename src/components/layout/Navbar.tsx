@@ -130,7 +130,7 @@ export function Navbar() {
     {
       name: t.nav.allCalculators,
       count: "All",
-      href: withLocale("#categories"),
+      href: withLocale("/"),
       icon: Grid3x3,
       color: "bg-gradient-to-r from-purple-500 to-indigo-600",
       key: "all",

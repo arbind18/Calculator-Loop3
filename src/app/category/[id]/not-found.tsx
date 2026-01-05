@@ -24,10 +24,10 @@ export default async function CategoryNotFound() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <Link href={withLocale('/#categories')} className="w-full">
+          <Link href={withLocale('/')} className="w-full">
             <Button className="w-full">
               <Grid3x3 className="mr-2 h-4 w-4" />
-              Browse All Categories
+              Browse Tools
             </Button>
           </Link>
           <Link href={withLocale('/')} className="w-full">

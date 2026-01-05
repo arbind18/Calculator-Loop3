@@ -129,7 +129,7 @@ export function generateFinancialMetadata(calculatorName: string, description: s
 
 export function generateHealthMetadata(calculatorName: string, description: string, path: string): Metadata {
   return generateCalculatorMetadata({
-    title: `${calculatorName} | India Tax Calculator 2026-27`,
+    title: `${calculatorName} | Free Online Health & Fitness Calculator`,
     description: description,
     path: path,
     keywords: [
@@ -138,7 +138,7 @@ export function generateHealthMetadata(calculatorName: string, description: stri
       "health calculator",
       "fitness calculator",
       "calorie calculator",
-      "India tax 2026",
+      "wellness tools",
     ],
   })
 }
