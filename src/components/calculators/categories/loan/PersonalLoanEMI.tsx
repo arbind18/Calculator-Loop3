@@ -349,7 +349,7 @@ export function PersonalLoanEMI() {
       charts={activeResult && (
         <div className="space-y-6 w-full max-w-full min-w-0 overflow-hidden">
           {scenario === "compare" ? (
-            <div className="h-[320px] w-full max-w-full">
+            <div className="h-[280px] sm:h-[320px] md:h-[380px] w-full max-w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={comparisonData}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
@@ -380,7 +380,7 @@ export function PersonalLoanEMI() {
                   { value: "graph", label: t.common.growth_chart, icon: TrendingUp },
                 ]}
               />
-              <div className="h-[300px] w-full max-w-full">
+              <div className="h-[280px] sm:h-[320px] md:h-[360px] w-full max-w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   {chartView === "pie" ? (
                     <PieChart>

@@ -442,7 +442,7 @@ export function FinancialCalculatorTemplate({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/20 to-background py-6 md:py-12 px-4 print:py-0 print:bg-none max-w-[100vw] overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/20 to-background py-6 md:py-12 px-3 sm:px-4 print:py-0 print:bg-none max-w-[100vw] overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -753,10 +753,10 @@ export function FinancialCalculatorTemplate({
             </div>
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-12 items-start max-w-full min-w-0">
+          <div className="grid gap-6 md:gap-10 lg:grid-cols-12 items-start max-w-full min-w-0">
             <div className="lg:col-span-5 space-y-8 max-w-full min-w-0">
               {/* Inputs Section */}
-              <div className="space-y-6 bg-secondary/5 p-6 rounded-2xl border border-border/50">
+              <div className="space-y-6 bg-secondary/5 p-4 sm:p-6 rounded-2xl border border-border/50">
                 <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs">1</span>
                   Input Details
@@ -784,7 +784,7 @@ export function FinancialCalculatorTemplate({
                 <div className="h-px w-full bg-border/50 my-8 lg:hidden" />
                 
                 {/* Key Metrics */}
-                <div className="bg-gradient-to-br from-secondary/30 to-background rounded-2xl p-6 border border-border/50 shadow-sm">
+                <div className="bg-gradient-to-br from-secondary/30 to-background rounded-2xl p-4 sm:p-6 border border-border/50 shadow-sm">
                   <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
                     <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs">2</span>
                     Summary
@@ -800,7 +800,7 @@ export function FinancialCalculatorTemplate({
                       <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs">3</span>
                       Visual Breakdown
                     </h3>
-                    <div className="bg-secondary/5 rounded-xl p-2 md:p-6 flex justify-center min-h-[300px] max-w-full overflow-hidden">
+                    <div className="bg-secondary/5 rounded-xl p-4 md:p-6 flex justify-center min-h-[280px] sm:min-h-[320px] md:min-h-[360px] max-w-full overflow-hidden">
                       <div className="w-full max-w-full">
                         {charts}
                       </div>
