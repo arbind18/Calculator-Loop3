@@ -20,6 +20,8 @@ export interface BlogPost {
     | 'real-estate'
     | 'tax'
     | 'general';
+  subcategoryKey?: string;
+  toolId?: string;
   tags: string[];
   author: {
     name: string;
@@ -2388,10 +2390,10 @@ Mutual fund investing is simple:
   // Tool-category coverage posts (one per main category)
   {
     slug: 'emi-calculator-how-to-use',
-    title: 'EMI Calculator Guide: How to Calculate Your Monthly Loan Payment',
-    description: 'A simple, practical guide to EMI, what inputs matter, and how to use an EMI Calculator to compare loan scenarios.',
+    title: 'Personal Loan EMI Guide: How to Estimate Monthly Payment',
+    description: 'A simple, practical guide to EMI, what inputs matter, and how to use a Personal Loan EMI calculator to compare scenarios.',
     content: `
-# EMI Calculator Guide: How to Calculate Your Monthly Loan Payment
+# Personal Loan EMI Guide: How to Estimate Monthly Payment
 
 If youre taking a home loan, car loan, or personal loan, the first number that affects your monthly budget is the **EMI (Equated Monthly Installment)**.
 
@@ -2419,9 +2421,11 @@ Use the tool to:
 - Compare tenures (e.g., 10 vs 15 vs 20 years)
 - Pick an EMI that fits your monthly cash flow
 
-Try it here: **/calculator/emi-calculator**
+Try it here: **/calculator/personal-loan-emi**
     `,
     category: 'financial',
+    subcategoryKey: 'loan',
+    toolId: 'personal-loan-emi',
     tags: ['EMI', 'Loan', 'Finance', 'Calculator'],
     author: {
       name: 'Rajesh Kumar',
@@ -2756,5 +2760,369 @@ Try it here: **/calculator/density-calculator**
     },
     publishedAt: '2026-01-05',
     readingTime: 3,
+  },
+
+  // Financial subcategory coverage (1 post per subcategory)
+  {
+    slug: 'personal-loan-emi-guide',
+    title: 'Personal Loan EMI Guide: Estimate EMI and Compare Tenures',
+    description: 'A simple guide to calculating EMI for a personal loan and using the calculator to compare interest rates and loan tenures.',
+    content: `
+# Personal Loan EMI Guide
+
+When you take a personal loan, the biggest monthly impact is your **EMI (Equated Monthly Installment)**.
+
+## What affects your EMI?
+1. **Loan amount**
+2. **Interest rate**
+3. **Tenure** (months/years)
+
+## Quick planning tip
+Try 23 different tenures in the calculator. A longer tenure reduces EMI, but usually increases total interest.
+
+Use the tool: **/calculator/personal-loan-emi**
+    `,
+    category: 'financial',
+    subcategoryKey: 'loan',
+    toolId: 'personal-loan-emi',
+    tags: ['Personal Loan', 'EMI', 'Loans', 'Finance'],
+    author: {
+      name: 'Rajesh Kumar',
+      avatar: '/authors/rajesh.jpg',
+      bio: 'Financial advisor focused on practical loan planning and budgeting.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'sip-calculator-guide',
+    title: 'SIP Calculator Guide: Plan Monthly Investing with SIP',
+    description: 'Understand SIP basics and use the SIP Calculator to estimate future value, compare time horizons, and test return assumptions.',
+    content: `
+# SIP Calculator Guide
+
+**SIP (Systematic Investment Plan)** helps you invest a fixed amount regularly.
+
+## What you enter in the SIP calculator
+- Monthly investment
+- Expected return rate (assumption)
+- Time period
+
+## How to use it well
+- Test conservative vs optimistic return rates
+- Compare 5, 10, 15 years
+- Keep your plan consistent with your risk profile
+
+Use the tool: **/calculator/sip-calculator**
+    `,
+    category: 'financial',
+    subcategoryKey: 'investment',
+    toolId: 'sip-calculator',
+    tags: ['SIP', 'Investing', 'Mutual Funds', 'Returns'],
+    author: {
+      name: 'Rajesh Kumar',
+      avatar: '/authors/rajesh.jpg',
+      bio: 'Financial advisor focused on practical loan planning and budgeting.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'income-tax-calculator-guide',
+    title: 'Income Tax Calculator Guide: Estimate Tax Liability (India)',
+    description: 'A practical guide to estimating income tax and using the Income Tax Calculator for quick scenario checks.',
+    content: `
+# Income Tax Calculator Guide
+
+Tax planning becomes easier when you can compare scenarios quickly.
+
+## What changes your tax estimate
+- Total income
+- Deductions/exemptions (as applicable)
+- Regime selection (if supported by the tool)
+
+## How to use the calculator
+1. Enter income details
+2. Add deductions youre eligible for
+3. Compare scenarios before final planning
+
+Use the tool: **/calculator/income-tax-calculator**
+    `,
+    category: 'financial',
+    subcategoryKey: 'tax',
+    toolId: 'income-tax-calculator',
+    tags: ['Income Tax', 'Tax', 'Finance', 'Calculator'],
+    author: {
+      name: 'Rajesh Kumar',
+      avatar: '/authors/rajesh.jpg',
+      bio: 'Financial advisor focused on practical loan planning and budgeting.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'currency-converter-guide',
+    title: 'Currency Converter Guide: Convert Rates and Compare Amounts',
+    description: 'Use the Currency Converter to quickly convert amounts and compare currency values for travel, online payments, and business.',
+    content: `
+# Currency Converter Guide
+
+Currency conversion is useful for travel budgets, international invoices, and online purchases.
+
+## How to use a currency converter
+- Choose **From** and **To** currencies
+- Enter the amount
+- Review the converted value
+
+Tip: Exchange rates can vary by provider and fees. Use the result as an estimate and confirm final charges with your bank/payment gateway.
+
+Use the tool: **/calculator/currency-converter**
+    `,
+    category: 'financial',
+    subcategoryKey: 'currency',
+    toolId: 'currency-converter',
+    tags: ['Currency', 'Forex', 'Exchange Rate', 'Converter'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'hourly-to-annual-salary-guide',
+    title: 'Hourly to Annual Salary Guide: Convert Pay Rates Quickly',
+    description: 'A quick guide to converting hourly pay to yearly salary and how to use the Hourly to Annual tool for estimates.',
+    content: `
+# Hourly to Annual Salary Guide
+
+If you are paid hourly, converting it to an annual figure helps compare offers.
+
+## What you need
+- Hourly rate
+- Hours per week
+- Weeks per year (often 52)
+
+## Important note
+Annual estimates can differ if there are unpaid leaves, overtime, or variable hours.
+
+Use the tool: **/calculator/hourly-to-annual**
+    `,
+    category: 'financial',
+    subcategoryKey: 'time-based-finance',
+    toolId: 'hourly-to-annual',
+    tags: ['Salary', 'Hourly Rate', 'Finance', 'Conversion'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'savings-account-interest-guide',
+    title: 'Savings Account Interest Guide: Estimate Interest Earnings',
+    description: 'Understand what affects savings interest and use the Savings Account Interest Calculator to estimate earnings.',
+    content: `
+# Savings Account Interest Guide
+
+Savings account interest depends on the banks rate and your balance over time.
+
+## What to enter
+- Balance
+- Interest rate
+- Time period
+
+Use the tool: **/calculator/savings-account-interest**
+    `,
+    category: 'financial',
+    subcategoryKey: 'banking',
+    toolId: 'savings-account-interest',
+    tags: ['Savings', 'Banking', 'Interest', 'Finance'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'life-insurance-calculator-guide',
+    title: 'Life Insurance Calculator Guide: Estimate Coverage Needs',
+    description: 'Learn common factors used to estimate life cover needs and use a Life Insurance Calculator for quick planning.',
+    content: `
+# Life Insurance Calculator Guide
+
+Life insurance planning is typically based on income, liabilities, dependents, and goals.
+
+## Common inputs
+- Annual income
+- Existing loans
+- Dependents
+- Savings and assets
+
+Use the tool: **/calculator/life-insurance-calculator**
+    `,
+    category: 'financial',
+    subcategoryKey: 'insurance',
+    toolId: 'life-insurance-calculator',
+    tags: ['Insurance', 'Life Cover', 'Finance', 'Planning'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'rent-vs-buy-guide',
+    title: 'Rent vs Buy Guide: Compare Monthly Cost and Long-Term Value',
+    description: 'Use the Rent vs Buy Calculator to compare renting vs purchasing and understand key assumptions that change results.',
+    content: `
+# Rent vs Buy Guide
+
+Rent vs buy decisions depend on prices, loan terms, rent inflation, and how long you plan to stay.
+
+## How to use the calculator
+- Enter home price and loan assumptions
+- Enter monthly rent
+- Set expected time horizon (years)
+
+Use the tool: **/calculator/rent-vs-buy**
+    `,
+    category: 'financial',
+    subcategoryKey: 'real-estate',
+    toolId: 'rent-vs-buy',
+    tags: ['Real Estate', 'Rent vs Buy', 'Home', 'Finance'],
+    author: {
+      name: 'Rajesh Kumar',
+      avatar: '/authors/rajesh.jpg',
+      bio: 'Financial advisor focused on practical loan planning and budgeting.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'credit-card-payoff-guide',
+    title: 'Credit Card Payoff Guide: Plan Payments and Reduce Interest',
+    description: 'A simple approach to paying off credit card debt faster and how the Credit Card Payoff Calculator helps planning.',
+    content: `
+# Credit Card Payoff Guide
+
+Credit card interest can grow quickly if you only pay the minimum.
+
+## What to compare
+- Current balance
+- Interest rate
+- Monthly payment amount
+
+Try different payment amounts to see how much time and interest you can save.
+
+Use the tool: **/calculator/credit-card-payoff**
+    `,
+    category: 'financial',
+    subcategoryKey: 'credit-card',
+    toolId: 'credit-card-payoff',
+    tags: ['Credit Card', 'Debt', 'Payoff', 'Finance'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'fire-calculator-guide',
+    title: 'FIRE Calculator Guide: Estimate Your Financial Independence Target',
+    description: 'Understand FIRE basics and use the FIRE Calculator to estimate your target corpus and timeline.',
+    content: `
+# FIRE Calculator Guide
+
+**FIRE** stands for Financial Independence, Retire Early. The goal is to build enough assets so investment income can cover expenses.
+
+## What drives your FIRE number
+- Monthly/annual expenses
+- Expected return assumptions
+- Savings rate
+
+Use the tool: **/calculator/fire-calculator**
+    `,
+    category: 'financial',
+    subcategoryKey: 'retirement',
+    toolId: 'fire-calculator',
+    tags: ['FIRE', 'Retirement', 'Investing', 'Planning'],
+    author: {
+      name: 'Rajesh Kumar',
+      avatar: '/authors/rajesh.jpg',
+      bio: 'Financial advisor focused on practical loan planning and budgeting.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'profit-margin-guide',
+    title: 'Profit Margin Guide: Understand Gross vs Net Margin',
+    description: 'Learn how profit margin works and use a Profit Margin Calculator to verify pricing decisions quickly.',
+    content: `
+# Profit Margin Guide
+
+Profit margin shows how much of your revenue remains as profit after costs.
+
+## Typical inputs
+- Revenue (selling price)
+- Costs (COGS / expenses)
+
+Use the tool: **/calculator/profit-margin**
+    `,
+    category: 'financial',
+    subcategoryKey: 'business',
+    toolId: 'profit-margin',
+    tags: ['Business', 'Profit', 'Margin', 'Finance'],
+    author: {
+      name: 'Priya Mehta',
+      avatar: '/authors/priya.jpg',
+      bio: 'Business analyst focused on pricing, profitability, and planning for small businesses.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'net-worth-calculator-guide',
+    title: 'Net Worth Calculator Guide: Track Assets and Liabilities',
+    description: 'A net worth check helps you measure financial progress. Use the Net Worth Calculator to track assets minus liabilities.',
+    content: `
+# Net Worth Calculator Guide
+
+Net worth is:
+
+$$\text{Net Worth} = \text{Total Assets} - \text{Total Liabilities}$$
+
+## Examples of assets
+- Cash and bank balances
+- Investments
+- Property value
+
+## Examples of liabilities
+- Loans
+- Credit card balance
+
+Use the tool: **/calculator/net-worth**
+    `,
+    category: 'financial',
+    subcategoryKey: 'misc',
+    toolId: 'net-worth',
+    tags: ['Net Worth', 'Personal Finance', 'Tracking', 'Planning'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
   },
 ];
