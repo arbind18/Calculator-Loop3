@@ -48,6 +48,14 @@ export function BlogDashboard({ posts, language, dict }: BlogDashboardProps) {
   const categoryMeta = useMemo(() => {
     return {
       financial: { name: dict.nav?.financial || 'Financial', icon: DollarSign, color: 'from-blue-500 to-cyan-500' },
+      math: { name: dict.nav?.math || 'Math', icon: Binary, color: 'from-purple-500 to-indigo-500' },
+      construction: { name: dict.nav?.construction || 'Construction', icon: Wrench, color: 'from-orange-500 to-red-500' },
+      business: { name: dict.nav?.business || 'Business', icon: Briefcase, color: 'from-amber-500 to-yellow-500' },
+      everyday: { name: dict.nav?.everyday || 'Everyday', icon: Home, color: 'from-green-500 to-emerald-500' },
+      education: { name: dict.nav?.education || 'Education', icon: GraduationCap, color: 'from-sky-500 to-blue-500' },
+      datetime: { name: dict.nav?.datetime || 'Date & Time', icon: Calendar, color: 'from-teal-500 to-cyan-500' },
+      technology: { name: dict.nav?.technology || 'Technology', icon: Laptop, color: 'from-indigo-500 to-purple-500' },
+      scientific: { name: dict.nav?.science || 'Scientific', icon: FlaskConical, color: 'from-violet-500 to-fuchsia-500' },
       investments: { name: 'Investments', icon: TrendingUp, color: 'from-emerald-500 to-teal-500' },
       loans: { name: 'Loans', icon: Banknote, color: 'from-orange-500 to-red-500' },
       health: { name: dict.nav?.health || 'Health', icon: Heart, color: 'from-pink-500 to-rose-500' },

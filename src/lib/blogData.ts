@@ -3,7 +3,23 @@ export interface BlogPost {
   title: string;
   description: string;
   content: string;
-  category: 'financial' | 'investments' | 'loans' | 'health' | 'real-estate' | 'tax' | 'general';
+  category:
+    | 'financial'
+    | 'health'
+    | 'math'
+    | 'construction'
+    | 'business'
+    | 'everyday'
+    | 'education'
+    | 'datetime'
+    | 'technology'
+    | 'scientific'
+    // legacy/older blog groupings (keep for existing content)
+    | 'investments'
+    | 'loans'
+    | 'real-estate'
+    | 'tax'
+    | 'general';
   tags: string[];
   author: {
     name: string;
@@ -2366,6 +2382,379 @@ Mutual fund investing is simple:
       bio: 'Nutrition educator focused on practical calorie tracking, meal planning, and sustainable habits.',
     },
     publishedAt: '2025-12-27',
+    readingTime: 3,
+  },
+
+  // Tool-category coverage posts (one per main category)
+  {
+    slug: 'emi-calculator-how-to-use',
+    title: 'EMI Calculator Guide: How to Calculate Your Monthly Loan Payment',
+    description: 'A simple, practical guide to EMI, what inputs matter, and how to use an EMI Calculator to compare loan scenarios.',
+    content: `
+# EMI Calculator Guide: How to Calculate Your Monthly Loan Payment
+
+If youre taking a home loan, car loan, or personal loan, the first number that affects your monthly budget is the **EMI (Equated Monthly Installment)**.
+
+## What is EMI?
+EMI is the fixed amount you pay every month. It includes:
+- **Principal** (the actual amount borrowed)
+- **Interest** (the cost of borrowing)
+
+## What you need to calculate EMI
+To estimate EMI correctly, focus on these 3 inputs:
+1. **Loan amount (P)**
+2. **Interest rate (annual %)**
+3. **Loan tenure** (months/years)
+
+## Why comparing EMI options matters
+Two loan offers can look similar, but the total interest can differ a lot.
+
+Example idea:
+- Shorter tenure  higher EMI but lower total interest
+- Longer tenure  lower EMI but higher total interest
+
+## How to use the EMI calculator
+Use the tool to:
+- Try 28 interest rates (e.g., 9.0% vs 9.5%)
+- Compare tenures (e.g., 10 vs 15 vs 20 years)
+- Pick an EMI that fits your monthly cash flow
+
+Try it here: **/calculator/emi-calculator**
+    `,
+    category: 'financial',
+    tags: ['EMI', 'Loan', 'Finance', 'Calculator'],
+    author: {
+      name: 'Rajesh Kumar',
+      avatar: '/authors/rajesh.jpg',
+      bio: 'Financial advisor focused on practical loan planning and budgeting.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'bmi-calculator-guide',
+    title: 'BMI Calculator Guide: Understand BMI and What It Means',
+    description: 'Learn what BMI is, how it is calculated, and how to use a BMI Calculator for a quick health check-in.',
+    content: `
+# BMI Calculator Guide: Understand BMI and What It Means
+
+**BMI (Body Mass Index)** is a simple screening measure that compares your weight to your height.
+
+## BMI formula (simple)
+BMI is calculated as:
+
+$$\text{BMI} = \frac{\text{Weight (kg)}}{\text{Height (m)}^2}$$
+
+## What BMI is good for
+- Quick, easy estimate
+- Useful for tracking changes over time
+
+## What BMI cannot tell you
+- It does not directly measure body fat
+- Athletes may show higher BMI due to muscle
+
+## How to use the BMI calculator
+Enter:
+- Height
+- Weight
+
+Then use the result as a **starting point**. If you have health conditions or special cases (pregnancy, athletes, teens), consider professional advice.
+
+Try it here: **/calculator/bmi-calculator**
+    `,
+    category: 'health',
+    tags: ['BMI', 'Health', 'Fitness', 'Calculator'],
+    author: {
+      name: 'Dr. Aisha Sharma',
+      avatar: '/authors/aisha.jpg',
+      bio: 'Nutrition educator focused on practical health tracking and sustainable habits.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'percentage-calculator-guide',
+    title: 'Percentage Calculator Guide: Fast % Increase, Discount, and Change',
+    description: 'A practical guide to common percentage calculations and how to use the Percentage Calculator for daily math.',
+    content: `
+# Percentage Calculator Guide: Fast % Increase, Discount, and Change
+
+Percentages show up everywhere: discounts, marks, tax, and growth.
+
+## Common percentage use-cases
+### 1) Find X% of a number
+Example: 15% of 2,000
+
+$$2000 \times \frac{15}{100} = 300$$
+
+### 2) Percentage increase/decrease
+Example: Price goes from 800 to 920
+
+$$\frac{920-800}{800} \times 100 = 15\%$$
+
+### 3) Reverse percentage (find original)
+If 1,120 is after 12% tax:
+
+$$\text{Original} = \frac{1120}{1.12}$$
+
+## How the calculator helps
+- Avoid manual mistakes
+- Compare scenarios quickly
+- Great for shopping and business pricing
+
+Try it here: **/calculator/percentage-calculator**
+    `,
+    category: 'math',
+    tags: ['Percentage', 'Math', 'Discount', 'Calculator'],
+    author: {
+      name: 'Amit Verma',
+      avatar: '/authors/amit.jpg',
+      bio: 'Math educator creating practical explanations for everyday calculations.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'concrete-calculator-guide',
+    title: 'Concrete Calculator Guide: Estimate Cement, Sand, Aggregate',
+    description: 'Learn what inputs matter for concrete estimation and how to use a Concrete Calculator to plan materials.',
+    content: `
+# Concrete Calculator Guide: Estimate Cement, Sand, Aggregate
+
+Concrete estimation is important to avoid over-buying (waste) or under-buying (project delays).
+
+## What you need before you calculate
+1. **Length, width, thickness** of the slab/area
+2. **Unit choice** (feet/meters)
+3. **Concrete mix** (as per your site requirement)
+
+## Typical workflow
+- Measure area accurately
+- Convert thickness to the same unit
+- Calculate volume
+- Add a small safety margin for wastage (site-dependent)
+
+## Why use a calculator
+- Faster than manual conversions
+- Reduces mistakes in volume math
+- Helps plan procurement and budget
+
+Try it here: **/calculator/concrete-calculator**
+    `,
+    category: 'construction',
+    tags: ['Concrete', 'Construction', 'Materials', 'Calculator'],
+    author: {
+      name: 'Neeraj Singh',
+      avatar: '/authors/neeraj.jpg',
+      bio: 'Site engineer focused on practical estimation and cost planning.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'break-even-calculator-guide',
+    title: 'Break-Even Calculator Guide: Know When Your Business Becomes Profitable',
+    description: 'Understand fixed vs variable costs, break-even point, and how a Break-Even Calculator helps planning.',
+    content: `
+# Break-Even Calculator Guide
+
+Break-even is the point where your **total revenue equals total cost**  profit becomes zero and then positive after that.
+
+## Key terms
+- **Fixed costs:** rent, salaries, subscriptions
+- **Variable costs:** packaging, shipping, per-unit raw material
+- **Selling price per unit**
+
+## Why break-even matters
+- Sets realistic sales targets
+- Helps pricing decisions
+- Shows how cost changes impact profitability
+
+## How to use the break-even calculator
+Enter:
+1. Fixed costs
+2. Variable cost per unit
+3. Price per unit
+
+Then compare scenarios (price change, cost reduction) to see what makes your business sustainable.
+
+Try it here: **/calculator/break-even-calculator**
+    `,
+    category: 'business',
+    tags: ['Business', 'Profit', 'Break-even', 'Calculator'],
+    author: {
+      name: 'Priya Mehta',
+      avatar: '/authors/priya.jpg',
+      bio: 'Business analyst focused on pricing, profitability, and planning for small businesses.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 4,
+  },
+  {
+    slug: 'age-calculator-guide',
+    title: 'Age Calculator Guide: Calculate Exact Age in Years, Months, Days',
+    description: 'A quick guide to calculating exact age and why an Age Calculator is useful for forms, exams, and planning.',
+    content: `
+# Age Calculator Guide
+
+Sometimes you need an **exact age** (not just the birth year) for job forms, school admissions, government forms, or eligibility checks.
+
+## What the age calculator provides
+- Age in years, months, days
+- Sometimes total days/weeks (depending on tool output)
+
+## Tips for accurate results
+- Enter the correct birth date
+- Use the correct reference date (today or a specific date)
+- Double-check date format
+
+Try it here: **/calculator/age-calculator**
+    `,
+    category: 'everyday',
+    tags: ['Age', 'Date', 'Everyday', 'Calculator'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'gpa-calculator-guide',
+    title: 'GPA Calculator Guide: Track Your Grades and Plan Targets',
+    description: 'Understand GPA basics and how to use a GPA Calculator to estimate current GPA and required scores.',
+    content: `
+# GPA Calculator Guide
+
+GPA helps you summarize academic performance across subjects. A **GPA calculator** makes it easy to avoid manual mistakes.
+
+## What you typically need
+- Subjects/courses
+- Credits/weight (if applicable)
+- Grade points/marks
+
+## How the calculator helps
+- Computes weighted average automatically
+- Lets you test what-if scenarios
+- Helps set realistic targets for next term
+
+Try it here: **/calculator/gpa-calculator**
+    `,
+    category: 'education',
+    tags: ['GPA', 'Grades', 'Education', 'Calculator'],
+    author: {
+      name: 'Ananya Gupta',
+      avatar: '/authors/ananya.jpg',
+      bio: 'Education content writer focused on study planning and exam strategy.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'date-calculator-guide',
+    title: 'Date Calculator Guide: Add/Subtract Days and Find Date Differences',
+    description: 'Learn common date calculations for planning and how to use a Date Calculator accurately.',
+    content: `
+# Date Calculator Guide
+
+Date math is surprisingly easy to get wrong  month lengths vary, leap years exist, and different formats confuse people.
+
+## Common tasks
+- Find days between two dates
+- Add days/weeks/months to a date
+- Subtract days from a date
+
+## How to avoid mistakes
+- Use a date calculator for official/important deadlines
+- Confirm the time zone if youre working internationally
+
+Try it here: **/calculator/date-calculator**
+    `,
+    category: 'datetime',
+    tags: ['Date', 'Time', 'Planning', 'Calculator'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'password-generator-guide',
+    title: 'Password Generator Guide: Create Strong Passwords Safely',
+    description: 'Why strong passwords matter, what makes a password strong, and how to use a Password Generator.',
+    content: `
+# Password Generator Guide
+
+Weak passwords are one of the easiest ways accounts get compromised.
+
+## What makes a password strong
+- Longer length (typically 12+)
+- Mix of letters, numbers, symbols
+- Not reused across sites
+
+## Best practice (recommended)
+- Use a password manager
+- Enable 2FA where possible
+
+## How to use the password generator
+Choose:
+- Length
+- Include symbols
+- Include uppercase
+
+Generate a password and store it securely.
+
+Try it here: **/calculator/password-generator**
+    `,
+    category: 'technology',
+    tags: ['Security', 'Password', 'Technology', 'Generator'],
+    author: {
+      name: 'Calculator Loop Team',
+      avatar: '/authors/team.jpg',
+      bio: 'We build practical tools and guides for everyday decisions.',
+    },
+    publishedAt: '2026-01-05',
+    readingTime: 3,
+  },
+  {
+    slug: 'density-calculator-guide',
+    title: 'Density Calculator Guide: Calculate Density, Mass, or Volume',
+    description: 'A quick science refresher on density and how to use a Density Calculator for homework and lab work.',
+    content: `
+# Density Calculator Guide
+
+Density tells you how much mass is packed into a given volume.
+
+## Density formula
+
+$$\rho = \frac{m}{V}$$
+
+Where:
+- $\rho$ = density
+- $m$ = mass
+- $V$ = volume
+
+## When its useful
+- Comparing materials (wood vs metal)
+- Lab calculations
+- Physics and chemistry problems
+
+## How to use the calculator
+Enter any two values (mass, volume, density) and solve for the third.
+
+Try it here: **/calculator/density-calculator**
+    `,
+    category: 'scientific',
+    tags: ['Density', 'Science', 'Physics', 'Calculator'],
+    author: {
+      name: 'Rohan Iyer',
+      avatar: '/authors/rohan.jpg',
+      bio: 'Science educator focused on clear, exam-friendly explanations.',
+    },
+    publishedAt: '2026-01-05',
     readingTime: 3,
   },
 ];
