@@ -1063,25 +1063,38 @@ export function InputGroup({
   }, [value])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/,/g, '')
-    setLocalValue(e.target.value)
+    const withoutCommas = e.target.value.replace(/,/g, '')
+    let sanitized = withoutCommas.replace(/[^ -9.]/g, '')
+
+    // Keep only one decimal point.
+    const parts = sanitized.split('.')
+    if (parts.length > 2) {
+      sanitized = `${parts[0]}.${parts.slice(1).join('')}`
+    }
+
+    setLocalValue(sanitized)
     isInternalChange.current = true
 
-    if (rawValue === '' || rawValue === '.') return
+    if (sanitized === '' || sanitized === '.') return
 
-    const numValue = parseFloat(rawValue)
-    if (!isNaN(numValue)) {
+    const numValue = parseFloat(sanitized)
+    if (!Number.isNaN(numValue) && Number.isFinite(numValue)) {
       onChange(numValue)
     }
   }
 
   const handleBlur = () => {
     const rawValue = localValue.replace(/,/g, '')
-    if (rawValue === '' || isNaN(parseFloat(rawValue))) {
+    const parsed = rawValue === '' ? NaN : parseFloat(rawValue)
+
+    if (!Number.isFinite(parsed)) {
       setLocalValue(value.toLocaleString('en-IN'))
-    } else {
-      setLocalValue(parseFloat(rawValue).toLocaleString('en-IN'))
+      return
     }
+
+    const clamped = Math.min(max, Math.max(min, parsed))
+    onChange(clamped)
+    setLocalValue(clamped.toLocaleString('en-IN'))
   }
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -1199,7 +1212,7 @@ export function InputGroup({
           <span className="w-1 h-4 bg-primary/30 rounded-full group-hover:bg-primary transition-colors"/>
           <label className="text-sm font-medium text-foreground/90">{label}</label>
         </div>
-        <div className="flex items-center gap-2 bg-secondary/30 border border-transparent hover:border-primary/20 focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10 rounded-xl px-4 py-3 transition-all w-full sm:w-auto">
+        <div className="flex items-center gap-2 bg-secondary/30 border border-transparent hover:border-primary/20 focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10 rounded-xl px-4 py-3 transition-all w-full sm:w-auto max-w-full">
           {displayPrefix && <span className="text-muted-foreground font-medium select-none text-lg">{displayPrefix}</span>}
           <input
             type="text"
@@ -1209,8 +1222,7 @@ export function InputGroup({
             onBlur={handleBlur}
             onFocus={handleFocus}
             disabled={disabled}
-            style={{ width: `${Math.max(localValue.length, 4)}ch` }}
-            className="min-w-[60px] max-w-full text-right font-bold bg-transparent outline-none text-xl sm:text-2xl text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-[12ch] sm:w-[14ch] min-w-0 px-1 text-right font-bold bg-transparent outline-none text-xl sm:text-2xl text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             placeholder="0"
           />
           {suffix && <span className="text-muted-foreground font-medium select-none text-lg">{suffix}</span>}
@@ -1244,8 +1256,8 @@ export function InputGroup({
           className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary hover:accent-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         />
         <div className="flex justify-between text-xs text-muted-foreground font-medium px-1">
-          <span>{prefix}{min.toLocaleString()}{suffix}</span>
-          <span>{prefix}{max.toLocaleString()}{suffix}</span>
+          <span>{displayPrefix}{min.toLocaleString('en-IN')}{suffix}</span>
+          <span>{displayPrefix}{max.toLocaleString('en-IN')}{suffix}</span>
         </div>
       </div>
       

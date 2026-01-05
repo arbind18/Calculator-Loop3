@@ -30,7 +30,7 @@ const PROFESSION_OPTIONS: Array<{ value: string; label: string }> = [
   { value: "doctor", label: "Doctor" },
   { value: "teacher", label: "Teacher" },
   { value: "accountant", label: "Accountant" },
-  { value: "lawyer", label: "Lawyer" },
+  { value: "lawyer", label: "La" },
   { value: "freelancer", label: "Freelancer" },
   { value: "government_employee", label: "Government Employee" },
   { value: "private_employee", label: "Private Employee" },
@@ -161,7 +161,7 @@ export function EditProfileDialog(_: EditProfileDialogProps) {
             <Label htmlFor="name">Full Name</Label>
             <Input
               id="name"
-              value={profile.name}
+              value={profile.name ?? ""}
               onChange={(e) => setProfile({ ...profile, name: e.target.value })}
               placeholder="Enter your name"
             />
@@ -210,7 +210,7 @@ export function EditProfileDialog(_: EditProfileDialogProps) {
             <Label htmlFor="purpose">Other Information (Optional)</Label>
             <textarea
               id="purpose"
-              value={profile.purpose}
+              value={profile.purpose ?? ""}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setProfile({ ...profile, purpose: e.target.value })
               }

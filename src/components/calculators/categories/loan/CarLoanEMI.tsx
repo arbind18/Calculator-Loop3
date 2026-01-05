@@ -288,12 +288,14 @@ export function CarLoanEMI() {
       result={result && (
         <div className="mt-6 space-y-6">
           <Tabs value={scenario} onValueChange={(v) => setScenario(v as any)}>
-            <TabsList className="w-full justify-start">
-              <TabsTrigger value="base">Base</TabsTrigger>
-              <TabsTrigger value="optimistic">Optimistic</TabsTrigger>
-              <TabsTrigger value="pessimistic">Pessimistic</TabsTrigger>
-              <TabsTrigger value="compare">Compare</TabsTrigger>
-            </TabsList>
+            <div className="w-full max-w-full overflow-x-auto">
+              <TabsList className="w-max justify-start">
+                <TabsTrigger value="base">Base</TabsTrigger>
+                <TabsTrigger value="optimistic">Optimistic</TabsTrigger>
+                <TabsTrigger value="pessimistic">Pessimistic</TabsTrigger>
+                <TabsTrigger value="compare">Compare</TabsTrigger>
+              </TabsList>
+            </div>
 
             <TabsContent value="base" className="mt-4">
               {result && (
@@ -423,10 +425,12 @@ export function CarLoanEMI() {
       schedule={activeResult?.schedule && scenario !== "compare" && (
         <div className="space-y-4">
           <Tabs value={scheduleView} onValueChange={(v) => setScheduleView(v as any)}>
-            <TabsList className="w-full justify-start">
-              <TabsTrigger value="monthly">Monthly</TabsTrigger>
-              <TabsTrigger value="yearly">Year-wise</TabsTrigger>
-            </TabsList>
+            <div className="w-full max-w-full overflow-x-auto">
+              <TabsList className="w-max justify-start">
+                <TabsTrigger value="monthly">Monthly</TabsTrigger>
+                <TabsTrigger value="yearly">Year-wise</TabsTrigger>
+              </TabsList>
+            </div>
             <TabsContent value="monthly">{renderMonthlySchedule(activeResult.schedule)}</TabsContent>
             <TabsContent value="yearly">{renderYearlySchedule(activeResult.schedule)}</TabsContent>
           </Tabs>

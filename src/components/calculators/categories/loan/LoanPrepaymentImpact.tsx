@@ -233,10 +233,12 @@ export function LoanPrepaymentImpact() {
       schedule={result?.withPrepayment?.schedule && (
         <div className="space-y-4">
           <Tabs value={scheduleTab} onValueChange={(v) => setScheduleTab(v as any)}>
-            <TabsList className="w-full justify-start">
-              <TabsTrigger value="with">With Prepayment</TabsTrigger>
-              <TabsTrigger value="original">Original</TabsTrigger>
-            </TabsList>
+            <div className="w-full max-w-full overflow-x-auto">
+              <TabsList className="w-max justify-start">
+                <TabsTrigger value="with">With Prepayment</TabsTrigger>
+                <TabsTrigger value="original">Original</TabsTrigger>
+              </TabsList>
+            </div>
             <TabsContent value="with">{renderSchedule(result.withPrepayment.schedule)}</TabsContent>
             <TabsContent value="original">{renderSchedule(result.original.schedule)}</TabsContent>
           </Tabs>
