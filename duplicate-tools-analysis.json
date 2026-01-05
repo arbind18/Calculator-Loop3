@@ -1,0 +1,1327 @@
+{
+  "generatedAt": "2026-01-05T23:28:07.540Z",
+  "summary": {
+    "totalTools": 1464,
+    "exactDuplicates": 0,
+    "potentialOverlapGroups": 26
+  },
+  "exactDuplicates": [],
+  "duplicateGroups": {
+    "BMI/Body Mass": [
+      {
+        "id": "bmi-calculator",
+        "title": "BMI Calculator"
+      },
+      {
+        "id": "lean-body-mass",
+        "title": "Lean Body Mass Calculator"
+      },
+      {
+        "id": "bmi-prime-calculator",
+        "title": "BMI Prime Calculator"
+      },
+      {
+        "id": "pregnancy-bmi-calculator",
+        "title": "Pregnancy BMI Calculator"
+      },
+      {
+        "id": "bmi-goal-tracker",
+        "title": "BMI Goal Tracker"
+      },
+      {
+        "id": "assignment-submission-tracker",
+        "title": "Assignment Submission Tracker"
+      }
+    ],
+    "BMR/Metabolic Rate": [
+      {
+        "id": "bmr-calculator",
+        "title": "BMR Calculator"
+      },
+      {
+        "id": "tdee-calculator",
+        "title": "TDEE Calculator"
+      },
+      {
+        "id": "pilates-calorie-burn",
+        "title": "Pilates Calorie Burn"
+      },
+      {
+        "id": "metabolic-cart-simulator",
+        "title": "Metabolic Cart Simulator"
+      },
+      {
+        "id": "adaptive-tdee-calculator",
+        "title": "Adaptive TDEE Calculator"
+      },
+      {
+        "id": "metabolic-damage",
+        "title": "Metabolic Damage Estimator"
+      },
+      {
+        "id": "metabolic-syndrome-calculator",
+        "title": "Metabolic Syndrome Calculator"
+      }
+    ],
+    "Body Fat": [
+      {
+        "id": "body-fat-calculator",
+        "title": "Body Fat Calculator"
+      },
+      {
+        "id": "body-adiposity-index",
+        "title": "Body Adiposity Index (BAI) Calculator"
+      },
+      {
+        "id": "ffmi-calculator",
+        "title": "FFMI Calculator"
+      },
+      {
+        "id": "ideal-body-fat",
+        "title": "Ideal Body Fat Percentage"
+      },
+      {
+        "id": "body-fat-goal-planner",
+        "title": "Body Fat Goal Planner"
+      },
+      {
+        "id": "ffmi-natural-limit",
+        "title": "FFMI Natural Limit"
+      }
+    ],
+    "Waist Measurements": [
+      {
+        "id": "waist-hip-ratio",
+        "title": "Waist-to-Hip Ratio"
+      },
+      {
+        "id": "waist-to-height-ratio",
+        "title": "Waist-to-Height Ratio Calculator"
+      },
+      {
+        "id": "waist-circumference",
+        "title": "Waist Circumference Calculator"
+      },
+      {
+        "id": "neck-circumference",
+        "title": "Neck Circumference Calculator"
+      },
+      {
+        "id": "hip-circumference",
+        "title": "Hip Circumference Calculator"
+      },
+      {
+        "id": "chest-waist-ratio",
+        "title": "Chest-to-Waist Ratio"
+      },
+      {
+        "id": "mid-upper-arm-circumference",
+        "title": "Mid Upper Arm Circumference"
+      },
+      {
+        "id": "calf-circumference",
+        "title": "Calf Circumference Calculator"
+      },
+      {
+        "id": "thigh-circumference-measure",
+        "title": "Thigh Circumference Measure"
+      },
+      {
+        "id": "forearm-circumference",
+        "title": "Forearm Circumference Tracker"
+      },
+      {
+        "id": "wrist-circumference",
+        "title": "Wrist Circumference Tracker"
+      },
+      {
+        "id": "ankle-circumference",
+        "title": "Ankle Circumference Measure"
+      },
+      {
+        "id": "bicep-circumference",
+        "title": "Bicep Circumference Tracker"
+      },
+      {
+        "id": "scholarship-calculator",
+        "title": "Scholarship Calculator"
+      },
+      {
+        "id": "relationship-duration",
+        "title": "Relationship Duration"
+      }
+    ],
+    "Loan/EMI": [
+      {
+        "id": "glycemic-index-calculator",
+        "title": "Glycemic Index (GI) Calculator"
+      },
+      {
+        "id": "glycemic-load-calculator",
+        "title": "Glycemic Load (GL) Calculator"
+      },
+      {
+        "id": "systemic-vascular-resistance",
+        "title": "Systemic Vascular Resistance"
+      },
+      {
+        "id": "hydration-reminder",
+        "title": "Hydration Reminder"
+      },
+      {
+        "id": "bedtime-reminder",
+        "title": "Bedtime Reminder"
+      },
+      {
+        "id": "anemia-risk-calculator",
+        "title": "Anemia Risk Estimator"
+      },
+      {
+        "id": "student-loan-calculator",
+        "title": "Student Loan Calculator"
+      },
+      {
+        "id": "academic-year-planner",
+        "title": "Academic Year Planner"
+      },
+      {
+        "id": "anniversary-reminder",
+        "title": "Anniversary Reminder"
+      },
+      {
+        "id": "gibbs-energy-chemistry",
+        "title": "Gibbs Free Energy Calculator"
+      },
+      {
+        "id": "enthalpy-chemistry",
+        "title": "Enthalpy Calculator"
+      }
+    ],
+    "Investment Returns": [
+      {
+        "id": "thyroid-risk-calculator",
+        "title": "Thyroid Risk Estimator"
+      },
+      {
+        "id": "roi-calculator",
+        "title": "Construction ROI Calculator"
+      },
+      {
+        "id": "profit-margin",
+        "title": "Profit Margin Calculator"
+      },
+      {
+        "id": "gross-profit-calculator",
+        "title": "Gross Profit Calculator"
+      },
+      {
+        "id": "net-profit-calculator",
+        "title": "Net Profit Calculator"
+      },
+      {
+        "id": "roi-calculator-business",
+        "title": "ROI Calculator"
+      },
+      {
+        "id": "roe-calculator",
+        "title": "Return on Equity (ROE)"
+      },
+      {
+        "id": "roa-calculator",
+        "title": "Return on Assets (ROA)"
+      },
+      {
+        "id": "customer-profitability",
+        "title": "Customer Profitability"
+      },
+      {
+        "id": "product-profitability",
+        "title": "Product Profitability"
+      },
+      {
+        "id": "target-profit",
+        "title": "Target Profit Analysis"
+      },
+      {
+        "id": "profit-per-order",
+        "title": "Profit Per Order"
+      },
+      {
+        "id": "marketing-roi",
+        "title": "Marketing ROI"
+      },
+      {
+        "id": "return-on-assets",
+        "title": "Return on Assets (ROA)"
+      },
+      {
+        "id": "return-on-equity",
+        "title": "Return on Equity (ROE)"
+      },
+      {
+        "id": "net-profit-margin",
+        "title": "Net Profit Margin"
+      },
+      {
+        "id": "return-on-investment",
+        "title": "Return on Investment (ROI)"
+      },
+      {
+        "id": "return-on-capital-employed",
+        "title": "ROCE"
+      },
+      {
+        "id": "business-dividend-yield",
+        "title": "Dividend Yield"
+      },
+      {
+        "id": "business-dividend-payout",
+        "title": "Dividend Payout Ratio"
+      },
+      {
+        "id": "reinvestment-rate",
+        "title": "Reinvestment Rate"
+      },
+      {
+        "id": "dividend-yield",
+        "title": "Dividend Yield Calculator"
+      },
+      {
+        "id": "dividend-payout",
+        "title": "Dividend Payout Ratio"
+      },
+      {
+        "id": "course-selection-roi",
+        "title": "Course Selection ROI"
+      },
+      {
+        "id": "certification-roi-calculator",
+        "title": "Certification ROI Calculator"
+      },
+      {
+        "id": "crypto-profit-calculator",
+        "title": "Crypto Profit Calculator"
+      },
+      {
+        "id": "mining-profitability",
+        "title": "Mining Profitability Calculator"
+      }
+    ],
+    "Tax Calculators": [
+      {
+        "id": "business-freelance-tax",
+        "title": "Freelance Tax (44ADA)"
+      },
+      {
+        "id": "freelance-tax",
+        "title": "Freelance Tax Calculator"
+      },
+      {
+        "id": "sales-tax-calculator",
+        "title": "Sales Tax Calculator"
+      }
+    ],
+    "Calorie/Diet": [
+      {
+        "id": "calorie-calculator",
+        "title": "Calorie Calculator"
+      },
+      {
+        "id": "macro-calculator",
+        "title": "Macro Calculator"
+      },
+      {
+        "id": "protein-calculator",
+        "title": "Protein Calculator"
+      },
+      {
+        "id": "carb-calculator",
+        "title": "Carb Calculator"
+      },
+      {
+        "id": "keto-macro-calculator",
+        "title": "Keto Macro Calculator"
+      },
+      {
+        "id": "meal-calorie-breakdown",
+        "title": "Meal Calorie Breakdown"
+      },
+      {
+        "id": "nutrition-label-calculator",
+        "title": "Nutrition Label Calculator"
+      },
+      {
+        "id": "protein-timing-calculator",
+        "title": "Protein Timing Optimizer"
+      },
+      {
+        "id": "pre-workout-nutrition",
+        "title": "Pre-Workout Nutrition Planner"
+      },
+      {
+        "id": "post-workout-nutrition",
+        "title": "Post-Workout Nutrition Guide"
+      },
+      {
+        "id": "alcohol-calorie-calculator",
+        "title": "Alcohol Calorie Calculator"
+      },
+      {
+        "id": "carb-cycling-planner",
+        "title": "Carb Cycling Planner"
+      },
+      {
+        "id": "paleo-macro-calculator",
+        "title": "Paleo Macro Calculator"
+      },
+      {
+        "id": "vegan-protein-calculator",
+        "title": "Vegan Protein Calculator"
+      },
+      {
+        "id": "casein-protein",
+        "title": "Casein Protein Calculator"
+      },
+      {
+        "id": "whey-protein",
+        "title": "Whey Protein Calculator"
+      },
+      {
+        "id": "plant-protein",
+        "title": "Plant Protein Calculator"
+      },
+      {
+        "id": "post-bariatric-protein",
+        "title": "Post-Bariatric Protein"
+      },
+      {
+        "id": "toddler-calorie",
+        "title": "Toddler Calorie Calculator"
+      },
+      {
+        "id": "calories-burned",
+        "title": "Calories Burned Calculator"
+      },
+      {
+        "id": "calories-burned-walking",
+        "title": "Calories Burned Walking"
+      },
+      {
+        "id": "calories-burned-running",
+        "title": "Calories Burned Running"
+      },
+      {
+        "id": "steps-to-calories",
+        "title": "Steps to Calories Calculator"
+      },
+      {
+        "id": "swimming-calories-burned",
+        "title": "Swimming Calories Calculator"
+      },
+      {
+        "id": "yoga-calories-calculator",
+        "title": "Yoga Calories Calculator"
+      },
+      {
+        "id": "jump-rope-calculator",
+        "title": "Jump Rope Calorie Calculator"
+      },
+      {
+        "id": "rowing-calories-burned",
+        "title": "Rowing Calories Calculator"
+      },
+      {
+        "id": "stair-climbing-calories",
+        "title": "Stair Climbing Calories"
+      },
+      {
+        "id": "elliptical-calories",
+        "title": "Elliptical Calories Calculator"
+      },
+      {
+        "id": "boxing-calories-burned",
+        "title": "Boxing Calories Calculator"
+      },
+      {
+        "id": "dance-calories-calculator",
+        "title": "Dance Calories Calculator"
+      },
+      {
+        "id": "rock-climbing-calories",
+        "title": "Rock Climbing Calories"
+      },
+      {
+        "id": "tennis-calories-burned",
+        "title": "Tennis Calories Calculator"
+      },
+      {
+        "id": "basketball-calories",
+        "title": "Basketball Calories Calculator"
+      },
+      {
+        "id": "soccer-calories-burned",
+        "title": "Soccer Calories Calculator"
+      },
+      {
+        "id": "golf-calories-calculator",
+        "title": "Golf Calories Calculator"
+      },
+      {
+        "id": "pregnancy-calorie-calculator",
+        "title": "Pregnancy Calorie Calculator"
+      },
+      {
+        "id": "breastfeeding-calorie",
+        "title": "Breastfeeding Calorie Calculator"
+      },
+      {
+        "id": "calorie-deficit-calculator",
+        "title": "Calorie Deficit Calculator"
+      },
+      {
+        "id": "maintenance-calorie-calculator",
+        "title": "Maintenance Calorie Calculator"
+      },
+      {
+        "id": "weekly-calorie-budget",
+        "title": "Weekly Calorie Budget"
+      },
+      {
+        "id": "calorie-cycling",
+        "title": "Calorie Cycling Planner"
+      },
+      {
+        "id": "diet-break-planner",
+        "title": "Diet Break Planner"
+      },
+      {
+        "id": "reverse-diet-calculator",
+        "title": "Reverse Diet Calculator"
+      },
+      {
+        "id": "calorie-banking",
+        "title": "Calorie Banking Calculator"
+      },
+      {
+        "id": "diet-adherence",
+        "title": "Diet Adherence Score"
+      },
+      {
+        "id": "maintenance-calories",
+        "title": "Maintenance Calories"
+      },
+      {
+        "id": "reverse-dieting",
+        "title": "Reverse Dieting Duration"
+      },
+      {
+        "id": "diet-break-freq",
+        "title": "Diet Break Frequency"
+      },
+      {
+        "id": "urine-protein-creatinine",
+        "title": "Urine Protein-Creatinine Ratio"
+      },
+      {
+        "id": "calories-to-joules",
+        "title": "Calories to Joules"
+      },
+      {
+        "id": "calories-per-serving",
+        "title": "Calories Per Serving"
+      },
+      {
+        "id": "carbon-footprint",
+        "title": "Carbon Footprint Calculator"
+      }
+    ],
+    "Pregnancy/Due Date": [
+      {
+        "id": "pregnancy-calculator",
+        "title": "Pregnancy Calculator"
+      },
+      {
+        "id": "due-date-calculator",
+        "title": "Due Date Calculator"
+      },
+      {
+        "id": "ovulation-calculator",
+        "title": "Ovulation Calculator"
+      },
+      {
+        "id": "conception-calculator",
+        "title": "Conception Calculator"
+      },
+      {
+        "id": "pregnancy-weight-gain",
+        "title": "Pregnancy Weight Gain Calculator"
+      },
+      {
+        "id": "pregnancy-week-calculator",
+        "title": "Pregnancy Week Calculator"
+      },
+      {
+        "id": "trimester-calculator",
+        "title": "Trimester Calculator"
+      },
+      {
+        "id": "conception-window",
+        "title": "Conception Window Estimator"
+      },
+      {
+        "id": "ivf-due-date-calculator",
+        "title": "IVF Due Date Calculator"
+      },
+      {
+        "id": "pregnancy-appointment-schedule",
+        "title": "Pregnancy Appointment Schedule"
+      },
+      {
+        "id": "pregnancy-test-timing",
+        "title": "Pregnancy Test Timing"
+      },
+      {
+        "id": "pregnancy-blood-volume",
+        "title": "Pregnancy Blood Volume"
+      },
+      {
+        "id": "pregnancy-milestones",
+        "title": "Pregnancy Milestones Tracker"
+      },
+      {
+        "id": "pregnancy-week-tracker",
+        "title": "Pregnancy Week Calculator"
+      },
+      {
+        "id": "pregnancy-due-date",
+        "title": "Pregnancy Due Date Calculator"
+      },
+      {
+        "id": "conception-date-estimator",
+        "title": "Conception Date Calculator"
+      },
+      {
+        "id": "ovulation-tracker",
+        "title": "Ovulation Calculator"
+      }
+    ],
+    "Age/Date": [
+      {
+        "id": "heart-age-calculator",
+        "title": "Heart Age Calculator"
+      },
+      {
+        "id": "gestational-age-calculator",
+        "title": "Gestational Age Calculator"
+      },
+      {
+        "id": "percentage-calculator",
+        "title": "Percentage Calculator"
+      },
+      {
+        "id": "average-calculator",
+        "title": "Average Calculator"
+      },
+      {
+        "id": "drainage-calculator",
+        "title": "Drainage System Calculator"
+      },
+      {
+        "id": "wifi-coverage-calculator",
+        "title": "WiFi Coverage Calculator"
+      },
+      {
+        "id": "quiz-average-calculator",
+        "title": "Quiz Average Calculator"
+      },
+      {
+        "id": "days-between-dates",
+        "title": "Days Between Dates"
+      },
+      {
+        "id": "age-calculator",
+        "title": "Age Calculator"
+      },
+      {
+        "id": "date-difference",
+        "title": "Date Difference Calculator"
+      },
+      {
+        "id": "storage-calculator",
+        "title": "Storage Capacity Calculator"
+      }
+    ],
+    "Time Conversion": [
+      {
+        "id": "minute-ventilation",
+        "title": "Minute Ventilation Calculator"
+      },
+      {
+        "id": "watt-hour-calculator",
+        "title": "Watt-Hour Calculator"
+      },
+      {
+        "id": "work-hours-calculator",
+        "title": "Work Hours Calculator"
+      },
+      {
+        "id": "billable-hours",
+        "title": "Billable Hours Calculator"
+      },
+      {
+        "id": "hours-to-minutes",
+        "title": "Hours to Minutes Converter"
+      },
+      {
+        "id": "minutes-to-hours",
+        "title": "Minutes to Hours Converter"
+      },
+      {
+        "id": "golden-hour-calculator",
+        "title": "Golden Hour Calculator"
+      }
+    ],
+    "Interest Rate": [
+      {
+        "id": "interest-coverage",
+        "title": "Interest Coverage Ratio"
+      },
+      {
+        "id": "times-interest-earned",
+        "title": "Times Interest Earned"
+      }
+    ],
+    "Savings/Deposits": [
+      {
+        "id": "savings-goal-calculator",
+        "title": "Savings Goal Calculator"
+      },
+      {
+        "id": "college-savings-planner",
+        "title": "College Savings Planner"
+      }
+    ],
+    "Currency/Exchange": [
+      {
+        "id": "currency-converter-math",
+        "title": "Currency Converter"
+      },
+      {
+        "id": "foreign-exchange-calculator",
+        "title": "Foreign Exchange Calculator"
+      }
+    ],
+    "Discount/Percentage": [
+      {
+        "id": "weight-loss-percentage",
+        "title": "Weight Loss Percentage"
+      },
+      {
+        "id": "margin-of-error-calculator",
+        "title": "Margin of Error Calculator"
+      },
+      {
+        "id": "contractor-margin",
+        "title": "Contractor Margin Calculator"
+      },
+      {
+        "id": "operating-margin",
+        "title": "Operating Margin Calculator"
+      },
+      {
+        "id": "markup-calculator",
+        "title": "Markup Calculator"
+      },
+      {
+        "id": "business-discount",
+        "title": "Discount Calculator"
+      },
+      {
+        "id": "contribution-margin",
+        "title": "Contribution Margin Calculator"
+      },
+      {
+        "id": "margin-of-safety",
+        "title": "Margin of Safety"
+      },
+      {
+        "id": "gross-margin-ratio",
+        "title": "Gross Margin Ratio"
+      },
+      {
+        "id": "operating-margin-ratio",
+        "title": "Operating Margin Ratio"
+      },
+      {
+        "id": "shopping-discount",
+        "title": "Discount Calculator"
+      },
+      {
+        "id": "percentage-to-grade",
+        "title": "Percentage Grade Calculator"
+      },
+      {
+        "id": "time-percentage",
+        "title": "Time Percentage Calculator"
+      }
+    ],
+    "Area/Perimeter": [
+      {
+        "id": "body-surface-area",
+        "title": "Body Surface Area Calculator"
+      },
+      {
+        "id": "area-calculator",
+        "title": "Area Calculator"
+      },
+      {
+        "id": "perimeter-calculator",
+        "title": "Perimeter Calculator"
+      },
+      {
+        "id": "surface-area-calculator",
+        "title": "Surface Area Calculator"
+      },
+      {
+        "id": "sector-area-calculator",
+        "title": "Sector Area Calculator"
+      },
+      {
+        "id": "area-converter",
+        "title": "Area Converter"
+      },
+      {
+        "id": "construction-area",
+        "title": "Area Calculator"
+      },
+      {
+        "id": "land-area-calculator",
+        "title": "Land Area Converter"
+      },
+      {
+        "id": "plot-area-calculator",
+        "title": "Plot Area Calculator"
+      },
+      {
+        "id": "built-up-area",
+        "title": "Built-up Area Calculator"
+      },
+      {
+        "id": "circular-area",
+        "title": "Circular Tank Area Calculator"
+      },
+      {
+        "id": "polygon-area",
+        "title": "Polygon Area Calculator"
+      },
+      {
+        "id": "trapezoidal-area",
+        "title": "Trapezoidal Area Calculator"
+      },
+      {
+        "id": "carpet-calculator",
+        "title": "Carpet Area Calculator"
+      },
+      {
+        "id": "roof-area",
+        "title": "Roof Area Calculator"
+      },
+      {
+        "id": "carpet-area-calculator",
+        "title": "Carpet Area Calculator"
+      }
+    ],
+    "Volume Calculation": [
+      {
+        "id": "strength-volume-calculator",
+        "title": "Strength Training Volume"
+      },
+      {
+        "id": "blood-volume-calculator",
+        "title": "Blood Volume Calculator"
+      },
+      {
+        "id": "stroke-volume-calculator",
+        "title": "Stroke Volume Calculator"
+      },
+      {
+        "id": "tidal-volume-calculator",
+        "title": "Tidal Volume Calculator"
+      },
+      {
+        "id": "cubic-equation-solver",
+        "title": "Cubic Equation Solver"
+      },
+      {
+        "id": "volume-calculator",
+        "title": "Volume Calculator"
+      },
+      {
+        "id": "volume-converter",
+        "title": "Volume Converter"
+      },
+      {
+        "id": "cooking-volume-converter",
+        "title": "Cooking Volume Converter"
+      },
+      {
+        "id": "cubic-graph-calculator",
+        "title": "Cubic Graph Calculator"
+      },
+      {
+        "id": "volume-integral-calculator",
+        "title": "Volume Integral Calculator"
+      },
+      {
+        "id": "soil-bearing-capacity",
+        "title": "Soil Bearing Capacity"
+      },
+      {
+        "id": "concrete-calculator",
+        "title": "Concrete Volume Calculator"
+      },
+      {
+        "id": "construction-volume",
+        "title": "Volume Calculator"
+      },
+      {
+        "id": "excavation-calculator",
+        "title": "Excavation Volume Calculator"
+      },
+      {
+        "id": "tank-volume",
+        "title": "Water Tank Volume"
+      },
+      {
+        "id": "pyramid-volume",
+        "title": "Pyramid Volume Calculator"
+      },
+      {
+        "id": "chiller-sizing",
+        "title": "Chiller Capacity Calculator"
+      },
+      {
+        "id": "battery-capacity",
+        "title": "Battery Capacity Calculator"
+      }
+    ],
+    "Speed/Velocity": [
+      {
+        "id": "pace-calculator",
+        "title": "Pace Calculator"
+      },
+      {
+        "id": "cycling-pace-calculator",
+        "title": "Cycling Pace Calculator"
+      },
+      {
+        "id": "swim-pace",
+        "title": "Swim Pace Calculator"
+      },
+      {
+        "id": "speed-converter",
+        "title": "Speed Converter"
+      },
+      {
+        "id": "null-space-calculator",
+        "title": "Null Space Calculator"
+      },
+      {
+        "id": "column-space-calculator",
+        "title": "Column Space Calculator"
+      },
+      {
+        "id": "row-space-calculator",
+        "title": "Row Space Calculator"
+      },
+      {
+        "id": "left-null-space-calculator",
+        "title": "Left Null Space Calculator"
+      },
+      {
+        "id": "velocity-calculator",
+        "title": "Velocity Calculator"
+      },
+      {
+        "id": "angular-velocity",
+        "title": "Angular Velocity Calculator"
+      },
+      {
+        "id": "escape-velocity",
+        "title": "Escape Velocity Calculator"
+      },
+      {
+        "id": "orbital-velocity",
+        "title": "Orbital Velocity Calculator"
+      },
+      {
+        "id": "drift-velocity",
+        "title": "Drift Velocity Calculator"
+      },
+      {
+        "id": "pipeline-velocity",
+        "title": "Pipeline Velocity"
+      },
+      {
+        "id": "lead-velocity",
+        "title": "Lead Velocity Rate"
+      },
+      {
+        "id": "internet-speed-calculator",
+        "title": "Internet Speed Calculator"
+      },
+      {
+        "id": "network-speed-test",
+        "title": "Network Speed Calculator"
+      },
+      {
+        "id": "space-complexity",
+        "title": "Space Complexity Calculator"
+      }
+    ],
+    "Temperature": [
+      {
+        "id": "body-temperature-tracker",
+        "title": "Body Temperature Tracker"
+      },
+      {
+        "id": "basal-body-temp-tracker",
+        "title": "Basal Body Temperature Tracker"
+      },
+      {
+        "id": "bedroom-temp-optimizer",
+        "title": "Bedroom Temperature Optimizer"
+      },
+      {
+        "id": "temperature-converter",
+        "title": "Temperature Converter"
+      }
+    ],
+    "GPA/CGPA": [
+      {
+        "id": "gpa-calculator",
+        "title": "GPA Calculator"
+      },
+      {
+        "id": "cgpa-calculator",
+        "title": "CGPA Calculator"
+      },
+      {
+        "id": "sgpa-calculator",
+        "title": "SGPA Calculator"
+      },
+      {
+        "id": "semester-gpa-predictor",
+        "title": "Semester GPA Predictor"
+      }
+    ],
+    "Grade Calculator": [
+      {
+        "id": "phone-upgrade-calculator",
+        "title": "Phone Upgrade Calculator"
+      },
+      {
+        "id": "grade-calculator",
+        "title": "Grade Calculator"
+      },
+      {
+        "id": "weighted-grade-calculator",
+        "title": "Weighted Grade Calculator"
+      },
+      {
+        "id": "assignment-grade-calculator",
+        "title": "Assignment Grade Calculator"
+      }
+    ],
+    "Percentage/Marks": [
+      {
+        "id": "nutrient-density-score",
+        "title": "Nutrient Density Score"
+      },
+      {
+        "id": "shuttle-run",
+        "title": "Shuttle Run Score"
+      },
+      {
+        "id": "wilks-score-calculator",
+        "title": "Wilks Score Calculator"
+      },
+      {
+        "id": "hrv-score-calculator",
+        "title": "HRV Score Calculator"
+      },
+      {
+        "id": "fertility-score-calculator",
+        "title": "Fertility Score Estimator"
+      },
+      {
+        "id": "biophysical-profile-score",
+        "title": "Biophysical Profile Score"
+      },
+      {
+        "id": "bishops-score-calculator",
+        "title": "Bishop"
+      },
+      {
+        "id": "apgar-score-calculator",
+        "title": "Apgar Score Calculator"
+      },
+      {
+        "id": "daily-habit-score",
+        "title": "Daily Habit Score"
+      },
+      {
+        "id": "mindfulness-score",
+        "title": "Mindfulness Score"
+      },
+      {
+        "id": "sleep-quality-score",
+        "title": "Sleep Quality Score"
+      },
+      {
+        "id": "sleep-hygiene-score",
+        "title": "Sleep Hygiene Score"
+      },
+      {
+        "id": "emotional-eating",
+        "title": "Emotional Eating Score"
+      },
+      {
+        "id": "liver-function-score",
+        "title": "Liver Function Score"
+      },
+      {
+        "id": "immune-score-calculator",
+        "title": "Immune Support Score"
+      },
+      {
+        "id": "asthma-control-score",
+        "title": "Asthma Control Score"
+      },
+      {
+        "id": "allergy-symptom-score",
+        "title": "Allergy Symptom Score"
+      },
+      {
+        "id": "framingham-risk-score",
+        "title": "Framingham Risk Score"
+      },
+      {
+        "id": "chads2-vasc-score",
+        "title": "CHA2DS2-VASc Score"
+      },
+      {
+        "id": "has-bled-score",
+        "title": "HAS-BLED Score"
+      },
+      {
+        "id": "wells-score-dvt",
+        "title": "Wells Score (DVT)"
+      },
+      {
+        "id": "wells-score-pe",
+        "title": "Wells Score (PE)"
+      },
+      {
+        "id": "curb-65-score",
+        "title": "CURB-65 Score"
+      },
+      {
+        "id": "sofa-score-calculator",
+        "title": "SOFA Score Calculator"
+      },
+      {
+        "id": "qsofa-score",
+        "title": "qSOFA Score"
+      },
+      {
+        "id": "apache-ii-score",
+        "title": "APACHE II Score"
+      },
+      {
+        "id": "meld-score-calculator",
+        "title": "MELD Score Calculator"
+      },
+      {
+        "id": "child-pugh-score",
+        "title": "Child-Pugh Score"
+      },
+      {
+        "id": "z-score-calculator",
+        "title": "Z-Score Calculator"
+      },
+      {
+        "id": "net-promoter-score",
+        "title": "Net Promoter Score (NPS)"
+      },
+      {
+        "id": "customer-satisfaction",
+        "title": "CSAT Score"
+      },
+      {
+        "id": "customer-effort",
+        "title": "CES Score"
+      },
+      {
+        "id": "altman-z-score",
+        "title": "Altman Z-Score"
+      },
+      {
+        "id": "piotroski-f-score",
+        "title": "Piotroski F-Score"
+      },
+      {
+        "id": "beneish-m-score",
+        "title": "Beneish M-Score"
+      },
+      {
+        "id": "productivity-score-calculator",
+        "title": "Productivity Score"
+      },
+      {
+        "id": "exam-score-calculator",
+        "title": "Exam Score Calculator"
+      },
+      {
+        "id": "neet-score-calculator",
+        "title": "NEET Score Calculator"
+      },
+      {
+        "id": "gate-score-calculator",
+        "title": "GATE Score Calculator"
+      },
+      {
+        "id": "upsc-marks-calculator",
+        "title": "UPSC Marks Calculator"
+      },
+      {
+        "id": "sat-score-calculator",
+        "title": "SAT Score Calculator"
+      },
+      {
+        "id": "gre-score-predictor",
+        "title": "GRE Score Predictor"
+      },
+      {
+        "id": "toefl-score-calculator",
+        "title": "TOEFL Score Calculator"
+      },
+      {
+        "id": "lighthouse-score",
+        "title": "Lighthouse Score Calculator"
+      },
+      {
+        "id": "seo-score",
+        "title": "SEO Score Calculator"
+      }
+    ],
+    "Concrete/Material": [
+      {
+        "id": "cement-calculator",
+        "title": "Cement Calculator"
+      },
+      {
+        "id": "sand-calculator",
+        "title": "Sand & Aggregate Calculator"
+      },
+      {
+        "id": "block-calculator",
+        "title": "Concrete Block Calculator"
+      },
+      {
+        "id": "wien-displacement",
+        "title": "Wien\\"
+      }
+    ],
+    "Paint/Coverage": [
+      {
+        "id": "paint-calculator",
+        "title": "Paint Quantity Calculator"
+      },
+      {
+        "id": "dscr-calculator",
+        "title": "Debt Service Coverage Ratio"
+      },
+      {
+        "id": "home-paint",
+        "title": "Paint Calculator"
+      }
+    ],
+    "Roofing": [
+      {
+        "id": "truss-calculator",
+        "title": "Roof Truss Calculator"
+      },
+      {
+        "id": "roof-pitch",
+        "title": "Roof Pitch Calculator"
+      },
+      {
+        "id": "shingle-calculator",
+        "title": "Roofing Shingle Calculator"
+      },
+      {
+        "id": "waterproofing-cost",
+        "title": "Waterproofing Calculator"
+      },
+      {
+        "id": "drainage-slope",
+        "title": "Roof Drainage Slope"
+      },
+      {
+        "id": "metal-roofing",
+        "title": "Metal Roofing Calculator"
+      },
+      {
+        "id": "membrane-waterproofing",
+        "title": "Membrane Waterproofing Calculator"
+      }
+    ],
+    "Flooring": [
+      {
+        "id": "fetal-growth-percentile",
+        "title": "Fetal Growth Percentile"
+      },
+      {
+        "id": "quartile-calculator",
+        "title": "Quartile Calculator"
+      },
+      {
+        "id": "percentile-calculator",
+        "title": "Percentile Calculator"
+      },
+      {
+        "id": "interquartile-range-calculator",
+        "title": "Interquartile Range Calculator"
+      },
+      {
+        "id": "tile-calculator",
+        "title": "Tile Quantity Calculator"
+      },
+      {
+        "id": "flooring-calculator",
+        "title": "Flooring Material Calculator"
+      },
+      {
+        "id": "laminate-flooring",
+        "title": "Laminate Flooring Calculator"
+      },
+      {
+        "id": "vinyl-flooring",
+        "title": "Vinyl Flooring Calculator"
+      },
+      {
+        "id": "projectile-motion",
+        "title": "Projectile Motion Calculator"
+      },
+      {
+        "id": "home-tile",
+        "title": "Tile Calculator"
+      },
+      {
+        "id": "cat-percentile-calculator",
+        "title": "CAT Percentile Calculator"
+      }
+    ]
+  }
+}
