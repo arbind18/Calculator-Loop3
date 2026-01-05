@@ -24,14 +24,14 @@ const getFiles = (dir: string): string[] => {
   return files.reduce<string[]>((a, f) => a.concat(f), []);
 };
 
-export const searchBlogs = (query: string): SearchResult[] => {
-  const blogDir = path.join(process.cwd(), 'src/content/blogs');
+export const searchContent = (query: string): SearchResult[] => {
+  const contentDir = path.join(process.cwd(), 'src/content');
   
-  if (!fs.existsSync(blogDir)) {
+  if (!fs.existsSync(contentDir)) {
     return [];
   }
 
-  const files = getFiles(blogDir).filter(f => f.endsWith('.md'));
+  const files = getFiles(contentDir).filter(f => f.endsWith('.md'));
   const results: SearchResult[] = [];
   const lowerQuery = query.toLowerCase();
   const queryTerms = lowerQuery.split(' ').filter(t => t.length > 3); // Only significant words
@@ -87,3 +87,6 @@ export const searchBlogs = (query: string): SearchResult[] => {
 
   return results.sort((a, b) => b.score - a.score).slice(0, 3);
 };
+
+// Backward compatibility alias
+export const searchBlogs = searchContent;

@@ -9,6 +9,9 @@ import { tryBuildGeometryAreaResponse } from '@/lib/logic-ai/geometryAreaRespond
 import { tryBuildMathSolveResponse } from '@/lib/logic-ai/mathSolver';
 import { tryBuildNumberTutorResponse } from '@/lib/logic-ai/numberTutorResponder';
 import { tryBuildTrigProofResponse } from '@/lib/logic-ai/trigProofResponder';
+import { tryBuildUnitConversionResponse } from '@/lib/logic-ai/unitConverter';
+import { tryBuildWordProblemResponse } from '@/lib/logic-ai/wordProblemSolver';
+import { askGemini, saveLearnedAnswer } from '@/lib/logic-ai/gemini';
 
 const SUPPORTED_LOCALES = new Set([
   'en',
@@ -148,15 +151,71 @@ const buildNextStepSuggestion = (message: string, lang: 'en' | 'hi') => {
     : "Tell me your goal and your numbers (if any). I’ll recommend the best calculator and next steps.";
 };
 
+const TYPO_MAP: Record<string, string> = {
+  'gkt': 'gst',
+  'claculator': 'calculator',
+  'calculetor': 'calculator',
+  'emii': 'emi',
+  'intrest': 'interest',
+  'byaaj': 'byaj',
+  'wajan': 'weight',
+  'kad': 'height',
+  'hight': 'height',
+  'waight': 'weight',
+  'sipp': 'sip',
+  'mutul': 'mutual',
+  'faund': 'fund',
+};
+
+const correctTypos = (text: string): string => {
+  let corrected = text;
+  // Replace whole words only to avoid partial matches ruining things
+  Object.entries(TYPO_MAP).forEach(([typo, correct]) => {
+    const regex = new RegExp(`\\b${typo}\\b`, 'gi');
+    corrected = corrected.replace(regex, correct);
+  });
+  return corrected;
+};
+
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { message, history } = await req.json();
 
     if (!message) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    const lang = detectLanguage(message);
+    // --- Context Awareness Logic ---
+    let effectiveMessage = correctTypos(message);
+    let contextTopic = '';
+
+    if (history && Array.isArray(history) && history.length > 0) {
+      // 1. Find the last tool mentioned by the assistant
+      const lastAssistantMsg = [...history].reverse().find((m: any) => m.role === 'assistant');
+      if (lastAssistantMsg && typeof lastAssistantMsg.content === 'string') {
+        // Look for calculator links: /calculator/some-id
+        const match = lastAssistantMsg.content.match(/\/calculator\/([a-zA-Z0-9-]+)/);
+        if (match && match[1]) {
+          // e.g. "emi-calculator" -> "emi calculator"
+          contextTopic = match[1].replace(/-/g, ' ');
+        }
+      }
+    }
+
+    // 2. If the current message is short, numeric, or a follow-up, inject context
+    // Heuristic: < 50 chars, or starts with a number, or contains math symbols
+    const isShort = message.length < 50;
+    const isNumeric = /^\d/.test(message.trim()) || /^[0-9\.\+\-\*\/\(\)\s%]+$/.test(message.trim());
+    
+    if (contextTopic && (isShort || isNumeric)) {
+      // Only prepend if the message doesn't already contain the topic
+      if (!effectiveMessage.toLowerCase().includes(contextTopic.split(' ')[0])) {
+        effectiveMessage = `${contextTopic} ${effectiveMessage}`;
+      }
+    }
+    // -------------------------------
+
+    const lang = detectLanguage(effectiveMessage);
     const templates = getResponseTemplate(lang);
     let responseContent = '';
 
@@ -174,7 +233,7 @@ export async function POST(req: Request) {
     };
 
     // 0. Check Custom Knowledge Base (Manual Training)
-    const lowerMsg = message.toLowerCase();
+    const lowerMsg = effectiveMessage.toLowerCase();
     const knowledgeMatch = customKnowledge.find(k => 
       k.patterns.some(p => lowerMsg.includes(p))
     );
@@ -201,71 +260,89 @@ export async function POST(req: Request) {
 
       // Add a short next-step suggestion (category-neutral, language-aware)
       responseContent += `\n${templates.nextStep}\n\n`;
-      responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
+      responseContent += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
 
       return jsonAssistant(responseContent);
     }
 
     // 0.15 Geometry area (offline)
-    const areaResponse = tryBuildGeometryAreaResponse(message, lang);
+    const areaResponse = tryBuildGeometryAreaResponse(effectiveMessage, lang);
     if (areaResponse) {
       let fullResponse = areaResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
-      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
       return jsonAssistant(fullResponse);
     }
 
     // 0.2 Numbers tutor (types + big-int calculations)
-    const numberTutorResponse = tryBuildNumberTutorResponse(message, lang);
+    const numberTutorResponse = tryBuildNumberTutorResponse(effectiveMessage, lang);
     if (numberTutorResponse) {
       let fullResponse = numberTutorResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
-      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
       return jsonAssistant(fullResponse);
     }
 
     // 0.3 Trig proof (common Class 12 identities)
-    const trigProofResponse = tryBuildTrigProofResponse(message, lang);
+    const trigProofResponse = tryBuildTrigProofResponse(effectiveMessage, lang);
     if (trigProofResponse) {
       let fullResponse = trigProofResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
-      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
       return jsonAssistant(fullResponse);
     }
 
     // 0.35 Algebra identities (common exam patterns)
-    const algebraIdentityResponse = tryBuildAlgebraIdentityResponse(message, lang);
+    const algebraIdentityResponse = tryBuildAlgebraIdentityResponse(effectiveMessage, lang);
     if (algebraIdentityResponse) {
       let fullResponse = algebraIdentityResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
-      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
+      return jsonAssistant(fullResponse);
+    }
+
+    // 0.36 Unit Conversion
+    const unitResponse = tryBuildUnitConversionResponse(effectiveMessage, lang);
+    if (unitResponse) {
+      let fullResponse = unitResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
+      return jsonAssistant(fullResponse);
+    }
+
+    // 0.37 Word Problems
+    const wordProblemResponse = tryBuildWordProblemResponse(effectiveMessage, lang);
+    if (wordProblemResponse) {
+      let fullResponse = wordProblemResponse;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
       return jsonAssistant(fullResponse);
     }
 
     // 0.5 Formula Knowledge (Formula + basic calculation)
     // 0.4 Math solver (expressions + equations + steps)
-    const mathSolveResponse = tryBuildMathSolveResponse(message, lang);
+    const mathSolveResponse = tryBuildMathSolveResponse(effectiveMessage, lang);
     if (mathSolveResponse) {
       let fullResponse = mathSolveResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
-      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
       return jsonAssistant(fullResponse);
     }
 
     // 0.5 Formula Knowledge (Formula + basic calculation)
-    const formulaResponse = tryBuildFormulaResponse(message, lang);
+    const formulaResponse = tryBuildFormulaResponse(effectiveMessage, lang);
     if (formulaResponse) {
       let fullResponse = formulaResponse;
       fullResponse += `\n\n${templates.nextStep}\n\n`;
-      fullResponse += `${buildNextStepSuggestion(message, lang)}\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
       return jsonAssistant(fullResponse);
     }
 
     // 1. Search for relevant tools (Calculators)
-    let relevantTools = searchToolsWithContext(message);
+    let relevantTools = searchToolsWithContext(effectiveMessage);
 
     // 2. Search for relevant blog content
-    const relevantBlogs = searchBlogs(message);
+    const relevantBlogs = searchBlogs(effectiveMessage);
 
     // If the best-matching blog is for a specific tool, prioritize that tool in suggestions.
     const blogToolId = relevantBlogs[0]?.post?.toolId;
@@ -282,31 +359,65 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3. Construct the response locally
+    // 3. Construct the response
+    // Strategy:
+    // - If we have a Blog match, use it (high confidence).
+    // - If query is complex/long (> 5 words) and not just a keyword search, try Gemini FIRST.
+    // - If Gemini fails or query is simple, use Tools.
+    
+    const isComplexQuery = effectiveMessage.split(' ').length > 5;
+    let geminiUsed = false;
+
     if (relevantBlogs.length > 0) {
       const topBlog = relevantBlogs[0];
       responseContent += `${templates.blogIntro}\n\n`;
       responseContent += `${topBlog.matchingParagraph}\n\n`;
+    } else if (isComplexQuery) {
+      // Try Gemini for complex queries even if tools are found
+      const geminiAnswer = await askGemini(effectiveMessage);
+      if (geminiAnswer) {
+        responseContent = geminiAnswer;
+        saveLearnedAnswer(effectiveMessage, geminiAnswer);
+        geminiUsed = true;
+      }
     }
 
+    // If Gemini wasn't used (or failed) and we have tools, use tool intro
+    if (!geminiUsed && relevantTools.length > 0 && relevantBlogs.length === 0) {
+      const topTool = relevantTools[0].tool;
+      if (lang === 'hi') {
+        responseContent += `Aapke sawal ke liye **${topTool.title}** sabse sahi hai. ${topTool.description}\n\n`;
+      } else {
+        responseContent += `Based on your request, I recommend using the **${topTool.title}**. ${topTool.description}\n\n`;
+      }
+    }
+
+    // If Gemini failed and no tools/blogs, try Gemini again (fallback for short queries)
+    if (!geminiUsed && relevantTools.length === 0 && relevantBlogs.length === 0 && !responseContent) {
+       const geminiAnswer = await askGemini(effectiveMessage);
+       if (geminiAnswer) {
+         responseContent = geminiAnswer;
+         saveLearnedAnswer(effectiveMessage, geminiAnswer);
+         geminiUsed = true;
+       }
+    }
+
+    // Append Tools if available (as "Related Tools")
     if (relevantTools.length > 0) {
-      responseContent += `${templates.toolsIntro}\n\n`;
+      responseContent += `\n\n${geminiUsed ? (lang === 'hi' ? '**Sambandhit Tools:**' : '**Related Tools:**') : templates.toolsIntro}\n\n`;
       relevantTools.forEach(({ tool, subcategoryName }) => {
-        // IMPORTANT: Keep links outside **bold** so our lightweight renderer keeps them clickable.
         responseContent += `- [${tool.title}](/calculator/${tool.id})\n`;
         responseContent += `  ${tool.description}\n`;
         responseContent += `  _${templates.category}: ${subcategoryName}_\n`;
       });
-
-      responseContent += `\n${templates.nextStep}\n\n`;
-      responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
     }
 
-    if (relevantBlogs.length === 0 && relevantTools.length === 0) {
+    if (!responseContent) {
       responseContent = templates.fallback;
-      responseContent += `\n\n${templates.nextStep}\n\n`;
-      responseContent += `${buildNextStepSuggestion(message, lang)}\n`;
     }
+
+    responseContent += `\n\n${templates.nextStep}\n\n`;
+    responseContent += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
 
     return jsonAssistant(responseContent);
 

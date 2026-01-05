@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, X, Bot, Loader2, Mic, MicOff } from 'lucide-react';
+import { Send, X, Bot, Loader2, Mic, MicOff, Volume2, Copy, Trash2, StopCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 import { MarkdownLite } from '@/components/ui/markdown-lite';
+import { Typewriter } from './Typewriter';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -41,30 +42,48 @@ declare global {
 }
 
 export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: (() => {
-        const lang = detectLanguage(navigator.language || 'en');
-        return lang === 'hi'
-          ? "Namaste! Main Calculator Loop ka AI assistant hoon. Aap kisi bhi category (Finance, Health, Math, Education, Construction, Technology, etc.) ka calculator ya formula pooch sakte hain.\n\nExamples:\n- \"EMI formula\"\n- \"GST 18% on ₹5000\"\n- \"BMI weight 70kg height 175cm\""
-          : "Hello! I'm your AI assistant for Calculator Loop. Ask about any category—finance, health, math, education, construction, technology, and more.\n\nExamples:\n- \"EMI formula\"\n- \"GST 18% on ₹5000\"\n- \"BMI weight 70kg height 175cm\"";
-      })()
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Load from local storage on mount
   useEffect(() => {
+    const saved = localStorage.getItem('chat_history');
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to parse chat history', e);
+      }
+    } else {
+      // Default welcome message
+      const lang = detectLanguage(navigator.language || 'en');
+      setMessages([{
+        role: 'assistant',
+        content: lang === 'hi'
+          ? "Namaste! Main Calculator Loop ka AI assistant hoon. Aap kisi bhi category (Finance, Health, Math, Education, Construction, Technology, etc.) ka calculator ya formula pooch sakte hain.\n\nExamples:\n- \"EMI formula\"\n- \"GST 18% on ₹5000\"\n- \"BMI weight 70kg height 175cm\""
+          : "Hello! I'm your AI assistant for Calculator Loop. Ask about any category—finance, health, math, education, construction, technology, and more.\n\nExamples:\n- \"EMI formula\"\n- \"GST 18% on ₹5000\"\n- \"BMI weight 70kg height 175cm\""
+      }]);
+    }
+    setIsInitialized(true);
+  }, []);
+
+  // Save to local storage whenever messages change
+  useEffect(() => {
+    if (isInitialized && messages.length > 0) {
+      localStorage.setItem('chat_history', JSON.stringify(messages));
+    }
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isInitialized]);
 
   useEffect(() => {
     // If chat closes while listening, stop recognition.
@@ -152,6 +171,72 @@ If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
       );
       return false;
     }
+  };
+
+  const speakText = (text: string) => {
+    if (!window.speechSynthesis) return;
+    
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+
+    if (isSpeaking) {
+      setIsSpeaking(false);
+      return;
+    }
+
+    // Strip markdown for cleaner speech
+    const cleanText = text
+      .replace(/\*\*/g, '')
+      .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+      .replace(/_/g, '')
+      .replace(/###/g, '')
+      .replace(/- /g, '');
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    
+    // Detect language for voice selection
+    const isHindi = detectLanguage(text) === 'hi';
+    utterance.lang = isHindi ? 'hi-IN' : 'en-US';
+    
+    // Try to find a good voice
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => 
+      isHindi 
+        ? v.lang.includes('hi') || v.name.includes('Hindi')
+        : v.lang.includes('en-US') || v.name.includes('Google US English')
+    );
+    
+    if (preferredVoice) utterance.voice = preferredVoice;
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const copyToClipboard = (text: string) => {
+    const cleanText = text
+      .replace(/\*\*/g, '')
+      .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Keep link label
+      .replace(/_/g, '')
+      .replace(/###/g, '');
+      
+    navigator.clipboard.writeText(cleanText);
+  };
+
+  const clearChat = () => {
+    setMessages([
+      {
+        role: 'assistant',
+        content: (() => {
+          const lang = detectLanguage(navigator.language || 'en');
+          return lang === 'hi'
+            ? "Namaste! Main Calculator Loop ka AI assistant hoon. Aap kisi bhi category (Finance, Health, Math, Education, Construction, Technology, etc.) ka calculator ya formula pooch sakte hain.\n\nExamples:\n- \"EMI formula\"\n- \"GST 18% on ₹5000\"\n- \"BMI weight 70kg height 175cm\""
+            : "Hello! I'm your AI assistant for Calculator Loop. Ask about any category—finance, health, math, education, construction, technology, and more.\n\nExamples:\n- \"EMI formula\"\n- \"GST 18% on ₹5000\"\n- \"BMI weight 70kg height 175cm\"";
+        })()
+      }
+    ]);
   };
 
   const toggleMic = async () => {
@@ -293,14 +378,22 @@ If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    
+    const newMessage: Message = { role: 'user', content: userMessage };
+    setMessages(prev => [...prev, newMessage]);
     setIsLoading(true);
 
     try {
+      // Send history for context (last 10 messages)
+      const historyToSend = [...messages, newMessage].slice(-10);
+
       const response = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({ 
+          message: userMessage, 
+          history: historyToSend 
+        }),
       });
 
       if (!response.ok) throw new Error('Failed to fetch');
@@ -315,6 +408,21 @@ If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
     }
   };
 
+  const SUGGESTIONS = [
+    { label: 'EMI Calculator', query: 'EMI Calculator' },
+    { label: 'GST 18% on 5000', query: 'GST 18% on 5000' },
+    { label: '10 km to miles', query: '10 km to miles' },
+    { label: 'Solve 2x+5=15', query: 'Solve 2x+5=15' },
+    { label: 'BMI Calculator', query: 'BMI Calculator' },
+  ];
+
+  const handleSuggestionClick = (query: string) => {
+    setInput(query);
+    // Optional: Auto-submit
+    // handleSubmit(new Event('submit') as any); 
+    // But setting input is safer for user review
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -325,9 +433,20 @@ If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
           <Bot className="w-5 h-5" />
           <h3 className="font-semibold">AI Assistant</h3>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 text-primary-foreground hover:bg-primary/90">
-          <X className="w-4 h-4" />
-        </Button>
+        <div className="flex items-center gap-1">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={clearChat} 
+            className="h-8 w-8 text-primary-foreground hover:bg-primary/90"
+            title="Clear Chat"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 text-primary-foreground hover:bg-primary/90">
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Messages */}
@@ -342,20 +461,60 @@ If you are in an in-app browser (WhatsApp/Instagram), use “Open in Chrome”.`
           >
             <div
               className={cn(
-                "max-w-[85%] rounded-lg p-3 text-sm shadow-sm",
+                "max-w-[85%] rounded-lg p-3 text-sm shadow-sm group relative",
                 msg.role === 'user' 
                   ? "bg-primary text-primary-foreground" 
                   : "bg-card text-card-foreground border"
               )}
             >
               {msg.role === 'assistant' ? (
-                <MarkdownLite content={msg.content} />
+                <>
+                  {/* Only typewrite the last message if it's new */}
+                  {idx === messages.length - 1 && !isLoading ? (
+                     <Typewriter content={msg.content} onComplete={scrollToBottom} />
+                  ) : (
+                     <MarkdownLite content={msg.content} />
+                  )}
+                  
+                  <div className="flex gap-2 mt-2 pt-2 border-t border-border/50 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      onClick={() => speakText(msg.content)}
+                      className="p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors"
+                      title="Speak"
+                    >
+                      {isSpeaking ? <StopCircle className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
+                    </button>
+                    <button 
+                      onClick={() => copyToClipboard(msg.content)}
+                      className="p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors"
+                      title="Copy"
+                    >
+                      <Copy className="w-3 h-3" />
+                    </button>
+                  </div>
+                </>
               ) : (
                 msg.content
               )}
             </div>
           </div>
         ))}
+        
+        {/* Suggestion Chips (Only show if messages length is 1 i.e. only welcome message) */}
+        {messages.length === 1 && (
+          <div className="flex flex-wrap gap-2 mt-2 px-1">
+            {SUGGESTIONS.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => handleSuggestionClick(s.query)}
+                className="text-xs bg-secondary hover:bg-secondary/80 text-secondary-foreground px-3 py-1.5 rounded-full transition-colors border border-border/50"
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+
         {isLoading && (
           <div className="flex justify-start">
             <div className="bg-muted rounded-lg p-3">

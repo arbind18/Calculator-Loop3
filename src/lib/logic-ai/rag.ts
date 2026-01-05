@@ -1,5 +1,24 @@
 import { toolsData, Tool } from '../toolsData';
 
+// Simple Levenshtein distance for fuzzy matching
+const levenshtein = (a: string, b: string): number => {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+      }
+    }
+  }
+  return matrix[b.length][a.length];
+};
+
 export interface SearchResult {
   tool: Tool;
   score: number;
@@ -66,6 +85,7 @@ export const searchTools = (query: string): Tool[] => {
     let score = 0;
     const title = tool.title.toLowerCase();
     const description = tool.description.toLowerCase();
+    const titleWords = title.split(/\s+/);
 
     // Exact match bonus
     if (title.includes(lowerQuery)) score += 10;
@@ -73,7 +93,18 @@ export const searchTools = (query: string): Tool[] => {
 
     // Term match
     queryTerms.forEach(term => {
-      if (title.includes(term)) score += 3;
+      if (title.includes(term)) {
+        score += 3;
+      } else {
+        // Fuzzy match
+        for (const word of titleWords) {
+          if (Math.abs(word.length - term.length) <= 2) {
+            const dist = levenshtein(term, word);
+            if (dist <= 1) { score += 2; break; }
+            if (dist <= 2 && term.length > 4) { score += 1; break; }
+          }
+        }
+      }
       if (description.includes(term)) score += 1;
     });
 
@@ -98,12 +129,24 @@ export const searchToolsWithContext = (query: string): ToolWithContext[] => {
       let score = 0;
       const title = item.tool.title.toLowerCase();
       const description = item.tool.description.toLowerCase();
+      const titleWords = title.split(/\s+/);
 
       if (title.includes(lowerQuery)) score += 10;
       if (description.includes(lowerQuery)) score += 5;
 
       queryTerms.forEach((term) => {
-        if (title.includes(term)) score += 3;
+        if (title.includes(term)) {
+          score += 3;
+        } else {
+          // Fuzzy match against title words
+          for (const word of titleWords) {
+            if (Math.abs(word.length - term.length) <= 2) {
+              const dist = levenshtein(term, word);
+              if (dist <= 1) { score += 2; break; }
+              if (dist <= 2 && term.length > 4) { score += 1; break; }
+            }
+          }
+        }
         if (description.includes(term)) score += 1;
       });
 

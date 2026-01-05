@@ -53,13 +53,17 @@ const parseNumber = (raw: string) => {
 const extractByKeyword = (message: string, keywords: string[]): number | null => {
   const msg = message;
   for (const key of keywords) {
+    // Improved regex to handle: "key 100", "key: 100", "key = 100", "key is 100"
+    // And also capture the number group correctly
     const re = new RegExp(
-      `(?:\\b${escapeRegex(key)}\\b)\\s*(?:[:=]|is|=)?\\s*(₹?\n?\t?\n?\t?\n?\t?\n?\t?\s*-?[0-9][0-9,]*(?:\\.[0-9]+)?\\s*(?:k|thousand|l|lakh|lac|cr|crore|m|mn|million|b|bn|billion)?)`,
+      `(?:\\b${escapeRegex(key)}\\b)\\s*(?:[:=]|is)?\\s*(?:₹)?\\s*(-?[0-9][0-9,]*(?:\\.[0-9]+)?)\\s*(k|thousand|l|lakh|lac|cr|crore|m|mn|million|b|bn|billion)?`,
       'i'
     );
     const m = msg.match(re);
     if (m?.[1]) {
-      const n = parseNumber(m[1]);
+      // Reconstruct the number string with suffix if present
+      const rawNum = m[1] + (m[2] ? m[2] : '');
+      const n = parseNumber(rawNum);
       if (n !== null) return n;
     }
   }
@@ -353,7 +357,16 @@ const parseInputsForEntry = (entry: FormulaEntry, message: string): ParsedValueM
     }
 
     case 'gst': {
-      const amount = extractByKeyword(q, ['amount', 'price', 'value', 'base', 'final', 'mrp']);
+      let amount = extractByKeyword(q, ['amount', 'price', 'value', 'base', 'final', 'mrp']);
+      
+      // Fallback: look for "on [amount]" or "of [amount]"
+      if (amount === null) {
+         const onMatch = q.match(/\b(?:on|of)\s+(?:₹\s*)?([0-9][0-9,]*(?:\.[0-9]+)?)/i);
+         if (onMatch?.[1]) {
+            amount = parseNumber(onMatch[1]);
+         }
+      }
+
       const ratePct = extractRatePct(q);
       const mode = hasAny(normalize(q), ['inclusive', 'including', 'with gst']) ? 'inclusive' : 'exclusive';
       return { amount, ratePct, mode };
