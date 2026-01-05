@@ -12,8 +12,13 @@ const argNum = (name, fallback) => {
 };
 
 const N_GST = argNum('--gst', 200);
+const N_GST_REV = argNum('--gst-reverse', 200);
 const N_EMI = argNum('--emi', 200);
 const N_COMP = argNum('--compound', 200);
+const N_SIP = argNum('--sip', 200);
+const N_CAGR = argNum('--cagr', 200);
+const N_FD = argNum('--fd', 200);
+const N_RD = argNum('--rd', 200);
 const N_PL = argNum('--profitloss', 200);
 
 // Seeded RNG for reproducibility
@@ -81,8 +86,13 @@ const tooSimilar = (q, existing, threshold = 0.92) => {
 
 const qCacheByTopic = {
   gst: [],
+  'gst-reverse': [],
   emi: [],
   compound: [],
+  sip: [],
+  cagr: [],
+  fd: [],
+  rd: [],
   'profit-loss': [],
 };
 
@@ -123,6 +133,33 @@ while (qCacheByTopic.gst.length < N_GST && guard++ < N_GST * 50) {
   if (tooSimilar(q, qCacheByTopic.gst)) continue;
   const ok = pushUnique('gst', lang, q, gstAnswer(amt, rate), ['gst', 'tax']);
   if (ok) qCacheByTopic.gst.push(q);
+}
+
+// ---------- GST (Reverse / Inclusive) ----------
+const gstRevTemplates = [
+  (total, rate) => ({ lang: 'mix', q: `₹${formatINR(total)} (GST inclusive) hai. Rate ${rate}%. Base price aur GST nikaalo.` }),
+  (total, rate) => ({ lang: 'en', q: `₹${formatINR(total)} is GST-inclusive at ${rate}%. Find base amount and GST.` }),
+  (total, rate) => ({ lang: 'hi', q: `Total ₹${formatINR(total)} (GST ke saath) hai, GST ${rate}%. Original price kitni thi?` }),
+  (total, rate) => ({ lang: 'mix', q: `Inclusive bill ₹${formatINR(total)}, GST ${rate}%. GST amount?` }),
+];
+
+const gstReverseAnswer = (total, rate) => {
+  const base = total / (1 + rate / 100);
+  const gst = total - base;
+  const half = gst / 2;
+  return `Answer: Base ≈ ₹${formatINR(base)}, GST ≈ ₹${formatINR(gst)} (Total ₹${formatINR(total)})\n\nSteps: Base = Total / (1 + ${rate}/100)\nGST = Total - Base\nIf CGST/SGST: CGST ≈ ₹${formatINR(half)}, SGST ≈ ₹${formatINR(half)}.`;
+};
+
+guard = 0;
+while (qCacheByTopic['gst-reverse'].length < N_GST_REV && guard++ < N_GST_REV * 60) {
+  const rate = pick(gstRates);
+  const base = Math.floor(500 + rand() * 500000);
+  const total = base + (base * rate) / 100;
+  const tpl = pick(gstRevTemplates);
+  const { q, lang } = tpl(total, rate);
+  if (tooSimilar(q, qCacheByTopic['gst-reverse'])) continue;
+  const ok = pushUnique('gst-reverse', lang, q, gstReverseAnswer(total, rate), ['gst', 'reverse', 'inclusive']);
+  if (ok) qCacheByTopic['gst-reverse'].push(q);
 }
 
 // ---------- EMI ----------
@@ -183,6 +220,130 @@ while (qCacheByTopic.compound.length < N_COMP && guard++ < N_COMP * 60) {
   if (ok) qCacheByTopic.compound.push(q);
 }
 
+// ---------- SIP (Future Value) ----------
+const sipTemplates = [
+  (p, r, y) => ({ lang: 'hi', q: `Agar main ₹${formatINR(p)} per month SIP karu aur return ${r}% yearly ho to ${y} saal me kitna banega?` }),
+  (p, r, y) => ({ lang: 'en', q: `If I do a SIP of ₹${formatINR(p)}/month at ${r}% annual return for ${y} years, what is the future value?` }),
+  (p, r, y) => ({ lang: 'mix', q: `Monthly SIP ₹${formatINR(p)}, return ${r}% p.a., duration ${y} years. Final amount?` }),
+  (p, r, y) => ({ lang: 'mix', q: `SIP: ₹${formatINR(p)} per month @ ${r}% for ${y} years — maturity value?` }),
+];
+
+const sipFV = (monthly, annualRate, years) => {
+  const n = years * 12;
+  const i = annualRate / 12 / 100;
+  // Assumption: SIP at month end (annuity immediate). Many sites use (1+i) factor for month-begin; keep simple and mention assumption.
+  const fv = monthly * ((Math.pow(1 + i, n) - 1) / i);
+  return { fv, n, i };
+};
+
+const sipAnswer = (monthly, annualRate, years) => {
+  const { fv, n } = sipFV(monthly, annualRate, years);
+  const invested = monthly * n;
+  const gain = fv - invested;
+  return `Answer: Future value ≈ ₹${formatINR(fv)}\nTotal invested = ₹${formatINR(invested)}\nEstimated gain ≈ ₹${formatINR(gain)}\n\nSteps: i = (${annualRate}%/12), n = ${years}×12 = ${n}\nFV ≈ P × [((1+i)^n - 1)/i] (assumes SIP at month end).`;
+};
+
+guard = 0;
+while (qCacheByTopic.sip.length < N_SIP && guard++ < N_SIP * 70) {
+  const p = Math.floor(500 + rand() * 95000); // 500..95k per month
+  const r = Math.round((4 + rand() * 20) * 10) / 10; // 4..24%
+  const y = Math.floor(1 + rand() * 30);
+  const { q, lang } = pick(sipTemplates)(p, r, y);
+  if (tooSimilar(q, qCacheByTopic.sip)) continue;
+  const ok = pushUnique('sip', lang, q, sipAnswer(p, r, y), ['sip', 'investment']);
+  if (ok) qCacheByTopic.sip.push(q);
+}
+
+// ---------- CAGR ----------
+const cagrTemplates = [
+  (s, e, y) => ({ lang: 'en', q: `Start ₹${formatINR(s)}, end ₹${formatINR(e)} in ${y} years. What is CAGR?` }),
+  (s, e, y) => ({ lang: 'hi', q: `Agar ₹${formatINR(s)} ${y} saal me ₹${formatINR(e)} ho jaye, CAGR kitna hoga?` }),
+  (s, e, y) => ({ lang: 'mix', q: `CAGR: ₹${formatINR(s)} → ₹${formatINR(e)} over ${y} years. CAGR %?` }),
+  (s, e, y) => ({ lang: 'mix', q: `Annual growth rate (CAGR) for ₹${formatINR(s)} to ₹${formatINR(e)} in ${y} years?` }),
+];
+
+const cagrAnswer = (start, end, years) => {
+  const cagr = (Math.pow(end / start, 1 / years) - 1) * 100;
+  return `Answer: CAGR ≈ ${cagr.toFixed(2)}% per year\n\nFormula: CAGR = (End/Start)^(1/Years) - 1\nStart=₹${formatINR(start)}, End=₹${formatINR(end)}, Years=${years}`;
+};
+
+guard = 0;
+while (qCacheByTopic.cagr.length < N_CAGR && guard++ < N_CAGR * 70) {
+  const start = Math.floor(1000 + rand() * 5000000);
+  const years = Math.floor(1 + rand() * 30);
+  const mult = 0.4 + rand() * 5.0; // allow down/up
+  const end = Math.max(1, Math.floor(start * mult));
+  const { q, lang } = pick(cagrTemplates)(start, end, years);
+  if (tooSimilar(q, qCacheByTopic.cagr)) continue;
+  const ok = pushUnique('cagr', lang, q, cagrAnswer(start, end, years), ['cagr', 'growth']);
+  if (ok) qCacheByTopic.cagr.push(q);
+}
+
+// ---------- FD (Maturity) ----------
+const fdTemplates = [
+  (p, r, y) => ({ lang: 'hi', q: `FD: ₹${formatINR(p)} at ${r}% for ${y} years (quarterly compounding). Maturity amount?` }),
+  (p, r, y) => ({ lang: 'en', q: `Fixed Deposit ₹${formatINR(p)} at ${r}% for ${y} years (compounded quarterly). Maturity value?` }),
+  (p, r, y) => ({ lang: 'mix', q: `FD ₹${formatINR(p)} @ ${r}% for ${y} years, quarterly. Final amount?` }),
+  (p, r, y) => ({ lang: 'mix', q: `Bank FD: principal ₹${formatINR(p)}, rate ${r}% p.a., tenure ${y} years. Maturity?` }),
+];
+
+const fdAnswer = (P, annualRate, years) => {
+  const n = years * 4;
+  const r = annualRate / 100 / 4;
+  const A = P * Math.pow(1 + r, n);
+  const interest = A - P;
+  return `Answer: Maturity ≈ ₹${formatINR(A)}\nInterest earned ≈ ₹${formatINR(interest)}\n\nFormula: A = P(1 + r/4)^(4t)\nP=₹${formatINR(P)}, r=${annualRate}%, t=${years}`;
+};
+
+guard = 0;
+while (qCacheByTopic.fd.length < N_FD && guard++ < N_FD * 70) {
+  const P = Math.floor(1000 + rand() * 5000000);
+  const r = Math.round((3 + rand() * 10) * 10) / 10; // 3..13%
+  const y = Math.floor(1 + rand() * 10);
+  const { q, lang } = pick(fdTemplates)(P, r, y);
+  if (tooSimilar(q, qCacheByTopic.fd)) continue;
+  const ok = pushUnique('fd', lang, q, fdAnswer(P, r, y), ['fd', 'deposit']);
+  if (ok) qCacheByTopic.fd.push(q);
+}
+
+// ---------- RD (Maturity) ----------
+const rdTemplates = [
+  (m, r, y) => ({ lang: 'hi', q: `RD: ₹${formatINR(m)} per month, rate ${r}% p.a., duration ${y} years. Maturity kitni?` }),
+  (m, r, y) => ({ lang: 'en', q: `Recurring Deposit ₹${formatINR(m)}/month at ${r}% p.a. for ${y} years. Maturity amount?` }),
+  (m, r, y) => ({ lang: 'mix', q: `RD ₹${formatINR(m)}/month @ ${r}% for ${y} years. Final amount?` }),
+  (m, r, y) => ({ lang: 'mix', q: `Monthly RD deposit ₹${formatINR(m)} for ${y} years at ${r}% annual. Maturity value?` }),
+];
+
+const rdMaturity = (monthly, annualRate, years) => {
+  const months = years * 12;
+  const i = annualRate / 12 / 100;
+  // Approximate RD by compounding each installment for remaining months (month-end deposit)
+  let A = 0;
+  for (let k = 0; k < months; k++) {
+    const remaining = months - k;
+    A += monthly * Math.pow(1 + i, remaining);
+  }
+  return { A, months };
+};
+
+const rdAnswer = (monthly, annualRate, years) => {
+  const { A, months } = rdMaturity(monthly, annualRate, years);
+  const invested = monthly * months;
+  const interest = A - invested;
+  return `Answer: RD maturity ≈ ₹${formatINR(A)}\nTotal invested = ₹${formatINR(invested)}\nInterest ≈ ₹${formatINR(interest)}\n\nNote: Approximation using monthly compounding at ${annualRate}% p.a. (month-end deposits).`;
+};
+
+guard = 0;
+while (qCacheByTopic.rd.length < N_RD && guard++ < N_RD * 70) {
+  const m = Math.floor(100 + rand() * 50000);
+  const r = Math.round((3 + rand() * 9) * 10) / 10;
+  const y = Math.floor(1 + rand() * 10);
+  const { q, lang } = pick(rdTemplates)(m, r, y);
+  if (tooSimilar(q, qCacheByTopic.rd)) continue;
+  const ok = pushUnique('rd', lang, q, rdAnswer(m, r, y), ['rd', 'deposit']);
+  if (ok) qCacheByTopic.rd.push(q);
+}
+
 // ---------- Profit/Loss ----------
 const plTemplates = [
   (cp, sp) => ({ lang: 'hi', q: `CP ₹${formatINR(cp)} aur SP ₹${formatINR(sp)} hai. Profit/Loss %?` }),
@@ -217,7 +378,12 @@ console.log('Generated:', items.length, 'QAs');
 console.log('Output:', outFile);
 console.log('Counts:', {
   gst: qCacheByTopic.gst.length,
+  gstReverse: qCacheByTopic['gst-reverse'].length,
   emi: qCacheByTopic.emi.length,
   compound: qCacheByTopic.compound.length,
+  sip: qCacheByTopic.sip.length,
+  cagr: qCacheByTopic.cagr.length,
+  fd: qCacheByTopic.fd.length,
+  rd: qCacheByTopic.rd.length,
   profitLoss: qCacheByTopic['profit-loss'].length,
 });

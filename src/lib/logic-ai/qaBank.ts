@@ -5,7 +5,16 @@ export type QAItem = {
   id: string;
   q: string;
   a: string;
-  topic: 'gst' | 'emi' | 'compound' | 'profit-loss';
+  topic:
+    | 'gst'
+    | 'gst-reverse'
+    | 'emi'
+    | 'compound'
+    | 'sip'
+    | 'cagr'
+    | 'fd'
+    | 'rd'
+    | 'profit-loss';
   lang: 'hi' | 'en' | 'mix';
   tags?: string[];
 };
