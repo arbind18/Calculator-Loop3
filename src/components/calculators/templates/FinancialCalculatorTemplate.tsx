@@ -442,12 +442,12 @@ export function FinancialCalculatorTemplate({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/20 to-background py-6 md:py-12 px-4 print:py-0 print:bg-none">
+    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/20 to-background py-6 md:py-12 px-4 print:py-0 print:bg-none max-w-[100vw] overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-5xl max-w-full min-w-0">
         {/* Header */}
         <div className="text-center mb-6 md:mb-10 animate-fadeIn print:hidden">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4 md:mb-6 shadow-sm">
@@ -753,8 +753,8 @@ export function FinancialCalculatorTemplate({
             </div>
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-12 items-start">
-            <div className="lg:col-span-5 space-y-8">
+          <div className="grid gap-10 lg:grid-cols-12 items-start max-w-full min-w-0">
+            <div className="lg:col-span-5 space-y-8 max-w-full min-w-0">
               {/* Inputs Section */}
               <div className="space-y-6 bg-secondary/5 p-6 rounded-2xl border border-border/50">
                 <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
@@ -780,7 +780,7 @@ export function FinancialCalculatorTemplate({
 
             {/* Results Section - Right Column on Desktop */}
             {result && (
-              <div ref={resultsRef} className="lg:col-span-7 space-y-8 animate-fadeInUp">
+              <div ref={resultsRef} className="lg:col-span-7 space-y-8 animate-fadeInUp max-w-full min-w-0">
                 <div className="h-px w-full bg-border/50 my-8 lg:hidden" />
                 
                 {/* Key Metrics */}
@@ -794,14 +794,16 @@ export function FinancialCalculatorTemplate({
 
                 {/* Charts */}
                 {charts && (
-                  <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-sm overflow-hidden relative">
+                  <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-sm overflow-hidden relative max-w-full min-w-0">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-50" />
                     <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
                       <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs">3</span>
                       Visual Breakdown
                     </h3>
-                    <div className="bg-secondary/5 rounded-xl p-2 md:p-6 flex justify-center min-h-[300px]">
-                      {charts}
+                    <div className="bg-secondary/5 rounded-xl p-2 md:p-6 flex justify-center min-h-[300px] max-w-full overflow-hidden">
+                      <div className="w-full max-w-full">
+                        {charts}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -811,7 +813,7 @@ export function FinancialCalculatorTemplate({
 
           {/* Schedule Section - Full Width Bottom */}
           {result && schedule && (
-            <div className="mt-16 animate-fadeInUp">
+            <div className="mt-16 animate-fadeInUp max-w-full min-w-0">
               <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent mb-12" />
               <h3 className="text-xl font-semibold mb-8 flex items-center gap-2">
                 <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm">4</span>
@@ -839,7 +841,7 @@ export function FinancialCalculatorTemplate({
           )}
 
           {/* SEO Content Section */}
-          <div className="mt-20 max-w-4xl mx-auto space-y-16">
+          <div className="mt-20 max-w-4xl mx-auto space-y-16 max-w-full min-w-0">
             {seoContent && (
               <div className="prose prose-slate dark:prose-invert prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:text-muted-foreground prose-li:text-muted-foreground">
                 {seoContent}
