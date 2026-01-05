@@ -11,9 +11,14 @@ export type QAItem = {
     | 'emi'
     | 'compound'
     | 'sip'
+    | 'sip-required'
+    | 'lumpsum-required'
     | 'cagr'
     | 'fd'
     | 'rd'
+    | 'simple-interest'
+    | 'inflation'
+    | 'salary-breakup'
     | 'profit-loss';
   lang: 'hi' | 'en' | 'mix';
   tags?: string[];
