@@ -30,6 +30,9 @@ scripts/compute-sqrt-bigint.mjs
 tmp_*.json
 tmp_*.log
 
+# Auto-learned AI content (generated at runtime)
+src/content/knowledge-base/auto-learned/
+
 # Local env files
 .env
 .env*.local

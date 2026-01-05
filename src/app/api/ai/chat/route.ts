@@ -12,6 +12,7 @@ import { tryBuildTrigProofResponse } from '@/lib/logic-ai/trigProofResponder';
 import { tryBuildUnitConversionResponse } from '@/lib/logic-ai/unitConverter';
 import { tryBuildWordProblemResponse } from '@/lib/logic-ai/wordProblemSolver';
 import { askGemini, saveLearnedAnswer } from '@/lib/logic-ai/gemini';
+import { findBestFinanceQA } from '@/lib/logic-ai/qaBank';
 
 const SUPPORTED_LOCALES = new Set([
   'en',
@@ -278,6 +279,16 @@ export async function POST(req: Request) {
       responseContent += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
 
       return jsonAssistant(responseContent);
+    }
+
+    // 0.1 Finance Q&A Bank (auto-generated, local, high confidence)
+    // This prevents irrelevant blog/tool snippets and reduces Gemini usage.
+    const financeHit = findBestFinanceQA(effectiveMessage);
+    if (financeHit) {
+      let fullResponse = financeHit.item.a;
+      fullResponse += `\n\n${templates.nextStep}\n\n`;
+      fullResponse += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
+      return jsonAssistant(fullResponse);
     }
 
     // 0.15 Geometry area (offline)
