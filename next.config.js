@@ -17,15 +17,6 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'recharts', '@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-select'],
     optimizeCss: true,
     scrollRestoration: true,
-    // Turbopack support for faster dev builds
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
 
   images: {
