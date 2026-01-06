@@ -109,14 +109,7 @@ const nextConfig = {
   // Redirects for SEO
   async redirects() {
     return [
-      // Legacy: old financial calculator URLs (often indexed by Google)
-      // Example: /financial-calculators/sip-calculator.html -> /calculator/sip-calculator.html
-      // The calculator route will then normalize/strip .html and redirect to /calculator/sip-calculator.
-      {
-        source: '/financial-calculators/:path*',
-        destination: '/calculator/:path*',
-        permanent: true,
-      },
+      // Redirect www to non-www (FIRST - highest priority)
       {
         source: '/:path*',
         has: [
@@ -126,6 +119,153 @@ const nextConfig = {
           },
         ],
         destination: 'https://calculatorloop.com/:path*',
+        permanent: true,
+      },
+      
+      // Legacy HTML site redirects - Old folder structure to new
+      // Math calculators: /Math/Law-of-Sines-Calculator -> /calculator/law-of-sines-calculator
+      {
+        source: '/Math/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/math/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Financial calculators: /financial-calculators/* -> /calculator/*
+      {
+        source: '/financial-calculators/:path*',
+        destination: '/calculator/:path*',
+        permanent: true,
+      },
+      {
+        source: '/Financial-calculators/:path*',
+        destination: '/calculator/:path*',
+        permanent: true,
+      },
+      
+      // Physics calculators
+      {
+        source: '/Physics/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/physics/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Health calculators
+      {
+        source: '/Health/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/health/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Education calculators
+      {
+        source: '/Education/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/education/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Construction calculators
+      {
+        source: '/Construction/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/construction/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Technology calculators
+      {
+        source: '/Technology/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/technology/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Scientific calculators
+      {
+        source: '/Scientific/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/scientific/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // DateTime calculators
+      {
+        source: '/DateTime/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/datetime/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Everyday calculators
+      {
+        source: '/Everyday/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/everyday/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Business calculators
+      {
+        source: '/Business/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/business/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Remove .html extensions from old site
+      {
+        source: '/:path*.html',
+        destination: '/:path*',
+        permanent: true,
+      },
+      
+      // Old _tools directory
+      {
+        source: '/_tools/:calculator',
+        destination: '/calculator/:calculator',
         permanent: true,
       },
     ]
