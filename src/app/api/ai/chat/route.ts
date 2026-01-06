@@ -13,6 +13,7 @@ import { tryBuildUnitConversionResponse } from '@/lib/logic-ai/unitConverter';
 import { tryBuildWordProblemResponse } from '@/lib/logic-ai/wordProblemSolver';
 import { askGemini, saveLearnedAnswer } from '@/lib/logic-ai/gemini';
 import { findBestFinanceQA } from '@/lib/logic-ai/qaBank';
+import { guardUserMessage } from '@/lib/logic-ai/inputGuard';
 
 const SUPPORTED_LOCALES = new Set([
   'en',
@@ -247,6 +248,18 @@ export async function POST(req: Request) {
         content: prefixInternalMarkdownLinks(content, localePrefix),
       });
     };
+
+    // Input guard: handle garbled/ambiguous/invalid queries with one clarification question.
+    // Keeps UX friendly when user types wrong words/sentences.
+    const guard = guardUserMessage(effectiveMessage, lang);
+    if (guard.kind === 'clarify') {
+      responseContent = guard.reply;
+      responseContent += `\n\n${templates.nextStep}\n\n`;
+      responseContent += `${buildNextStepSuggestion(effectiveMessage, lang)}\n`;
+      return jsonAssistant(responseContent);
+    }
+
+    effectiveMessage = guard.message;
 
     // 0. Check Custom Knowledge Base (Manual Training)
     const lowerMsg = effectiveMessage.toLowerCase();

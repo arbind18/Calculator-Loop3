@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Send, X, Bot, Loader2, Mic, MicOff, Volume2, Copy, Trash2, StopCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -51,9 +51,9 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   // Load from local storage on mount
   useEffect(() => {

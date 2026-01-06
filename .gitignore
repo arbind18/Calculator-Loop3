@@ -29,6 +29,9 @@ tmp_pdf_text.txt
 scripts/compute-sqrt-bigint.mjs
 tmp_*.json
 tmp_*.log
+tmp-*
+tmp_*.txt
+tmp_*.html
 
 # Auto-learned AI content (generated at runtime)
 src/content/knowledge-base/auto-learned/
