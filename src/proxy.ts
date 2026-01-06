@@ -77,6 +77,42 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl, 308)
     }
 
+    // Case-insensitive calculator URLs: /calculator/Law-of-Sines -> /calculator/law-of-sines
+    if (basePath.startsWith('/calculator/')) {
+      const slug = basePath.replace('/calculator/', '')
+      const lowercaseSlug = slug.toLowerCase()
+      
+      // If the slug contains uppercase or .html extension, redirect to lowercase without extension
+      if (slug !== lowercaseSlug || slug.endsWith('.html')) {
+        const cleanSlug = lowercaseSlug.replace(/\.html?$/i, '')
+        const redirectUrl = request.nextUrl.clone()
+        redirectUrl.pathname = `${prefix}/calculator/${cleanSlug}`
+        redirectUrl.search = search
+        return NextResponse.redirect(redirectUrl, 301)
+      }
+    }
+
+    // Case-insensitive category URLs: /category/Financial -> /category/financial
+    if (basePath.startsWith('/category/')) {
+      const slug = basePath.replace('/category/', '')
+      const lowercaseSlug = slug.toLowerCase()
+      
+      if (slug !== lowercaseSlug) {
+        const redirectUrl = request.nextUrl.clone()
+        redirectUrl.pathname = `${prefix}/category/${lowercaseSlug}`
+        redirectUrl.search = search
+        return NextResponse.redirect(redirectUrl, 301)
+      }
+    }
+
+    // Remove trailing slashes except for root
+    if (basePath !== '/' && basePath.endsWith('/')) {
+      const redirectUrl = request.nextUrl.clone()
+      redirectUrl.pathname = `${prefix}${basePath.slice(0, -1)}`
+      redirectUrl.search = search
+      return NextResponse.redirect(redirectUrl, 301)
+    }
+
     // Any legacy extension: map to canonical calculator route.
     if (/\.(html?|php)$/i.test(lowerBasePath)) {
       const last = getLastPathSegment(basePath)
