@@ -1,7 +1,7 @@
 // Font optimization utilities for Next.js
 import { Inter, Poppins, Roboto, Manrope } from 'next/font/google'
 
-// Optimize Google Fonts - only load what's needed
+// Optimize Google Fonts - keep payload small
 export const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -9,8 +9,6 @@ export const inter = Inter({
   preload: true,
   fallback: ['system-ui', 'arial'],
   adjustFontFallback: true,
-  // Only load weights we actually use
-  weight: ['400', '500', '600', '700'],
 })
 
 export const poppins = Poppins({
@@ -32,25 +30,15 @@ export const roboto = Roboto({
 })
 
 export const manrope = Manrope({
-  weight: ['400', '500', '600', '700', '800'],
+  // Used mainly for the logo (bold). Keep it minimal.
+  weight: ['800'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-manrope',
-  preload: true,
+  preload: false,
   fallback: ['system-ui', 'arial'],
 })
 
 // Font class names for easy usage
 export const fontClassNames = `${inter.variable} ${poppins.variable} ${manrope.variable}`
 
-// Preload critical fonts
-export function preloadFonts() {
-  if (typeof document !== 'undefined') {
-    const link = document.createElement('link')
-    link.rel = 'preload'
-    link.as = 'font'
-    link.type = 'font/woff2'
-    link.crossOrigin = 'anonymous'
-    document.head.appendChild(link)
-  }
-}

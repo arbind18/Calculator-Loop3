@@ -14,7 +14,7 @@ const nextConfig = {
   outputFileTracingRoot: __dirname,
   
   experimental: {
-    optimizePackageImports: ['lucide-react', 'recharts', '@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-select'],
+    optimizePackageImports: ['lucide-react'],
     optimizeCss: true,
     scrollRestoration: true,
   },
@@ -30,7 +30,7 @@ const nextConfig = {
   },
 
   // Bundle analyzer (optional)
-  webpack: (config, { isServer, dev }) => {
+  webpack: (config, { isServer }) => {
     // Some dependencies use `node:`-prefixed core-module imports (e.g. `node:fs`).
     // Webpack in this setup doesn't handle the `node:` scheme, so normalize it.
     config.plugins = config.plugins || []
@@ -39,49 +39,6 @@ const nextConfig = {
         resource.request = resource.request.replace(/^node:/, '')
       })
     )
-
-    // Optimize bundle size in production
-    if (!dev && !isServer) {
-      // Split chunks for better caching
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            default: false,
-            vendors: false,
-            // Separate recharts into its own chunk (heavy library)
-            recharts: {
-              name: 'recharts',
-              test: /[\\/]node_modules[\\/](recharts|d3-.*)[\\/]/,
-              priority: 40,
-              reuseExistingChunk: true,
-            },
-            // Separate radix-ui components
-            radix: {
-              name: 'radix-ui',
-              test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
-              priority: 30,
-              reuseExistingChunk: true,
-            },
-            // Common vendor libraries
-            vendor: {
-              name: 'vendor',
-              test: /[\\/]node_modules[\\/]/,
-              priority: 20,
-              reuseExistingChunk: true,
-            },
-            // Common components used across pages
-            commons: {
-              name: 'commons',
-              minChunks: 2,
-              priority: 10,
-              reuseExistingChunk: true,
-            },
-          },
-        },
-      }
-    }
 
     // Minimize bundle size
     if (!isServer) {

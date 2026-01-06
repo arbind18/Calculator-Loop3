@@ -5,15 +5,11 @@ import { AuthProvider } from '@/components/providers/AuthProvider'
 import { SettingsProvider } from '@/components/providers/SettingsProvider'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
-import { AIAssistant } from '@/components/ui-ai/AIAssistant'
+import { DeferredClientBits } from '@/components/layout/DeferredClientBits'
 import { OrganizationSchema, WebsiteSchema } from '@/components/seo/AdvancedSchema'
 import { ServiceWorkerRegistration } from '@/lib/serviceWorker'
-import { InstallPrompt } from '@/components/pwa/InstallPrompt'
-import { PushNotificationPrompt } from '@/components/pwa/PushNotificationPrompt'
-import { OfflineIndicator } from '@/components/pwa/OfflineIndicator'
 import ToastProvider from '@/components/providers/ToastProvider'
 import AnalyticsProvider from '@/components/providers/AnalyticsProvider'
-import ClarityScript from '@/components/analytics/ClarityScript'
 import { fontClassNames } from '@/lib/fonts'
 import { getSiteUrl } from '@/lib/siteUrl'
 import './globals.css'
@@ -230,15 +226,11 @@ export default async function RootLayout({
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <AnalyticsProvider>
                 <ToastProvider />
-                <ClarityScript />
-                <OfflineIndicator />
-                <InstallPrompt />
-                <PushNotificationPrompt />
                 <div className="relative flex min-h-screen flex-col">
                   <Navbar />
                   <main className="flex-1 pt-20">{children}</main>
                   <Footer />
-                  <AIAssistant />
+                  <DeferredClientBits />
                 </div>
               </AnalyticsProvider>
             </ThemeProvider>
