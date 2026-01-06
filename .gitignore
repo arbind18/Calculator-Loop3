@@ -47,6 +47,11 @@ src/content/knowledge-base/auto-learned/
 *.tsbuildinfo
 next-env.d.ts
 
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
 # Prisma
 prisma/dev.db
 prisma/*.db
