@@ -1,7 +1,7 @@
 // Font optimization utilities for Next.js
 import { Inter, Poppins, Roboto, Manrope } from 'next/font/google'
 
-// Optimize Google Fonts
+// Optimize Google Fonts - only load what's needed
 export const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -9,19 +9,21 @@ export const inter = Inter({
   preload: true,
   fallback: ['system-ui', 'arial'],
   adjustFontFallback: true,
+  // Only load weights we actually use
+  weight: ['400', '500', '600', '700'],
 })
 
 export const poppins = Poppins({
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '600', '700'], // Reduced from 4 to 3 weights
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-poppins',
-  preload: true,
+  preload: false, // Not critical - load async
   fallback: ['system-ui', 'arial'],
 })
 
 export const roboto = Roboto({
-  weight: ['400', '500', '700'],
+  weight: ['400', '700'], // Reduced from 3 to 2 weights
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-roboto',

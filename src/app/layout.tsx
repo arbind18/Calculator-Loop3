@@ -1,22 +1,25 @@
 import type { Metadata, Viewport } from 'next'
 import { headers } from 'next/headers'
+import dynamic from 'next/dynamic'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { AuthProvider } from '@/components/providers/AuthProvider'
 import { SettingsProvider } from '@/components/providers/SettingsProvider'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
-import { AIAssistant } from '@/components/ui-ai/AIAssistant'
 import { OrganizationSchema, WebsiteSchema } from '@/components/seo/AdvancedSchema'
 import { ServiceWorkerRegistration } from '@/lib/serviceWorker'
-import { InstallPrompt } from '@/components/pwa/InstallPrompt'
-import { PushNotificationPrompt } from '@/components/pwa/PushNotificationPrompt'
-import { OfflineIndicator } from '@/components/pwa/OfflineIndicator'
 import ToastProvider from '@/components/providers/ToastProvider'
 import AnalyticsProvider from '@/components/providers/AnalyticsProvider'
-import ClarityScript from '@/components/analytics/ClarityScript'
 import { fontClassNames } from '@/lib/fonts'
 import { getSiteUrl } from '@/lib/siteUrl'
 import './globals.css'
+
+// Lazy load non-critical components for better performance
+const AIAssistant = dynamic(() => import('@/components/ui-ai/AIAssistant').then(mod => ({ default: mod.AIAssistant })), { ssr: false })
+const InstallPrompt = dynamic(() => import('@/components/pwa/InstallPrompt').then(mod => ({ default: mod.InstallPrompt })), { ssr: false })
+const PushNotificationPrompt = dynamic(() => import('@/components/pwa/PushNotificationPrompt').then(mod => ({ default: mod.PushNotificationPrompt })), { ssr: false })
+const OfflineIndicator = dynamic(() => import('@/components/pwa/OfflineIndicator').then(mod => ({ default: mod.OfflineIndicator })), { ssr: false })
+const ClarityScript = dynamic(() => import('@/components/analytics/ClarityScript'), { ssr: false })
 
 const SUPPORTED_LOCALES = ['en', 'hi', 'ta', 'te', 'bn', 'mr', 'gu', 'es', 'pt', 'fr', 'de', 'id', 'ar', 'ur', 'ja'] as const
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]
