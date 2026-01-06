@@ -60,6 +60,8 @@ function getLastPathSegment(pathname: string): string {
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
+  try {
+
   // Legacy URL redirects (SEO): handle old .html/.php calculator pages indexed by Google.
   // Supports locale-prefixed URLs too (e.g. /hi/financial-calculators/sip-calculator.html).
   if (!pathname.startsWith('/api')) {
@@ -153,11 +155,18 @@ export function proxy(request: NextRequest) {
       requestHeaders.set('x-calculator-language', pathLocale)
       // Preserve the original pathname (including locale prefix) for canonical/hreflang.
       requestHeaders.set('x-original-pathname', pathname)
-      const response = NextResponse.rewrite(rewriteUrl, {
-        request: {
-          headers: requestHeaders,
-        },
-      })
+      let response: NextResponse
+      try {
+        response = NextResponse.rewrite(rewriteUrl, {
+          request: {
+            headers: requestHeaders,
+          },
+        })
+      } catch {
+        // Some Edge runtimes can be strict about request header overrides.
+        // Fall back to a plain rewrite so we don't 500 the entire site.
+        response = NextResponse.rewrite(rewriteUrl)
+      }
       response.cookies.set('calculator-language', pathLocale, { path: '/', sameSite: 'lax' })
 
       // Security Headers
@@ -217,11 +226,17 @@ export function proxy(request: NextRequest) {
   // (Useful for canonical/hreflang; does not change routing.)
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-original-pathname', pathname)
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  })
+  let response: NextResponse
+  try {
+    response = NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
+  } catch {
+    // Same as above: avoid hard-failing if the runtime rejects request header overrides.
+    response = NextResponse.next()
+  }
 
   // Security Headers
   response.headers.set(
@@ -264,6 +279,11 @@ export function proxy(request: NextRequest) {
   }
 
   return response
+
+  } catch {
+    // As a last resort, do not block the request.
+    return NextResponse.next()
+  }
 }
 
 /**
