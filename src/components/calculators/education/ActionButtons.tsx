@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { Share2, RefreshCw, Trash2, Download } from 'lucide-react'
+import { Share2, RefreshCw, Trash2 } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { toast } from 'sonner' // Using sonner for toasts as seen in package.json
 
