@@ -14,7 +14,7 @@ import { EditProfileDialog } from "@/components/dashboard/EditProfileDialog"
 import { ProfileSettings } from "@/components/dashboard/ProfileSettings"
 import { User, History, Star, Bookmark, Settings } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Tooltip } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useSettings } from "@/components/providers/SettingsProvider"
 
 export default function ProfileClient() {
@@ -191,55 +191,90 @@ export default function ProfileClient() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
-            <Tooltip content="View your account summary">
-              <TabsTrigger value="overview" className="flex items-center gap-2 w-full">
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Overview</span>
-              </TabsTrigger>
-            </Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="overview" className="flex items-center gap-2 w-full">
+                    <User className="h-4 w-4" />
+                    <span className="hidden sm:inline">Overview</span>
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View your account summary</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            <Tooltip content="View your past calculations">
-              <TabsTrigger value="history" className="flex items-center gap-2 relative w-full">
-                <History className="h-4 w-4" />
-                <span className="hidden sm:inline">History</span>
-                {counts.history > 0 && (
-                  <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
-                    {counts.history > 99 ? '99+' : counts.history}
-                  </Badge>
-                )}
-              </TabsTrigger>
-            </Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="history" className="flex items-center gap-2 relative w-full">
+                    <History className="h-4 w-4" />
+                    <span className="hidden sm:inline">History</span>
+                    {counts.history > 0 && (
+                      <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
+                        {counts.history > 99 ? '99+' : counts.history}
+                      </Badge>
+                    )}
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View your past calculations</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            <Tooltip content="Quick access to your favorite tools">
-              <TabsTrigger value="favorites" className="flex items-center gap-2 w-full">
-                <Star className="h-4 w-4" />
-                <span className="hidden sm:inline">Favorites</span>
-                {counts.favorites > 0 && (
-                  <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
-                    {counts.favorites}
-                  </Badge>
-                )}
-              </TabsTrigger>
-            </Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="favorites" className="flex items-center gap-2 w-full">
+                    <Star className="h-4 w-4" />
+                    <span className="hidden sm:inline">Favorites</span>
+                    {counts.favorites > 0 && (
+                      <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
+                        {counts.favorites}
+                      </Badge>
+                    )}
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Quick access to your favorite tools</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            <Tooltip content="View your saved financial plans">
-              <TabsTrigger value="saved" className="flex items-center gap-2 w-full">
-                <Bookmark className="h-4 w-4" />
-                <span className="hidden sm:inline">Saved</span>
-                {counts.saved > 0 && (
-                  <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
-                    {counts.saved}
-                  </Badge>
-                )}
-              </TabsTrigger>
-            </Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="saved" className="flex items-center gap-2 w-full">
+                    <Bookmark className="h-4 w-4" />
+                    <span className="hidden sm:inline">Saved</span>
+                    {counts.saved > 0 && (
+                      <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
+                        {counts.saved}
+                      </Badge>
+                    )}
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View your saved financial plans</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            <Tooltip content="Manage your account settings">
-              <TabsTrigger value="settings" className="flex items-center gap-2 w-full">
-                <Settings className="h-4 w-4" />
-                <span className="hidden sm:inline">Settings</span>
-              </TabsTrigger>
-            </Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="settings" className="flex items-center gap-2 w-full">
+                    <Settings className="h-4 w-4" />
+                    <span className="hidden sm:inline">Settings</span>
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Manage your account settings</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">

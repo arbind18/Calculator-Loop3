@@ -36,17 +36,17 @@ export function BodySurfaceAreaCalculator() {
     const bsaHaycock = 0.024265 * Math.pow(weightKg, 0.5378) * Math.pow(heightCm, 0.3964)
     const bsaGehanGeorge = 0.0235 * Math.pow(heightCm, 0.42246) * Math.pow(weightKg, 0.51456)
     const bsaBoyd = 0.0003207 * Math.pow(heightCm, 0.3) * Math.pow(weightKg * 1000, 0.7285 - (0.0188 * Math.log10(weightKg * 1000)))
-    
+
     // Average BSA from all formulas
     const averageBSA = (bsaMosteller + bsaDuBois + bsaHaycock + bsaGehanGeorge) / 4
-    
+
     // BMI for additional context
     const bmi = weightKg / Math.pow(heightCm / 100, 2)
-    
+
     // Calculate clinical metrics
     const cardiacIndex = (5.0 / bsaMosteller) // Assuming normal cardiac output of 5 L/min
     const drugDosageFactor = bsaMosteller / 1.73 // Normalized to standard 1.73 m²
-    
+
     // BSA Status
     let status: 'good' | 'normal' | 'warning' | 'danger' = 'normal'
     let bsaCategory = ""
@@ -60,7 +60,7 @@ export function BodySurfaceAreaCalculator() {
       status = 'normal'
       bsaCategory = "Above Average"
     }
-    
+
     const healthResult: HealthResult = {
       primaryMetric: {
         label: "Body Surface Area (Mosteller)",
@@ -260,14 +260,14 @@ export function WaistToHeightRatioCalculator() {
   const calculateWHtR = () => {
     const ratio = waistCm / heightCm
     const percentage = ratio * 100
-    
+
     // Calculate target waist for healthy ratio (0.5)
     const targetWaist = heightCm * 0.5
     const waistDifference = waistCm - targetWaist
-    
+
     // Calculate BMI equivalent for context
     const approximateBMI = (ratio - 0.3) * 50 // Rough estimation
-    
+
     // Body shape analysis
     let bodyShape = ""
     if (ratio < 0.35) bodyShape = "Very Slim"
@@ -276,12 +276,12 @@ export function WaistToHeightRatioCalculator() {
     else if (ratio < 0.53) bodyShape = "Stocky"
     else if (ratio < 0.58) bodyShape = "Overweight"
     else bodyShape = "Obese"
-    
+
     let status: 'good' | 'normal' | 'warning' | 'danger' = 'normal'
     let category = ""
     let risk = ""
     let diseaseRisk = ""
-    
+
     if (ratio < 0.4) {
       status = 'warning'
       category = "Extremely Slim"
@@ -389,7 +389,7 @@ export function WaistToHeightRatioCalculator() {
         "Metabolic Syndrome Risk": ratio < 0.5 ? "Low (<10%)" : ratio < 0.6 ? "Moderate (30-40%)" : "High (60-70%)",
         "Recommended Action": ratio < 0.5 ? "Maintain current lifestyle" : ratio < 0.6 ? "Lifestyle modification (diet + exercise)" : "Medical consultation + intensive lifestyle changes"
       },
-      healthScore: status === 'good' ? 95 : status === 'normal' ? 75 : status === 'warning' ? 55 : 35
+      healthScore: status === 'good' ? 95 : status === 'warning' ? 55 : 35
     }
 
     setResult(healthResult)
