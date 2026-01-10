@@ -70,6 +70,9 @@ export const guardUserMessage = (rawMessage: string, lang: 'en' | 'hi'): InputGu
 
   const numbers = extractNumbers(message);
   const hasMathIntentWord = /\b(calculate|solve|answer|result)\b/i.test(message) || /kitna|batao|nikalo|solve/i.test(message);
+  const hasPlaceValueCue =
+    /place value|face value|expanded form|digit at|ones place|tens place|hundreds place|thousands place/i.test(message) ||
+    /स्थानिक मान|स्थानीय मान|अंकित मान|विस्तारित रूप|इकाई|दहाई|सैकड़ा|हजार|लाख|करोड़/i.test(message);
 
   // If user gave one number but asks to add/subtract/etc.
   if (numbers.length === 1 && hasOperatorWordCue(message)) {
@@ -83,7 +86,7 @@ export const guardUserMessage = (rawMessage: string, lang: 'en' | 'hi'): InputGu
   }
 
   // If user gave 2+ numbers but operation is unclear.
-  if (numbers.length >= 2 && !hasOperatorSymbol(message) && !hasOperatorWordCue(message) && hasMathIntentWord) {
+  if (numbers.length >= 2 && !hasOperatorSymbol(message) && !hasOperatorWordCue(message) && hasMathIntentWord && !hasPlaceValueCue) {
     const [a, b] = numbers;
     return {
       kind: 'clarify',

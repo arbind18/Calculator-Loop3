@@ -1,33 +1,99 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Scale } from "lucide-react"
-import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
+import { Scale, Activity, User, TrendingUp } from "lucide-react"
+import { ComprehensiveHealthTemplate, HealthResult } from "@/components/calculators/templates/ComprehensiveHealthTemplate"
+import { InputGroup } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { 
   ResponsiveContainer, PieChart, Pie, Cell 
 } from "recharts"
 import { calculateBMI, BMIResult } from "@/lib/logic/health"
 import { useTranslation } from "@/hooks/useTranslation"
+import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 
 export function AdvancedBMICalculator() {
   const { t } = useTranslation()
   const [weight, setWeight] = useState(70)
   const [height, setHeight] = useState(170)
   
-  const [result, setResult] = useState<BMIResult & { color: string } | null>(null)
+  const [result, setResult] = useState<HealthResult | null>(null)
 
   const handleCalculate = () => {
     const res = calculateBMI(weight, height)
     
     let color = ""
+    let status: 'normal' | 'warning' | 'danger' | 'good' = 'normal'
     switch(res.category) {
-      case 'underweight': color = "#3b82f6"; break;
-      case 'normal': color = "#22c55e"; break;
-      case 'overweight': color = "#eab308"; break;
-      case 'obese': color = "#ef4444"; break;
+      case 'underweight': 
+        color = "#3b82f6"
+        status = 'warning'
+        break;
+      case 'normal': 
+        color = "#22c55e"
+        status = 'good'
+        break;
+      case 'overweight': 
+        color = "#eab308"
+        status = 'warning'
+        break;
+      case 'obese': 
+        color = "#ef4444"
+        status = 'danger'
+        break;
     }
     
-    setResult({ ...res, color })
+    const healthResult: HealthResult = {
+      primaryMetric: {
+        label: t('health.your_bmi'),
+        value: res.bmi,
+        unit: "",
+        status: status,
+        description: `Category: ${t(`health.categories.${res.category}`)}`,
+        icon: Scale
+      },
+      metrics: [
+        { 
+          label: t('health.category'), 
+          value: t(`health.categories.${res.category}`), 
+          status: status, 
+          icon: Activity 
+        },
+        { 
+          label: t('health.ideal_weight_range'), 
+          value: `${res.idealWeightMin} - ${res.idealWeightMax}`, 
+          unit: "kg",
+          status: 'normal', 
+          icon: TrendingUp 
+        },
+      ],
+      recommendations: [
+        {
+          title: "BMI Category",
+          description: res.category === 'normal' 
+            ? "Your BMI is in the healthy range. Maintain your current lifestyle."
+            : res.category === 'underweight'
+            ? "Consider consulting a healthcare provider for a proper nutrition plan."
+            : "Consider a balanced diet and regular exercise. Consult a healthcare professional.",
+          priority: res.category === 'normal' ? 'low' : 'high',
+          category: "Health"
+        }
+      ],
+      detailedBreakdown: {
+        "Weight": `${weight} kg`,
+        "Height": `${height} cm`,
+        "BMI": res.bmi.toString(),
+        "Category": t(`health.categories.${res.category}`)
+      },
+      healthScore: res.category === 'normal' ? 85 : res.category === 'overweight' ? 65 : res.category === 'underweight' ? 70 : 50
+    }
+    
+    setResult(healthResult)
+  }
+
+  const handleClear = () => {
+    setWeight(70)
+    setHeight(170)
+    setResult(null)
   }
 
   useEffect(() => {
@@ -43,18 +109,20 @@ export function AdvancedBMICalculator() {
   ]
 
   // Needle rotation
-  const needleRotation = result ? 180 - (Math.min(Math.max(Number(result.bmi), 0), 40) / 40) * 180 : 90
+  const needleRotation = result?.primaryMetric ? 180 - (Math.min(Math.max(Number(result.primaryMetric.value), 0), 40) / 40) * 180 : 90
 
   return (
-    <FinancialCalculatorTemplate
+    <ComprehensiveHealthTemplate
       title={t('health.bmi_title')}
       description={t('health.bmi_desc')}
       icon={Scale}
       calculate={handleCalculate}
-      onClear={() => {
-        setWeight(70)
-        setHeight(170)
-      }}
+      onClear={handleClear}
+      result={result}
+      values={[weight, height]}
+      categoryName="Health"
+      toolId="bmi-calculator"
+      seoContent={<SeoContentGenerator title={t('health.bmi_title')} description={t('health.bmi_desc')} categoryName="Health" />}
       inputs={
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -77,71 +145,6 @@ export function AdvancedBMICalculator() {
           </div>
         </div>
       }
-      result={result && (
-        <div className="mt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <ResultCard 
-              label={t('health.your_bmi')} 
-              value={result.bmi.toString()} 
-              type="highlight" 
-              className="border-2"
-              style={{ borderColor: result.color }}
-            />
-            <ResultCard 
-              label={t('health.category')} 
-              value={t(`health.categories.${result.category}`)} 
-              type="default" 
-              style={{ color: result.color, fontWeight: 'bold' }}
-            />
-            <ResultCard 
-              label={t('health.ideal_weight_range')} 
-              value={`${result.idealWeightMin} - ${result.idealWeightMax} kg`} 
-              type="success" 
-            />
-          </div>
-
-          <div className="relative h-48 w-full flex justify-center items-end overflow-hidden">
-             {/* Custom Gauge Implementation using CSS/SVG or Recharts Pie */}
-             <div className="relative w-64 h-32">
-                <ResponsiveContainer width="100%" height="200%">
-                  <PieChart>
-                    <Pie
-                      data={gaugeData}
-                      cx="50%"
-                      cy="50%"
-                      startAngle={180}
-                      endAngle={0}
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={0}
-                      dataKey="value"
-                    >
-                      {gaugeData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-                {/* Needle */}
-                <div 
-                  className="absolute bottom-0 left-1/2 w-1 h-20 bg-slate-800 origin-bottom transition-transform duration-500 ease-out"
-                  style={{ 
-                    transform: `translateX(-50%) rotate(${needleRotation}deg) translateY(-10px)`,
-                    zIndex: 10
-                  }}
-                />
-                <div className="absolute bottom-0 left-1/2 w-4 h-4 bg-slate-800 rounded-full -translate-x-1/2 translate-y-1/2 z-20" />
-             </div>
-          </div>
-          
-          <div className="flex justify-center gap-4 text-xs text-muted-foreground flex-wrap">
-            <div className="flex items-center gap-1"><div className="w-3 h-3 bg-blue-500 rounded-full"></div> {t('health.categories.underweight')} (&lt;18.5)</div>
-            <div className="flex items-center gap-1"><div className="w-3 h-3 bg-green-500 rounded-full"></div> {t('health.categories.normal')} (18.5-25)</div>
-            <div className="flex items-center gap-1"><div className="w-3 h-3 bg-yellow-500 rounded-full"></div> {t('health.categories.overweight')} (25-30)</div>
-            <div className="flex items-center gap-1"><div className="w-3 h-3 bg-red-500 rounded-full"></div> {t('health.categories.obese')} (&gt;30)</div>
-          </div>
-        </div>
-      )}
     />
   )
 }

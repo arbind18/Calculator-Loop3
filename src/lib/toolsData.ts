@@ -1650,6 +1650,7 @@ const baseToolsData: Record<string, Category> = {
           { id: 'gre-score-predictor', title: 'GRE Score Predictor', description: 'Predict GRE score for US universities.', icon: 'fas fa-globe-americas', action: 'Calculate Now' },
           { id: 'ielts-band-calculator', title: 'IELTS Band Calculator', description: 'Calculate IELTS overall band score.', icon: 'fas fa-language', action: 'Calculate Now' },
           { id: 'toefl-score-calculator', title: 'TOEFL Score Calculator', description: 'Calculate TOEFL total score.', icon: 'fas fa-book-reader', action: 'Calculate Now' },
+          { id: 'xat-score-calculator', title: 'XAT Score Calculator', description: 'Calculate XAT score with negative marking.', icon: 'fas fa-calculator', action: 'Calculate Now' }
         ]
       },
     }

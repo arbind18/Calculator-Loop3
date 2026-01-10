@@ -83,12 +83,21 @@ export function BMRCalculator() {
     setResult(healthResult)
   }
 
+  const handleClear = () => {
+    setWeight(70)
+    setHeight(170)
+    setAge(30)
+    setGender('male')
+    setResult(null)
+  }
+
   return (
     <ComprehensiveHealthTemplate
       title="BMR Calculator"
       description="Calculate your Basal Metabolic Rate (BMR) and daily calorie needs."
       icon={Activity}
       calculate={calculateBMR}
+      onClear={handleClear}
       values={[weight, height, age, gender]}
       seoContent={<SeoContentGenerator title="BMR Calculator" description="Calculate your Basal Metabolic Rate (BMR) and daily calorie needs." categoryName="Health" />}
       result={result}

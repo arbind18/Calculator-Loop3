@@ -80,6 +80,25 @@ NEXTAUTH_URL=
 NEXTAUTH_SECRET=
 ```
 
+### Google Login (OAuth)
+
+This project uses NextAuth + Google provider. If you want the **Google** button to work:
+
+1. Create/select a Google Cloud project
+2. Configure **OAuth consent screen**
+3. Create **OAuth client ID** → Application type: **Web application**
+4. Add **Authorized redirect URIs**:
+	- `http://localhost:3000/api/auth/callback/google`
+	- `https://YOUR_DOMAIN/api/auth/callback/google`
+5. Put the credentials in `.env.local`:
+
+```env
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
+If you see Google error `deleted_client`, it means the Client ID you are using was deleted/invalidated in Google Cloud — create a new OAuth client and update `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`, then restart the dev server.
+
 ## 📄 License
 
 MIT License - See LICENSE file for details

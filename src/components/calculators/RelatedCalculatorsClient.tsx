@@ -28,14 +28,8 @@ export function RelatedCalculatorsClient({
 
   return (
     <div className="mt-16 border-t border-border/50 pt-12">
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6">
         <h3 className="text-2xl font-bold">Related Calculators</h3>
-        <Link
-          href={`${prefix}/category/${categoryId}`}
-          className="text-primary hover:underline flex items-center gap-1 text-sm font-medium"
-        >
-          View all <ArrowRight className="h-4 w-4" />
-        </Link>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">

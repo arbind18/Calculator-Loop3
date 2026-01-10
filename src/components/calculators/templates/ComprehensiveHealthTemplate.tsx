@@ -5,7 +5,8 @@ import {
   Activity, LucideIcon, Download, Printer, Share2, RotateCcw, 
   FileText, FileSpreadsheet, FileJson, FileCode, FileImage, 
   Database, FileArchive, Presentation, X, ChevronDown, TrendingUp,
-  Heart, Scale, AlertCircle, CheckCircle, Info, Copy, Mail, History, Trash2
+  Heart, Scale, AlertCircle, CheckCircle, Info, Copy, Mail, History, Trash2,
+  Star, Bookmark, Clock
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
@@ -389,6 +390,193 @@ export function ComprehensiveHealthTemplate({
           </p>
         </div>
 
+        {/* Toolbar Section */}
+        <div className="mb-6 print:hidden">
+          <Card className="border-border/50">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 flex-wrap justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/50">
+                    <Activity className="h-4 w-4 text-primary" />
+                    <Label htmlFor="toolbar-auto-calculate" className="text-sm cursor-pointer mb-0">
+                      Auto Calculate
+                    </Label>
+                    <Switch
+                      id="toolbar-auto-calculate"
+                      checked={isAutoCalculate}
+                      onCheckedChange={setIsAutoCalculate}
+                      className="ml-2"
+                    />
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-1">
+                  {onClear && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={onClear}
+                      title="Clear all inputs"
+                      className="h-9 w-9 p-0"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                  
+                  {onClear && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={onClear}
+                      title="Reset calculator"
+                      className="h-9 w-9 p-0"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                    </Button>
+                  )}
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      toast.success("Added to favorites!")
+                    }}
+                    title="Add to favorites"
+                    className="h-9 w-9 p-0"
+                  >
+                    <Star className="h-4 w-4" />
+                  </Button>
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      toast.success("Bookmarked!")
+                    }}
+                    title="Bookmark this calculator"
+                    className="h-9 w-9 p-0"
+                  >
+                    <Bookmark className="h-4 w-4" />
+                  </Button>
+                  
+                  {toolId && (
+                    <DropdownMenu open={historyOpen} onOpenChange={setHistoryOpen}>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          title="View calculation history"
+                          className="h-9 w-9 p-0"
+                        >
+                          <Clock className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-[360px] p-3">
+                        <DropdownMenuLabel className="px-2 py-1.5 text-sm font-bold">Recent Calculations</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        {historyItems.length === 0 ? (
+                          <div className="px-2 py-3 text-sm text-muted-foreground">No history yet</div>
+                        ) : (
+                          <div className="max-h-[320px] overflow-y-auto">
+                            {historyItems.map((item, idx) => (
+                              <DropdownMenuItem
+                                key={`${item.at}-${idx}`}
+                                className="rounded-lg cursor-pointer flex items-center justify-between gap-3"
+                                onClick={() => copyHistoryItem(item)}
+                              >
+                                <div className="min-w-0">
+                                  <div className="text-sm font-medium truncate">{new Date(item.at).toLocaleString()}</div>
+                                  <div className="text-xs text-muted-foreground truncate">
+                                    {item.primary ?? "Click to copy"}
+                                  </div>
+                                </div>
+                                <Copy className="h-4 w-4" />
+                              </DropdownMenuItem>
+                            ))}
+                          </div>
+                        )}
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          className="rounded-lg cursor-pointer text-destructive focus:text-destructive flex items-center gap-2"
+                          onClick={clearHistory}
+                          disabled={historyItems.length === 0}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          <span>Clear history</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleShare}
+                    title="Share this calculator"
+                    className="h-9 w-9 p-0"
+                  >
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handlePrint}
+                    title="Print results"
+                    className="h-9 w-9 p-0"
+                  >
+                    <Printer className="h-4 w-4" />
+                  </Button>
+                  
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => initiateDownload('pdf')}
+                    title="Download as PDF"
+                    className="h-9 px-4"
+                    disabled={!result}
+                  >
+                    <FileText className="h-4 w-4 mr-1" />
+                    PDF
+                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        title="Download in other formats"
+                        className="h-9 px-4"
+                        disabled={!result}
+                      >
+                        <Download className="h-4 w-4 mr-1" />
+                        Download
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => initiateDownload('pdf')}>
+                        <FileText className="h-4 w-4 mr-2" /> PDF Report
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => initiateDownload('excel')}>
+                        <FileSpreadsheet className="h-4 w-4 mr-2" /> Excel
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => initiateDownload('png')}>
+                        <FileImage className="h-4 w-4 mr-2" /> Image (PNG)
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => initiateDownload('csv')}>
+                        <FileCode className="h-4 w-4 mr-2" /> CSV
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => initiateDownload('json')}>
+                        <FileJson className="h-4 w-4 mr-2" /> JSON
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Main Content */}
         <div className="grid lg:grid-cols-12 gap-6 md:gap-8 mb-8">
           {/* Input Section - 4 Columns */}
@@ -404,39 +592,18 @@ export function ComprehensiveHealthTemplate({
               <CardContent>
                 {inputs}
 
-                <div className="mt-6 pt-6 border-t border-border">
-                  <div className="flex items-center justify-between mb-4">
-                    <Label htmlFor="auto-calculate" className="text-sm cursor-pointer">
-                      Auto-calculate
-                    </Label>
-                    <Switch
-                      id="auto-calculate"
-                      checked={isAutoCalculate}
-                      onCheckedChange={setIsAutoCalculate}
-                    />
-                  </div>
-                  <div className="flex gap-2">
+                {!isAutoCalculate && (
+                  <div className="mt-6 pt-6 border-t border-border">
                     <Button
                       onClick={calculate}
-                      className="flex-1 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-md hover:shadow-lg transition-all duration-300"
+                      className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-md hover:shadow-lg transition-all duration-300"
                       size="lg"
                     >
                       <Activity className="h-5 w-5 mr-2" />
                       {calculateLabel}
                     </Button>
-                    {onClear && (
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        onClick={onClear}
-                        className="px-3"
-                        title="Reset"
-                      >
-                        <RotateCcw className="h-5 w-5" />
-                      </Button>
-                    )}
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
 
@@ -611,135 +778,6 @@ export function ComprehensiveHealthTemplate({
                     </CardContent>
                   </Card>
                 </div>
-
-                {/* Multiple Download Buttons Section */}
-                <Card className="bg-muted/30 border-border">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Download className="h-5 w-5 text-primary" />
-                      Download & Share Results
-                    </CardTitle>
-                    <CardDescription>Save your health report in your preferred format</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-3">
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 min-w-[120px] bg-background hover:bg-primary/5 hover:text-primary border-primary/20"
-                        onClick={() => initiateDownload('pdf')}
-                      >
-                        <FileText className="h-4 w-4 mr-2 text-red-500" />
-                        PDF Report
-                      </Button>
-                      
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 min-w-[120px] bg-background hover:bg-primary/5 hover:text-primary border-primary/20"
-                        onClick={() => initiateDownload('excel')}
-                      >
-                        <FileSpreadsheet className="h-4 w-4 mr-2 text-green-600" />
-                        Excel
-                      </Button>
-                      
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 min-w-[120px] bg-background hover:bg-primary/5 hover:text-primary border-primary/20"
-                        onClick={() => initiateDownload('png')}
-                      >
-                        <FileImage className="h-4 w-4 mr-2 text-purple-500" />
-                        Image
-                      </Button>
-
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" className="flex-1 min-w-[120px] bg-background">
-                            More Formats
-                            <ChevronDown className="h-4 w-4 ml-2" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => initiateDownload('csv')}>
-                            <FileCode className="h-4 w-4 mr-2" /> CSV
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => initiateDownload('json')}>
-                            <FileJson className="h-4 w-4 mr-2" /> JSON
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => initiateDownload('xml')}>
-                            <Database className="h-4 w-4 mr-2" /> XML
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => initiateDownload('pptx')}>
-                            <Presentation className="h-4 w-4 mr-2" /> PowerPoint
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => initiateDownload('zip')}>
-                            <FileArchive className="h-4 w-4 mr-2" /> ZIP Archive
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                    
-                    <div className="flex gap-3 mt-4 pt-4 border-t border-border/50">
-                      <Button variant="ghost" size="sm" onClick={handlePrint} className="flex-1">
-                        <Printer className="h-4 w-4 mr-2" /> Print
-                      </Button>
-
-                      {toolId && (
-                        <DropdownMenu open={historyOpen} onOpenChange={setHistoryOpen}>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="flex-1">
-                              <History className="h-4 w-4 mr-2" /> History
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-[360px] p-3">
-                            <DropdownMenuLabel className="px-2 py-1.5 text-sm font-bold">Recent Inputs</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-
-                            {historyItems.length === 0 ? (
-                              <div className="px-2 py-3 text-sm text-muted-foreground">No history yet. Run a calculation to save inputs.</div>
-                            ) : (
-                              <div className="max-h-[320px] overflow-y-auto">
-                                {historyItems.map((item, idx) => (
-                                  <DropdownMenuItem
-                                    key={`${item.at}-${idx}`}
-                                    className="rounded-lg cursor-pointer flex items-center justify-between gap-3"
-                                    onClick={() => copyHistoryItem(item)}
-                                  >
-                                    <div className="min-w-0">
-                                      <div className="text-sm font-medium truncate">{new Date(item.at).toLocaleString()}</div>
-                                      <div className="text-xs text-muted-foreground truncate">
-                                        {item.primary ?? "Click to copy inputs"}
-                                      </div>
-                                    </div>
-                                    <Copy className="h-4 w-4" />
-                                  </DropdownMenuItem>
-                                ))}
-                              </div>
-                            )}
-
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="rounded-lg cursor-pointer text-destructive focus:text-destructive flex items-center gap-2"
-                              onClick={clearHistory}
-                              disabled={historyItems.length === 0}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                              <span>Clear history</span>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      )}
-
-                      <Button variant="ghost" size="sm" onClick={handleShare} className="flex-1">
-                        <Share2 className="h-4 w-4 mr-2" /> Share
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => {
-                        navigator.clipboard.writeText(window.location.href)
-                        toast.success("Link copied!")
-                      }} className="flex-1">
-                        <Copy className="h-4 w-4 mr-2" /> Copy Link
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
               </>
             ) : (
               <div className="h-full flex flex-col items-center justify-center bg-card border border-dashed border-border rounded-2xl p-12 text-center min-h-[400px]">

@@ -24,6 +24,10 @@ const genericEducationTool = dynamic(() =>
   import('@/components/calculators/categories/education/GenericEducationTool').then(m => ({ default: m.GenericEducationTool }))
 )
 
+const XATScoreCalculator = dynamic(() =>
+  import('@/components/calculators/education/XATScoreCalculator').then(m => ({ default: m.default }))
+)
+
 const genericConstructionTool = dynamic(() =>
   import('@/components/calculators/categories/construction/GenericConstructionTool').then(m => ({ default: m.GenericConstructionTool }))
 )
@@ -50,7 +54,7 @@ const genericEducationToolIds = [
   'class-rank-calculator',
   'assignment-grade-calculator',
   'quiz-average-calculator',
-  
+
   // Test & Preparation (10 tools)
   'study-time-calculator',
   'exam-score-calculator',
@@ -62,7 +66,7 @@ const genericEducationToolIds = [
   'topic-wise-time-allocator',
   'study-break-calculator',
   'concentration-span-tracker',
-  
+
   // Attendance & Performance (6 tools)
   'attendance-calculator',
   'attendance-predictor',
@@ -70,7 +74,7 @@ const genericEducationToolIds = [
   'attendance-recovery-plan',
   'class-participation-tracker',
   'assignment-submission-tracker',
-  
+
   // College Planning (11 tools)
   'college-cost-calculator',
   'scholarship-calculator',
@@ -83,7 +87,7 @@ const genericEducationToolIds = [
   'college-vs-job-calculator',
   'study-abroad-cost-calculator',
   'part-time-job-planner',
-  
+
   // Skill Development (6 tools)
   'learning-curve-calculator',
   'certification-roi-calculator',
@@ -91,7 +95,7 @@ const genericEducationToolIds = [
   'online-course-time-calculator',
   'language-learning-tracker',
   'coding-practice-planner',
-  
+
   // Competitive Exams (9 tools)
   'jee-rank-predictor',
   'neet-score-calculator',
@@ -102,6 +106,7 @@ const genericEducationToolIds = [
   'gre-score-predictor',
   'ielts-band-calculator',
   'toefl-score-calculator',
+  'xat-score-calculator',
 ];
 
 const genericConstructionToolIds = [
@@ -121,7 +126,7 @@ const genericConstructionToolIds = [
   'soil-bearing-capacity',
   'pile-foundation',
   'shear-wall-design',
-  
+
   // Materials & Quantity (18 tools)
   'concrete-calculator',
   'brick-calculator',
@@ -141,7 +146,7 @@ const genericConstructionToolIds = [
   'drywall-calculator',
   'insulation-material',
   'formwork-calculator',
-  
+
   // Area & Volume (12 tools)
   'area-calculator',
   'volume-calculator',
@@ -155,7 +160,7 @@ const genericConstructionToolIds = [
   'polygon-area',
   'trapezoidal-area',
   'pyramid-volume',
-  
+
   // Finishing & Interior (13 tools)
   'paint-calculator',
   'tile-calculator',
@@ -170,7 +175,7 @@ const genericConstructionToolIds = [
   'carpet-calculator',
   'molding-calculator',
   'trim-calculator',
-  
+
   // Cost Estimation (14 tools)
   'construction-cost',
   'civil-work-cost',
@@ -186,7 +191,7 @@ const genericConstructionToolIds = [
   'permit-fee-calculator',
   'architect-fee',
   'contractor-margin',
-  
+
   // Electrical & Plumbing (15 tools)
   'wire-calculator',
   'conduit-calculator',
@@ -203,7 +208,7 @@ const genericConstructionToolIds = [
   'cable-tray-sizing',
   'earthing-calculator',
   'solar-panel-sizing',
-  
+
   // HVAC & Insulation (10 tools)
   'ac-tonnage',
   'btu-calculator',
@@ -215,7 +220,7 @@ const genericConstructionToolIds = [
   'heat-gain-calculator',
   'chiller-sizing',
   'boiler-sizing',
-  
+
   // Roofing & Waterproofing (10 tools)
   'roof-area',
   'roof-pitch',
@@ -243,7 +248,7 @@ const genericEverydayToolIds = [
   'shift-schedule-calculator',
   'time-card-calculator',
   'productivity-score-calculator',
-  
+
   // Travel & Transportation (18 tools)
   'fuel-cost-calculator',
   'trip-cost-calculator',
@@ -263,7 +268,7 @@ const genericEverydayToolIds = [
   'luggage-weight-calculator',
   'foreign-exchange-calculator',
   'travel-insurance-cost',
-  
+
   // Home & Living (16 tools)
   'rent-vs-buy-calculator',
   'room-size-calculator',
@@ -281,7 +286,7 @@ const genericEverydayToolIds = [
   'room-heater-cost',
   'carpet-area-calculator',
   'interior-design-budget',
-  
+
   // Mobile & Communication (10 tools) - Priority 2
   'data-plan-calculator',
   'call-cost-calculator',
@@ -293,7 +298,7 @@ const genericEverydayToolIds = [
   'mobile-insurance-calculator',
   'phone-upgrade-calculator',
   'prepaid-vs-postpaid',
-  
+
   // Wedding & Events (10 tools) - Priority 2
   'wedding-budget-calculator',
   'guest-list-calculator',
@@ -305,7 +310,7 @@ const genericEverydayToolIds = [
   'wedding-card-cost',
   'honeymoon-budget-calculator',
   'gift-registry-calculator',
-  
+
   // Parenting & Baby (12 tools) - Priority 2
   'baby-due-date-calculator',
   'baby-growth-tracker',
@@ -319,7 +324,7 @@ const genericEverydayToolIds = [
   'formula-milk-calculator',
   'baby-milestone-tracker',
   'baby-name-numerology',
-  
+
   // Food & Dining
   'tip-calculator',
   'recipe-converter',
@@ -329,7 +334,7 @@ const genericEverydayToolIds = [
   'meal-cost-calculator',
   'calories-per-serving',
   'food-waste-calculator',
-  
+
   // Conversion Tools
   'unit-converter',
   'temperature-converter',
@@ -337,7 +342,7 @@ const genericEverydayToolIds = [
   'weight-converter',
   'volume-converter',
   'speed-converter',
-  
+
   // Shopping & Budgeting
   'discount-calculator',
   'sales-tax-calculator',
@@ -361,7 +366,7 @@ const genericTechnologyToolIds = [
   'vpn-bandwidth',
   'websocket-calculator',
   'http-request-size',
-  
+
   // Security & Privacy (11 tools)
   'password-strength',
   'password-generator',
@@ -374,7 +379,7 @@ const genericTechnologyToolIds = [
   'base64-encoder',
   'url-encoder',
   'entropy-calculator',
-  
+
   // Storage & Data Management (10 tools)
   'file-size-converter',
   'storage-calculator',
@@ -386,7 +391,7 @@ const genericTechnologyToolIds = [
   'ssd-lifespan',
   'cloud-storage-cost',
   'database-size',
-  
+
   // Web Development & Performance (11 tools)
   'page-load-time',
   'image-optimization',
@@ -399,7 +404,7 @@ const genericTechnologyToolIds = [
   'lighthouse-score',
   'seo-score',
   'core-web-vitals',
-  
+
   // Mobile App Development (8 tools)
   'app-size-calculator',
   'screen-density',
@@ -409,7 +414,7 @@ const genericTechnologyToolIds = [
   'in-app-purchase',
   'app-rating',
   'responsive-units',
-  
+
   // Cloud Computing & DevOps (9 tools)
   'aws-cost-calculator',
   'azure-cost-calculator',
@@ -420,7 +425,7 @@ const genericTechnologyToolIds = [
   'cdn-cost-calculator',
   'load-balancer-cost',
   'ci-cd-time',
-  
+
   // Programming & Development (12 tools)
   'time-complexity',
   'space-complexity',
@@ -434,7 +439,7 @@ const genericTechnologyToolIds = [
   'random-data-generator',
   'cron-expression',
   'git-commit-calculator',
-  
+
   // AI & Machine Learning (10 tools)
   'model-size-calculator',
   'training-time-estimator',
@@ -446,7 +451,7 @@ const genericTechnologyToolIds = [
   'inference-time',
   'token-counter',
   'embedding-size',
-  
+
   // Blockchain & Cryptocurrency (8 tools)
   'crypto-profit-calculator',
   'mining-profitability',
@@ -456,7 +461,7 @@ const genericTechnologyToolIds = [
   'staking-rewards',
   'nft-rarity-calculator',
   'transaction-fee',
-  
+
   // IoT & Hardware (7 tools)
   'power-consumption',
   'sensor-data-rate',
@@ -496,7 +501,7 @@ const genericDateTimeToolIds = [
 
   // Event & Planning (10 tools)
   'countdown-calculator', 'anniversary-calculator', 'birthday-calculator', 'retirement-date',
-   'wedding-countdown', 'exam-countdown', 'vacation-planner',
+  'wedding-countdown', 'exam-countdown', 'vacation-planner',
   'meeting-scheduler', 'deadline-tracker',
 
   // Calendar & Year Tools (12 tools)
@@ -566,7 +571,7 @@ const genericPhysicsToolIds = [
   'pulley-calculator',
   'inclined-plane',
   'gear-ratio',
-  
+
   // Energy & Power
   'kinetic-energy',
   'potential-energy',
@@ -600,7 +605,7 @@ const genericPhysicsToolIds = [
   'sound-energy',
   'luminous-energy',
   'elastic-potential',
-  
+
   // Electricity & Electronics
   'ohms-law',
   'power-consumption',
@@ -1818,6 +1823,10 @@ export const calculatorComponents: Record<string, any> = {
   'target-heart-rate': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.TargetHeartRateCalculator }))),
   'sleep-calculator': dynamic(() => import('@/components/calculators/categories/health/HealthCalculators').then(m => ({ default: m.SleepCalculator }))),
 
+  // Health - Body Measurements (NEW ADVANCED CALCULATORS)
+  'body-surface-area': dynamic(() => import('@/components/calculators/categories/health/BodyMeasurementCalculators').then(m => ({ default: m.BodySurfaceAreaCalculator }))),
+  'waist-to-height-ratio': dynamic(() => import('@/components/calculators/categories/health/BodyMeasurementCalculators').then(m => ({ default: m.WaistToHeightRatioCalculator }))),
+
   // Health - Nutrition / Supplements
   'caffeine-half-life': dynamic(() => import('@/components/calculators/categories/health/NutritionSupplementCalculators').then(m => ({ default: m.CaffeineHalfLifeCalculator }))),
   'creatine-intake': dynamic(() => import('@/components/calculators/categories/health/NutritionSupplementCalculators').then(m => ({ default: m.CreatineIntakeCalculator }))),
@@ -2353,6 +2362,7 @@ export const calculatorComponents: Record<string, any> = {
   // 'cooking-converter': dynamic(() => import('@/components/calculators/categories/misc/EvenMoreExtendedMiscCalculators').then(m => ({ default: m.CookingConverter }))), // DISABLED - old template structure
   // 'roman-numeral-converter': dynamic(() => import('@/components/calculators/categories/misc/EvenMoreExtendedMiscCalculators').then(m => ({ default: m.RomanNumeralConverter }))), // DISABLED - old template structure
 
+  'xat-score-calculator': XATScoreCalculator,
 }
 
 export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))

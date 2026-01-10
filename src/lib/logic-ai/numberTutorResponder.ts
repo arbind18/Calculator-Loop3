@@ -209,6 +209,178 @@ const pow10 = (exp: number) => {
   return out;
 };
 
+const indianPlaceName = (exp: number, lang: Lang) => {
+  // exp: 0=ones,1=tens,... Indian system naming (up to crores).
+  const en = [
+    'ones',
+    'tens',
+    'hundreds',
+    'thousands',
+    'ten-thousands',
+    'lakhs',
+    'ten-lakhs',
+    'crores',
+    'ten-crores',
+  ];
+  const hi = [
+    'इकाई',
+    'दहाई',
+    'सैकड़ा',
+    'हजार',
+    'दस हजार',
+    'लाख',
+    'दस लाख',
+    'करोड़',
+    'दस करोड़',
+  ];
+  const arr = lang === 'hi' ? hi : en;
+  return arr[exp] ?? (lang === 'hi' ? `10^${exp} स्थान` : `10^${exp} place`);
+};
+
+const parseRequestedPlaceExponent = (q: string): number | null => {
+  // Hindi
+  if (q.includes('इकाई')) return 0;
+  if (q.includes('दहाई')) return 1;
+  if (q.includes('सैकड़ा') || q.includes('सैकड़े') || q.includes('सैकड़ों')) return 2;
+  if (q.includes('हजार') && (q.includes('दस') || q.includes('10'))) return 4;
+  if (q.includes('हजार')) return 3;
+  if (q.includes('लाख') && (q.includes('दस') || q.includes('10'))) return 6;
+  if (q.includes('लाख')) return 5;
+  if (q.includes('करोड़') && (q.includes('दस') || q.includes('10'))) return 8;
+  if (q.includes('करोड़')) return 7;
+
+  // English
+  if (q.includes('ones place') || q.includes('units place') || q.includes('unit place') || q.includes('ones') || q.includes('units') || q.includes('unit')) return 0;
+  if (q.includes('tens place') || q.includes('tens')) return 1;
+  if (q.includes('hundreds place') || q.includes('hundred place') || q.includes('hundreds') || q.includes('hundred')) return 2;
+  if (q.includes('thousands place') || q.includes('thousand place') || q.includes('thousands') || q.includes('thousand')) return 3;
+  if (q.includes('ten thousands') || q.includes('ten-thousands') || q.includes('ten thousand place')) return 4;
+  if (q.includes('lakhs place') || q.includes('lakh place')) return 5;
+  if (q.includes('ten lakh') || q.includes('ten-lakh')) return 6;
+  if (q.includes('crore place') || q.includes('crores place')) return 7;
+  if (q.includes('ten crore') || q.includes('ten-crore')) return 8;
+
+  // Hinglish-ish
+  if (q.includes('ikai')) return 0;
+  if (q.includes('dahai')) return 1;
+  if (q.includes('sai') || q.includes('saikda') || q.includes('saikड़ा')) return 2;
+  if (q.includes('hazaar') && (q.includes('das') || q.includes('10'))) return 4;
+  if (q.includes('hazaar')) return 3;
+  if (q.includes('lakh') && (q.includes('das') || q.includes('10'))) return 6;
+  if (q.includes('lakh')) return 5;
+  if (q.includes('crore') && (q.includes('das') || q.includes('10'))) return 8;
+  if (q.includes('crore')) return 7;
+
+  return null;
+};
+
+const buildExpandedForm = (n: bigint) => {
+  const sign = n < 0n ? -1n : 1n;
+  const digits = abs(n).toString();
+  if (digits === '0') return ['0'];
+  const parts: string[] = [];
+  for (let i = 0; i < digits.length; i += 1) {
+    const ch = digits[i]!;
+    if (ch === '0') continue;
+    const exp = digits.length - 1 - i;
+    const term = BigInt(ch) * pow10(exp) * sign;
+    parts.push(formatBigInt(term));
+  }
+  return parts.length ? parts : ['0'];
+};
+
+const pickMainIntAndDigit = (parsed: ParsedNumber[]) => {
+  const ints = parsed.filter((x) => x.kind === 'int') as Array<{ kind: 'int'; value: bigint; raw: string }>;
+  if (ints.length === 0) return { main: null as null | bigint, digit: null as null | number };
+
+  // Main number = most digits.
+  const sorted = [...ints].sort((a, b) => abs(b.value).toString().length - abs(a.value).toString().length);
+  const main = sorted[0]!.value;
+  const mainLen = abs(main).toString().length;
+
+  // Digit candidate = any single-digit integer present (0..9) that's not the main number.
+  const digitTok = ints.find((x) => x.value >= 0n && x.value <= 9n && (mainLen > 1 || x.value !== main));
+  const digit = digitTok ? Number(digitTok.value) : null;
+  return { main, digit };
+};
+
+const placeValueByDigit = (main: bigint, digit: number, lang: Lang) => {
+  const sign = main < 0n ? '-' : '';
+  const s = abs(main).toString();
+  const dch = String(digit);
+  const idxs: number[] = [];
+  for (let i = 0; i < s.length; i += 1) {
+    if (s[i] === dch) idxs.push(i);
+  }
+
+  if (idxs.length === 0) {
+    if (lang === 'hi') {
+      return {
+        answer: `Is number (${sign}${s}) me digit ${digit} nahi hai.`,
+        ok: true,
+      };
+    }
+    return { answer: `Digit ${digit} does not appear in ${sign}${s}.`, ok: true };
+  }
+
+  if (idxs.length > 1) {
+    // Ambiguous: same digit appears multiple times.
+    const options = idxs
+      .map((i) => {
+        const exp = s.length - 1 - i;
+        const pv = BigInt(digit) * pow10(exp) * (main < 0n ? -1n : 1n);
+        return `- ${digit} at ${indianPlaceName(exp, lang)}: place value = ${formatBigInt(pv)}`;
+      })
+      .join('\n');
+    if (lang === 'hi') {
+      return {
+        answer:
+          `Digit ${digit} is number me multiple baar aaya hai (${sign}${s}). Kaunsi position chahiye?\n${options}\n\nReply kijiye: "${digit} ${indianPlaceName(s.length - 1 - idxs[0]!, lang)}" (jaise)`,
+        ok: true,
+      };
+    }
+    return {
+      answer:
+        `Digit ${digit} appears multiple times in ${sign}${s}. Which occurrence do you mean?\n${options}\n\nReply like: "${digit} ${indianPlaceName(s.length - 1 - idxs[0]!, lang)}"`,
+      ok: true,
+    };
+  }
+
+  const i = idxs[0]!;
+  const exp = s.length - 1 - i;
+  const place = pow10(exp);
+  const pv = BigInt(digit) * place * (main < 0n ? -1n : 1n);
+  const placeName = indianPlaceName(exp, lang);
+
+  if (lang === 'hi') {
+    return {
+      answer: [
+        `Number: ${formatBigInt(main)}`,
+        `Digit: ${digit}`,
+        `Face value (अंकित मान): ${digit}`,
+        `Place (स्थान): ${placeName} (10^${exp})`,
+        `Place value (स्थानिक मान): ${digit} * ${formatBigInt(place)} = ${formatBigInt(pv)}`,
+      ].join('\n'),
+      ok: true,
+      exp,
+      placeValue: pv,
+    };
+  }
+
+  return {
+    answer: [
+      `Number: ${formatBigInt(main)}`,
+      `Digit: ${digit}`,
+      `Face value: ${digit}`,
+      `Place: ${placeName} (10^${exp})`,
+      `Place value: ${digit} * ${formatBigInt(place)} = ${formatBigInt(pv)}`,
+    ].join('\n'),
+    ok: true,
+    exp,
+    placeValue: pv,
+  };
+};
+
 const formatDecimalFromScaledSqrt = (scaledRoot: bigint, digits: number) => {
   if (digits <= 0) return formatBigInt(scaledRoot);
   const sign = scaledRoot < 0n ? '-' : '';
@@ -425,12 +597,20 @@ const buildGeneralGuide = (lang: Lang) => {
       '- **Vargmul (Square root):** √n, agar n = k² ho to √n = k',
       '- **Ghanmul (Cube root):** ∛n, agar n = k³ ho to ∛n = k',
       '',
+      '**Place Value / Face Value:**',
+      '- **Ankit maan (Face value):** digit khud (jaise 45678 me 6 ka face value = 6)',
+      '- **Sthanik maan (Place value):** digit * place (jaise 45678 me 6 hundred place par hai => 6*100 = 600)',
+      '- **Vistarit roop (Expanded form):** 45678 = 40000 + 5000 + 600 + 70 + 8',
+      '',
       '### ✅ Kaise pooche (best format)',
       "- 'analyze number: 123456789012345678901234567890'",
       "- 'add: 999999999999999999 + 888888888888888888'",
       "- 'divide: 12345678901234567890 / 97'",
       "- 'sqrt: 99980001'  (perfect square check)",
       "- 'prime check: 9999999967'",
+      "- '45678 me 6 ka place value'",
+      "- '45678 me tens place ka digit'",
+      "- 'expanded form of 45678'",
     ].join('\n');
   }
 
@@ -462,12 +642,20 @@ const buildGeneralGuide = (lang: Lang) => {
     '- **Square root:** √n, if n = k² then √n = k',
     '- **Cube root:** ∛n, if n = k³ then ∛n = k',
     '',
+    '**Place value / face value:**',
+    '- **Face value:** the digit itself (e.g., face value of 6 is 6)',
+    '- **Place value:** digit * place (e.g., in 45678, 6 is in the hundreds place => 6*100 = 600)',
+    '- **Expanded form:** 45678 = 40000 + 5000 + 600 + 70 + 8',
+    '',
     '### ✅ Best input formats',
     "- 'analyze number: 123456789012345678901234567890'",
     "- 'add: 999999999999999999 + 888888888888888888'",
     "- 'divide: 12345678901234567890 / 97'",
     "- 'sqrt: 99980001'",
     "- 'prime check: 9999999967'",
+    "- 'place value of 6 in 45678'",
+    "- 'digit at tens place in 45678'",
+    "- 'expanded form of 45678'",
   ].join('\n');
 };
 
@@ -785,6 +973,30 @@ export const tryBuildNumberTutorResponse = (message: string, lang: Lang): string
     'gcd',
     'hcf',
     'lcm',
+    'place value',
+    'face value',
+    'expanded form',
+    'digit',
+    'स्थानिक मान',
+    'स्थानीय मान',
+    'अंकित मान',
+    'विस्तारित रूप',
+    'अंक',
+    // Hinglish/typo-friendly
+    'sthanik',
+    'sthaniya',
+    'sthaniy',
+    'sthan',
+    'ank',
+    'ankit',
+    'vistarit',
+    'expanded',
+    'ikai',
+    'dahai',
+    'saikda',
+    'hazaar',
+    'kaunsa',
+    'konsa',
   ]);
 
   if (!aboutNumbers) return null;
@@ -811,8 +1023,111 @@ export const tryBuildNumberTutorResponse = (message: string, lang: Lang): string
   const wantsSqrt = hasAny(q, ['sqrt', 'square root', 'vargmul', 'वर्गमूल', 'root']);
   const wantsCbrt = hasAny(q, ['cbrt', 'cube root', 'ghanmool', 'घनमूल']);
   const wantsPrime = hasAny(q, ['prime', 'abhajya', 'is it prime', 'prime check']);
+  const wantsPlaceValue = hasAny(q, ['place value', 'स्थानिक मान', 'स्थानीय मान', 'sthanik maan', 'sthaniy maan']);
+  const wantsFaceValue = hasAny(q, ['face value', 'अंकित मान', 'ankit maan']);
+  const wantsExpanded = hasAny(q, ['expanded form', 'विस्तारित रूप', 'expanded', 'vistarit']);
+  const wantsDigitAtPlace = hasAny(q, [
+    'which digit',
+    'digit at',
+    'कौन सा अंक',
+    'कौनसा अंक',
+    'अंक कौन',
+    'अंक किस',
+    'digit kis',
+    'kaunsa',
+    'konsa',
+    'kaun sa',
+    'kaunसा',
+  ]);
+  const wantsPlaceFaceDifference = hasAny(q, ['difference', 'antar', 'farq', 'अंतर', 'فرق']);
 
   const lines: string[] = [];
+
+  // Place value / face value / expanded form (education-style)
+  if (wantsPlaceValue || wantsFaceValue || wantsExpanded || wantsDigitAtPlace) {
+    const { main, digit } = pickMainIntAndDigit(parsed);
+    const mainInt = main;
+
+    if (mainInt !== null) {
+      const placeExp = parseRequestedPlaceExponent(q);
+
+      if (wantsExpanded) {
+        const parts = buildExpandedForm(mainInt);
+        lines.push(lang === 'hi' ? '### 🧩 Expanded Form (विस्तारित रूप)' : '### 🧩 Expanded Form');
+        lines.push('');
+        lines.push(`${formatBigInt(mainInt)} = ${parts.join(' + ')}`);
+        lines.push('');
+      }
+
+      // If user asked for digit at a named place (e.g., tens place digit)
+      if (placeExp !== null && wantsDigitAtPlace) {
+        const s = abs(mainInt).toString();
+        const idxFromRight = placeExp;
+        const idx = s.length - 1 - idxFromRight;
+        lines.push(lang === 'hi' ? '### 🔎 Digit at Place' : '### 🔎 Digit at Place');
+        lines.push('');
+        if (idx < 0) {
+          lines.push(
+            lang === 'hi'
+              ? `${formatBigInt(mainInt)} me ${indianPlaceName(placeExp, lang)} available nahi hai (digits kam hain).`
+              : `${formatBigInt(mainInt)} does not have a ${indianPlaceName(placeExp, lang)} digit (not enough digits).`
+          );
+        } else {
+          const d = Number(s[idx]!);
+          const pv = BigInt(d) * pow10(placeExp) * (mainInt < 0n ? -1n : 1n);
+          lines.push(`Number: ${formatBigInt(mainInt)}`);
+          lines.push(`Place: ${indianPlaceName(placeExp, lang)}`);
+          lines.push(`Digit: ${d}`);
+          lines.push(`Face value: ${d}`);
+          lines.push(`Place value: ${d} * ${formatBigInt(pow10(placeExp))} = ${formatBigInt(pv)}`);
+        }
+        lines.push('');
+      }
+
+      // If user asked face value only
+      if (wantsFaceValue && digit !== null) {
+        lines.push(lang === 'hi' ? '### 🎯 Face Value (अंकित मान)' : '### 🎯 Face Value');
+        lines.push('');
+        lines.push(`Number: ${formatBigInt(mainInt)}`);
+        lines.push(`Digit: ${digit}`);
+        lines.push(`Face value: ${digit}`);
+        lines.push('');
+      }
+
+      // Place value by digit (most common: "45678 me 6 ka place value")
+      if (wantsPlaceValue && digit !== null) {
+        lines.push(lang === 'hi' ? '### 📍 Place Value (स्थानिक मान)' : '### 📍 Place Value');
+        lines.push('');
+        const pv = placeValueByDigit(mainInt, digit, lang);
+        lines.push(pv.answer);
+
+        if (wantsPlaceFaceDifference && pv.placeValue !== undefined) {
+          const diff = pv.placeValue - BigInt(digit) * (mainInt < 0n ? -1n : 1n);
+          lines.push('');
+          if (lang === 'hi') {
+            lines.push(`Difference (स्थानिक मान - अंकित मान): ${formatBigInt(diff)}`);
+            lines.push('Example: 45678 me 6 ka place value 600, face value 6 => difference 594');
+          } else {
+            lines.push(`Difference (place value - face value): ${formatBigInt(diff)}`);
+            lines.push('Example: in 45678, place value of 6 is 600 and face value is 6 => difference 594');
+          }
+        }
+        lines.push('');
+      }
+
+      // If asked place/face value but digit missing, try ask a clear follow-up.
+      if ((wantsPlaceValue || wantsFaceValue) && digit === null && placeExp === null) {
+        lines.push(lang === 'hi' ? '### ℹ️ Clarification' : '### ℹ️ Clarification');
+        lines.push('');
+        lines.push(
+          lang === 'hi'
+            ? `Aap number to de rahe hain (${formatBigInt(mainInt)}), lekin kaunsa digit/kaunsi place ka value chahiye?\nExamples:\n- "${formatBigInt(mainInt)} me 6 ka place value"\n- "${formatBigInt(mainInt)} me tens place ka digit"`
+            : `You provided a number (${formatBigInt(mainInt)}), but which digit/place do you want?\nExamples:\n- "place value of 6 in ${formatBigInt(mainInt)}"\n- "digit at tens place in ${formatBigInt(mainInt)}"`
+        );
+        lines.push('');
+      }
+    }
+  }
 
   // If specific op requested and we have 2 numbers
   if ((wantsAdd || wantsSub || wantsMul || wantsDiv) && parsed.length >= 2) {

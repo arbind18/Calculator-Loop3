@@ -98,7 +98,7 @@ export const implementedCalculatorList = [
   'meal-planner',
   'glycemic-index-calculator',
   'glycemic-load-calculator',
-  
+
   // Business Tools (Actually Implemented - 8 tools)
   'profit-margin',
   'gross-profit-calculator',
@@ -110,7 +110,7 @@ export const implementedCalculatorList = [
   'quick-ratio',
   'debt-to-equity',
   'pe-ratio',
-  
+
   // Health Tools - Nutrition
   'fiber-intake-calculator',
   'sugar-intake-calculator',
@@ -424,7 +424,7 @@ export const implementedCalculatorList = [
   'credit-card-payoff',
   'ssy-calculator',
   'scss-calculator',
-  
+
   // Math Calculators - Enhanced implementations via GenericMathTool
   'basic-calculator',
   'fraction-calculator',
@@ -465,7 +465,7 @@ export const implementedCalculatorList = [
   'sum-of-series-calculator',
   'product-of-series-calculator',
   'area-calculator',
-  
+
   // Physics Tools - Enhanced via GenericPhysicsTool
   'velocity-calculator',
   'force-calculator',
@@ -496,7 +496,7 @@ export const implementedCalculatorList = [
   'led-resistor',
   'battery-capacity',
   'frequency-wavelength',
-  
+
   // Everyday Life Tools - Priority 1 Implementation
   // Time & Productivity (13 tools)
   'pomodoro-timer-calculator',
@@ -512,7 +512,7 @@ export const implementedCalculatorList = [
   'shift-schedule-calculator',
   'time-card-calculator',
   'productivity-score-calculator',
-  
+
   // Travel & Transportation (18 tools)
   'fuel-cost-calculator',
   'trip-cost-calculator',
@@ -532,7 +532,7 @@ export const implementedCalculatorList = [
   'luggage-weight-calculator',
   'foreign-exchange-calculator',
   'travel-insurance-cost',
-  
+
   // Home & Living (16 tools)
   'rent-vs-buy-calculator',
   'room-size-calculator',
@@ -550,7 +550,7 @@ export const implementedCalculatorList = [
   'room-heater-cost',
   'carpet-area-calculator',
   'interior-design-budget',
-  
+
   // Priority 2 Implementation
   // Mobile & Communication (10 tools)
   'data-plan-calculator',
@@ -563,7 +563,7 @@ export const implementedCalculatorList = [
   'mobile-insurance-calculator',
   'phone-upgrade-calculator',
   'prepaid-vs-postpaid',
-  
+
   // Wedding & Events (10 tools)
   'wedding-budget-calculator',
   'guest-list-calculator',
@@ -575,7 +575,7 @@ export const implementedCalculatorList = [
   'wedding-card-cost',
   'honeymoon-budget-calculator',
   'gift-registry-calculator',
-  
+
   // Parenting & Baby (12 tools)
   'baby-due-date-calculator',
   'baby-growth-tracker',
@@ -608,7 +608,7 @@ export const implementedCalculatorList = [
   // Event & Planning (10 tools)
   'countdown-calculator', 'anniversary-calculator', 'birthday-calculator', 'retirement-date',
   'pregnancy-due-date', 'wedding-countdown', 'exam-countdown', 'vacation-planner',
-  'meeting-scheduler', 'deadline-tracker',
+  'meeting-scheduler', 'deadline-tracker', 'xat-score-calculator',
 
   // Calendar & Year Tools (12 tools)
   'leap-year-calculator', 'week-number-calculator', 'calendar-generator', 'moon-phase-calculator',

@@ -664,6 +664,15 @@ export function GenericHealthTool() {
     setResult(config.calculate(inputsState))
   }
 
+  const handleClear = () => {
+    const defaults: Record<string, number | string> = {}
+    for (const f of config.fields) {
+      defaults[f.name] = f.defaultValue
+    }
+    setInputsState(defaults)
+    setResult(null)
+  }
+
   const inputs = (
     <div className="space-y-4">
       {config.fields.map((field) => {
@@ -725,6 +734,7 @@ export function GenericHealthTool() {
       inputs={inputs}
       result={result}
       calculate={calculate}
+      onClear={handleClear}
       calculateLabel="Calculate"
       values={config.fields.map((f) => inputsState[f.name])}
       categoryName="Health"
