@@ -41,6 +41,7 @@ export function StructuredData({ title, description, categoryId, categoryName, p
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "isAccessibleForFree": true,
+    "image": `${baseUrl}/icon-512.png`,
     "offers": {
       "@type": "Offer",
       "price": "0",
