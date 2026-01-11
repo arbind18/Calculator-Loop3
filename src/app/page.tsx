@@ -17,7 +17,6 @@ import { HeroSection } from '@/components/sections/HeroSection'
 import { RecentSection } from '@/components/sections/RecentSection'
 import { PopularSection } from '@/components/sections/PopularSection'
 import { FeaturesSection } from '@/components/sections/FeaturesSection'
-import { CTASection } from '@/components/sections/CTASection'
 import { toolsData } from '@/lib/toolsData'
 import { implementedCalculatorIds } from '@/lib/calculatorRegistry'
 import { useSettings } from '@/components/providers/SettingsProvider'
@@ -464,7 +463,6 @@ export default function HomePage() {
         <RecentSection />
         <PopularSection />
         <FeaturesSection />
-        <CTASection />
       </div>
 
       {/* Desktop: professional sidebar + tools view */}

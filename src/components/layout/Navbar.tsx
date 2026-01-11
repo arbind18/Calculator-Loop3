@@ -100,6 +100,22 @@ export function Navbar() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null)
 
+  // Listen for global requests to open the mobile menu (from other components)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      try {
+        const ce = e as CustomEvent
+        const cat = ce?.detail?.category || null
+        setActiveCategory(cat)
+        setIsMenuOpen(true)
+      } catch {
+        setIsMenuOpen(true)
+      }
+    }
+    window.addEventListener('open-mobile-menu', handler as EventListener)
+    return () => window.removeEventListener('open-mobile-menu', handler as EventListener)
+  }, [])
+
   // Handle keyboard shortcut for search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

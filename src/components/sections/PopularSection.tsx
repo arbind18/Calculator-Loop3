@@ -2,6 +2,7 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Calculator, TrendingUp, Clock, Heart, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSettings } from "@/components/providers/SettingsProvider"
@@ -155,13 +156,35 @@ export function PopularSection() {
         </div>
         
         <div className="mt-12 text-center">
-          <Button variant="outline" size="lg" className="rounded-full px-8 border-2 hover:bg-gray-50 dark:hover:bg-gray-800" asChild>
-            <Link href={withLocale("/category/financial")}>
-              View All Calculators
-            </Link>
-          </Button>
+          <ViewAllButton withLocale={withLocale} />
         </div>
       </div>
     </section>
+  )
+}
+
+function ViewAllButton({ withLocale }: { withLocale: (href: string) => string }) {
+  const router = useRouter()
+
+  const handleClick = (e: any) => {
+    // On small screens, open mobile menu and show categories via a custom event
+    try {
+      const isSmall = typeof window !== 'undefined' && window.innerWidth <= 768
+      if (isSmall) {
+        // Open mobile menu without selecting a specific category so
+        // the full category list is visible (matches hamburger behavior)
+        window.dispatchEvent(new CustomEvent('open-mobile-menu'))
+        return
+      }
+    } catch {
+      // fallback to navigation
+    }
+    router.push(withLocale('/category/financial'))
+  }
+
+  return (
+    <Button variant="outline" size="lg" className="rounded-full px-8 border-2 hover:bg-gray-50 dark:hover:bg-gray-800" onClick={handleClick}>
+      View All Calculators
+    </Button>
   )
 }
