@@ -16,9 +16,7 @@
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "postinstall": "prisma generate"
-    ,
-    "postbuild": "node -r ts-node/register scripts/generate-sitemaps.ts",
+    "postinstall": "prisma generate",
     "generate-static-sitemaps": "node scripts/generate-static-sitemaps.mjs"
   },
   "dependencies": {
