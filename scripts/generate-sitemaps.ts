@@ -67,54 +67,135 @@ function collectUrls() {
       const calculators = sub.calculators || [];
       for (const calc of calculators) {
         const calcId = calc.id || calc.slug || calc.href || ''; // adapt to your data shape
-        if (!calcId) continue;
-        for (const lang of langs) {
-          urls[lang].push(`${site}/${lang}/${categoryId}/${calcId}`);
+        import fs from 'fs';
+        import path from 'path';
+
+        // Import project data (adjust path if your tools data lives elsewhere)
+        import { toolsData } from '../src/lib/toolsData';
+        import { getSiteUrl } from '../src/lib/siteUrl';
+
+        // Configuration
+        const OUTPUT_DIR = path.join(process.cwd(), 'public', 'sitemaps');
+        const MAX_URLS_PER_SITEMAP = 2000;
+        const SITE_URL = getSiteUrl();
+
+        function ensureDir(dir: string) {
+          if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         }
-      }
-    }
-  }
 
-  // Deduplicate
-  for (const lang of Object.keys(urls)) {
-    urls[lang] = Array.from(new Set(urls[lang]));
-  }
+        function writeFile(relativePath: string, content: string) {
+          const full = path.join(process.cwd(), 'public', relativePath);
+          ensureDir(path.dirname(full));
+          fs.writeFileSync(full, content, 'utf8');
+        }
 
-  return urls;
-}
+        function urlEntry(loc: string, lastmod?: string) {
+          return '  <url>\n' +
+            '    <loc>' + loc + '</loc>\n' +
+            (lastmod ? ('    <lastmod>' + lastmod + '</lastmod>\n') : '') +
+            '  </url>\n';
+        }
 
-async function main() {
-  try {
-    ensureDir(OUTPUT_DIR);
+        function sitemapXml(urls: string[]) {
+          return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+            urls.join('') +
+            '\n</urlset>';
+        }
 
-    const allUrlsByLang = collectUrls();
-    const sitemapFiles: string[] = [];
+        function sitemapIndexXml(files: string[]) {
+          let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+          xml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+          for (const f of files) {
+            xml += '  <sitemap>\n';
+            xml += '    <loc>' + f + '</loc>\n';
+            xml += '  </sitemap>\n';
+          }
+          xml += '</sitemapindex>';
+          return xml;
+        }
 
-    for (const [lang, urls] of Object.entries(allUrlsByLang)) {
-      const chunks = chunk(urls, MAX_URLS_PER_SITEMAP);
-      for (let i = 0; i < chunks.length; i++) {
-        const fileName = `sitemap-${lang}-${i + 1}.xml`;
-        const filePath = `sitemaps/${fileName}`;
-        const xml = sitemapXml(chunks[i].map((u) => urlEntry(u)));
-        writeFile(filePath, xml);
-        sitemapFiles.push(`${SITE_URL}/${filePath}`);
-        console.log(`Wrote ${filePath} (${chunks[i].length} URLs)`);
-      }
-    }
+        function chunk<T>(arr: T[], size: number) {
+          const out: T[][] = [];
+          for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+          return out;
+        }
 
-    // Write sitemap index at /sitemap.xml
-    const indexXml = sitemapIndexXml(sitemapFiles);
-    writeFile('sitemap.xml', indexXml);
-    console.log('Wrote sitemap.xml with', sitemapFiles.length, 'sitemaps');
+        function collectUrls() {
+          const urls: Record<string, string[]> = {};
 
-    // Write robots.txt referencing sitemap index
-    const robots = `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`;
-    writeFile('robots.txt', robots);
-    console.log('Wrote robots.txt');
-  } catch (err) {
-    console.error('Sitemap generation failed:', err);
-    process.exit(1);
-  }
-}
+          const site = SITE_URL;
+          const langs = ['en', 'hi', 'mr', 'ta', 'te', 'bn', 'gu', 'es', 'pt', 'fr', 'de', 'id', 'ar', 'ur', 'ja'];
 
-main();
+          // Include a few top-level pages by lang
+          langs.forEach((lang) => {
+            urls[lang] = [];
+            urls[lang].push(site + '/' + lang + '/');
+            urls[lang].push(site + '/' + lang + '/tools');
+          });
+
+          // Walk toolsData to collect category and calculator URLs
+          for (const [categoryId, category] of Object.entries(toolsData)) {
+            if (!categoryId) continue;
+
+            for (const lang of langs) {
+              urls[lang].push(site + '/' + lang + '/' + categoryId);
+            }
+
+            // subcategories -> calculators (toolsData uses objects)
+            const subcats = (category as any).subcategories || {};
+            for (const sub of Object.values(subcats)) {
+              const calculators = sub.calculators || [];
+              for (const calc of calculators) {
+                const calcId = calc.id || calc.slug || calc.href || '';
+                if (!calcId) continue;
+                for (const lang of langs) {
+                  urls[lang].push(site + '/' + lang + '/' + categoryId + '/' + calcId);
+                }
+              }
+            }
+          }
+
+          // Deduplicate
+          for (const lang of Object.keys(urls)) {
+            urls[lang] = Array.from(new Set(urls[lang]));
+          }
+
+          return urls;
+        }
+
+        async function main() {
+          try {
+            ensureDir(OUTPUT_DIR);
+
+            const allUrlsByLang = collectUrls();
+            const sitemapFiles: string[] = [];
+
+            for (const [lang, urls] of Object.entries(allUrlsByLang)) {
+              const chunks = chunk(urls, MAX_URLS_PER_SITEMAP);
+              for (let i = 0; i < chunks.length; i++) {
+                const fileName = `sitemap-${lang}-${i + 1}.xml`;
+                const filePath = `sitemaps/${fileName}`;
+                const xml = sitemapXml(chunks[i].map((u) => urlEntry(u)));
+                writeFile(filePath, xml);
+                sitemapFiles.push(SITE_URL + '/' + filePath);
+                console.log(`Wrote ${filePath} (${chunks[i].length} URLs)`);
+              }
+            }
+
+            // Write sitemap index at /sitemap.xml
+            const indexXml = sitemapIndexXml(sitemapFiles);
+            writeFile('sitemap.xml', indexXml);
+            console.log('Wrote sitemap.xml with', sitemapFiles.length, 'sitemaps');
+
+            // Write robots.txt referencing sitemap index
+            const robots = 'User-agent: *\nAllow: /\nSitemap: ' + SITE_URL + '/sitemap.xml\n';
+            writeFile('robots.txt', robots);
+            console.log('Wrote robots.txt');
+          } catch (err) {
+            console.error('Sitemap generation failed:', err);
+            process.exit(1);
+          }
+        }
+
+        main();
