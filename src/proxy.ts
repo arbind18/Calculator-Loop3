@@ -90,27 +90,26 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl, 308)
     }
 
-    // Case-insensitive calculator URLs: /calculator/Law-of-Sines -> /{lang}/{category}/{calculator}
+    // Redirect ALL /calculator/... URLs to canonical /{lang}/{category}/{calculator}
     if (basePath.startsWith('/calculator/')) {
       const slug = basePath.replace('/calculator/', '')
-      const lowercaseSlug = slug.toLowerCase()
-
-      // If the slug contains uppercase or .html extension, redirect to canonical path.
-      if (slug !== lowercaseSlug || slug.endsWith('.html')) {
-        const cleanId = lowercaseSlug.replace(/\.html?$/i, '')
-        const id = normalizeLegacyCalculatorId(cleanId)
-        const categoryId = findCategoryForCalculator(id)
-        const targetPrefix = pathLocale ? `/${pathLocale}` : '/en'
-        const redirectUrl = request.nextUrl.clone()
-        if (categoryId) {
-          redirectUrl.pathname = `${targetPrefix}/${categoryId}/${id}`
-        } else {
-          // Fallback: keep legacy calculator route under /en/calculator/:id to avoid losing pages
-          redirectUrl.pathname = `${targetPrefix}/calculator/${id}`
-        }
-        redirectUrl.search = search
-        return NextResponse.redirect(redirectUrl, 301)
+      const cleanId = slug.toLowerCase().replace(/\.html?$/i, '')
+      const id = normalizeLegacyCalculatorId(cleanId)
+      const categoryId = findCategoryForCalculator(id)
+      const targetPrefix = pathLocale ? `/${pathLocale}` : '/en'
+      
+      const redirectUrl = request.nextUrl.clone()
+      if (categoryId) {
+        redirectUrl.pathname = `${targetPrefix}/${categoryId}/${id}`
+      } else {
+        // If calculator not found, return 404 instead of keeping legacy route
+        return NextResponse.json(
+          { error: 'Calculator not found' },
+          { status: 404 }
+        )
       }
+      redirectUrl.search = search
+      return NextResponse.redirect(redirectUrl, 301)
     }
 
     // Case-insensitive category URLs: /category/Financial -> /category/financial
