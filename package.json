@@ -17,6 +17,9 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "postinstall": "prisma generate"
+    ,
+    "postbuild": "node -r ts-node/register scripts/generate-sitemaps.ts",
+    "generate-static-sitemaps": "node scripts/generate-static-sitemaps.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -89,7 +92,8 @@
     "prettier-plugin-tailwindcss": "^0.6.6",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.12",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "ts-node": "^10.9.1"
   },
   "engines": {
     "node": "22.x",

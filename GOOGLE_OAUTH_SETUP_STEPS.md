@@ -35,11 +35,12 @@ Error: `401: deleted_client` — purana OAuth client delete ho gaya hai Google C
 5. **Name**: Koi naam do (e.g., "Calculator Loop Web Client")
 6. **Authorized JavaScript origins** me add karo:
    ```
-   http://localhost:3000
+  https://calculatorloop.com
    ```
 7. **Authorized redirect URIs** me add karo (ZARURI!):
    ```
-   http://localhost:3000/api/auth/callback/google
+     https://calculatorloop.com/api/auth/callback/google
+     
    ```
    - **Note**: Ye `/api/auth/callback/google` path bilkul exact hona chahiye!
 8. **CREATE** button click karo

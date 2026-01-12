@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { toolsData } from '@/lib/toolsData'
 
 const SUPPORTED_LANGS = new Set([
   'en',
@@ -54,6 +55,16 @@ function getLastPathSegment(pathname: string): string {
   return parts[parts.length - 1] ?? ''
 }
 
+function findCategoryForCalculator(id: string): string | null {
+  for (const [categoryId, category] of Object.entries(toolsData)) {
+    for (const sub of Object.values(category.subcategories ?? {})) {
+      const tool = (sub as any).calculators.find((c: any) => c.id === id)
+      if (tool) return categoryId
+    }
+  }
+  return null
+}
+
 /**
  * Global proxy for legacy redirects, locale routing, and security headers.
  */
@@ -79,16 +90,24 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl, 308)
     }
 
-    // Case-insensitive calculator URLs: /calculator/Law-of-Sines -> /calculator/law-of-sines
+    // Case-insensitive calculator URLs: /calculator/Law-of-Sines -> /{lang}/{category}/{calculator}
     if (basePath.startsWith('/calculator/')) {
       const slug = basePath.replace('/calculator/', '')
       const lowercaseSlug = slug.toLowerCase()
-      
-      // If the slug contains uppercase or .html extension, redirect to lowercase without extension
+
+      // If the slug contains uppercase or .html extension, redirect to canonical path.
       if (slug !== lowercaseSlug || slug.endsWith('.html')) {
-        const cleanSlug = lowercaseSlug.replace(/\.html?$/i, '')
+        const cleanId = lowercaseSlug.replace(/\.html?$/i, '')
+        const id = normalizeLegacyCalculatorId(cleanId)
+        const categoryId = findCategoryForCalculator(id)
+        const targetPrefix = pathLocale ? `/${pathLocale}` : '/en'
         const redirectUrl = request.nextUrl.clone()
-        redirectUrl.pathname = `${prefix}/calculator/${cleanSlug}`
+        if (categoryId) {
+          redirectUrl.pathname = `${targetPrefix}/${categoryId}/${id}`
+        } else {
+          // Fallback: keep legacy calculator route under /en/calculator/:id to avoid losing pages
+          redirectUrl.pathname = `${targetPrefix}/calculator/${id}`
+        }
         redirectUrl.search = search
         return NextResponse.redirect(redirectUrl, 301)
       }
@@ -115,26 +134,38 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl, 301)
     }
 
-    // Any legacy extension: map to canonical calculator route.
+    // Any legacy extension: map to canonical calculator route, preferring category route when known.
     if (/\.(html?|php)$/i.test(lowerBasePath)) {
       const last = getLastPathSegment(basePath)
       const id = normalizeLegacyCalculatorId(last)
       if (id) {
+        const categoryId = findCategoryForCalculator(id)
+        const targetPrefix = pathLocale ? `/${pathLocale}` : '/en'
         const redirectUrl = request.nextUrl.clone()
-        redirectUrl.pathname = `${prefix}/calculator/${id}`
+        if (categoryId) {
+          redirectUrl.pathname = `${targetPrefix}/${categoryId}/${id}`
+        } else {
+          redirectUrl.pathname = `${targetPrefix}/calculator/${id}`
+        }
         redirectUrl.search = search
         return NextResponse.redirect(redirectUrl, 308)
       }
     }
 
     // Legacy folder patterns without extension (common in old sites): /financial-calculators/<id>
-    // Only apply to paths that look like calculator listings to avoid accidental redirects.
+    // Map to new hierarchy when category is known.
     const baseParts = basePath.split('/').filter(Boolean)
     if (baseParts.length === 2 && baseParts[0].includes('calculators')) {
       const id = normalizeLegacyCalculatorId(baseParts[1])
       if (id) {
+        const categoryId = findCategoryForCalculator(id)
+        const targetPrefix = pathLocale ? `/${pathLocale}` : '/en'
         const redirectUrl = request.nextUrl.clone()
-        redirectUrl.pathname = `${prefix}/calculator/${id}`
+        if (categoryId) {
+          redirectUrl.pathname = `${targetPrefix}/${categoryId}/${id}`
+        } else {
+          redirectUrl.pathname = `${targetPrefix}/calculator/${id}`
+        }
         redirectUrl.search = search
         return NextResponse.redirect(redirectUrl, 308)
       }
@@ -149,7 +180,23 @@ export function proxy(request: NextRequest) {
     if (pathLocale) {
       const rewrittenPath = stripLocaleFromPath(pathname, pathLocale)
       const rewriteUrl = request.nextUrl.clone()
-      rewriteUrl.pathname = rewrittenPath
+
+      // If the locale-prefixed path follows the new structure /{lang}/{category}/{calculator},
+      // rewrite it to the existing canonical calculator route so server rendering uses id param.
+      const parts = rewrittenPath.split('/').filter(Boolean)
+      if (parts.length >= 2) {
+        const possibleCategory = parts[0]
+        const possibleId = parts[1]
+        // If this looks like category+calculator, rewrite to /calculator/:id
+        if ((toolsData as any)[possibleCategory]) {
+          const normalizedId = normalizeLegacyCalculatorId(possibleId)
+          rewriteUrl.pathname = `/calculator/${normalizedId}`
+        } else {
+          rewriteUrl.pathname = rewrittenPath
+        }
+      } else {
+        rewriteUrl.pathname = rewrittenPath
+      }
       // Pass locale to the downstream render so server components can read it on the same request.
       const requestHeaders = new Headers(request.headers)
       requestHeaders.set('x-calculator-language', pathLocale)
@@ -276,6 +323,42 @@ export function proxy(request: NextRequest) {
       status: 200,
       headers: response.headers,
     })
+  }
+
+  // Validate new canonical URL structure for locale-prefixed routes and block random/invalid paths.
+  try {
+    const parts = request.nextUrl.pathname.split('/').filter(Boolean)
+    // If first segment is a supported locale, enforce category and calculator validity.
+    const first = parts[0]
+    if (first && SUPPORTED_LANGS.has(first)) {
+      // If path is like /{lang}/{something}
+      if (parts.length >= 2) {
+        const categoryCandidate = parts[1]
+        const category = (toolsData as any)[categoryCandidate]
+        if (!category) {
+          return new NextResponse('Not Found', { status: 404 })
+        }
+
+        // If calculator slug present, ensure it belongs to this category.
+        if (parts.length >= 3) {
+          const calcRaw = parts[2]
+          const calcId = normalizeLegacyCalculatorId(calcRaw)
+          let found = false
+          for (const sub of Object.values(category.subcategories ?? {})) {
+            if ((sub as any).calculators.find((c: any) => c.id === calcId)) {
+              found = true
+              break
+            }
+          }
+          if (!found) {
+            return new NextResponse('Not Found', { status: 404 })
+          }
+        }
+      }
+    }
+  } catch (e) {
+    // If validation throws, don't break the site — allow request to continue.
+    console.error('URL validation error in proxy middleware:', e)
   }
 
   return response

@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next'
 import { toolsData } from '@/lib/toolsData'
-import { implementedCalculatorIds } from '@/lib/implementedCalculators'
 import { allBlogPosts } from '@/lib/blogData'
 import { getAllMarkdownBlogPosts } from '@/lib/blogMarkdown'
 import { getSiteUrl } from '@/lib/siteUrl'
@@ -11,12 +10,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const locales = ['en', 'hi', 'mr', 'ta', 'te', 'bn', 'gu', 'es', 'pt', 'fr', 'de', 'id', 'ar', 'ur', 'ja'] as const
 
+  // Produce fully-qualified URLs with explicit locale segment for all languages.
   const withLocales = (path: string) => {
     const normalized = path.startsWith('/') ? path : `/${path}`
-    return locales.map((loc) => {
-      if (loc === 'en') return `${baseUrl}${normalized === '/' ? '' : normalized}`
-      return `${baseUrl}/${loc}${normalized === '/' ? '' : normalized}`
-    })
+    return locales.map((loc) => `${baseUrl}/${loc}${normalized === '/' ? '' : normalized}`)
   }
 
   const makeItem = (
@@ -44,9 +41,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...withLocales('/terms').map((url) => makeItem(url, 'yearly', 0.3)),
   ]
 
-  const categoryIds = Object.keys(toolsData)
-  const categoryPages: MetadataRoute.Sitemap = categoryIds.flatMap((id) =>
-    withLocales(`/category/${id}`).map((url) => ({
+  // Build category and calculator pages from the canonical toolsData hierarchy.
+  const categoryPages: MetadataRoute.Sitemap = Object.entries(toolsData).flatMap(([categoryId, category]) =>
+    // category index page
+    withLocales(`/${categoryId}`).map((url) => ({
       url,
       lastModified: currentDate,
       changeFrequency: 'weekly' as const,
@@ -54,14 +52,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   )
 
-  const calculatorIds = Array.from(implementedCalculatorIds)
-  const calculatorPages: MetadataRoute.Sitemap = calculatorIds.flatMap((id) =>
-    withLocales(`/calculator/${id}`).map((url) => ({
-      url,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    }))
+  // For calculators, only include those that are present in toolsData (valid hierarchy).
+  const calculatorPages: MetadataRoute.Sitemap = Object.entries(toolsData).flatMap(([categoryId, category]) =>
+    Object.values(category.subcategories ?? {}).flatMap((sub) =>
+      (sub.calculators ?? []).flatMap((tool) =>
+        withLocales(`/${categoryId}/${tool.id}`).map((url) => ({
+          url,
+          lastModified: currentDate,
+          changeFrequency: 'weekly' as const,
+          priority: 0.6,
+        }))
+      )
+    )
   )
 
   const markdownBlogPages: MetadataRoute.Sitemap = getAllMarkdownBlogPosts().flatMap((post) => {

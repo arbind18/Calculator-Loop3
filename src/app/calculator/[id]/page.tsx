@@ -93,76 +93,103 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function CalculatorPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id: rawId } = await params
-  const id = normalizeCalculatorId(rawId)
+  try {
+    const { id: rawId } = await params
+    const id = normalizeCalculatorId(rawId)
 
-  // Force canonical id so we always render the correct calculator implementation.
-  if (id && id !== rawId) {
-    redirect(`/calculator/${id}`)
-  }
-  
-  const CalculatorComponent = calculatorComponents[id]
-  const categoryInfo = findCategoryForCalculator(id)
-  const language = (await headers()).get('x-calculator-language') || 'en'
-  const dict = getMergedTranslations(language)
-  const prefix = language !== 'en' ? `/${language}` : ''
-  const baseUrl = getSiteUrl()
-  const pathname = `${prefix}/calculator/${id}`
+    // Force canonical id so we always render the correct calculator implementation.
+    if (id && id !== rawId) {
+      redirect(`/calculator/${id}`)
+    }
 
-  const meta = categoryInfo
-    ? localizeToolMeta({
-        dict,
-        toolId: id,
-        fallbackTitle: categoryInfo.tool.title,
-        fallbackDescription: categoryInfo.tool.description,
-      })
-    : null
+    const CalculatorComponent = calculatorComponents[id]
+    const categoryInfo = findCategoryForCalculator(id)
 
-  if (!CalculatorComponent || !categoryInfo) {
-    notFound()
-  }
+    // Validate language header and fall back to 'en' for safety
+    const languageRaw = (await headers()).get('x-calculator-language') || 'en'
+    const VALID_LANGS = new Set(['en','hi','ta','te','bn','mr','gu','es','pt','fr','de','id','ar','ur','ja'])
+    const language = VALID_LANGS.has(languageRaw) ? languageRaw : 'en'
+    const dict = getMergedTranslations(language)
+    const prefix = language !== 'en' ? `/${language}` : ''
+    const baseUrl = getSiteUrl()
+    const pathname = `${prefix}/calculator/${id}`
 
-  return (
-    <div className="min-h-screen bg-background pb-16">
-      <StructuredData 
-        title={meta?.title ?? categoryInfo.tool.title}
-        description={meta?.description ?? categoryInfo.tool.description}
-        categoryId={categoryInfo.categoryId}
-        categoryName={categoryInfo.categoryName} 
-        pathname={pathname}
-        baseUrl={baseUrl}
-      />
-      
-      <div className="container mx-auto px-4 pt-6">
-        <div className="mb-6">
-          <BackButton />
-        </div>
-        
-        <CalculatorComponent 
-          id={id} 
+    const meta = categoryInfo
+      ? localizeToolMeta({
+          dict,
+          toolId: id,
+          fallbackTitle: categoryInfo.tool.title,
+          fallbackDescription: categoryInfo.tool.description,
+        })
+      : null
+
+    // If missing data, return 404 rather than throwing a server error.
+    if (!CalculatorComponent || !categoryInfo) {
+      notFound()
+    }
+
+    return (
+      <div className="min-h-screen bg-background pb-16">
+        <StructuredData 
           title={meta?.title ?? categoryInfo.tool.title}
           description={meta?.description ?? categoryInfo.tool.description}
-        />
-
-        <section className="mt-10 rounded-lg border bg-card p-6 text-card-foreground">
-          <h2 className="text-xl font-semibold">About {meta?.title ?? categoryInfo.tool.title}</h2>
-          <p className="mt-2 text-muted-foreground">
-            {meta?.description ?? categoryInfo.tool.description} Updated for 2026 with fast, accurate results on mobile and desktop.
-          </p>
-          <ul className="mt-4 grid gap-2 text-sm text-muted-foreground md:grid-cols-2">
-            <li>Instant calculation with clear outputs</li>
-            <li>No signup, free to use</li>
-            <li>Works on mobile, tablet, and desktop</li>
-            <li>Useful for quick planning and comparisons</li>
-          </ul>
-        </section>
-        
-        <RelatedCalculators 
-          currentToolId={id}
           categoryId={categoryInfo.categoryId}
-          subcategoryKey={categoryInfo.subcategoryKey}
+          categoryName={categoryInfo.categoryName} 
+          pathname={pathname}
+          baseUrl={baseUrl}
         />
+        
+        <div className="container mx-auto px-4 pt-6">
+          <div className="mb-6">
+            <BackButton />
+          </div>
+          
+          <CalculatorComponent 
+            id={id} 
+            title={meta?.title ?? categoryInfo.tool.title}
+            description={meta?.description ?? categoryInfo.tool.description}
+          />
+
+          <section className="mt-10 rounded-lg border bg-card p-6 text-card-foreground">
+            <h2 className="text-xl font-semibold">About {meta?.title ?? categoryInfo.tool.title}</h2>
+            <p className="mt-2 text-muted-foreground">
+              {meta?.description ?? categoryInfo.tool.description} Updated for 2026 with fast, accurate results on mobile and desktop.
+            </p>
+            <ul className="mt-4 grid gap-2 text-sm text-muted-foreground md:grid-cols-2">
+              <li>Instant calculation with clear outputs</li>
+              <li>No signup, free to use</li>
+              <li>Works on mobile, tablet, and desktop</li>
+              <li>Useful for quick planning and comparisons</li>
+            </ul>
+          </section>
+          
+          <RelatedCalculators 
+            currentToolId={id}
+            categoryId={categoryInfo.categoryId}
+            subcategoryKey={categoryInfo.subcategoryKey}
+          />
+        </div>
       </div>
-    </div>
-  )
+    )
+  } catch (err) {
+    console.error('Calculator page render error:', err)
+    // Map unexpected errors to 404 to avoid 5xx responses for malformed requests or bad params
+    notFound()
+  }
+}
+
+// Force static rendering for all calculator pages and provide static params
+export const dynamic = 'force-static'
+
+export async function generateStaticParams() {
+  try {
+    const ids = Object.values(toolsData).flatMap((cat: any) =>
+      Object.values(cat.subcategories ?? {}).flatMap((sub: any) => sub.calculators.map((c: any) => c.id))
+    )
+    const unique = Array.from(new Set(ids))
+    return unique.map((id) => ({ id }))
+  } catch (err) {
+    console.error('generateStaticParams error:', err)
+    return []
+  }
 }
