@@ -21,6 +21,36 @@ const SUPPORTED_LANGS = new Set([
   'ja',
 ])
 
+/**
+ * Legacy category name mappings: old URL path names to new category IDs
+ * Used for redirecting old /{legacy-category}/{calculator}.html URLs
+ */
+const LEGACY_CATEGORY_MAP: Record<string, string> = {
+  'business-tools': 'business',
+  'construction-tools': 'construction',
+  'datetime-tools': 'datetime',
+  'date-time-tools': 'datetime',
+  'date-time': 'datetime',
+  'education-tools': 'education',
+  'everyday-tools': 'everyday',
+  'financial-calculators': 'financial',
+  'financial': 'financial',
+  'finance': 'financial',
+  'fitness-health': 'health',
+  'health-tools': 'health',
+  'health-fitness': 'health',
+  'math-tools': 'math',
+  'math': 'math',
+  'physics-tools': 'physics',
+  'physics': 'physics',
+  'scientific-tools': 'scientific',
+  'scientific': 'scientific',
+  'technology-tools': 'technology',
+  'technology': 'technology',
+  'travel-tools': 'travel',
+  'travel': 'travel',
+}
+
 function getLocaleFromPath(pathname: string): string | null {
   const parts = pathname.split('/')
   const maybe = parts[1]
@@ -88,6 +118,37 @@ export function proxy(request: NextRequest) {
       redirectUrl.pathname = `${prefix}/`
       redirectUrl.search = search
       return NextResponse.redirect(redirectUrl, 308)
+    }
+
+    // ===== LEGACY CATEGORY-BASED .HTML URLs =====
+    // Handle: /business-tools/roi-calculator.html, /financial-calculators/sip-calculator.html
+    // Pattern: /{legacy-category}/{calculator-slug}.html
+    const legacyCategoryMatch = basePath.match(/^\/([a-z\-]+)\/([a-z\-0-9]+)\.(html?|php)$/i)
+    if (legacyCategoryMatch) {
+      const [, legacyCategoryName, calculatorSlug] = legacyCategoryMatch
+      const calculatorId = normalizeLegacyCalculatorId(calculatorSlug)
+      
+      // Try to map legacy category name to new category
+      const mappedCategory = LEGACY_CATEGORY_MAP[legacyCategoryName.toLowerCase()]
+      
+      // First, try to find the calculator to get its actual category
+      const actualCategory = findCategoryForCalculator(calculatorId)
+      const targetPrefix = pathLocale ? `/${pathLocale}` : '/en'
+      
+      if (actualCategory) {
+        // Found the calculator - redirect to canonical URL
+        const redirectUrl = request.nextUrl.clone()
+        redirectUrl.pathname = `${targetPrefix}/${actualCategory}/${calculatorId}`
+        redirectUrl.search = search
+        return NextResponse.redirect(redirectUrl, 301)
+      } else if (mappedCategory) {
+        // Calculator not found by ID, but legacy category maps to a known category
+        // Redirect to mapped category (will show 404 if calculator doesn't exist there)
+        const redirectUrl = request.nextUrl.clone()
+        redirectUrl.pathname = `${targetPrefix}/${mappedCategory}/${calculatorId}`
+        redirectUrl.search = search
+        return NextResponse.redirect(redirectUrl, 301)
+      }
     }
 
     // Redirect ALL /calculator/... URLs to canonical /{lang}/{category}/{calculator}

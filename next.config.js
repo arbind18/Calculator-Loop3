@@ -122,6 +122,14 @@ const nextConfig = {
         permanent: true,
       },
       
+      // Remove .html extensions FIRST (before category redirects)
+      // This catches /business-tools/roi-calculator.html and converts to /business-tools/roi-calculator
+      {
+        source: '/:path*.html',
+        destination: '/:path*',
+        permanent: true,
+      },
+      
       // Legacy HTML site redirects - Old folder structure to new
       // Math calculators: /Math/Law-of-Sines-Calculator -> /calculator/law-of-sines-calculator
       {
@@ -255,10 +263,148 @@ const nextConfig = {
         permanent: true,
       },
       
-      // Remove .html extensions from old site
+      // Legacy category-based URLs: /business-tools/*, /financial-calculators/*, etc.
+      // These are indexed by Google and need to redirect properly
+      
+      // Business tools
       {
-        source: '/:path*.html',
-        destination: '/:path*',
+        source: '/business-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Business-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Construction tools
+      {
+        source: '/construction-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Construction-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Education tools
+      {
+        source: '/education-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Education-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Everyday tools
+      {
+        source: '/everyday-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Everyday-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Health/Fitness tools
+      {
+        source: '/fitness-health/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Fitness-health/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/health-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Health-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Math tools
+      {
+        source: '/math-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Math-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Physics tools
+      {
+        source: '/physics-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Physics-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Scientific tools
+      {
+        source: '/scientific-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Scientific-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Technology tools
+      {
+        source: '/technology-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Technology-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // Travel tools
+      {
+        source: '/travel-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Travel-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      
+      // DateTime tools
+      {
+        source: '/datetime-tools/:calculator',
+        destination: '/calculator/:calculator',
+        permanent: true,
+      },
+      {
+        source: '/Datetime-tools/:calculator',
+        destination: '/calculator/:calculator',
         permanent: true,
       },
       
