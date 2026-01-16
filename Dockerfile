@@ -8,6 +8,9 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --prefer-offline --no-audit --progress=false
 
+# Copy Prisma schema before building
+COPY prisma ./prisma
+
 # Copy source and build
 COPY . .
 RUN npm run build
@@ -20,6 +23,10 @@ ENV PORT=8080
 # Only production deps
 COPY package.json package-lock.json* ./
 RUN npm ci --production --prefer-offline --no-audit --progress=false
+
+# Copy Prisma schema and generated client
+COPY prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 # Copy next build output and public assets
 COPY --from=builder /app/.next .next

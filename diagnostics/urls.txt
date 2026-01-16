@@ -1,0 +1,8 @@
+﻿/business-tools/invoice-generator
+/hi/business-tools/employee-directory
+/fitness-health/workout-planner
+/de/fitness-health/heart-rate-check
+/financial-calculators/mortgage-calculator
+/es/financial-calculators/loan-payments
+/travel-tools/itinerary-planner
+/calculator/emi-calculator
