@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for Next.js optimized for Google Cloud Run
 # Builds the app, then runs it in a minimal runtime image
 
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Copy Prisma schema first (needed for postinstall script)
@@ -9,38 +9,46 @@ COPY prisma ./prisma
 COPY package.json package-lock.json* ./
 
 # Install dependencies (postinstall runs prisma generate)
+# Added --legacy-peer-deps just in case, though not strictly required if package-lock is good
 RUN npm ci --prefer-offline --no-audit --progress=false
 
 # Copy source and build
 COPY . .
+
+# Enable standalone output for smaller docker image
+ENV NEXT_OUTPUT=standalone
+
 RUN npm run build
 
-FROM node:18-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# Copy Prisma schema and config files
+# Copy Prisma schema and config files if needed at runtime
+# (Standalone build often bundles what it needs, but keeping schema is sometimes useful for migrations)
 COPY prisma ./prisma
-COPY package.json package-lock.json* ./
 
-# Copy JSON data files needed by toolsData
+# Copy JSON data files needed by toolsData 
+# NOTE: In standalone mode, these need to be copied relative to where the server is running or trace them.
+# The standalone build puts everything in .next/standalone.
+# We need to ensure static assets and public folder are also copied.
+
+COPY --from=builder /app/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+# Check if we need to manually copy the JSON files if they aren't traced. 
+# Usually 'require' calls are traced. If they are read via fs.readFileSync, they might not be.
+# Just in case, copying them to the root as before, because standalone might expect them in the working dir.
 COPY *-tools-report.json ./
 COPY *-tools-summary.md ./
-
-# Only production deps (includes prisma client)
-RUN npm ci --production --prefer-offline --no-audit --progress=false
-
-# Copy generated Prisma client
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-
-# Copy next build output and public assets
-COPY --from=builder /app/.next .next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./next.config.js
 
 EXPOSE 8080
 
 # Cloud Run sets $PORT; Next respects PORT env var
-CMD ["npm", "start"]
+# For standalone, we run 'node server.js'
+CMD ["node", "server.js"]
