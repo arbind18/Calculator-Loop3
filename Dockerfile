@@ -20,15 +20,20 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# Copy Prisma schema first
+# Copy Prisma schema and config files
 COPY prisma ./prisma
 COPY package.json package-lock.json* ./
+
+# Copy JSON data files needed by toolsData
+COPY *-tools-report.json ./
+COPY *-tools-summary.md ./
 
 # Only production deps (includes prisma client)
 RUN npm ci --production --prefer-offline --no-audit --progress=false
 
 # Copy generated Prisma client
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 # Copy next build output and public assets
 COPY --from=builder /app/.next .next
