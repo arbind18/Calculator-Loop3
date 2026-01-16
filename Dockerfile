@@ -4,12 +4,12 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Install dependencies based on lockfile for reproducible builds
-COPY package.json package-lock.json* ./
-RUN npm ci --prefer-offline --no-audit --progress=false
-
-# Copy Prisma schema before building
+# Copy Prisma schema first (needed for postinstall script)
 COPY prisma ./prisma
+COPY package.json package-lock.json* ./
+
+# Install dependencies (postinstall runs prisma generate)
+RUN npm ci --prefer-offline --no-audit --progress=false
 
 # Copy source and build
 COPY . .
@@ -20,12 +20,14 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# Only production deps
+# Copy Prisma schema first
+COPY prisma ./prisma
 COPY package.json package-lock.json* ./
+
+# Only production deps (includes prisma client)
 RUN npm ci --production --prefer-offline --no-audit --progress=false
 
-# Copy Prisma schema and generated client
-COPY prisma ./prisma
+# Copy generated Prisma client
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 # Copy next build output and public assets
