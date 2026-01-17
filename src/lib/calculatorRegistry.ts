@@ -1852,6 +1852,20 @@ export const calculatorComponents: Record<string, any> = {
   'basic-calculator': dynamic(() => import('@/components/calculators/categories/math/BasicArithmetic').then(m => ({ default: m.BasicCalculator }))),
   'fraction-calculator': dynamic(() => import('@/components/calculators/categories/math/BasicArithmetic').then(m => ({ default: m.FractionCalculator }))),
 
+  // Advanced Math Tools (Batch 1 Upgrades)
+  'percentage-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.PercentageCalculator }))),
+  'average-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.AverageCalculator }))),
+  'ratio-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.RatioCalculator }))),
+  'proportion-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.ProportionCalculator }))),
+  'square-root-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.RootsCalculator }))), // Default is square
+  'cube-root-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.CubeRootCalculator }))),
+
+  // Advanced Math Tools (New Additions)
+  'percentage-change-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.PercentageChangeCalculator }))),
+  'prime-factorization-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.PrimeFactorizationCalculator }))),
+  'divisibility-checker': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.DivisibilityChecker }))),
+  'even-odd-checker': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.EvenOddChecker }))),
+
   // New Insurance
   'term-insurance': dynamic(() => import('@/components/calculators/categories/insurance/InsuranceCalculators').then(m => ({ default: m.TermInsurancePremium }))),
   'human-life-value': dynamic(() => import('@/components/calculators/categories/insurance/InsuranceCalculators').then(m => ({ default: m.HumanLifeValue }))),
