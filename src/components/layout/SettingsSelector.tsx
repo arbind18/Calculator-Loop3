@@ -68,7 +68,7 @@ export function SettingsSelector() {
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-full sm:w-56 max-w-[calc(100vw-2rem)]">
         <DropdownMenuLabel>Settings</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
