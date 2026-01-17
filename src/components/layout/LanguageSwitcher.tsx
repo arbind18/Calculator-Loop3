@@ -74,22 +74,22 @@ export default function LanguageSwitcher() {
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-48 sm:w-56 max-h-[70vh] overflow-y-auto">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
             onClick={() => handleChange(lang.code)}
-            className="flex items-center justify-between cursor-pointer"
+            className="flex items-center justify-between cursor-pointer py-2.5"
           >
-            <div className="flex items-center gap-2">
-              <span className="emoji text-lg">{lang.flag}</span>
-              <div className="flex flex-col">
-                <span className="font-medium">{lang.nativeName}</span>
-                <span className="text-xs text-muted-foreground">{lang.name}</span>
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="emoji text-base sm:text-lg flex-shrink-0">{lang.flag}</span>
+              <div className="flex flex-col min-w-0">
+                <span className="font-medium truncate text-sm sm:text-base">{lang.nativeName}</span>
+                <span className="text-xs text-muted-foreground hidden sm:block">{lang.name}</span>
               </div>
             </div>
             {language === lang.code && (
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary flex-shrink-0 ml-2" />
             )}
           </DropdownMenuItem>
         ))}
