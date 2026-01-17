@@ -9,8 +9,11 @@ COPY prisma ./prisma
 COPY package.json package-lock.json* ./
 
 # Install dependencies (postinstall runs prisma generate)
-# Added --legacy-peer-deps just in case, though not strictly required if package-lock is good
-RUN npm ci --prefer-offline --no-audit --progress=false
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+
+# Added --legacy-peer-deps to avoid strict peer dependency issues (common with React 19)
+RUN npm ci --legacy-peer-deps --prefer-offline --no-audit --progress=false
 
 # Copy source and build
 COPY . .
