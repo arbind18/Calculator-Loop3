@@ -74,7 +74,7 @@ export default function LanguageSwitcher() {
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 sm:w-56 max-h-[70vh] overflow-y-auto">
+      <DropdownMenuContent align="center" className="w-48 sm:w-56 max-h-[70vh] overflow-y-auto">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
