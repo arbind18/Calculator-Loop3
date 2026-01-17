@@ -1,11 +1,6 @@
 // Import JSON locale files
 import enTranslations from '@/locales/en.json';
 import hiTranslations from '@/locales/hi.json';
-import taTranslations from '@/locales/ta.json';
-import teTranslations from '@/locales/te.json';
-import bnTranslations from '@/locales/bn.json';
-import mrTranslations from '@/locales/mr.json';
-import guTranslations from '@/locales/gu.json';
 import esTranslations from '@/locales/es.json';
 import ptTranslations from '@/locales/pt.json';
 import frTranslations from '@/locales/fr.json';
@@ -19,11 +14,6 @@ import jaTranslations from '@/locales/ja.json';
 export const translations = {
   en: enTranslations,
   hi: hiTranslations,
-  ta: taTranslations,
-  te: teTranslations,
-  bn: bnTranslations,
-  mr: mrTranslations,
-  gu: guTranslations,
   es: esTranslations,
   pt: ptTranslations,
   fr: frTranslations,
@@ -76,12 +66,12 @@ export function getMergedTranslations(language: string | LanguageCode = 'en') {
 export function getTranslation(lang: LanguageCode = 'en', key: string): string {
   const keys = key.split('.');
   let value: any = translations[lang];
-  
+
   for (const k of keys) {
     value = value?.[k];
     if (value === undefined) break;
   }
-  
+
   // Fallback to English if translation not found
   if (value === undefined) {
     value = translations.en;
@@ -90,7 +80,7 @@ export function getTranslation(lang: LanguageCode = 'en', key: string): string {
       if (value === undefined) break;
     }
   }
-  
+
   return value || key;
 }
 
@@ -102,12 +92,12 @@ export function getTranslation(lang: LanguageCode = 'en', key: string): string {
  */
 export function getNamespace(lang: LanguageCode = 'en', namespace: string): Record<string, any> {
   const value = (translations[lang] as any)?.[namespace];
-  
+
   // Fallback to English if namespace not found
   if (!value) {
     return (translations.en as any)?.[namespace] || {};
   }
-  
+
   return value;
 }
 
@@ -120,11 +110,11 @@ export function getNamespace(lang: LanguageCode = 'en', namespace: string): Reco
 export function hasTranslation(lang: LanguageCode, key: string): boolean {
   const keys = key.split('.');
   let value: any = translations[lang];
-  
+
   for (const k of keys) {
     value = value?.[k];
     if (value === undefined) return false;
   }
-  
+
   return true;
 }
