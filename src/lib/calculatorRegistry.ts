@@ -1802,7 +1802,7 @@ export const calculatorComponents: Record<string, any> = {
   'tip-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.TipCalculator }))),
   'date-difference': dynamic(() => import('@/components/calculators/categories/datetime/GenericDateTimeTool')),
   'date-plus-duration': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.DatePlusDurationCalculator }))),
-  'percentage-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.PercentageCalculator }))),
+  // 'percentage-calculator': dynamic(() => import('@/components/calculators/categories/misc/MiscCalculators').then(m => ({ default: m.PercentageCalculator }))), // Replaced by AdvancedArithmeticTools version
   'fuel-cost-calculator': dynamic(() => import('@/components/calculators/categories/misc/AdvancedFuelCostCalculator').then(m => ({ default: m.AdvancedFuelCostCalculator }))),
   'bmi-calculator': dynamic(() => import('@/components/calculators/categories/health/ComprehensiveBMICalculator').then(m => ({ default: m.ComprehensiveBMICalculator }))),
   'emergency-fund': dynamic(() => import('@/components/calculators/categories/misc/EmergencyFund').then(m => ({ default: m.EmergencyFund }))),
