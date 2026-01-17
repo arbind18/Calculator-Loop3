@@ -39,7 +39,6 @@ const languages: Language[] = [
   // English: showing 🇺🇸 (most widely recognized; used by India/USA/UK/Canada)
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
   { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳' },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳' },
 
   // International
   { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
