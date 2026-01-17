@@ -41,7 +41,6 @@ export function CurrencyConverter() {
     { country: 'UAE', flag: '🇦🇪', language: 'Arabic', currency: 'Dirham (د.إ)', code: 'AED' },
     { country: 'Saudi Arabia', flag: '🇸🇦', language: 'Arabic', currency: 'Riyal (﷼)', code: 'SAR' },
     { country: 'Pakistan', flag: '🇵🇰', language: 'Urdu', currency: 'Rupee (₨)', code: 'PKR' },
-    { country: 'Bangladesh', flag: '🇧🇩', language: 'Bengali', currency: 'Taka (৳)', code: 'BDT' },
     { country: 'Canada', flag: '🇨🇦', language: 'English / French', currency: 'Dollar ($)', code: 'CAD' },
     { country: 'Japan', flag: '🇯🇵', language: 'Japanese', currency: 'Yen (¥)', code: 'JPY' },
   ]
@@ -104,8 +103,8 @@ export function CurrencyConverter() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">From</label>
-              <select 
-                value={from} 
+              <select
+                value={from}
                 onChange={(e) => setFrom(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
@@ -118,8 +117,8 @@ export function CurrencyConverter() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">To</label>
-              <select 
-                value={to} 
+              <select
+                value={to}
                 onChange={(e) => setTo(e.target.value)}
                 className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
               >
@@ -192,7 +191,7 @@ export function CryptoProfitLoss() {
   const calculate = () => {
     const invested = buy * quantity
     const returns = sell * quantity
-    const fee = (invested + returns) * (fees/100)
+    const fee = (invested + returns) * (fees / 100)
     const profit = returns - invested - fee
     const percentage = (profit / invested) * 100
     setResult({ profit: profit.toFixed(2), percentage: percentage.toFixed(2), fee: fee.toFixed(2) })
@@ -317,8 +316,8 @@ export function ForexMargin() {
         <div className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium">Currency Pair</label>
-            <select 
-              value={currency} 
+            <select
+              value={currency}
               onChange={(e) => setCurrency(e.target.value)}
               className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
             >
@@ -336,8 +335,8 @@ export function ForexMargin() {
           />
           <div className="space-y-2">
             <label className="text-sm font-medium">Leverage</label>
-            <select 
-              value={leverage} 
+            <select
+              value={leverage}
               onChange={(e) => setLeverage(Number(e.target.value))}
               className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
             >
@@ -579,8 +578,8 @@ export function ImportExportDuty() {
           />
           <div className="space-y-2">
             <label className="text-sm font-medium">GST Rate</label>
-            <select 
-              value={gst} 
+            <select
+              value={gst}
               onChange={(e) => setGst(Number(e.target.value))}
               className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
             >
@@ -652,8 +651,8 @@ export function GoldSilverPrice() {
         <div className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium">Metal Type</label>
-            <select 
-              value={metal} 
+            <select
+              value={metal}
               onChange={(e) => setMetal(e.target.value)}
               className="w-full p-3 rounded-xl bg-background border border-input hover:border-primary/50 transition-colors"
             >
