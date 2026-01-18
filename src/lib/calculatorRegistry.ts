@@ -1860,6 +1860,12 @@ export const calculatorComponents: Record<string, any> = {
   'square-root-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.RootsCalculator }))), // Default is square
   'cube-root-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.CubeRootCalculator }))),
 
+  // Advanced Math Tools (Batch 2 Upgrades)
+  'rounding-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.RoundingCalculator }))),
+  'factorial-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.FactorialCalculator }))),
+  'absolute-value-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.AbsoluteValueCalculator }))),
+  'reciprocal-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.ReciprocalCalculator }))),
+
   // Advanced Math Tools (New Additions)
   'percentage-change-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.PercentageChangeCalculator }))),
   'prime-factorization-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.PrimeFactorizationCalculator }))),

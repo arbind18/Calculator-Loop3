@@ -939,3 +939,347 @@ export function FractionCalculator() {
     );
 }
 
+// ----------------------------------------------------------------------
+// 8. Advanced Rounding Calculator
+// ----------------------------------------------------------------------
+export function RoundingCalculator() {
+    const [num, setNum] = useState('');
+    const [mode, setMode] = useState<'decimal' | 'multiple' | 'sigfig'>('decimal');
+    const [precision, setPrecision] = useState('2');
+    const [result, setResult] = useState<any>(null);
+
+    const calculate = () => {
+        const n = parseFloat(num);
+        if (isNaN(n)) return;
+
+        let res: number | string = 0;
+        const steps: string[] = [];
+        const floor = Math.floor(n);
+        const ceil = Math.ceil(n);
+
+        if (mode === 'decimal') {
+            const p = parseInt(precision) || 0;
+            const factor = Math.pow(10, p);
+            res = Math.round(n * factor) / factor;
+            steps.push(`Round to ${p} decimal places.`);
+            steps.push(`Identify the digit at position ${p + 1}: ${n.toFixed(p + 1).split('.')[1]?.[p] || '0'}`);
+            steps.push(parseInt(n.toFixed(p + 1).split('.')[1]?.[p] || '0') >= 5 ? 'Digit is >= 5, so round UP.' : 'Digit is < 5, so round DOWN.');
+        } else if (mode === 'multiple') {
+            const m = parseFloat(precision) || 1;
+            res = Math.round(n / m) * m;
+            steps.push(`Round to nearest multiple of ${m}.`);
+            steps.push(`${n} ÷ ${m} = ${(n / m).toFixed(2)}`);
+            steps.push(`Round ${(n / m).toFixed(2)} to nearest integer = ${Math.round(n / m)}`);
+            steps.push(`${Math.round(n / m)} × ${m} = ${res}`);
+        } else if (mode === 'sigfig') {
+            const p = parseInt(precision) || 1;
+            res = Number(n.toPrecision(p));
+            steps.push(`Round to ${p} significant figures.`);
+            steps.push(`Identify the first ${p} significant digits.`);
+        }
+
+        setResult({
+            val: res,
+            floor,
+            ceil,
+            steps,
+            mode
+        });
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="flex flex-col gap-4">
+                <div className="space-y-2">
+                    <Label>Rounding Mode</Label>
+                    <div className="flex flex-wrap gap-2">
+                        <Button variant={mode === 'decimal' ? 'default' : 'outline'} onClick={() => setMode('decimal')} size="sm">Decimal Places</Button>
+                        <Button variant={mode === 'multiple' ? 'default' : 'outline'} onClick={() => setMode('multiple')} size="sm">Nearest Multiple</Button>
+                        <Button variant={mode === 'sigfig' ? 'default' : 'outline'} onClick={() => setMode('sigfig')} size="sm">Significant Figures</Button>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label>Number to Round</Label>
+                        <Input type="number" value={num} onChange={(e) => setNum(e.target.value)} placeholder="Enter number (e.g., 12.3456)" />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>{mode === 'decimal' ? 'Decimal Places' : mode === 'multiple' ? 'Multiple Of' : 'Significant Figures'}</Label>
+                        <Input type="number" value={precision} onChange={(e) => setPrecision(e.target.value)} placeholder="0" />
+                    </div>
+                </div>
+
+                <Button onClick={calculate}>Round Number</Button>
+            </div>
+
+            {result && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <Card className="bg-primary/5 border-primary/20">
+                        <CardHeader>
+                            <CardTitle>Result</CardTitle>
+                        </CardHeader>
+                        <CardContent className="text-center">
+                            <div className="text-4xl font-bold text-primary mb-2">{result.val}</div>
+                            <div className="grid grid-cols-2 gap-4 mt-6 text-sm">
+                                <div className="p-3 bg-white dark:bg-slate-800 rounded border">
+                                    <div className="text-muted-foreground mb-1">Floor (Round Down)</div>
+                                    <div className="font-semibold text-lg">{result.floor}</div>
+                                </div>
+                                <div className="p-3 bg-white dark:bg-slate-800 rounded border">
+                                    <div className="text-muted-foreground mb-1">Ceiling (Round Up)</div>
+                                    <div className="font-semibold text-lg">{result.ceil}</div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <div className="space-y-2">
+                        <Label className="flex items-center gap-2"><BookOpen className="w-4 h-4" /> Explanation</Label>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg space-y-2 border text-sm">
+                            {result.steps.map((step: string, i: number) => (
+                                <div key={i} className="flex gap-2">
+                                    <span className="text-primary font-mono">•</span>
+                                    <span>{step}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ----------------------------------------------------------------------
+// 9. Advanced Factorial Calculator
+// ----------------------------------------------------------------------
+export function FactorialCalculator() {
+    const [num, setNum] = useState('');
+    const [result, setResult] = useState<any>(null);
+
+    const calculate = () => {
+        const n = parseInt(num);
+        if (isNaN(n) || n < 0) return;
+
+        if (n > 170) {
+            setResult({ val: "Infinity (Too Large)", steps: ["Number is too large for standard calculation (>170)."] });
+            return;
+        }
+
+        let res = 1;
+        const sequence = [];
+        for (let i = n; i >= 1; i--) {
+            res *= i;
+            if (i >= n - 10) sequence.push(i); // Show first 10
+        }
+
+        let zeros = 0;
+        let temp = n;
+        while (temp >= 5) {
+            zeros += Math.floor(temp / 5);
+            temp /= 5;
+        }
+
+        setResult({
+            val: res.toLocaleString(),
+            raw: res,
+            sequence: sequence.join(' × ') + (n > 10 ? ' × ... × 1' : ''),
+            zeros,
+            digits: res.toString().length
+        });
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="flex items-end gap-4">
+                <div className="space-y-2 flex-1">
+                    <Label>Enter Number (n)</Label>
+                    <Input type="number" value={num} onChange={(e) => setNum(e.target.value)} placeholder="Integer ≥ 0" />
+                </div>
+                <Button onClick={calculate}>Calculate Factorial</Button>
+            </div>
+
+            {result && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <Card className="bg-primary/5 border-primary/20">
+                        <CardHeader>
+                            <CardTitle>Result: {num}!</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="text-3xl font-bold text-primary break-all">{result.val}</div>
+                            {result.val.length > 20 && <div className="text-xs text-muted-foreground mt-1">({result.val.length} digits)</div>}
+
+                            <div className="bg-white dark:bg-slate-800 p-4 rounded-lg border font-mono text-sm overflow-x-auto whitespace-nowrap">
+                                {num}! = {result.sequence} = {result.val}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex flex-col items-center justify-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{result.zeros}</span>
+                                    <span className="text-xs text-muted-foreground">Trailing Zeros</span>
+                                </div>
+                                <div className="flex flex-col items-center justify-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                    <span className="text-2xl font-bold text-green-600 dark:text-green-400">{result.digits}</span>
+                                    <span className="text-xs text-muted-foreground">Total Digits</span>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ----------------------------------------------------------------------
+// 10. Advanced Absolute Value Calculator
+// ----------------------------------------------------------------------
+export function AbsoluteValueCalculator() {
+    const [num, setNum] = useState('');
+    const [result, setResult] = useState<any>(null);
+
+    const calculate = () => {
+        const n = parseFloat(num);
+        if (isNaN(n)) return;
+        const res = Math.abs(n);
+        setResult({ val: res, original: n });
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="flex items-end gap-4">
+                <div className="space-y-2 flex-1">
+                    <Label>Enter Number</Label>
+                    <Input type="number" value={num} onChange={(e) => setNum(e.target.value)} placeholder="Negative or Positive" />
+                </div>
+                <Button onClick={calculate}>Get Absolute Value</Button>
+            </div>
+
+            {result !== null && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <Card className="bg-primary/5 border-primary/20">
+                        <CardContent className="pt-6 text-center">
+                            <div className="text-5xl font-bold text-primary mb-2">|{result.original}| = {result.val}</div>
+                            <p className="text-muted-foreground">Absolute value is the distance from zero.</p>
+                        </CardContent>
+                    </Card>
+
+                    {/* Number Line Visual */}
+                    <div className="relative h-24 bg-slate-100 dark:bg-slate-900 rounded-lg border flex items-center justify-center overflow-hidden">
+                        <div className="absolute w-[90%] h-1 bg-gray-400 top-1/2 -translate-y-1/2"></div>
+
+                        {/* Zero Marker */}
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group">
+                            <div className="w-0.5 h-6 bg-gray-600"></div>
+                            <span className="mt-2 text-sm font-bold">0</span>
+                        </div>
+
+                        {/* Value Marker */}
+                        <div className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center transition-all duration-1000 ease-out"
+                            style={{
+                                left: `calc(50% + ${Math.max(-45, Math.min(45, (result.original / (Math.abs(result.original) * 2 || 1)) * 40))}%)`
+                            }}>
+                            <div className="w-4 h-4 bg-primary rounded-full relative z-10 shadow-lg"></div>
+                            <div className={`h-1 bg-primary absolute top-1.5 ${result.original < 0 ? 'right-2 w-[calc(50vw-2rem)] origin-right' : 'left-2 w-[calc(50vw-2rem)] origin-left'} opacity-50 hidden md:block`}></div>
+                            <span className="mt-4 text-sm font-bold text-primary">{result.original}</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ----------------------------------------------------------------------
+// 11. Advanced Reciprocal Calculator
+// ----------------------------------------------------------------------
+export function ReciprocalCalculator() {
+    const [mode, setMode] = useState<'decimal' | 'fraction'>('decimal');
+    const [num, setNum] = useState('');
+    const [fracNum, setFracNum] = useState('');
+    const [fracDen, setFracDen] = useState('');
+    const [result, setResult] = useState<any>(null);
+
+    const calculate = () => {
+        if (mode === 'decimal') {
+            const n = parseFloat(num);
+            if (isNaN(n) || n === 0) return;
+            setResult({
+                val: (1 / n).toFixed(6),
+                decimal: 1 / n,
+                equation: `1 / ${n} = ${(1 / n).toFixed(4)}`
+            });
+        } else {
+            const n = parseFloat(fracNum);
+            const d = parseFloat(fracDen);
+            if (isNaN(n) || isNaN(d) || n === 0) return; // Reciprocal of 0 is undefined
+            setResult({
+                num: d,
+                den: n,
+                decimal: d / n,
+                equation: `Flip ${n}/${d} → ${d}/${n}`
+            });
+        }
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="flex gap-2 mb-4">
+                <Button variant={mode === 'decimal' ? 'default' : 'outline'} onClick={() => setMode('decimal')} size="sm">Decimal</Button>
+                <Button variant={mode === 'fraction' ? 'default' : 'outline'} onClick={() => setMode('fraction')} size="sm">Fraction</Button>
+            </div>
+
+            <div className="flex items-end gap-4">
+                {mode === 'decimal' ? (
+                    <div className="space-y-2 flex-1">
+                        <Label>Enter Number</Label>
+                        <Input type="number" value={num} onChange={(e) => setNum(e.target.value)} placeholder="Ex: 5, 0.25" />
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-2 flex-1">
+                        <div className="space-y-2">
+                            <Label>Num</Label>
+                            <Input type="number" value={fracNum} onChange={(e) => setFracNum(e.target.value)} />
+                        </div>
+                        <span className="text-2xl mt-6">/</span>
+                        <div className="space-y-2">
+                            <Label>Den</Label>
+                            <Input type="number" value={fracDen} onChange={(e) => setFracDen(e.target.value)} />
+                        </div>
+                    </div>
+                )}
+                <Button onClick={calculate}>Find Reciprocal</Button>
+            </div>
+
+            {result && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <Card className="bg-primary/5 border-primary/20">
+                        <CardContent className="pt-6 text-center">
+                            {mode === 'decimal' ? (
+                                <div className="text-4xl font-bold text-primary">{result.val}</div>
+                            ) : (
+                                <div className="flex items-center justify-center gap-4 text-4xl font-bold text-primary">
+                                    <div className="flex flex-col items-center">
+                                        <span>{fracNum}</span>
+                                        <div className="h-0.5 w-full bg-current"></div>
+                                        <span>{fracDen}</span>
+                                    </div>
+                                    <ArrowRight className="w-8 h-8 text-muted-foreground" />
+                                    <div className="flex flex-col items-center text-green-600 dark:text-green-400">
+                                        <span>{result.num}</span>
+                                        <div className="h-0.5 w-full bg-current"></div>
+                                        <span>{result.den}</span>
+                                    </div>
+                                </div>
+                            )}
+                            <p className="mt-4 text-lg font-medium">{result.equation}</p>
+                            {mode === 'fraction' && <p className="text-sm text-muted-foreground mt-2">Decimal Value: {result.decimal.toFixed(4)}</p>}
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
+        </div>
+    );
+}
+
