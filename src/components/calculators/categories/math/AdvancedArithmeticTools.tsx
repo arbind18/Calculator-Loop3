@@ -462,3 +462,480 @@ export function RootsCalculator({ type = 'square' }: { type?: 'square' | 'cube' 
 export function CubeRootCalculator(props: any) {
     return <RootsCalculator {...props} type="cube" />;
 }
+
+// ----------------------------------------------------------------------
+// 7. Ultra-Advanced Fraction Calculator
+// ----------------------------------------------------------------------
+export function FractionCalculator() {
+    const [mode, setMode] = useState<'arithmetic' | 'simplify' | 'compare'>('arithmetic');
+
+    // Arithmetic Mode States
+    const [whole1, setWhole1] = useState('');
+    const [num1, setNum1] = useState('1');
+    const [den1, setDen1] = useState('2');
+    const [operation, setOperation] = useState('add');
+    const [whole2, setWhole2] = useState('');
+    const [num2, setNum2] = useState('1');
+    const [den2, setDen2] = useState('3');
+
+    // Simplify Mode States
+    const [simpNum, setSimpNum] = useState('');
+    const [simpDen, setSimpDen] = useState('');
+
+    // Results
+    const [result, setResult] = useState<any>(null);
+
+    // Helper: GCD
+    const gcd = (a: number, b: number): number => {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        return b === 0 ? a : gcd(b, a % b);
+    };
+
+    // Helper: LCM
+    const lcm = (a: number, b: number): number => {
+        return Math.abs(a * b) / gcd(a, b);
+    };
+
+    // Helper: Convert Mixed to Improper
+    const mixedToImproper = (whole: string, num: string, den: string) => {
+        const w = parseInt(whole) || 0;
+        const n = parseInt(num) || 0;
+        const d = parseInt(den) || 1;
+        return { num: w * d + n, den: d };
+    };
+
+    // Helper: Convert Improper to Mixed
+    const improperToMixed = (num: number, den: number) => {
+        const sign = (num < 0) !== (den < 0) ? -1 : 1;
+        num = Math.abs(num);
+        den = Math.abs(den);
+        const whole = Math.floor(num / den);
+        const remainder = num % den;
+        return { whole: whole * sign, num: remainder, den };
+    };
+
+    // Helper: Simplify Fraction
+    const simplify = (num: number, den: number) => {
+        const g = gcd(num, den);
+        return { num: num / g, den: den / g };
+    };
+
+    // Arithmetic Calculation
+    const calculateArithmetic = () => {
+        const f1 = mixedToImproper(whole1, num1, den1);
+        const f2 = mixedToImproper(whole2, num2, den2);
+
+        let resNum = 0;
+        let resDen = 1;
+        const steps: string[] = [];
+
+        // Step 1: Show conversion to improper
+        if (whole1 || whole2) {
+            steps.push(`Convert mixed numbers to improper fractions:`);
+            if (whole1) {
+                steps.push(`  ${whole1} ${num1}/${den1} = (${whole1}×${den1} + ${num1})/${den1} = ${f1.num}/${f1.den}`);
+            }
+            if (whole2) {
+                steps.push(`  ${whole2} ${num2}/${den2} = (${whole2}×${den2} + ${num2})/${den2} = ${f2.num}/${f2.den}`);
+            }
+        }
+
+        // Step 2: Perform operation
+        switch (operation) {
+            case 'add':
+            case 'subtract': {
+                const commonDen = lcm(f1.den, f2.den);
+                const newNum1 = f1.num * (commonDen / f1.den);
+                const newNum2 = f2.num * (commonDen / f2.den);
+
+                steps.push(`Find common denominator (LCM of ${f1.den} and ${f2.den}): ${commonDen}`);
+                steps.push(`Convert fractions: ${f1.num}/${f1.den} = ${newNum1}/${commonDen}, ${f2.num}/${f2.den} = ${newNum2}/${commonDen}`);
+
+                if (operation === 'add') {
+                    resNum = newNum1 + newNum2;
+                    steps.push(`Add numerators: ${newNum1} + ${newNum2} = ${resNum}`);
+                } else {
+                    resNum = newNum1 - newNum2;
+                    steps.push(`Subtract numerators: ${newNum1} - ${newNum2} = ${resNum}`);
+                }
+                resDen = commonDen;
+                steps.push(`Result: ${resNum}/${resDen}`);
+                break;
+            }
+            case 'multiply':
+                resNum = f1.num * f2.num;
+                resDen = f1.den * f2.den;
+                steps.push(`Multiply numerators: ${f1.num} × ${f2.num} = ${resNum}`);
+                steps.push(`Multiply denominators: ${f1.den} × ${f2.den} = ${resDen}`);
+                break;
+            case 'divide':
+                resNum = f1.num * f2.den;
+                resDen = f1.den * f2.num;
+                steps.push(`Flip second fraction and multiply: ${f1.num}/${f1.den} × ${f2.den}/${f2.num}`);
+                steps.push(`Result: (${f1.num} × ${f2.den})/(${f1.den} × ${f2.num}) = ${resNum}/${resDen}`);
+                break;
+        }
+
+        // Step 3: Simplify
+        const simplified = simplify(resNum, resDen);
+        if (simplified.num !== resNum || simplified.den !== resDen) {
+            const g = gcd(resNum, resDen);
+            steps.push(`Simplify using GCD(${Math.abs(resNum)}, ${Math.abs(resDen)}) = ${g}`);
+            steps.push(`${resNum}/${resDen} = ${simplified.num}/${simplified.den}`);
+        }
+
+        // Step 4: Convert to mixed if improper
+        const mixed = improperToMixed(simplified.num, simplified.den);
+        const decimal = simplified.num / simplified.den;
+        const percentage = (decimal * 100).toFixed(2);
+
+        setResult({
+            num: simplified.num,
+            den: simplified.den,
+            mixed: mixed.whole !== 0 && mixed.num !== 0 ? `${mixed.whole} ${mixed.num}/${mixed.den}` :
+                mixed.whole !== 0 ? `${mixed.whole}` :
+                    `${mixed.num}/${mixed.den}`,
+            decimal: decimal.toFixed(4),
+            percentage,
+            steps,
+            f1Display: whole1 ? `${whole1} ${num1}/${den1}` : `${num1}/${den1}`,
+            f2Display: whole2 ? `${whole2} ${num2}/${den2}` : `${num2}/${den2}`,
+            operation
+        });
+    };
+
+    // Simplify Calculation
+    const calculateSimplify = () => {
+        const n = parseInt(simpNum);
+        const d = parseInt(simpDen);
+
+        if (isNaN(n) || isNaN(d) || d === 0) return;
+
+        const steps: string[] = [];
+        const g = gcd(n, d);
+
+        steps.push(`Find GCD of ${Math.abs(n)} and ${Math.abs(d)}`);
+        steps.push(`GCD = ${g}`);
+
+        const simplified = { num: n / g, den: d / g };
+        steps.push(`Divide both by GCD: ${n}÷${g} = ${simplified.num}, ${d}÷${g} = ${simplified.den}`);
+
+        const decimal = simplified.num / simplified.den;
+        const mixed = improperToMixed(simplified.num, simplified.den);
+
+        setResult({
+            num: simplified.num,
+            den: simplified.den,
+            original: `${n}/${d}`,
+            mixed: mixed.whole !== 0 && mixed.num !== 0 ? `${mixed.whole} ${mixed.num}/${mixed.den}` :
+                mixed.whole !== 0 ? `${mixed.whole}` :
+                    `${mixed.num}/${mixed.den}`,
+            decimal: decimal.toFixed(4),
+            percentage: (decimal * 100).toFixed(2),
+            steps
+        });
+    };
+
+    // Compare Calculation
+    const calculateCompare = () => {
+        const f1 = mixedToImproper(whole1, num1, den1);
+        const f2 = mixedToImproper(whole2, num2, den2);
+
+        const steps: string[] = [];
+        const commonDen = lcm(f1.den, f2.den);
+        const newNum1 = f1.num * (commonDen / f1.den);
+        const newNum2 = f2.num * (commonDen / f2.den);
+
+        steps.push(`Convert to common denominator: ${commonDen}`);
+        steps.push(`${f1.num}/${f1.den} = ${newNum1}/${commonDen}`);
+        steps.push(`${f2.num}/${f2.den} = ${newNum2}/${commonDen}`);
+        steps.push(`Compare numerators: ${newNum1} vs ${newNum2}`);
+
+        const comparison = newNum1 > newNum2 ? '>' : newNum1 < newNum2 ? '<' : '=';
+
+        setResult({
+            f1Display: whole1 ? `${whole1} ${num1}/${den1}` : `${num1}/${den1}`,
+            f2Display: whole2 ? `${whole2} ${num2}/${den2}` : `${num2}/${den2}`,
+            comparison,
+            steps,
+            f1Decimal: (f1.num / f1.den).toFixed(4),
+            f2Decimal: (f2.num / f2.den).toFixed(4)
+        });
+    };
+
+    const handleCalculate = () => {
+        if (mode === 'arithmetic') calculateArithmetic();
+        else if (mode === 'simplify') calculateSimplify();
+        else if (mode === 'compare') calculateCompare();
+    };
+
+    // Simple Pie Chart Component
+    const PieChart = ({ numerator, denominator }: { numerator: number; denominator: number }) => {
+        const percentage = Math.min(100, Math.max(0, (numerator / denominator) * 100));
+        const color = percentage > 100 ? '#ef4444' : percentage > 50 ? '#3b82f6' : '#10b981';
+
+        return (
+            <div className="flex flex-col items-center gap-2">
+                <div
+                    className="w-24 h-24 rounded-full border-4 border-gray-200"
+                    style={{
+                        background: `conic-gradient(${color} ${percentage}%, #e5e7eb ${percentage}%)`
+                    }}
+                />
+                <span className="text-xs text-muted-foreground">{percentage.toFixed(1)}%</span>
+            </div>
+        );
+    };
+
+    return (
+        <div className="space-y-6">
+            <Tabs value={mode} onValueChange={(v) => setMode(v as any)}>
+                <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="arithmetic">Arithmetic</TabsTrigger>
+                    <TabsTrigger value="simplify">Simplify</TabsTrigger>
+                    <TabsTrigger value="compare">Compare</TabsTrigger>
+                </TabsList>
+
+                {/* Arithmetic Mode */}
+                <TabsContent value="arithmetic" className="space-y-4">
+                    <div className="flex flex-col md:flex-row gap-4 items-center">
+                        {/* Fraction 1 */}
+                        <div className="flex-1 space-y-2">
+                            <Label>First Fraction</Label>
+                            <div className="flex gap-2 items-center">
+                                <Input
+                                    type="number"
+                                    value={whole1}
+                                    onChange={(e) => setWhole1(e.target.value)}
+                                    placeholder="Whole"
+                                    className="w-20"
+                                />
+                                <Input
+                                    type="number"
+                                    value={num1}
+                                    onChange={(e) => setNum1(e.target.value)}
+                                    placeholder="Num"
+                                    className="w-20"
+                                />
+                                <span className="text-xl">/</span>
+                                <Input
+                                    type="number"
+                                    value={den1}
+                                    onChange={(e) => setDen1(e.target.value)}
+                                    placeholder="Den"
+                                    className="w-20"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Operation */}
+                        <select
+                            value={operation}
+                            onChange={(e) => setOperation(e.target.value)}
+                            className="h-10 rounded-md border border-input bg-background px-3 py-2"
+                        >
+                            <option value="add">+</option>
+                            <option value="subtract">−</option>
+                            <option value="multiply">×</option>
+                            <option value="divide">÷</option>
+                        </select>
+
+                        {/* Fraction 2 */}
+                        <div className="flex-1 space-y-2">
+                            <Label>Second Fraction</Label>
+                            <div className="flex gap-2 items-center">
+                                <Input
+                                    type="number"
+                                    value={whole2}
+                                    onChange={(e) => setWhole2(e.target.value)}
+                                    placeholder="Whole"
+                                    className="w-20"
+                                />
+                                <Input
+                                    type="number"
+                                    value={num2}
+                                    onChange={(e) => setNum2(e.target.value)}
+                                    placeholder="Num"
+                                    className="w-20"
+                                />
+                                <span className="text-xl">/</span>
+                                <Input
+                                    type="number"
+                                    value={den2}
+                                    onChange={(e) => setDen2(e.target.value)}
+                                    placeholder="Den"
+                                    className="w-20"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <Button onClick={handleCalculate} className="w-full">Calculate</Button>
+
+                    {result && mode === 'arithmetic' && (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <Card className="bg-primary/5 border-primary/20">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Calculator className="w-5 h-5" />
+                                        Result
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div className="text-center">
+                                        <div className="text-4xl font-bold text-primary mb-2">
+                                            {result.num}/{result.den}
+                                        </div>
+                                        {result.mixed !== `${result.num}/${result.den}` && (
+                                            <div className="text-lg text-muted-foreground">
+                                                = {result.mixed}
+                                            </div>
+                                        )}
+                                        <div className="text-sm text-muted-foreground mt-2">
+                                            Decimal: {result.decimal} | Percentage: {result.percentage}%
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-around items-center pt-4 border-t">
+                                        <div className="text-center">
+                                            <PieChart numerator={parseInt(num1)} denominator={parseInt(den1)} />
+                                            <p className="text-xs mt-1">{result.f1Display}</p>
+                                        </div>
+                                        <div className="text-2xl">{operation === 'add' ? '+' : operation === 'subtract' ? '−' : operation === 'multiply' ? '×' : '÷'}</div>
+                                        <div className="text-center">
+                                            <PieChart numerator={parseInt(num2)} denominator={parseInt(den2)} />
+                                            <p className="text-xs mt-1">{result.f2Display}</p>
+                                        </div>
+                                        <div className="text-2xl">=</div>
+                                        <div className="text-center">
+                                            <PieChart numerator={result.num} denominator={result.den} />
+                                            <p className="text-xs mt-1">{result.num}/{result.den}</p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <div className="space-y-4">
+                                <h3 className="text-lg font-semibold flex items-center gap-2">
+                                    <BookOpen className="w-5 h-5" /> Step-by-Step Solution
+                                </h3>
+                                <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg space-y-2 border">
+                                    {result.steps.map((step: string, i: number) => (
+                                        <div key={i} className="flex gap-3 items-start">
+                                            <span className="bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded text-blue-700 dark:text-blue-300 font-mono text-sm min-w-[2rem] text-center">
+                                                {i + 1}
+                                            </span>
+                                            <p className="text-sm flex-1">{step}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </TabsContent>
+
+                {/* Simplify Mode */}
+                <TabsContent value="simplify" className="space-y-4">
+                    <div className="flex gap-2 items-center justify-center">
+                        <Input
+                            type="number"
+                            value={simpNum}
+                            onChange={(e) => setSimpNum(e.target.value)}
+                            placeholder="Numerator"
+                            className="w-32"
+                        />
+                        <span className="text-2xl">/</span>
+                        <Input
+                            type="number"
+                            value={simpDen}
+                            onChange={(e) => setSimpDen(e.target.value)}
+                            placeholder="Denominator"
+                            className="w-32"
+                        />
+                    </div>
+
+                    <Button onClick={handleCalculate} className="w-full">Simplify</Button>
+
+                    {result && mode === 'simplify' && (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <Card className="bg-primary/5 border-primary/20">
+                                <CardHeader>
+                                    <CardTitle>Simplified Result</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-center space-y-2">
+                                        <div className="text-2xl">{result.original}</div>
+                                        <div className="text-4xl font-bold text-primary">
+                                            = {result.num}/{result.den}
+                                        </div>
+                                        {result.mixed !== `${result.num}/${result.den}` && (
+                                            <div className="text-lg text-muted-foreground">= {result.mixed}</div>
+                                        )}
+                                        <div className="text-sm text-muted-foreground">
+                                            Decimal: {result.decimal} | {result.percentage}%
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg space-y-2 border">
+                                {result.steps.map((step: string, i: number) => (
+                                    <div key={i} className="flex gap-3 items-start">
+                                        <span className="bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded text-blue-700 dark:text-blue-300 font-mono text-sm">
+                                            {i + 1}
+                                        </span>
+                                        <p className="text-sm">{step}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </TabsContent>
+
+                {/* Compare Mode */}
+                <TabsContent value="compare" className="space-y-4">
+                    <div className="flex gap-4 items-center justify-center">
+                        <div className="flex gap-2 items-center">
+                            <Input type="number" value={whole1} onChange={(e) => setWhole1(e.target.value)} placeholder="W" className="w-16" />
+                            <Input type="number" value={num1} onChange={(e) => setNum1(e.target.value)} placeholder="N" className="w-16" />
+                            <span>/</span>
+                            <Input type="number" value={den1} onChange={(e) => setDen1(e.target.value)} placeholder="D" className="w-16" />
+                        </div>
+                        <span className="text-2xl">vs</span>
+                        <div className="flex gap-2 items-center">
+                            <Input type="number" value={whole2} onChange={(e) => setWhole2(e.target.value)} placeholder="W" className="w-16" />
+                            <Input type="number" value={num2} onChange={(e) => setNum2(e.target.value)} placeholder="N" className="w-16" />
+                            <span>/</span>
+                            <Input type="number" value={den2} onChange={(e) => setDen2(e.target.value)} placeholder="D" className="w-16" />
+                        </div>
+                    </div>
+
+                    <Button onClick={handleCalculate} className="w-full">Compare</Button>
+
+                    {result && mode === 'compare' && (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <Card className="bg-primary/5 border-primary/20">
+                                <CardContent className="pt-6">
+                                    <div className="text-center text-4xl font-bold">
+                                        {result.f1Display} <span className="text-primary">{result.comparison}</span> {result.f2Display}
+                                    </div>
+                                    <div className="text-center text-sm text-muted-foreground mt-2">
+                                        {result.f1Decimal} {result.comparison} {result.f2Decimal}
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg space-y-2 border">
+                                {result.steps.map((step: string, i: number) => (
+                                    <div key={i} className="text-sm">{step}</div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </TabsContent>
+            </Tabs>
+        </div>
+    );
+}
+

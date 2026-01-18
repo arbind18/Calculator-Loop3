@@ -1850,7 +1850,7 @@ export const calculatorComponents: Record<string, any> = {
 
   // Math Calculators
   'basic-calculator': dynamic(() => import('@/components/calculators/categories/math/BasicArithmetic').then(m => ({ default: m.BasicCalculator }))),
-  'fraction-calculator': dynamic(() => import('@/components/calculators/categories/math/BasicArithmetic').then(m => ({ default: m.FractionCalculator }))),
+  'fraction-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.FractionCalculator }))),
 
   // Advanced Math Tools (Batch 1 Upgrades)
   'percentage-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.PercentageCalculator }))),
