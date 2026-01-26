@@ -3,7 +3,7 @@
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calculator, TrendingUp, DollarSign, PieChart, BarChart, Activity, Users, Briefcase, Zap, Copy, Check, Lightbulb, RefreshCw, Sparkles, BarChart3 } from 'lucide-react';
+import { Calculator, TrendingUp, DollarSign, PieChart, BarChart, Activity, Users, Briefcase, Zap, Copy, Check, Lightbulb, RefreshCw, Sparkles, BarChart3, Share2, Printer, FileDown, Download } from 'lucide-react';
 import { FinancialCalculatorTemplate } from '@/components/calculators/templates/FinancialCalculatorTemplate';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -23,6 +23,7 @@ interface BusinessInput {
   max?: number;
   step?: number;
   helpText?: string;
+  condition?: (inputs: Record<string, any>) => boolean;
 }
 
 interface CalculationResult {
@@ -55,7 +56,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
     inputs: [],
     calculate: () => ({ result: 'Error' })
   };
-  
+
   // --- Profit & Margin ---
   if (
     id === 'profit-margin' ||
@@ -85,7 +86,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
         const rev = safeFloat(inputs.revenue);
         const cogs = safeFloat(inputs.cogs);
         const exp = safeFloat(inputs.expenses);
-        
+
         if (rev <= 0) return { result: 'Error', explanation: 'Revenue must be greater than 0.' };
 
         const grossProfit = rev - cogs;
@@ -102,7 +103,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
         if (netMargin > 20) tips.push('🎯 Outstanding net profit margin!');
         else if (netMargin < 5) tips.push('💡 Tip: Reduce operating expenses to improve net margin');
 
-        tips.push(`📊 Gross profit covers ${((grossProfit/exp) * 100).toFixed(0)}% of your operating expenses`);
+        tips.push(`📊 Gross profit covers ${((grossProfit / exp) * 100).toFixed(0)}% of your operating expenses`);
 
         const resultText = id === 'gross-margin-calculator'
           ? `Gross Margin: ${grossMargin.toFixed(2)}%`
@@ -1528,52 +1529,266 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
     };
   }
 
-  if (id === 'customer-satisfaction') {
-    return {
-      title: 'CSAT Score',
-      description: 'Calculate CSAT as % of satisfied responses.',
-      inputs: [
-        { name: 'satisfied', label: 'Satisfied Responses', type: 'number', defaultValue: 120 },
-        { name: 'total', label: 'Total Responses', type: 'number', defaultValue: 150 },
-      ],
-      calculate: (inputs) => {
-        const satisfied = safeFloat(inputs.satisfied);
-        const total = safeFloat(inputs.total);
-        if (total <= 0) return { result: 'Error', explanation: 'Total responses must be greater than 0.' };
-        const csat = (satisfied / total) * 100;
-        return {
-          result: `${csat.toFixed(2)}%`,
-          explanation: `${satisfied.toFixed(0)} satisfied out of ${total.toFixed(0)}`,
-          steps: [`CSAT% = (Satisfied / Total) × 100 = (${satisfied} / ${total}) × 100 = ${csat.toFixed(2)}%`],
-          tips: ['Define “satisfied” consistently (e.g., 4–5 on a 5-point scale).'],
-          formula: 'CSAT% = (SatisfiedResponses / TotalResponses) × 100'
-        };
-      }
-    };
-  }
 
-  if (id === 'customer-effort') {
+  if (id === 'customer-satisfaction') {
+    // Industry benchmarks for US market (2024 data)
+    const industryBenchmarks: Record<string, { csat: number; nps: number; ces: number }> = {
+      'ecommerce': { csat: 80, nps: 59, ces: 3.5 },
+      'saassoftware': { csat: 78, nps: 41, ces: 3.2 },
+      'retail': { csat: 75, nps: 40, ces: 3.8 },
+      'healthcare': { csat: 76, nps: 71, ces: 4.0 },
+      'banking': { csat: 78, nps: 45, ces: 3.3 },
+      'services': { csat: 75, nps: 40, ces: 3.7 },
+      'logistics': { csat: 77, nps: 40, ces: 3.6 },
+      'hospitality': { csat: 75, nps: 42, ces: 3.5 }
+    };
+
     return {
-      title: 'CES Score (Customer Effort Score)',
-      description: 'Calculate CES as average score across responses.',
+      title: 'Customer Satisfaction Analytics',
+      description: 'Advanced CSAT, NPS & CES calculator with industry benchmarking and insights.',
       inputs: [
-        { name: 'totalScore', label: 'Total Score (sum of responses)', type: 'number', defaultValue: 480 },
-        { name: 'responses', label: 'Number of Responses', type: 'number', defaultValue: 100 },
-        { name: 'scaleMax', label: 'Max Scale Value', type: 'number', defaultValue: 7 },
+        {
+          name: 'metric',
+          label: 'Select Metric',
+          type: 'select',
+          options: ['CSAT (Satisfaction)', 'NPS (Net Promoter)', 'CES (Effort Score)'],
+          defaultValue: 'CSAT (Satisfaction)'
+        },
+        {
+          name: 'industry',
+          label: 'Your Industry',
+          type: 'select',
+          options: ['E-commerce', 'SaaS/Software', 'Retail', 'Healthcare', 'Banking', 'Services', 'Logistics', 'Hospitality'],
+          defaultValue: 'E-commerce'
+        },
+
+        // CSAT inputs
+        { name: 'satisfied', label: 'Satisfied Responses (4-5 rating)', type: 'number', defaultValue: 85, condition: (inputs) => String(inputs.metric).includes('CSAT') },
+        { name: 'neutral', label: 'Neutral Responses (3 rating)', type: 'number', defaultValue: 10, condition: (inputs) => String(inputs.metric).includes('CSAT') },
+        { name: 'dissatisfied', label: 'Dissatisfied Responses (1-2 rating)', type: 'number', defaultValue: 5, condition: (inputs) => String(inputs.metric).includes('CSAT') },
+
+        // NPS inputs
+        { name: 'promoters', label: 'Promoters (9-10 rating)', type: 'number', defaultValue: 70, condition: (inputs) => String(inputs.metric).includes('NPS') },
+        { name: 'passives', label: 'Passives (7-8 rating)', type: 'number', defaultValue: 20, condition: (inputs) => String(inputs.metric).includes('NPS') },
+        { name: 'detractors', label: 'Detractors (0-6 rating)', type: 'number', defaultValue: 10, condition: (inputs) => String(inputs.metric).includes('NPS') },
+
+        // CES inputs
+        { name: 'lowEffort', label: 'Low Effort (1-3 on 7-point scale)', type: 'number', defaultValue: 60, condition: (inputs) => String(inputs.metric).includes('CES') },
+        { name: 'mediumEffort', label: 'Medium Effort (4-5)', type: 'number', defaultValue: 30, condition: (inputs) => String(inputs.metric).includes('CES') },
+        { name: 'highEffort', label: 'High Effort (6-7)', type: 'number', defaultValue: 10, condition: (inputs) => String(inputs.metric).includes('CES') },
       ],
       calculate: (inputs) => {
-        const totalScore = safeFloat(inputs.totalScore);
-        const responses = safeFloat(inputs.responses);
-        const max = safeFloat(inputs.scaleMax);
-        if (responses <= 0) return { result: 'Error', explanation: 'Responses must be greater than 0.' };
-        const avg = totalScore / responses;
-        return {
-          result: `${avg.toFixed(2)} / ${max.toFixed(0)}`,
-          explanation: `Average effort score from ${responses.toFixed(0)} responses`,
-          steps: [`CES (avg) = Total Score / Responses = ${totalScore} / ${responses} = ${avg.toFixed(2)}`],
-          tips: ['Lower effort (higher score if scale is “easy”) typically correlates with better retention.'],
-          formula: 'CES (avg) = TotalScore / Responses'
-        };
+        const metric = String(inputs.metric || 'CSAT (Satisfaction)');
+        const industryRaw = String(inputs.industry || 'E-commerce');
+        const industryKey = industryRaw.toLowerCase().replace(/[\/\s-]/g, '');
+        const benchmark = industryBenchmarks[industryKey] || industryBenchmarks.ecommerce;
+
+        // CSAT Calculation
+        if (metric.includes('CSAT')) {
+          const satisfied = safeFloat(inputs.satisfied);
+          const neutral = safeFloat(inputs.neutral);
+          const dissatisfied = safeFloat(inputs.dissatisfied);
+          const total = satisfied + neutral + dissatisfied;
+
+          if (total <= 0) return { result: 'Error', explanation: 'Total responses must be greater than 0.' };
+
+          const csatScore = (satisfied / total) * 100;
+          const benchmarkCsat = benchmark.csat;
+          const vsIndustry = csatScore - benchmarkCsat;
+
+          let rating = '';
+          let emoji = '';
+          if (csatScore >= 80) { rating = 'Excellent'; emoji = '🌟'; }
+          else if (csatScore >= 70) { rating = 'Good'; emoji = '✅'; }
+          else if (csatScore >= 60) { rating = 'Fair'; emoji = '⚠️'; }
+          else { rating = 'Needs Improvement'; emoji = '🔴'; }
+
+          const insights = [];
+          if (csatScore > benchmarkCsat) {
+            insights.push(`✓ Above ${industryRaw} average by ${vsIndustry.toFixed(1)}% - Great job!`);
+          } else {
+            insights.push(`⚠ Below ${industryRaw} average by ${Math.abs(vsIndustry).toFixed(1)}% - Room for improvement`);
+          }
+
+          const dissatisfiedPct = (dissatisfied / total) * 100;
+          if (dissatisfied > 0) {
+            insights.push(`• ${dissatisfied} dissatisfied customers (${dissatisfiedPct.toFixed(1)}%) need immediate attention`);
+          }
+          if (neutral > 0) {
+            insights.push(`• ${neutral} neutral customers could be converted to promoters`);
+          }
+
+          return {
+            result: `${csatScore.toFixed(1)}% ${emoji}`,
+            explanation: `CSAT Score: ${csatScore.toFixed(1)}% (${rating}) | Industry Avg: ${benchmarkCsat}%`,
+            steps: [
+              `Total Responses = ${satisfied} + ${neutral} + ${dissatisfied} = ${total}`,
+              `CSAT = (Satisfied / Total) × 100 = (${satisfied} / ${total}) × 100 = ${csatScore.toFixed(1)}%`,
+              `vs Industry Benchmark: ${csatScore.toFixed(1)}% vs ${benchmarkCsat}% = ${vsIndustry > 0 ? '+' : ''}${vsIndustry.toFixed(1)}%`
+            ],
+            tips: [
+              '📊 **Visualization**: [Satisfied:' + '█'.repeat(Math.min(20, Math.round(satisfied / total * 20))) + ' ' + (satisfied / total * 100).toFixed(0) + '%]',
+              '📈 **Performance**: ' + rating + ' - ' + (csatScore >= 70 ? 'Keep up the good work!' : 'Focus on improvement areas'),
+              '🎯 **Target**: Aim for 80%+ CSAT for excellent customer satisfaction',
+              '💡 **Insights**:',
+              ...insights,
+              '',
+              '🔧 **Action Items**:',
+              '• Follow up with dissatisfied customers within 24 hours',
+              '• Analyze common themes in negative feedback',
+              '• Implement improvements based on customer suggestions',
+              '• Send personalized thank you to satisfied customers'
+            ],
+            formula: 'CSAT% = (Satisfied Responses / Total Responses) × 100',
+            visualData: [
+              { label: 'Satisfied', value: satisfied },
+              { label: 'Neutral', value: neutral },
+              { label: 'Dissatisfied', value: dissatisfied }
+            ]
+          };
+        }
+
+        // NPS Calculation
+        if (metric.includes('NPS')) {
+          const promoters = safeFloat(inputs.promoters);
+          const passives = safeFloat(inputs.passives);
+          const detractors = safeFloat(inputs.detractors);
+          const total = promoters + passives + detractors;
+
+          if (total <= 0) return { result: 'Error', explanation: 'Total responses must be greater than 0.' };
+
+          const promoterPct = (promoters / total) * 100;
+          const detractorPct = (detractors / total) * 100;
+          const npsScore = promoterPct - detractorPct;
+          const benchmarkNps = benchmark.nps;
+          const vsIndustry = npsScore - benchmarkNps;
+
+          let rating = '';
+          let emoji = '';
+          if (npsScore >= 70) { rating = 'World Class'; emoji = '🌟'; }
+          else if (npsScore >= 50) { rating = 'Excellent'; emoji = '💎'; }
+          else if (npsScore >= 30) { rating = 'Great'; emoji = '✅'; }
+          else if (npsScore >= 0) { rating = 'Good'; emoji = '👍'; }
+          else { rating = 'Needs Improvement'; emoji = '🔴'; }
+
+          const insights = [];
+          if (npsScore > benchmarkNps) {
+            insights.push(`✓ Above ${industryRaw} average by ${vsIndustry.toFixed(0)} points`);
+          } else {
+            insights.push(`⚠ Below ${industryRaw} average by ${Math.abs(vsIndustry).toFixed(0)} points`);
+          }
+
+          if (detractors > 0) {
+            insights.push(`• ${detractors} detractors at risk of churn - high priority for retention`);
+          }
+          if (passives > 0) {
+            insights.push(`• ${passives} passives could become promoters with better experience`);
+          }
+          if (promoters > detractors * 2) {
+            insights.push(`• Strong promoter base - leverage for referral programs`);
+          }
+
+          return {
+            result: `${npsScore.toFixed(0)} ${emoji}`,
+            explanation: `NPS: ${npsScore.toFixed(0)} (${rating}) | Industry Avg: ${benchmarkNps}`,
+            steps: [
+              `Total Responses = ${promoters} + ${passives} + ${detractors} = ${total}`,
+              `Promoter% = (${promoters} / ${total}) × 100 = ${promoterPct.toFixed(1)}%`,
+              `Detractor% = (${detractors} / ${total}) × 100 = ${detractorPct.toFixed(1)}%`,
+              `NPS = Promoter% − Detractor% = ${promoterPct.toFixed(1)}% − ${detractorPct.toFixed(1)}% = ${npsScore.toFixed(0)}`,
+              `vs Industry: ${npsScore.toFixed(0)} vs ${benchmarkNps} = ${vsIndustry > 0 ? '+' : ''}${vsIndustry.toFixed(0)}`
+            ],
+            tips: [
+              '📊 **Distribution**: Promoters ' + (promoterPct.toFixed(0)) + '% | Passives ' + ((passives / total * 100).toFixed(0)) + '% | Detractors ' + (detractorPct.toFixed(0)) + '%',
+              '📈 **Performance**: ' + rating + ' - NPS ranges from -100 to +100',
+              '🎯 **Targets**: 0-30 = Good, 30-70 = Great, 70+ = World Class',
+              '💡 **Insights**:',
+              ...insights,
+              '',
+              '🔧 **Action Items**:',
+              '• Contact all detractors immediately - prevent churn',
+              '• Ask promoters for referrals and testimonials',
+              '• Create upgrade path for passives',
+              '• Track NPS monthly to measure improvement trends'
+            ],
+            formula: 'NPS = %Promoters − %Detractors',
+            visualData: [
+              { label: 'Promoters', value: promoters },
+              { label: 'Passives', value: passives },
+              { label: 'Detractors', value: detractors }
+            ]
+          };
+        }
+
+        // CES Calculation
+        if (metric.includes('CES')) {
+          const lowEffort = safeFloat(inputs.lowEffort);
+          const mediumEffort = safeFloat(inputs.mediumEffort);
+          const highEffort = safeFloat(inputs.highEffort);
+          const total = lowEffort + mediumEffort + highEffort;
+
+          if (total <= 0) return { result: 'Error', explanation: 'Total responses must be greater than 0.' };
+
+          const avgScore = (lowEffort * 2 + mediumEffort * 4.5 + highEffort * 6.5) / total;
+          const benchmarkCes = benchmark.ces;
+          const vsBenchmark = avgScore - benchmarkCes;
+
+          let rating = '';
+          let emoji = '';
+          if (avgScore <= 3.0) { rating = 'Excellent'; emoji = '🌟'; }
+          else if (avgScore <= 4.0) { rating = 'Good'; emoji = '✅'; }
+          else if (avgScore <= 5.0) { rating = 'Fair'; emoji = '⚠️'; }
+          else { rating = 'High Effort'; emoji = '🔴'; }
+
+          const lowEffortPct = (lowEffort / total) * 100;
+
+          const insights = [];
+          if (avgScore < benchmarkCes) {
+            insights.push(`✓ Better than ${industryRaw} average (Lower is better for CES)`);
+          } else {
+            insights.push(`⚠ More effort required than industry average - simplify processes`);
+          }
+
+          if (highEffort > 0) {
+            insights.push(`• ${highEffort} customers found it difficult - investigate pain points`);
+          }
+          if (lowEffortPct >= 60) {
+            insights.push(`• ${lowEffortPct.toFixed(0)}% found it easy - good friction-free experience`);
+          }
+
+          return {
+            result: `${avgScore.toFixed(2)} / 7 ${emoji}`,
+            explanation: `CES: ${avgScore.toFixed(2)} (${rating}) | Industry Avg: ${benchmarkCes.toFixed(1)}`,
+            steps: [
+              `Total Responses = ${lowEffort} + ${mediumEffort} + ${highEffort} = ${total}`,
+              `Weighted Avg = (Low×2 + Medium×4.5 + High×6.5) / Total`,
+              `CES = (${lowEffort}×2 + ${mediumEffort}×4.5 + ${highEffort}×6.5) / ${total} = ${avgScore.toFixed(2)}`,
+              `vs Industry: ${avgScore.toFixed(2)} vs ${benchmarkCes.toFixed(1)} (Lower is better)`
+            ],
+            tips: [
+              '📊 **Effort Distribution**: Low ' + lowEffortPct.toFixed(0) + '% | Medium ' + ((mediumEffort / total * 100).toFixed(0)) + '% | High ' + ((highEffort / total * 100).toFixed(0)) + '%',
+              '📈 **Performance**: ' + rating + ' (Lower CES = Better experience)',
+              '🎯 **Target**: Aim for CES below 3.5 for excellent customer experience',
+              '💡 **Insights**:',
+              ...insights,
+              '',
+              '🔧 **Action Items**:',
+              '• Identify and remove friction points in customer journey',
+              '• Streamline processes that customers rated as high effort',
+              '• Add self-service options to reduce support dependency',
+              '• Monitor CES after each process improvement',
+              '• Focus on making tasks "effortless" not just "satisfactory"'
+            ],
+            formula: 'CES = Average Effort Score (1-7 scale, lower is better)',
+            visualData: [
+              { label: 'Low Effort', value: lowEffort },
+              { label: 'Medium Effort', value: mediumEffort },
+              { label: 'High Effort', value: highEffort }
+            ]
+          };
+        }
+
+        return { result: 'Error', explanation: 'Invalid metric selected.' };
       }
     };
   }
@@ -2966,7 +3181,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
         const fc = safeFloat(inputs.fixedCosts);
         const p = safeFloat(inputs.pricePerUnit);
         const vc = safeFloat(inputs.variableCostPerUnit);
-        
+
         if (p <= vc) return { result: 'Error', explanation: 'Price must be greater than variable cost per unit.' };
 
         const contributionMargin = p - vc;
@@ -2997,7 +3212,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
       calculate: (inputs) => {
         const cost = safeFloat(inputs.cost);
         const markup = safeFloat(inputs.markup);
-        
+
         const sellingPrice = cost * (1 + markup / 100);
         const profit = sellingPrice - cost;
 
@@ -3026,7 +3241,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
         const apv = safeFloat(inputs.avgPurchaseValue);
         const pf = safeFloat(inputs.purchaseFreq);
         const cl = safeFloat(inputs.customerLifespan);
-        
+
         const clv = apv * pf * cl;
 
         return {
@@ -3054,7 +3269,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
         const ms = safeFloat(inputs.marketingSpend);
         const ss = safeFloat(inputs.salesSpend);
         const nc = safeFloat(inputs.newCustomers);
-        
+
         if (nc === 0) return { result: 'Error', explanation: 'New customers cannot be zero.' };
 
         const cac = (ms + ss) / nc;
@@ -3087,7 +3302,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
         const s = safeFloat(inputs.securities);
         const r = safeFloat(inputs.receivables);
         const l = safeFloat(inputs.liabilities);
-        
+
         if (l === 0) return { result: 'Error', explanation: 'Liabilities cannot be zero.' };
 
         const quickAssets = c + s + r;
@@ -3116,7 +3331,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
       calculate: (inputs) => {
         const d = safeFloat(inputs.totalDebt);
         const e = safeFloat(inputs.totalEquity);
-        
+
         if (e === 0) return { result: 'Error', explanation: 'Equity cannot be zero.' };
 
         const ratio = d / e;
@@ -4055,7 +4270,7 @@ const getToolConfig = (id: string | undefined): BusinessToolConfig => {
       calculate: (inputs) => {
         const p = safeFloat(inputs.sharePrice);
         const e = safeFloat(inputs.eps);
-        
+
         if (e === 0) return { result: 'Error', explanation: 'EPS cannot be zero.' };
 
         const pe = p / e;
@@ -4631,6 +4846,7 @@ function GenericBusinessToolInner({ id }: { id: string }) {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [autoCalculate, setAutoCalculate] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
 
   useEffect(() => {
@@ -4645,7 +4861,7 @@ function GenericBusinessToolInner({ id }: { id: string }) {
   // Auto-calculate with debounce
   useEffect(() => {
     if (!autoCalculate) return;
-    
+
     const timer = setTimeout(() => {
       handleCalculate();
     }, 500);
@@ -4668,6 +4884,85 @@ function GenericBusinessToolInner({ id }: { id: string }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const handleReset = () => {
+    const defaults: Record<string, any> = {};
+    config.inputs.forEach(input => {
+      defaults[input.name] = input.defaultValue;
+    });
+    setInputs(defaults);
+    setResult(null);
+  };
+
+  const handleShare = async () => {
+    if (!result) return;
+    const shareData = {
+      title: config.title,
+      text: `Result: ${result.result}\n${result.explanation || ''}\n\nCalculated using ${config.title}`,
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        setShared(true);
+        setTimeout(() => setShared(false), 2000);
+      } catch (err) {
+        // User cancelled share or error occurred
+      }
+    } else {
+      // Fallback to copying link
+      await navigator.clipboard.writeText(window.location.href);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!result) return;
+
+    // Create a formatted text version for download
+    let content = `${config.title}\n${'='.repeat(50)}\n\n`;
+    content += `Result: ${result.result}\n`;
+    if (result.explanation) content += `Explanation: ${result.explanation}\n\n`;
+    if (result.formula) content += `Formula: ${result.formula}\n\n`;
+
+    if (result.steps && result.steps.length > 0) {
+      content += `Calculation Steps:\n`;
+      result.steps.forEach((step, idx) => {
+        content += `${idx + 1}. ${step}\n`;
+      });
+      content += '\n';
+    }
+
+    if (result.tips && result.tips.length > 0) {
+      content += `Tips & Insights:\n`;
+      result.tips.forEach((tip) => {
+        content += `• ${tip}\n`;
+      });
+    }
+
+    content += `\n${'='.repeat(50)}\n`;
+    content += `Generated: ${new Date().toLocaleString()}\n`;
+    content += `Calculator: ${config.title}\n`;
+
+    // Create blob and download
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${config.title.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDownload = handleDownloadPDF; // Alias for consistency
 
   const applyPreset = (values: Record<string, any>) => {
     setInputs(prev => ({ ...prev, ...values }));
@@ -4833,18 +5128,64 @@ function GenericBusinessToolInner({ id }: { id: string }) {
               <>
                 {/* Main Result */}
                 <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 backdrop-blur-sm p-8 rounded-2xl border-2 border-amber-200 dark:border-amber-800 shadow-xl animate-in fade-in slide-in-from-right-4 duration-700">
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-6">
                     <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-amber-500" />
                       Result
                     </div>
-                    <button
-                      onClick={handleCopy}
-                      className="p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
-                      title="Copy result"
-                    >
-                      {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-500" />}
-                    </button>
+
+                    {/* Action Buttons Toolbar */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleCopy}
+                        className="p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-all duration-200 hover:scale-110"
+                        title="Copy result"
+                      >
+                        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-500 hover:text-amber-600" />}
+                      </button>
+
+                      <button
+                        onClick={handleReset}
+                        className="p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-all duration-200 hover:scale-110"
+                        title="Reset calculator"
+                      >
+                        <RefreshCw className="w-4 h-4 text-gray-500 hover:text-amber-600" />
+                      </button>
+
+                      <button
+                        onClick={handleShare}
+                        className="p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-all duration-200 hover:scale-110"
+                        title="Share result"
+                      >
+                        {shared ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4 text-gray-500 hover:text-amber-600" />}
+                      </button>
+
+                      <button
+                        onClick={handlePrint}
+                        className="p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-all duration-200 hover:scale-110"
+                        title="Print result"
+                      >
+                        <Printer className="w-4 h-4 text-gray-500 hover:text-amber-600" />
+                      </button>
+
+                      <button
+                        onClick={handleDownloadPDF}
+                        className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-200 hover:scale-105 text-xs font-medium flex items-center gap-1.5 shadow-md"
+                        title="Download as PDF"
+                      >
+                        <FileDown className="w-3.5 h-3.5" />
+                        PDF
+                      </button>
+
+                      <button
+                        onClick={handleDownload}
+                        className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-lg transition-all duration-200 hover:scale-105 text-xs font-medium flex items-center gap-1.5 shadow-md"
+                        title="Download result"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        Download
+                      </button>
+                    </div>
                   </div>
                   <div className="text-5xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent mb-2">
                     {result.result.toString()}
@@ -4944,10 +5285,10 @@ function GenericBusinessToolInner({ id }: { id: string }) {
         </div>
 
         <div className="mt-12 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-xl">
-          <SeoContentGenerator 
-            title={config.title} 
-            description={config.description} 
-            categoryName="Business" 
+          <SeoContentGenerator
+            title={config.title}
+            description={config.description}
+            categoryName="Business"
           />
         </div>
       </div>

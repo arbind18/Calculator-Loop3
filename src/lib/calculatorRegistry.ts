@@ -40,6 +40,10 @@ const genericDateTimeTool = dynamic(() =>
   import('@/components/calculators/categories/datetime/GenericDateTimeTool').then(m => ({ default: m.default }))
 )
 
+const CustomerSatisfactionCalculator = dynamic(() =>
+  import('@/components/calculators/categories/business/CustomerSatisfactionCalculator').then(m => ({ default: m.CustomerSatisfactionCalculator }))
+)
+
 const genericEducationToolIds = [
   // Academic & Grades (12 tools)
   'gpa-calculator',
@@ -807,7 +811,7 @@ const genericBusinessToolIds = [
   'sales-growth',
   'market-share',
   'share-of-wallet',
-  'customer-satisfaction',
+  // 'customer-satisfaction', // Moved to explicit component
   'customer-effort',
   'email-open-rate',
   'click-through-rate',
@@ -1866,6 +1870,14 @@ export const calculatorComponents: Record<string, any> = {
   'absolute-value-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.AbsoluteValueCalculator }))),
   'reciprocal-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.ReciprocalCalculator }))),
 
+  // Advanced Math Tools (Batch 3 Upgrades)
+  'remainder-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.RemainderCalculator }))),
+  'modulo-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.ModuloCalculator }))),
+  'sum-of-series-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.SumOfSeriesCalculator }))),
+  'product-of-series-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.ProductOfSeriesCalculator }))),
+  'difference-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedArithmeticTools').then(m => ({ default: m.DifferenceCalculator }))),
+
+
   // Advanced Math Tools (New Additions)
   'percentage-change-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.PercentageChangeCalculator }))),
   'prime-factorization-calculator': dynamic(() => import('@/components/calculators/categories/math/AdvancedMathCalculators').then(m => ({ default: m.PrimeFactorizationCalculator }))),
@@ -2383,6 +2395,7 @@ export const calculatorComponents: Record<string, any> = {
   // 'roman-numeral-converter': dynamic(() => import('@/components/calculators/categories/misc/EvenMoreExtendedMiscCalculators').then(m => ({ default: m.RomanNumeralConverter }))), // DISABLED - old template structure
 
   'xat-score-calculator': XATScoreCalculator,
+  'customer-satisfaction': CustomerSatisfactionCalculator,
 }
 
 export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))
