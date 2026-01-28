@@ -2404,6 +2404,7 @@ export const calculatorComponents: Record<string, any> = {
   'xat-score-calculator': XATScoreCalculator,
   'customer-satisfaction': CustomerSatisfactionCalculator,
   'customer-satisfaction-pro': CustomerSatisfactionCalculator,
+  'advanced-cvp-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedCVPCalculator')),
 }
 
 export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))
