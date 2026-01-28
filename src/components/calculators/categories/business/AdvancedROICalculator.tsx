@@ -1,4 +1,4 @@
-git pushgit push"use client"
+"use client"
 
 import React, { useState } from 'react';
 import { Calculator, TrendingUp, DollarSign, Calendar, BarChart3, PieChart } from 'lucide-react';
