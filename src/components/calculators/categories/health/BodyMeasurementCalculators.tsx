@@ -128,7 +128,8 @@ export function BodySurfaceAreaCalculator() {
         "Drug Dosage Factor": `${drugDosageFactor.toFixed(3)}× standard dose (normalized to 1.73 m²)`,
         "Clinical Category": bsaCategory
       },
-      healthScore: status === 'good' ? 90 : status === 'normal' ? 80 : 65
+      healthScore:
+        ({ good: 90, normal: 80, warning: 65, danger: 55 } as const)[status] ?? 65
     }
 
     setResult(healthResult)
@@ -389,7 +390,8 @@ export function WaistToHeightRatioCalculator() {
         "Metabolic Syndrome Risk": ratio < 0.5 ? "Low (<10%)" : ratio < 0.6 ? "Moderate (30-40%)" : "High (60-70%)",
         "Recommended Action": ratio < 0.5 ? "Maintain current lifestyle" : ratio < 0.6 ? "Lifestyle modification (diet + exercise)" : "Medical consultation + intensive lifestyle changes"
       },
-      healthScore: status === 'good' ? 95 : status === 'warning' ? 55 : 35
+      healthScore:
+        ({ good: 95, normal: 75, warning: 55, danger: 35 } as const)[status] ?? 35
     }
 
     setResult(healthResult)
