@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { toast } from "react-hot-toast"
+import { CustomDownloadModal } from "@/components/CustomDownloadModal"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -106,6 +107,7 @@ export function ComprehensiveHealthTemplate({
   
   const [isAutoCalculate, setIsAutoCalculate] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const [downloadFormat, setDownloadFormat] = useState<string>('pdf')
   const [pendingFormat, setPendingFormat] = useState<string | null>(null)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [historyItems, setHistoryItems] = useState<Array<{ at: string; values: any[]; primary?: string; score?: number }>>([])
@@ -281,6 +283,7 @@ export function ComprehensiveHealthTemplate({
   }
 
   const initiateDownload = (format: string) => {
+    setDownloadFormat(format)
     setPendingFormat(format)
     setShowDownloadModal(true)
   }
@@ -804,8 +807,23 @@ export function ComprehensiveHealthTemplate({
         )}
       </div>
 
-      {/* Download Options Modal */}
-      {showDownloadModal && (
+      {/* Enhanced Download Modal */}
+      <CustomDownloadModal
+        open={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        data={{
+          ...result,
+          title: displayTitle,
+          description: displayDescription,
+          category: categoryName,
+          timestamp: new Date().toISOString(),
+        }}
+        title={displayTitle}
+        format={downloadFormat}
+      />
+
+      {/* Legacy Download Options Modal - Hidden */}
+      {false && showDownloadModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-card border border-border rounded-2xl p-6 max-w-md w-full shadow-2xl scale-100 animate-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between mb-4">

@@ -30,6 +30,7 @@ import { generateReport } from "@/lib/downloadUtils"
 import { CalculatorSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/AdvancedSchema"
 import { AIRecommendations } from "@/components/ui-ai/AIRecommendations"
 import { toolsData } from "@/lib/toolsData"
+import { CustomDownloadModal } from "@/components/CustomDownloadModal"
 
 interface FinancialCalculatorTemplateProps {
   title: string
@@ -854,111 +855,13 @@ export function FinancialCalculatorTemplate({
       
       {/* Global AI assistant is mounted in RootLayout to avoid duplicate floating buttons */}
 
-      {showDownloadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
-          <div className="bg-card border border-border shadow-2xl rounded-xl w-full max-w-md p-6 space-y-6 animate-in fade-in zoom-in duration-200">
-            <div className="flex items-center justify-between border-b pb-4">
-              <div className="space-y-1">
-                <h3 className="text-lg font-semibold">Customize Download</h3>
-                <p className="text-xs text-muted-foreground">Select what to include ({pendingFormat?.toUpperCase()})</p>
-              </div>
-              <Button variant="ghost" size="icon" onClick={() => setShowDownloadModal(false)} className="h-8 w-8 rounded-full">
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            
-            <div className="space-y-5">
-              <div className="flex items-center justify-between space-x-2">
-                <Label htmlFor="summary" className="flex flex-col space-y-1 cursor-pointer">
-                  <span className="font-medium">Include Summary</span>
-                  <span className="font-normal text-xs text-muted-foreground">Key metrics and input values</span>
-                </Label>
-                <Switch 
-                  id="summary" 
-                  checked={downloadOptions.includeSummary}
-                  onCheckedChange={(c) => setDownloadOptions(prev => ({ ...prev, includeSummary: c }))}
-                />
-              </div>
-              
-              <div className="flex items-center justify-between space-x-2">
-                <Label htmlFor="chart" className="flex flex-col space-y-1 cursor-pointer">
-                  <span className="font-medium">Include Charts</span>
-                  <span className="font-normal text-xs text-muted-foreground">Visual graphs and diagrams</span>
-                </Label>
-                <Switch 
-                  id="chart" 
-                  checked={downloadOptions.includeChart}
-                  onCheckedChange={(c) => setDownloadOptions(prev => ({ ...prev, includeChart: c }))}
-                />
-              </div>
-
-              <div className="flex items-center justify-between space-x-2">
-                <Label htmlFor="schedule" className="flex flex-col space-y-1 cursor-pointer">
-                  <span className="font-medium">Include Data Table</span>
-                  <span className="font-normal text-xs text-muted-foreground">Full amortization schedule</span>
-                </Label>
-                <Switch 
-                  id="schedule" 
-                  checked={downloadOptions.includeSchedule}
-                  onCheckedChange={(c) => setDownloadOptions(prev => ({ ...prev, includeSchedule: c }))}
-                />
-              </div>
-
-              {downloadOptions.includeSchedule && (
-                 <div className="pt-4 border-t space-y-3">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Row Limit</Label>
-                    <div className="grid grid-cols-4 gap-2">
-                        {['all', '1yr', '5yr', 'custom'].map((range) => (
-                            <Button 
-                                key={range}
-                                variant={downloadOptions.scheduleRange === range ? "default" : "outline"}
-                                size="sm"
-                                onClick={() => setDownloadOptions(prev => ({ ...prev, scheduleRange: range as any }))}
-                                className="text-xs h-8"
-                            >
-                                {range === 'all' ? 'All Rows' : range === '1yr' ? '1 Year' : range === '5yr' ? '5 Years' : 'Custom'}
-                            </Button>
-                        ))}
-                    </div>
-                    
-                    {downloadOptions.scheduleRange === 'custom' && (
-                        <div className="grid grid-cols-2 gap-4 mt-2 animate-in slide-in-from-top-2 p-3 bg-secondary/20 rounded-lg border border-border/50">
-                            <div className="space-y-1.5">
-                                <Label className="text-xs font-medium">Start Year</Label>
-                                <Input 
-                                    type="number" 
-                                    min={1} 
-                                    value={downloadOptions.customRangeStart} 
-                                    onChange={(e) => setDownloadOptions(prev => ({ ...prev, customRangeStart: parseInt(e.target.value) || 1 }))}
-                                    className="h-8 bg-background"
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-xs font-medium">End Year</Label>
-                                <Input 
-                                    type="number" 
-                                    min={1} 
-                                    value={downloadOptions.customRangeEnd} 
-                                    onChange={(e) => setDownloadOptions(prev => ({ ...prev, customRangeEnd: parseInt(e.target.value) || 1 }))}
-                                    className="h-8 bg-background"
-                                />
-                            </div>
-                        </div>
-                    )}
-                 </div>
-              )}
-            </div>
-
-            <div className="flex justify-end gap-3 pt-2">
-              <Button variant="outline" onClick={() => setShowDownloadModal(false)}>Cancel</Button>
-              <Button onClick={confirmDownload} className="bg-primary text-primary-foreground hover:bg-primary/90">
-                <Download className="mr-2 h-4 w-4" />
-                Download Now
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <CustomDownloadModal
+        open={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        data={values}
+        title={displayTitle}
+        format={pendingFormat || 'pdf'}
+      />
     </div>
   )
 }

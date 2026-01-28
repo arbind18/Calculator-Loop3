@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { toast } from "react-hot-toast"
 import { VoiceNumberButton } from "@/components/ui/VoiceNumberButton"
+import { CustomDownloadModal } from "@/components/CustomDownloadModal"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -105,6 +106,7 @@ export function AdvancedHealthCalculatorTemplate({
   
   const [isAutoCalculate, setIsAutoCalculate] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const [downloadFormat, setDownloadFormat] = useState<string>('pdf')
   const [pendingFormat, setPendingFormat] = useState<string | null>(null)
   const [downloadOptions, setDownloadOptions] = useState<DownloadOptions>({
     includeSummary: true,
@@ -211,6 +213,7 @@ export function AdvancedHealthCalculatorTemplate({
   }
 
   const initiateDownload = (format: string) => {
+    setDownloadFormat(format)
     setPendingFormat(format)
     setShowDownloadModal(true)
   }
@@ -587,8 +590,23 @@ export function AdvancedHealthCalculatorTemplate({
         )}
       </div>
 
-      {/* Download Options Modal */}
-      {showDownloadModal && (
+      {/* Enhanced Download Modal */}
+      <CustomDownloadModal
+        open={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        data={{
+          ...result,
+          title: displayTitle,
+          description: displayDescription,
+          category: categoryName,
+          timestamp: new Date().toISOString(),
+        }}
+        title={displayTitle}
+        format={downloadFormat}
+      />
+
+      {/* Legacy Download Options Modal - Hidden */}
+      {false && showDownloadModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-card border border-border rounded-2xl p-6 max-w-md w-full shadow-2xl">
             <div className="flex items-center justify-between mb-4">
