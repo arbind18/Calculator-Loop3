@@ -293,94 +293,161 @@ export function CustomDownloadModal({ open, onClose, data, title, format }: Cust
         </DialogHeader>
         
         <div className="space-y-6 py-4">
-          {/* Preview Section */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label className="text-sm font-semibold">📋 PREVIEW</Label>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPreview(!showPreview)}
-                className="text-xs"
-              >
-                {showPreview ? 'Hide' : 'Show'} Preview
-              </Button>
+          {/* ALWAYS SHOW Preview Section at TOP */}
+          <div className="space-y-2 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/30 dark:via-purple-950/30 dark:to-pink-950/30 p-4 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-inner">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
+                👁️
+              </div>
+              <div>
+                <Label className="text-sm font-bold text-slate-800 dark:text-slate-200">LIVE PREVIEW</Label>
+                <p className="text-xs text-slate-600 dark:text-slate-400">Your {format === 'custom' ? selectedFormat.toUpperCase() : format.toUpperCase()} will look like this:</p>
+              </div>
             </div>
             
-            {showPreview && (
-              <div className="p-4 bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-950/30 dark:to-gray-950/30 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-700 space-y-2">
-                <div className="text-xs font-semibold text-slate-600 dark:text-slate-400">Your download will look like this:</div>
-                
-                {/* Preview Card */}
-                <div className="bg-white dark:bg-slate-800 rounded-md border shadow-sm p-3 space-y-2 text-xs">
-                  {/* Title Preview */}
-                  <div 
-                    className="font-bold text-sm"
-                    style={{ color: primaryColor }}
-                  >
-                    {title}
-                  </div>
-                  
-                  {/* Summary Preview */}
-                  {includeSummary && (
-                    <div className="space-y-1">
-                      <div 
-                        className="font-semibold text-xs"
-                        style={{ color: accentColor }}
-                      >
-                        Summary
-                      </div>
-                      <div className="text-xs text-muted-foreground space-y-0.5">
-                        <div>• Weight: {data.weight || 'N/A'}</div>
-                        <div>• Height: {data.height || 'N/A'}</div>
-                        <div>• BMI: {data.bmi || 'N/A'}</div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Charts Preview */}
-                  {includeCharts && (
-                    <div className="h-12 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded flex items-center justify-center text-xs text-muted-foreground">
-                      📊 Charts & Graphs
-                    </div>
-                  )}
-                  
-                  {/* Table Preview */}
-                  {includeDataTable && (
-                    <div className="space-y-1">
-                      <div className="text-xs font-semibold" style={{ color: accentColor }}>
-                        Data Table 
-                        {rowLimit !== 'all' && (
-                          <span className="ml-1 text-muted-foreground">
-                            ({rowLimit === 'custom' 
-                              ? `${calculateCustomRowCount()} rows` 
-                              : rowLimit === '1year' ? '12 rows' : '60 rows'})
-                          </span>
-                        )}
-                      </div>
-                      <div 
-                        className="h-8 rounded flex items-center justify-center text-xs"
-                        style={{ backgroundColor: `${primaryColor}15` }}
-                      >
-                        Table with {data.schedule?.length || 0} total rows
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Watermark Preview */}
-                  {includeWatermark && (
-                    <div className="text-center text-gray-300 dark:text-gray-700 font-bold text-xl opacity-50">
-                      CALCULATOR
-                    </div>
-                  )}
-                  
-                  {/* Font Size Indicator */}
-                  <div className="text-xs text-muted-foreground italic">
-                    Font Size: {fontSize.toUpperCase()} • Format: {format === 'custom' ? selectedFormat.toUpperCase() : format.toUpperCase()}
-                  </div>
+            {/* Preview Card - Always Visible */}
+            <div className="bg-white dark:bg-slate-900 rounded-lg border-2 border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden">
+              {/* PDF/Document Header */}
+              <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between" style={{ backgroundColor: `${primaryColor}15` }}>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                </div>
+                <div className="text-xs font-mono text-muted-foreground">
+                  {format === 'custom' ? selectedFormat.toUpperCase() : format.toUpperCase()}
                 </div>
               </div>
-            )}
+
+              <div className="p-4 space-y-3">
+                {/* Title Preview */}
+                <div 
+                  className="font-bold border-b pb-2"
+                  style={{ 
+                    color: primaryColor,
+                    fontSize: fontSize === 'small' ? '14px' : fontSize === 'large' ? '20px' : '16px'
+                  }}
+                >
+                  📊 {title}
+                  <div className="text-xs text-muted-foreground font-normal mt-1">
+                    Generated on {new Date().toLocaleDateString()}
+                  </div>
+                </div>
+                
+                {/* Summary Preview */}
+                {includeSummary && (
+                  <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-md">
+                    <div 
+                      className="font-semibold flex items-center gap-2"
+                      style={{ 
+                        color: accentColor,
+                        fontSize: fontSize === 'small' ? '11px' : fontSize === 'large' ? '15px' : '13px'
+                      }}
+                    >
+                      <span className="w-1 h-4 rounded-full" style={{ backgroundColor: accentColor }}></span>
+                      Key Metrics & Input Values
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      {Object.entries(data).slice(0, 6).map(([key, value]: [string, any], idx) => (
+                        <div key={idx} className="flex justify-between items-center px-2 py-1 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                          <span className="font-medium text-slate-600 dark:text-slate-400">{key}:</span>
+                          <span className="font-semibold text-slate-800 dark:text-slate-200">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Charts Preview */}
+                {includeCharts && (
+                  <div className="space-y-2">
+                    <div 
+                      className="font-semibold text-xs flex items-center gap-2"
+                      style={{ color: accentColor }}
+                    >
+                      <span className="w-1 h-4 rounded-full" style={{ backgroundColor: accentColor }}></span>
+                      Visual Graphs & Diagrams
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-16 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30 rounded border border-blue-200 dark:border-blue-800 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-xl">📈</div>
+                          <div className="text-xs text-muted-foreground">Line Chart</div>
+                        </div>
+                      </div>
+                      <div className="h-16 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded border border-purple-200 dark:border-purple-800 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-xl">🥧</div>
+                          <div className="text-xs text-muted-foreground">Pie Chart</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Table Preview */}
+                {includeDataTable && (
+                  <div className="space-y-2">
+                    <div 
+                      className="font-semibold text-xs flex items-center gap-2"
+                      style={{ color: accentColor }}
+                    >
+                      <span className="w-1 h-4 rounded-full" style={{ backgroundColor: accentColor }}></span>
+                      Full Amortization Schedule
+                      {rowLimit !== 'all' && (
+                        <span className="ml-1 text-muted-foreground font-normal">
+                          ({rowLimit === 'custom' 
+                            ? `Limited to ${calculateCustomRowCount()} rows` 
+                            : rowLimit === '1year' ? 'First 12 months' : 'First 5 years'})
+                        </span>
+                      )}
+                    </div>
+                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700 overflow-hidden">
+                      <div className="grid grid-cols-4 gap-1 bg-slate-100 dark:bg-slate-700 p-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        <div>Period</div>
+                        <div>Payment</div>
+                        <div>Principal</div>
+                        <div>Balance</div>
+                      </div>
+                      <div className="p-2 text-xs space-y-1">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="grid grid-cols-4 gap-1 text-muted-foreground">
+                            <div>Month {i}</div>
+                            <div>₹{(5000 + i * 100).toLocaleString()}</div>
+                            <div>₹{(3000 + i * 50).toLocaleString()}</div>
+                            <div>₹{(50000 - i * 3000).toLocaleString()}</div>
+                          </div>
+                        ))}
+                        <div className="text-center text-xs text-muted-foreground italic pt-1 border-t border-slate-200 dark:border-slate-700">
+                          ... {data.schedule?.length ? `${Math.min(data.schedule.length - 3, calculateCustomRowCount() - 3)} more rows` : 'more data'} ...
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                  
+                {/* Watermark Preview */}
+                {includeWatermark && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="text-slate-200 dark:text-slate-800 font-black text-4xl opacity-10 rotate-[-45deg] select-none">
+                      CALCULATOR LOOP
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Bottom Meta Info */}
+              <div className="px-4 py-2 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <span>📏 Font: <strong>{fontSize.toUpperCase()}</strong></span>
+                  <span>•</span>
+                  <span>🎨 Colors: <span className="inline-block w-3 h-3 rounded-full border border-slate-300" style={{ backgroundColor: primaryColor }}></span> <span className="inline-block w-3 h-3 rounded-full border border-slate-300" style={{ backgroundColor: accentColor }}></span></span>
+                </div>
+                <div>
+                  Format: <strong>{format === 'custom' ? selectedFormat.toUpperCase() : format.toUpperCase()}</strong>
+                </div>
+              </div>
+            </div>
           </div>
         
           {/* Format Selection (only for custom) */}
