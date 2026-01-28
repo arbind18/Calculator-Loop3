@@ -684,6 +684,17 @@ export function ComprehensiveBMICalculator() {
                     <Lock className="mr-2 h-4 w-4 text-orange-600" />
                     Password ZIP
                   </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* CUSTOM DOWNLOAD */}
+                  <DropdownMenuItem 
+                    onClick={() => { setDownloadFormat('custom'); setShowDownloadModal(true); }}
+                    className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-950/30 dark:to-blue-950/30 border border-cyan-200 dark:border-cyan-800 font-semibold"
+                  >
+                    <Download className="mr-2 h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+                    🎨 Custom Download (Full Control)
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
