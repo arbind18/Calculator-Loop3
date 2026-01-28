@@ -431,10 +431,11 @@ const genericTechnologyToolIds = [
   'load-balancer-cost',
   'ci-cd-time',
 
-  // Programming & Development (12 tools)
+  // Programming & Development (13 tools)
   'time-complexity',
   'space-complexity',
   'code-lines-counter',
+  'text-analysis',
   'cyclomatic-complexity',
   'regex-tester',
   'json-validator',
@@ -2404,7 +2405,6 @@ export const calculatorComponents: Record<string, any> = {
   'xat-score-calculator': XATScoreCalculator,
   'customer-satisfaction': CustomerSatisfactionCalculator,
   'customer-satisfaction-pro': CustomerSatisfactionCalculator,
-  'advanced-cvp-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedCVPCalculator')),
 }
 
 export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))

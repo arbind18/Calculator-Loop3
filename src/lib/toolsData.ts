@@ -1879,6 +1879,7 @@ const baseToolsData: Record<string, Category> = {
           { id: 'time-complexity', title: 'Time Complexity Calculator', description: 'Calculate Big O notation and algorithm complexity.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
           { id: 'space-complexity', title: 'Space Complexity Calculator', description: 'Calculate memory usage of algorithms.', icon: 'fas fa-memory', action: 'Calculate Now' },
           { id: 'code-lines-counter', title: 'Lines of Code Counter', description: 'Calculate LOC, SLOC, comment ratio.', icon: 'fas fa-code', action: 'Calculate Now' },
+          { id: 'text-analysis', title: 'Text Analysis Tool', description: 'Analyze text length, structure, and keywords.', icon: 'fas fa-align-left', action: 'Calculate Now' },
           { id: 'cyclomatic-complexity', title: 'Cyclomatic Complexity Calculator', description: 'Calculate code complexity and maintainability.', icon: 'fas fa-project-diagram', action: 'Calculate Now' },
           { id: 'regex-tester', title: 'Regex Pattern Tester', description: 'Test and validate regular expressions.', icon: 'fas fa-search', action: 'Calculate Now' },
           { id: 'json-validator', title: 'JSON Validator & Formatter', description: 'Validate and beautify JSON data.', icon: 'fas fa-file-code', action: 'Calculate Now' },

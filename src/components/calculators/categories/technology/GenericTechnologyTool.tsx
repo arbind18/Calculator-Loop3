@@ -455,6 +455,82 @@ export default function GenericTechnologyTool({ id, title, description }: Generi
           }
         };
 
+      case 'text-analysis':
+        return {
+          id: 'text-analysis',
+          title: 'Text Analysis Tool',
+          description: 'Analyze text length, structure, and keyword density',
+          inputs: [
+            { name: 'text', label: 'Text', type: 'textarea', placeholder: 'Paste or type your text here...' },
+            { name: 'readingSpeed', label: 'Reading Speed', type: 'number', placeholder: '200', unit: 'wpm' },
+            { name: 'speakingSpeed', label: 'Speaking Speed', type: 'number', placeholder: '130', unit: 'wpm' },
+          ],
+          calculate: (inputs) => {
+            const rawText = String(inputs.text || '');
+            const normalizedText = rawText.replace(/\r\n/g, '\n');
+            const cleanedWords = normalizedText.match(/[A-Za-z0-9']+/g) || [];
+            const wordCount = cleanedWords.length;
+            const charCount = rawText.length;
+            const charNoSpaces = rawText.replace(/\s/g, '').length;
+            const sentenceCount = normalizedText
+              .split(/[.!?]+/)
+              .filter(sentence => sentence.trim().length > 0).length;
+            const paragraphCount = normalizedText
+              .split(/\n\s*\n/)
+              .filter(paragraph => paragraph.trim().length > 0).length;
+            const avgWordLength = wordCount ? charNoSpaces / wordCount : 0;
+
+            const uniqueWords = new Set(cleanedWords.map(word => word.toLowerCase())).size;
+            const lexicalDiversity = wordCount ? (uniqueWords / wordCount) * 100 : 0;
+
+            const readingSpeed = Number(inputs.readingSpeed) || 200;
+            const speakingSpeed = Number(inputs.speakingSpeed) || 130;
+            const readingMinutes = readingSpeed > 0 ? wordCount / readingSpeed : 0;
+            const speakingMinutes = speakingSpeed > 0 ? wordCount / speakingSpeed : 0;
+
+            const formatTime = (minutes: number) => {
+              const totalSeconds = Math.round(minutes * 60);
+              const mins = Math.floor(totalSeconds / 60);
+              const secs = totalSeconds % 60;
+              return `${mins}m ${secs}s`;
+            };
+
+            const keywordCandidates = cleanedWords
+              .map(word => word.toLowerCase())
+              .filter(word => word.length >= 4);
+            const frequencyMap = new Map<string, number>();
+            keywordCandidates.forEach(word => {
+              frequencyMap.set(word, (frequencyMap.get(word) || 0) + 1);
+            });
+
+            const topKeywords = Array.from(frequencyMap.entries())
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5)
+              .map(([word, count]) => `${word} (${count})`)
+              .join(', ') || '—';
+
+            return {
+              results: [
+                { label: 'Word Count', value: wordCount },
+                { label: 'Character Count', value: charCount, unit: 'chars' },
+                { label: 'Characters (No Spaces)', value: charNoSpaces, unit: 'chars' },
+                { label: 'Sentences', value: sentenceCount },
+                { label: 'Paragraphs', value: paragraphCount },
+                { label: 'Reading Time', value: formatTime(readingMinutes) },
+                { label: 'Speaking Time', value: formatTime(speakingMinutes) },
+                { label: 'Unique Words', value: uniqueWords },
+                { label: 'Lexical Diversity', value: lexicalDiversity.toFixed(1), unit: '%' },
+              ],
+              breakdown: [
+                { label: 'Average Word Length', value: avgWordLength.toFixed(2), unit: 'chars' },
+                { label: 'Reading Speed', value: readingSpeed, unit: 'wpm' },
+                { label: 'Speaking Speed', value: speakingSpeed, unit: 'wpm' },
+                { label: 'Top Keywords', value: topKeywords },
+              ]
+            };
+          }
+        };
+
       // Generic fallback calculator
       default:
         return {
@@ -577,6 +653,14 @@ export default function GenericTechnologyTool({ id, title, description }: Generi
                           className="absolute right-2 top-1/2 -translate-y-1/2"
                         />
                       </div>
+                    ) : input.type === 'textarea' ? (
+                      <textarea
+                        id={input.name}
+                        placeholder={input.placeholder}
+                        value={inputs[input.name] || ''}
+                        onChange={(e) => handleInputChange(input.name, e.target.value)}
+                        className="min-h-[140px] w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      />
                     ) : (
                       <Input
                         id={input.name}
