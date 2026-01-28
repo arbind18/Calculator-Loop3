@@ -85,22 +85,38 @@ export function CustomDownloadModal({ open, onClose, data, title, format }: Cust
   };
 
   const downloadExcel = async () => {
-    const XLSX = await import('xlsx');
-    const wb = XLSX.utils.book_new();
-    
+    const ExcelJS = await import('exceljs');
+    const workbook = new ExcelJS.Workbook();
+
     if (includeSummary) {
-      const summaryData = Object.entries(data).map(([key, value]) => ({ Field: key, Value: value }));
-      const ws = XLSX.utils.json_to_sheet(summaryData);
-      XLSX.utils.book_append_sheet(wb, ws, 'Summary');
+      const summarySheet = workbook.addWorksheet('Summary');
+      summarySheet.columns = [
+        { header: 'Field', key: 'Field', width: 30 },
+        { header: 'Value', key: 'Value', width: 40 }
+      ];
+      Object.entries(data).forEach(([key, value]) => {
+        summarySheet.addRow({ Field: key, Value: value });
+      });
     }
-    
+
     if (includeDataTable && data.schedule) {
       const rows = getFilteredRows(data.schedule);
-      const ws = XLSX.utils.json_to_sheet(rows);
-      XLSX.utils.book_append_sheet(wb, ws, 'Data');
+      const dataSheet = workbook.addWorksheet('Data');
+      const headers = Object.keys(rows[0] || {});
+      dataSheet.columns = headers.map((header) => ({ header, key: header, width: 18 }));
+      rows.forEach((row) => dataSheet.addRow(row));
     }
-    
-    XLSX.writeFile(wb, `${title}-${Date.now()}.xlsx`);
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title}-${Date.now()}.xlsx`;
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   const downloadPDF = async () => {

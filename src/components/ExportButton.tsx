@@ -98,11 +98,25 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
   };
 
   const exportToExcel = async () => {
-    const XLSX = await import('xlsx');
-    const ws = XLSX.utils.json_to_sheet([data]);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Results');
-    XLSX.writeFile(wb, `${filename}.xlsx`);
+    const ExcelJS = await import('exceljs');
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Results');
+
+    const rows = Array.isArray(data) ? data : [data];
+    const headers = Object.keys(rows[0] || {});
+    sheet.columns = headers.map((header) => ({ header, key: header, width: 18 }));
+    rows.forEach((row) => sheet.addRow(row));
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.xlsx`;
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   const exportToImage = async (format: 'png' | 'jpg') => {
