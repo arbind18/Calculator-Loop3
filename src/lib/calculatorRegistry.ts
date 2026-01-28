@@ -1772,9 +1772,10 @@ export const calculatorComponents: Record<string, any> = {
   'financial-leverage': genericBusinessTool,
   'safety-margin': genericBusinessTool,
   'payback-period': genericBusinessTool,
-  'internal-rate-return': genericBusinessTool,
+  'internal-rate-return': dynamic(() => import('@/components/calculators/categories/business/AdvancedROICalculator').then(m => ({ default: m.AdvancedROICalculator }))),
   'profitability-index': genericBusinessTool,
   'economic-value-added': genericBusinessTool,
+  'roi-calculator-business': dynamic(() => import('@/components/calculators/categories/business/AdvancedROICalculator').then(m => ({ default: m.AdvancedROICalculator }))),
   // Extended Business Calculators - DISABLED (template structure issues)
   // // 'clv-calculator': dynamic(() => import('@/components/calculators/categories/business/MoreExtendedBusinessCalculators').then(m => ({ default: m.CustomerLifetimeValue }))), // DISABLED - old template structure
   // // 'cac-calculator': dynamic(() => import('@/components/calculators/categories/business/MoreExtendedBusinessCalculators').then(m => ({ default: m.CustomerAcquisitionCost }))), // DISABLED - old template structure
