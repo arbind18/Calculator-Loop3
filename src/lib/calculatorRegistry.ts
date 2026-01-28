@@ -1728,6 +1728,7 @@ export const calculatorComponents: Record<string, any> = {
   // Business
   'profit-margin': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.ProfitMarginCalculator }))),
   'break-even-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedBreakEvenCalculator').then(m => ({ default: m.AdvancedBreakEvenCalculator }))),
+  'clv-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedCLVCalculator').then(m => ({ default: m.AdvancedCLVCalculator }))),
   'discount-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.DiscountCalculator }))),
   'roas-calculator': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.ROASCalculator }))),
   'working-capital': dynamic(() => import('@/components/calculators/categories/business/BusinessCalculators').then(m => ({ default: m.WorkingCapital }))),
