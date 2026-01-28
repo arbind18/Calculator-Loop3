@@ -66,3 +66,63 @@ export async function saveCalculation(
     console.error('Error saving calculation history:', error)
   }
 }
+
+// Advanced history functions
+export function saveToHistory(data: {
+  category: string;
+  tool: string;
+  inputs: any;
+  result: any;
+  timestamp: string;
+}) {
+  try {
+    const key = `history_${data.category}_${data.tool}`;
+    const stored = localStorage.getItem(key);
+    const history = stored ? JSON.parse(stored) : [];
+    
+    const newEntry = {
+      id: Date.now().toString(),
+      ...data
+    };
+    
+    history.unshift(newEntry);
+    
+    // Keep only last 20 entries per tool
+    if (history.length > 20) {
+      history.pop();
+    }
+    
+    localStorage.setItem(key, JSON.stringify(history));
+    
+    // Also save last result for comparison
+    const lastResultKey = `last_result_${data.category}_${data.tool}`;
+    localStorage.setItem(lastResultKey, JSON.stringify(data.result));
+  } catch (error) {
+    console.error('Error saving to history:', error);
+  }
+}
+
+export function getHistory(category: string, tool: string, limit: number = 10) {
+  try {
+    const key = `history_${category}_${tool}`;
+    const stored = localStorage.getItem(key);
+    if (!stored) return [];
+    
+    const history = JSON.parse(stored);
+    return history.slice(0, limit);
+  } catch (error) {
+    console.error('Error loading history:', error);
+    return [];
+  }
+}
+
+export function clearHistory(category: string, tool: string) {
+  try {
+    const key = `history_${category}_${tool}`;
+    localStorage.removeItem(key);
+    const lastResultKey = `last_result_${category}_${tool}`;
+    localStorage.removeItem(lastResultKey);
+  } catch (error) {
+    console.error('Error clearing history:', error);
+  }
+}

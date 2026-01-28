@@ -13,6 +13,14 @@ export interface BMIResult {
   category: 'underweight' | 'normal' | 'overweight' | 'obese';
   idealWeightMin: number;
   idealWeightMax: number;
+  // Advanced features
+  bmiPrime?: number;
+  ponderal?: number;
+  healthRisk?: string;
+  recommendation?: string;
+  weightToLose?: number;
+  weightToGain?: number;
+  chartData?: any;
 }
 
 export interface MacroResult {
@@ -27,10 +35,10 @@ export interface MacroResult {
 }
 
 /**
- * Calculates Body Mass Index (BMI)
+ * Calculates Body Mass Index (BMI) with Advanced Features
  * @param weight Weight in kg
  * @param height Height in cm
- * @returns BMIResult object
+ * @returns BMIResult object with advanced metrics
  */
 export const calculateBMI = (weight: number, height: number): BMIResult => {
   const heightM = height / 100;
@@ -42,11 +50,70 @@ export const calculateBMI = (weight: number, height: number): BMIResult => {
   else if (bmi < 30) category = 'overweight';
   else category = 'obese';
 
+  // Calculate ideal weight range
+  const idealWeightMin = Number((18.5 * Math.pow(heightM, 2)).toFixed(1));
+  const idealWeightMax = Number((24.9 * Math.pow(heightM, 2)).toFixed(1));
+
+  // Advanced metrics
+  const bmiPrime = Number((bmi / 25).toFixed(2)); // BMI Prime (BMI/25)
+  const ponderal = Number((weight / Math.pow(heightM, 3)).toFixed(2)); // Ponderal Index
+
+  // Health risk assessment
+  let healthRisk = 'Minimal';
+  if (category === 'underweight') healthRisk = 'Increased risk of malnutrition';
+  else if (category === 'overweight') healthRisk = 'Moderate risk of health issues';
+  else if (category === 'obese') healthRisk = 'High risk of serious health conditions';
+
+  // Personalized recommendations
+  let recommendation = 'Maintain your healthy weight with balanced diet and exercise.';
+  if (category === 'underweight') {
+    recommendation = 'Increase caloric intake with nutritious foods. Consult a dietitian.';
+  } else if (category === 'overweight') {
+    recommendation = 'Aim for 0.5-1kg weight loss per week through diet and exercise.';
+  } else if (category === 'obese') {
+    recommendation = 'Consult healthcare provider for personalized weight loss plan.';
+  }
+
+  // Calculate weight to lose/gain to reach ideal range
+  const weightToLose = weight > idealWeightMax ? Number((weight - idealWeightMax).toFixed(1)) : 0;
+  const weightToGain = weight < idealWeightMin ? Number((idealWeightMin - weight).toFixed(1)) : 0;
+
+  // Generate chart data for visualization
+  const chartData = {
+    labels: ['Underweight', 'Normal', 'Overweight', 'Obese', 'Your BMI'],
+    datasets: [{
+      label: 'BMI Categories',
+      data: [18.5, 24.9, 29.9, 35, bmi],
+      backgroundColor: [
+        'rgba(96, 165, 250, 0.7)',
+        'rgba(34, 197, 94, 0.7)',
+        'rgba(251, 191, 36, 0.7)',
+        'rgba(239, 68, 68, 0.7)',
+        'rgba(168, 85, 247, 0.9)'
+      ],
+      borderColor: [
+        'rgb(59, 130, 246)',
+        'rgb(22, 163, 74)',
+        'rgb(245, 158, 11)',
+        'rgb(220, 38, 38)',
+        'rgb(147, 51, 234)'
+      ],
+      borderWidth: 2
+    }]
+  };
+
   return {
     bmi: Number(bmi.toFixed(1)),
     category,
-    idealWeightMin: Number((18.5 * Math.pow(heightM, 2)).toFixed(1)),
-    idealWeightMax: Number((24.9 * Math.pow(heightM, 2)).toFixed(1))
+    idealWeightMin,
+    idealWeightMax,
+    bmiPrime,
+    ponderal,
+    healthRisk,
+    recommendation,
+    weightToLose,
+    weightToGain,
+    chartData
   };
 };
 

@@ -1,3 +1,4 @@
+// Registry of all calculator components
 import dynamic from 'next/dynamic'
 
 const genericHealthTool = dynamic(() =>
@@ -2396,6 +2397,7 @@ export const calculatorComponents: Record<string, any> = {
 
   'xat-score-calculator': XATScoreCalculator,
   'customer-satisfaction': CustomerSatisfactionCalculator,
+  'customer-satisfaction-pro': CustomerSatisfactionCalculator,
 }
 
 export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))

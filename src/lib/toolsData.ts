@@ -1280,7 +1280,7 @@ const baseToolsData: Record<string, Category> = {
           { id: 'sales-growth', title: 'Sales Growth Rate', description: 'Calculate revenue increase.', icon: 'fas fa-chart-line', action: 'Calculate Now' },
           { id: 'market-share', title: 'Market Share Calculator', description: 'Calculate percentage of market.', icon: 'fas fa-chart-pie', action: 'Calculate Now' },
           { id: 'share-of-wallet', title: 'Share of Wallet', description: 'Calculate spend share per customer.', icon: 'fas fa-wallet', action: 'Calculate Now' },
-          { id: 'customer-satisfaction', title: 'Customer Satisfaction Analytics', description: 'Advanced CSAT, NPS & CES calculator with industry benchmarking and insights.', icon: 'fas fa-chart-line', action: 'Analyze Now' },
+          { id: 'customer-satisfaction-pro', title: 'Customer Satisfaction Analytics', description: 'Advanced CSAT, NPS & CES calculator with industry benchmarking and insights.', icon: 'fas fa-chart-line', action: 'Analyze Now' },
           { id: 'customer-effort', title: 'CES Score', description: 'Calculate Customer Effort Score.', icon: 'fas fa-running', action: 'Calculate Now' },
           { id: 'email-open-rate', title: 'Email Open Rate', description: 'Calculate email campaign effectiveness.', icon: 'fas fa-envelope-open', action: 'Calculate Now' },
           { id: 'click-through-rate', title: 'CTR Calculator', description: 'Calculate ad click rate.', icon: 'fas fa-mouse-pointer', action: 'Calculate Now' },

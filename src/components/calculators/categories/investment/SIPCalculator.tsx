@@ -1,12 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { Calculator, TrendingUp, PieChart as PieChartIcon } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Calculator, TrendingUp, PieChart as PieChartIcon, Download, Printer, Share2, RotateCcw, Trash2, Sparkles, FileSpreadsheet, FileText, FileJson, ImageIcon, Code, Globe, Link2, Database, Archive, Lock, Image as ImageIcon2 } from "lucide-react"
 import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
 import { ChartToggle } from "@/components/calculators/ui/ChartToggle"
 import { ComprehensiveSIPSeo } from "@/components/calculators/seo/ComprehensiveSIPSeo"
 import { SeoContentGenerator } from "@/components/seo/SeoContentGenerator"
 import { useTranslation } from "@/hooks/useTranslation"
+import { Switch } from "@/components/ui/switch"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator
+} from "@/components/ui/dropdown-menu"
 import { 
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend,
   AreaChart, Area, XAxis, YAxis, CartesianGrid
@@ -21,6 +31,62 @@ export function SIPCalculator() {
   const [timePeriod, setTimePeriod] = useState(10)
   const [result, setResult] = useState<any>(null)
   const [chartView, setChartView] = useState<'pie' | 'graph'>('pie')
+  const [autoCalculate, setAutoCalculate] = useState(false)
+  const [previousData, setPreviousData] = useState<any>(null)
+
+  // Delete/Clear function - Set all to 0
+  const handleReset = () => {
+    // Store current data before clearing
+    setPreviousData({
+      monthlyInvestment,
+      expectedReturn,
+      timePeriod,
+      result
+    })
+    // Clear all to 0
+    setMonthlyInvestment(0)
+    setExpectedReturn(0)
+    setTimePeriod(0)
+    setResult(null)
+  }
+
+  // Reload function - Restore previous data
+  const handleReload = () => {
+    if (previousData) {
+      setMonthlyInvestment(previousData.monthlyInvestment)
+      setExpectedReturn(previousData.expectedReturn)
+      setTimePeriod(previousData.timePeriod)
+      setResult(previousData.result)
+    }
+  }
+
+  // Share function
+  const handleShare = async () => {
+    if (!result) return
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'SIP Calculator Result',
+          text: `Invest ₹${monthlyInvestment}/month for ${timePeriod} years = ₹${result.maturityAmount.toLocaleString('en-IN')} maturity`,
+          url: window.location.href
+        })
+      } catch (err) {
+        console.log('Share cancelled')
+      }
+    }
+  }
+
+  // Print function
+  const handlePrint = () => {
+    window.print()
+  }
+
+  // Auto calculate on input change
+  useEffect(() => {
+    if (autoCalculate && monthlyInvestment > 0 && timePeriod > 0) {
+      calculate()
+    }
+  }, [autoCalculate, monthlyInvestment, expectedReturn, timePeriod])
 
   const calculate = () => {
     const P = monthlyInvestment
@@ -195,7 +261,167 @@ export function SIPCalculator() {
         </div>
       }
       result={
-        result && (
+        <>
+          {/* Action Toolbar - Always Visible */}
+          <div className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 rounded-xl border border-blue-100 dark:border-blue-900/30 mb-4">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">Auto Calculate</span>
+              <Switch
+                checked={autoCalculate}
+                onCheckedChange={setAutoCalculate}
+                className="ml-2"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleReset}
+                title="Clear all data"
+                className="h-8 w-8 hover:bg-white dark:hover:bg-slate-800"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleReload}
+                title="Reload last values"
+                className="h-8 w-8 hover:bg-white dark:hover:bg-slate-800"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleShare}
+                title="Share results"
+                className="h-8 w-8 hover:bg-white dark:hover:bg-slate-800"
+              >
+                <Share2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handlePrint}
+                title="Print"
+                className="h-8 w-8 hover:bg-white dark:hover:bg-slate-800"
+              >
+                <Printer className="h-4 w-4" />
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    title="Download options"
+                    className="h-8 w-8 hover:bg-white dark:hover:bg-slate-800 bg-blue-100 dark:bg-blue-900/30"
+                  >
+                    <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-64 max-h-[500px] overflow-y-auto">
+                  <DropdownMenuLabel className="font-semibold">Download Options</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  
+                  {/* BASIC & STANDARD */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">BASIC & STANDARD</div>
+                  <DropdownMenuItem onClick={() => handleDownload('csv')}>
+                    <FileSpreadsheet className="mr-2 h-4 w-4 text-green-600" />
+                    CSV (Excel)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDownload('excel')}>
+                    <FileSpreadsheet className="mr-2 h-4 w-4 text-green-600" />
+                    Excel (.xlsx)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDownload('pdf')}>
+                    <FileText className="mr-2 h-4 w-4 text-red-600" />
+                    PDF Document
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <FileJson className="mr-2 h-4 w-4 text-yellow-600" />
+                    JSON Data
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* IMAGES & VISUALS */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">IMAGES & VISUALS</div>
+                  <DropdownMenuItem>
+                    <ImageIcon className="mr-2 h-4 w-4 text-purple-600" />
+                    PNG Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <ImageIcon className="mr-2 h-4 w-4 text-blue-600" />
+                    JPG Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Code className="mr-2 h-4 w-4 text-orange-600" />
+                    SVG Vector
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* ADVANCED DOCS */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">ADVANCED DOCS</div>
+                  <DropdownMenuItem>
+                    <Globe className="mr-2 h-4 w-4 text-blue-600" />
+                    HTML Report
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <FileText className="mr-2 h-4 w-4 text-blue-600" />
+                    Word (.docx)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <FileText className="mr-2 h-4 w-4 text-orange-600" />
+                    PowerPoint (.pptx)
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* DEVELOPER DATA */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">DEVELOPER DATA</div>
+                  <DropdownMenuItem>
+                    <Code className="mr-2 h-4 w-4 text-purple-600" />
+                    XML Data
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link2 className="mr-2 h-4 w-4 text-blue-600" />
+                    API Link
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Database className="mr-2 h-4 w-4 text-green-600" />
+                    SQL Insert
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Database className="mr-2 h-4 w-4 text-teal-600" />
+                    SQLite DB
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* ARCHIVES & SECURITY */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">ARCHIVES & SECURITY</div>
+                  <DropdownMenuItem>
+                    <Archive className="mr-2 h-4 w-4 text-gray-600" />
+                    ZIP Archive
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Lock className="mr-2 h-4 w-4 text-red-600" />
+                    Encrypted PDF
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Lock className="mr-2 h-4 w-4 text-orange-600" />
+                    Password ZIP
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* Result Cards */}
+          {result && (
           <div className="mt-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <ResultCard
@@ -221,7 +447,8 @@ export function SIPCalculator() {
               />
             </div>
           </div>
-        )
+          )}
+        </>
       }
       charts={
         result && (

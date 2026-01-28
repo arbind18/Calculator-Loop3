@@ -1,9 +1,4 @@
-"use client"
 
-import { useState } from "react"
-import { TrendingUp, BarChart3, Users } from "lucide-react"
-import { FinancialCalculatorTemplate, InputGroup, ResultCard } from "@/components/calculators/templates/FinancialCalculatorTemplate"
-import { useTranslation } from "@/hooks/useTranslation"
 "use client"
 
 import { useState, useEffect } from "react"
@@ -15,6 +10,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, RadialBarChart, RadialBar, Po
 
 export function CustomerSatisfactionCalculator() {
     const { t } = useTranslation()
+    console.log("🚀 CustomerSatisfactionCalculator NEW UI MOUNTED")
 
     // Industry benchmarks for US market (2024 data)
     const industryBenchmarks: Record<string, { csat: number; nps: number; ces: number }> = {

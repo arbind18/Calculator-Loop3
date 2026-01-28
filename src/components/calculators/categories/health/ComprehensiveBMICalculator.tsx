@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Scale, Activity, Heart, AlertTriangle, CheckCircle, Ruler, TrendingUp, Droplet } from "lucide-react"
+import { Scale, Activity, Heart, AlertTriangle, CheckCircle, Ruler, TrendingUp, Droplet, Download, Printer, Share2, RotateCcw, Trash2, Sparkles, FileSpreadsheet, FileText, FileJson, ImageIcon, Code, Globe, Link2, Database, Archive, Lock, Image as ImageIcon2 } from "lucide-react"
 import type { HealthResult } from "@/components/calculators/templates/ComprehensiveHealthTemplate"
 import { calculateBMI } from "@/lib/logic/health"
 import { useTranslation } from "@/hooks/useTranslation"
@@ -9,6 +9,17 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { AdvancedCalculatorFeatures } from "@/components/AdvancedCalculatorFeatures"
+import { saveToHistory } from "@/lib/history"
+import { CustomDownloadModal } from "@/components/CustomDownloadModal"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator
+} from "@/components/ui/dropdown-menu"
 
 type UnitSystem = 'metric' | 'imperial'
 
@@ -49,6 +60,7 @@ function BMIInputGroup({ label, value, onChange, suffix, min, max, step }: BMIIn
 export function ComprehensiveBMICalculator() {
   const { t } = useTranslation()
   const [unitSystem, setUnitSystem] = useState<UnitSystem>('metric')
+  const [autoCalculate, setAutoCalculate] = useState(false)
   
   // Metric units
   const [weight, setWeight] = useState(70)
@@ -60,6 +72,68 @@ export function ComprehensiveBMICalculator() {
   const [neck, setNeck] = useState(35)
   
   const [result, setResult] = useState<HealthResult | null>(null)
+  const [previousData, setPreviousData] = useState<any>(null)
+  const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const [downloadFormat, setDownloadFormat] = useState('csv')
+
+  // Delete/Clear function - Set all to 0
+  const handleReset = () => {
+    // Store current data before clearing
+    setPreviousData({
+      weight,
+      height,
+      age,
+      gender,
+      waist,
+      hip,
+      neck,
+      result
+    })
+    // Clear all to 0/defaults
+    setWeight(0)
+    setHeight(0)
+    setAge(0)
+    setGender('male')
+    setWaist(0)
+    setHip(0)
+    setNeck(0)
+    setResult(null)
+  }
+
+  // Reload function - Restore previous data
+  const handleReload = () => {
+    if (previousData) {
+      setWeight(previousData.weight)
+      setHeight(previousData.height)
+      setAge(previousData.age)
+      setGender(previousData.gender)
+      setWaist(previousData.waist)
+      setHip(previousData.hip)
+      setNeck(previousData.neck)
+      setResult(previousData.result)
+    }
+  }
+
+  // Share function
+  const handleShare = async () => {
+    if (!result) return
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'BMI Calculator Result',
+          text: `My BMI is ${result.primaryMetric?.value} (${result.primaryMetric?.description})`,
+          url: window.location.href
+        })
+      } catch (err) {
+        console.log('Share cancelled')
+      }
+    }
+  }
+
+  // Print function
+  const handlePrint = () => {
+    window.print()
+  }
 
   // Unit conversion helpers
   const kgToLbs = (kg: number) => Math.round(kg * 2.20462 * 10) / 10
@@ -360,13 +434,56 @@ export function ComprehensiveBMICalculator() {
         "TDEE (Very Active)": `${((10 * weight + 6.25 * height - 5 * age + (gender === 'male' ? 5 : -161)) * 1.725).toFixed(0)} kcal/day`
       }
     })
+
+    // Save to history for advanced features
+    saveToHistory({
+      category: 'health',
+      tool: 'bmi-calculator',
+      inputs: {
+        weight: weight,
+        height: height,
+        age: age,
+        gender: gender,
+        unitSystem: unitSystem
+      },
+      result: {
+        main: bmi,
+        bmi: bmi,
+        category: res.category,
+        bodyFat: bodyFat.toFixed(1),
+        whr: whr.toFixed(2),
+        healthScore: healthScore,
+        chartData: res.chartData
+      },
+      timestamp: new Date().toISOString()
+    })
+
+    // Debug: Check if advanced features are working
+    console.log('🚀 BMI Calculator - Advanced Features Data:', {
+      hasPrimaryMetric: !!result,
+      hasChartData: !!chartData,
+      chartDataLength: chartData?.length,
+      bmiValue: bmi
+    })
   }
 
+  // Auto calculate effect
   useEffect(() => {
-    if (weight > 0 && height > 0) {
-      handleCalculate()
+    if (autoCalculate && weight > 0 && height > 0) {
+      const timer = setTimeout(() => {
+        handleCalculate()
+      }, 100) // Fast execution with minimal delay
+      return () => clearTimeout(timer)
     }
-  }, [weight, height, age, gender, waist, hip, neck, unitSystem])
+  }, [autoCalculate, weight, height, age, gender, waist, hip, neck, unitSystem])
+
+  // Handle auto calculate toggle
+  const handleAutoCalculateToggle = (checked: boolean) => {
+    setAutoCalculate(checked)
+    if (checked && weight > 0 && height > 0) {
+      handleCalculate() // Immediate calculation when enabled
+    }
+  }
 
   const handleWeightChange = (value: number) => {
     const newWeight = unitSystem === 'metric' ? value : lbsToKg(value)
@@ -413,6 +530,182 @@ export function ComprehensiveBMICalculator() {
             {t('health.bmiDescription') || 'Calculate your Body Mass Index with detailed health insights and personalized recommendations'}
           </p>
         </div>
+
+        {/* Action Toolbar */}
+        <div className="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 mb-6">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">Auto Calculate</span>
+              <Switch
+                checked={autoCalculate}
+                onCheckedChange={handleAutoCalculateToggle}
+                className="ml-2"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleReset}
+                title="Reset calculator"
+                className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleReload}
+                title="Reload previous data"
+                className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleShare}
+                title="Share results"
+                className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <Share2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handlePrint}
+                title="Print"
+                className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <Printer className="h-4 w-4" />
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    title="Download options"
+                    className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-700 bg-blue-100 dark:bg-blue-900/30"
+                  >
+                    <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-64 max-h-[500px] overflow-y-auto">
+                  <DropdownMenuLabel className="font-semibold">Download Options</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  
+                  {/* BASIC & STANDARD */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">BASIC & STANDARD</div>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('csv'); setShowDownloadModal(true); }}>
+                    <FileSpreadsheet className="mr-2 h-4 w-4 text-green-600" />
+                    CSV (Excel)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('excel'); setShowDownloadModal(true); }}>
+                    <FileSpreadsheet className="mr-2 h-4 w-4 text-green-600" />
+                    Excel (.xlsx)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('pdf'); setShowDownloadModal(true); }}>
+                    <FileText className="mr-2 h-4 w-4 text-red-600" />
+                    PDF Document
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('json'); setShowDownloadModal(true); }}>
+                    <FileJson className="mr-2 h-4 w-4 text-yellow-600" />
+                    JSON Data
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* IMAGES & VISUALS */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">IMAGES & VISUALS</div>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('png'); setShowDownloadModal(true); }}>
+                    <ImageIcon className="mr-2 h-4 w-4 text-purple-600" />
+                    PNG Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('jpg'); setShowDownloadModal(true); }}>
+                    <ImageIcon className="mr-2 h-4 w-4 text-blue-600" />
+                    JPG Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('svg'); setShowDownloadModal(true); }}>
+                    <Code className="mr-2 h-4 w-4 text-orange-600" />
+                    SVG Vector
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* ADVANCED DOCS */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">ADVANCED DOCS</div>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('html'); setShowDownloadModal(true); }}>
+                    <Globe className="mr-2 h-4 w-4 text-blue-600" />
+                    HTML Report
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('word'); setShowDownloadModal(true); }}>
+                    <FileText className="mr-2 h-4 w-4 text-blue-600" />
+                    Word (.docx)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('ppt'); setShowDownloadModal(true); }}>
+                    <FileText className="mr-2 h-4 w-4 text-orange-600" />
+                    PowerPoint (.pptx)
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* DEVELOPER DATA */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">DEVELOPER DATA</div>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('xml'); setShowDownloadModal(true); }}>
+                    <Code className="mr-2 h-4 w-4 text-purple-600" />
+                    XML Data
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('api'); setShowDownloadModal(true); }}>
+                    <Link2 className="mr-2 h-4 w-4 text-blue-600" />
+                    API Link
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('sql'); setShowDownloadModal(true); }}>
+                    <Database className="mr-2 h-4 w-4 text-green-600" />
+                    SQL Insert
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('sqlite'); setShowDownloadModal(true); }}>
+                    <Database className="mr-2 h-4 w-4 text-teal-600" />
+                    SQLite DB
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* ARCHIVES & SECURITY */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">ARCHIVES & SECURITY</div>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('zip'); setShowDownloadModal(true); }}>
+                    <Archive className="mr-2 h-4 w-4 text-gray-600" />
+                    ZIP Archive
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('encrypted-pdf'); setShowDownloadModal(true); }}>
+                    <Lock className="mr-2 h-4 w-4 text-red-600" />
+                    Encrypted PDF
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setDownloadFormat('password-zip'); setShowDownloadModal(true); }}>
+                    <Lock className="mr-2 h-4 w-4 text-orange-600" />
+                    Password ZIP
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+        {/* Custom Download Modal */}
+        <CustomDownloadModal
+          open={showDownloadModal}
+          onClose={() => setShowDownloadModal(false)}
+          data={{
+            weight: unitSystem === 'metric' ? weight : kgToLbs(weight),
+            height: unitSystem === 'metric' ? height : cmToInches(height),
+            age,
+            gender,
+            bmi: result?.primaryMetric?.value || '',
+            category: result?.primaryMetric?.description || '',
+            recommendations: result?.recommendations || [],
+            schedule: []
+          }}
+          title="BMI Calculator Results"
+          format={downloadFormat}
+        />
 
         {/* Main Calculator Card */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -558,92 +851,10 @@ export function ComprehensiveBMICalculator() {
               {/* Right Column - Results */}
               <div className="space-y-6">
                 {result ? (
-                  <div className="space-y-4">
-                    {/* Primary BMI Card */}
-                    <div className={`p-6 rounded-xl border-2 ${
-                      result.primaryMetric?.status === 'good' ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' :
-                      result.primaryMetric?.status === 'warning' ? 'bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800' :
-                      result.primaryMetric?.status === 'danger' ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800' :
-                      'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800'
-                    }`}>
-                      <div className="text-center">
-                        <p className="text-sm font-medium text-muted-foreground mb-1">
-                          {t('health.yourBMI') || 'Your BMI'}
-                        </p>
-                        <div className="text-5xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                          {result.primaryMetric?.value}
-                        </div>
-                        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${
-                          result.primaryMetric?.status === 'good' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' :
-                          result.primaryMetric?.status === 'warning' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400' :
-                          result.primaryMetric?.status === 'danger' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400' :
-                          'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                        }`}>
-                          {result.primaryMetric?.status === 'good' ? <CheckCircle className="h-4 w-4" /> : 
-                           result.primaryMetric?.status === 'danger' ? <AlertTriangle className="h-4 w-4" /> :
-                           <Activity className="h-4 w-4" />}
-                          {result.primaryMetric?.description}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Health Metrics Grid */}
-                    <div className="grid grid-cols-2 gap-3">
-                      {result.metrics?.slice(1, 5).map((metric, idx) => (
-                        <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700">
-                          <div className="flex items-center gap-2 mb-2">
-                            {metric.icon && <metric.icon className="h-4 w-4 text-blue-600 dark:text-blue-400" />}
-                            <p className="text-xs font-medium text-muted-foreground">{metric.label}</p>
-                          </div>
-                          <p className="text-xl font-bold text-slate-900 dark:text-white">
-                            {metric.value}{metric.unit && <span className="text-sm text-muted-foreground ml-1">{metric.unit}</span>}
-                          </p>
-                          {metric.description && (
-                            <p className="text-xs text-muted-foreground mt-1">{metric.description}</p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Health Score */}
-                    {result.healthScore !== undefined && (
-                      <div className="p-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium opacity-90">Overall Health Score</p>
-                            <p className="text-3xl font-bold">{result.healthScore}<span className="text-xl">/100</span></p>
-                          </div>
-                          <Heart className="h-12 w-12 opacity-20" />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Recommendations */}
-                    {result.recommendations && result.recommendations.length > 0 && (
-                      <div className="space-y-3">
-                        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4" />
-                          Recommendations
-                        </h3>
-                        {result.recommendations.slice(0, 3).map((rec, idx) => (
-                          <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <div className="flex items-start gap-3">
-                              <div className={`px-2 py-1 rounded text-xs font-semibold ${
-                                rec.priority === 'high' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
-                                rec.priority === 'medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                                'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                              }`}>
-                                {rec.priority}
-                              </div>
-                              <div className="flex-1">
-                                <p className="font-semibold text-sm text-slate-900 dark:text-white mb-1">{rec.title}</p>
-                                <p className="text-xs text-muted-foreground">{rec.description}</p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                  <div className="text-center p-8 bg-green-50 dark:bg-green-950/20 rounded-xl">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">Your BMI</p>
+                    <p className="text-5xl font-bold text-green-600 dark:text-green-400">{result.primaryMetric?.value}</p>
+                    <p className="text-lg mt-2 text-slate-700 dark:text-slate-300">{result.primaryMetric?.description}</p>
                   </div>
                 ) : (
                   <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center p-8 bg-slate-50 dark:bg-slate-900/50 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
