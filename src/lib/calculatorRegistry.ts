@@ -1739,6 +1739,7 @@ export const calculatorComponents: Record<string, any> = {
   'advanced-working-capital-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedWorkingCapitalCalculator').then(m => ({ default: m.AdvancedWorkingCapitalCalculator }))),
   'advanced-cash-flow-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedCashFlowCalculator').then(m => ({ default: m.AdvancedCashFlowCalculator }))),
   'advanced-pricing-strategy-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedPricingStrategyCalculator').then(m => ({ default: m.AdvancedPricingStrategyCalculator }))),
+  'advanced-business-valuation-calculator': dynamic(() => import('@/components/calculators/categories/business/AdvancedBusinessValuationCalculator').then(m => ({ default: m.AdvancedBusinessValuationCalculator }))),
   'startup-runway': dynamic(() => import('@/components/calculators/categories/business/StartupRunway').then(m => ({ default: m.StartupRunway }))),
   'freelance-tax': dynamic(() => import('@/components/calculators/categories/business/FreelanceTax').then(m => ({ default: m.FreelanceTax }))),
   'inventory-turnover': dynamic(() => import('@/components/calculators/categories/business/InventoryTurnover').then(m => ({ default: m.InventoryTurnover }))),

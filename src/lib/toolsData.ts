@@ -1365,6 +1365,7 @@ const baseToolsData: Record<string, Category> = {
         name: '💎 Valuation & Growth',
         icon: 'fas fa-gem',
         calculators: [
+          { id: 'advanced-business-valuation-calculator', title: 'Advanced Business Valuation', description: 'DCF and multiples-based valuation with equity and per-share insights.', icon: 'fas fa-gem', action: 'Calculate Now' },
           { id: 'pe-ratio', title: 'P/E Ratio Calculator', description: 'Calculate Price to Earnings ratio.', icon: 'fas fa-chart-bar', action: 'Calculate Now' },
           { id: 'pb-ratio', title: 'P/B Ratio Calculator', description: 'Calculate Price to Book ratio.', icon: 'fas fa-book', action: 'Calculate Now' },
           { id: 'enterprise-value', title: 'Enterprise Value (EV)', description: 'Calculate total company value.', icon: 'fas fa-building', action: 'Calculate Now' },
