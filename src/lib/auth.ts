@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
+import { sanitizeEmail } from "@/lib/security/sanitize"
 
 const hasGoogleOAuth =
   !!process.env.GOOGLE_CLIENT_ID && !!process.env.GOOGLE_CLIENT_SECRET
@@ -37,9 +38,11 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
+        const email = sanitizeEmail(credentials.email)
+
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email,
+            email,
           },
         })
 
