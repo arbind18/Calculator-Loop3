@@ -1263,6 +1263,7 @@ const baseToolsData: Record<string, Category> = {
         name: '👥 Customer & Sales Metrics',
         icon: 'fas fa-users',
         calculators: [
+          { id: 'advanced-unit-economics-calculator', title: 'Advanced Unit Economics', description: 'Analyze LTV, CAC, payback, and unit profitability.', icon: 'fas fa-users', action: 'Calculate Now' },
           { id: 'clv-calculator', title: 'Customer Lifetime Value (CLV)', description: 'Calculate total revenue from a customer.', icon: 'fas fa-user-plus', action: 'Calculate Now' },
           { id: 'cac-calculator', title: 'Customer Acquisition Cost (CAC)', description: 'Calculate cost to acquire a new customer.', icon: 'fas fa-bullseye', action: 'Calculate Now' },
           { id: 'churn-rate-calculator', title: 'Churn Rate Calculator', description: 'Calculate percentage of customers lost.', icon: 'fas fa-user-minus', action: 'Calculate Now' },
