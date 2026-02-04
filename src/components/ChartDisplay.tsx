@@ -42,7 +42,37 @@ export const ChartDisplay: React.FC<ChartDisplayProps> = ({
   title = 'Data Visualization',
   height = 300
 }) => {
-  if (!data) return null;
+  const normalizedData = React.useMemo(() => {
+    if (!data) return null;
+    if (Array.isArray(data)) {
+      if (data.length === 0) return null;
+      const labels = data.map((item: any, index: number) =>
+        item.name ?? item.label ?? item.category ?? `Item ${index + 1}`
+      );
+      const values = data.map((item: any) => {
+        const value = item.value ?? item.current ?? 0;
+        return typeof value === 'number' ? value : Number(value) || 0;
+      });
+      const colors = data.map((item: any) => item.fill ?? item.color ?? 'rgba(59, 130, 246, 0.5)');
+      return {
+        labels,
+        datasets: [
+          {
+            label: title,
+            data: values,
+            backgroundColor: colors,
+            borderColor: colors,
+            borderWidth: 2,
+            fill: type === 'line'
+          }
+        ]
+      };
+    }
+
+    return data;
+  }, [data, title, type]);
+
+  if (!normalizedData) return null;
 
   const chartOptions: any = {
     responsive: true,
@@ -113,14 +143,14 @@ export const ChartDisplay: React.FC<ChartDisplayProps> = ({
   const renderChart = () => {
     switch (type) {
       case 'bar':
-        return <Bar data={data} options={chartOptions} height={height} />;
+        return <Bar data={normalizedData} options={chartOptions} height={height} />;
       case 'pie':
-        return <Pie data={data} options={chartOptions} height={height} />;
+        return <Pie data={normalizedData} options={chartOptions} height={height} />;
       case 'doughnut':
-        return <Doughnut data={data} options={chartOptions} height={height} />;
+        return <Doughnut data={normalizedData} options={chartOptions} height={height} />;
       case 'line':
       default:
-        return <Line data={data} options={chartOptions} height={height} />;
+        return <Line data={normalizedData} options={chartOptions} height={height} />;
     }
   };
 

@@ -45,6 +45,19 @@ const CustomerSatisfactionCalculator = dynamic(() =>
   import('@/components/calculators/categories/business/CustomerSatisfactionCalculator').then(m => ({ default: m.CustomerSatisfactionCalculator }))
 )
 
+// Advanced Math Calculators
+const AdvancedDecimalCalculator = dynamic(() =>
+  import('@/components/calculators/categories/math/AdvancedDecimalCalculator').then(m => ({ default: m.default }))
+)
+
+const AdvancedScientificNotationCalculator = dynamic(() =>
+  import('@/components/calculators/categories/math/AdvancedScientificNotationCalculator').then(m => ({ default: m.default }))
+)
+
+const AdvancedSignificantFiguresCalculator = dynamic(() =>
+  import('@/components/calculators/categories/math/AdvancedSignificantFiguresCalculator').then(m => ({ default: m.default }))
+)
+
 const genericEducationToolIds = [
   // Academic & Grades (12 tools)
   'gpa-calculator',
@@ -910,8 +923,6 @@ const genericMathToolIds: string[] = [
   'midpoint-calculator',
   'slope-calculator',
   'quadratic-formula-calculator',
-  'scientific-notation-calculator',
-  'significant-figures-calculator',
   'arithmetic-progression-calculator',
   'geometric-progression-calculator',
   'pythagorean-theorem-calculator',
@@ -925,7 +936,6 @@ const genericMathToolIds: string[] = [
   'area-calculator',
 
   // Added to cover remaining Math tools in toolsData
-  'decimal-calculator',
   'proportion-calculator',
   'difference-calculator',
   'increment-calculator',
@@ -2407,6 +2417,11 @@ export const calculatorComponents: Record<string, any> = {
   'xat-score-calculator': XATScoreCalculator,
   'customer-satisfaction': CustomerSatisfactionCalculator,
   'customer-satisfaction-pro': CustomerSatisfactionCalculator,
+
+  // Advanced Math Calculators
+  'decimal-calculator': AdvancedDecimalCalculator,
+  'scientific-notation-calculator': AdvancedScientificNotationCalculator,
+  'significant-figures-calculator': AdvancedSignificantFiguresCalculator,
 }
 
 export const implementedCalculatorIds = new Set(Object.keys(calculatorComponents))
