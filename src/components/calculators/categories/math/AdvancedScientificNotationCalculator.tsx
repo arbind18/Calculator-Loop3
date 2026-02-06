@@ -11,7 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info, CheckCircle2, Calculator, Download, Copy } from 'lucide-react';
 import { CopyButton, CopyIconButton } from '@/components/ui/CopyButton';
 import { CalculationHistorySidebar, type CalculationEntry } from '@/components/ui/CalculationHistory';
-import { useCalculatorShortcuts, KeyboardShortcutsHelp } from '@/hooks/useKeyboardShortcuts';
+import { useCalculatorShortcuts, KeyboardShortcutsHelp } from '@/hooks/useCalculatorShortcuts';
 import { exportCalculationResult } from '@/lib/exportToPDF';
 import { ScientificNotationVisual, MagnitudeComparison, DecimalPlacesVisual } from '@/components/ui/ScientificNotationVisuals';
 
@@ -63,19 +63,19 @@ export default function AdvancedScientificNotationCalculator() {
     const superscripts = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
     const expStr = Math.abs(exp).toString();
     let formatted = '';
-    
+
     if (exp < 0) formatted = '⁻';
-    
+
     for (let digit of expStr) {
       formatted += superscripts[parseInt(digit)];
     }
-    
+
     return formatted;
   };
 
   const calculateOperation = () => {
     const num1 = parseScientificNotation(mantissa, exponent);
-    
+
     if (operation === 'convert') {
       if (inputType === 'decimal') {
         const value = parseFloat(inputValue);
@@ -579,7 +579,7 @@ export default function AdvancedScientificNotationCalculator() {
                   {/* Scientific Notation Visual */}
                   <div className="space-y-3">
                     <h4 className="font-semibold text-md">Scientific Notation Breakdown</h4>
-                    <ScientificNotationVisual 
+                    <ScientificNotationVisual
                       mantissa={visualScientific.mantissa}
                       exponent={visualScientific.exponent}
                     />
@@ -588,7 +588,7 @@ export default function AdvancedScientificNotationCalculator() {
                   {/* Decimal Places Visual */}
                   <div className="space-y-3">
                     <h4 className="font-semibold text-md">Place Value Visualization</h4>
-                    <DecimalPlacesVisual 
+                    <DecimalPlacesVisual
                       number={result.decimal}
                     />
                   </div>
@@ -666,10 +666,10 @@ export default function AdvancedScientificNotationCalculator() {
                 <div className="space-y-2 text-gray-700">
                   <p><strong>Multiplication:</strong> Multiply mantissas, add exponents</p>
                   <p className="ml-4 text-sm">(a × 10ⁿ) × (b × 10ᵐ) = (a × b) × 10⁽ⁿ⁺ᵐ⁾</p>
-                  
+
                   <p><strong>Division:</strong> Divide mantissas, subtract exponents</p>
                   <p className="ml-4 text-sm">(a × 10ⁿ) ÷ (b × 10ᵐ) = (a ÷ b) × 10⁽ⁿ⁻ᵐ⁾</p>
-                  
+
                   <p><strong>Addition/Subtraction:</strong> Convert to same exponent first</p>
                 </div>
               </div>

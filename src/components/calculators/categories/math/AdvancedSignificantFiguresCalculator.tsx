@@ -11,7 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info, CheckCircle2, Calculator, Lightbulb, Download, Copy } from 'lucide-react';
 import { CopyButton, CopyIconButton } from '@/components/ui/CopyButton';
 import { CalculationHistorySidebar, type CalculationEntry } from '@/components/ui/CalculationHistory';
-import { useCalculatorShortcuts, KeyboardShortcutsHelp } from '@/hooks/useKeyboardShortcuts';
+import { useCalculatorShortcuts, KeyboardShortcutsHelp } from '@/hooks/useCalculatorShortcuts';
 import { exportCalculationResult } from '@/lib/exportToPDF';
 import { NumberLine } from '@/components/ui/NumberLine';
 import { DecimalPlacesVisual } from '@/components/ui/ScientificNotationVisuals';
@@ -32,37 +32,37 @@ export default function AdvancedSignificantFiguresCalculator() {
     const analysis: string[] = [];
     const rules: string[] = [];
     let highlighted = '';
-    
+
     // Remove any whitespace
     numStr = numStr.trim();
-    
+
     // Handle scientific notation
     if (numStr.includes('e') || numStr.includes('E')) {
       const [mantissa] = numStr.split(/[eE]/);
       return countSigFigs(mantissa);
     }
-    
+
     // Convert to string and analyze
     let cleaned = numStr.replace(/[,\s]/g, '');
     const isNegative = cleaned.startsWith('-');
     if (isNegative) cleaned = cleaned.substring(1);
-    
+
     const hasDecimal = cleaned.includes('.');
     const parts = cleaned.split('.');
-    
+
     let sigFigCount = 0;
     let foundNonZero = false;
-    
+
     analysis.push('Analyzing digit by digit:');
-    
+
     for (let i = 0; i < cleaned.length; i++) {
       const char = cleaned[i];
-      
+
       if (char === '.') {
         highlighted += '<span class="text-gray-400">.</span>';
         continue;
       }
-      
+
       if (char === '0') {
         if (!foundNonZero) {
           // Leading zeros - not significant
@@ -90,9 +90,9 @@ export default function AdvancedSignificantFiguresCalculator() {
         sigFigCount++;
       }
     }
-    
+
     if (isNegative) highlighted = '-' + highlighted;
-    
+
     return {
       count: sigFigCount,
       analysis,
@@ -104,33 +104,33 @@ export default function AdvancedSignificantFiguresCalculator() {
   // Round to specific significant figures
   const roundToSigFigs = (num: number, sigFigs: number): { rounded: string; steps: string[] } => {
     const steps: string[] = [];
-    
+
     steps.push(`Step 1: Original number: ${num}`);
-    
+
     if (num === 0) {
       steps.push('Step 2: Number is zero, result is 0');
       return { rounded: '0', steps };
     }
-    
+
     const sign = num < 0 ? -1 : 1;
     const absNum = Math.abs(num);
-    
+
     steps.push(`Step 2: Determine the order of magnitude`);
     const magnitude = Math.floor(Math.log10(absNum));
     steps.push(`   Magnitude (exponent): 10^${magnitude}`);
-    
+
     steps.push(`Step 3: Scale to get ${sigFigs} significant figures`);
     const scaled = absNum / Math.pow(10, magnitude - sigFigs + 1);
     steps.push(`   Scaled value: ${scaled}`);
-    
+
     steps.push(`Step 4: Round to nearest integer`);
     const rounded = Math.round(scaled);
     steps.push(`   Rounded: ${rounded}`);
-    
+
     steps.push(`Step 5: Scale back`);
     const result = sign * rounded * Math.pow(10, magnitude - sigFigs + 1);
     steps.push(`   Result: ${result}`);
-    
+
     // Format properly
     let formatted: string;
     if (Math.abs(magnitude) > 6) {
@@ -140,7 +140,7 @@ export default function AdvancedSignificantFiguresCalculator() {
       formatted = result.toPrecision(sigFigs);
       steps.push(`Step 6: Express with ${sigFigs} significant figures: ${formatted}`);
     }
-    
+
     return { rounded: formatted, steps };
   };
 
@@ -148,30 +148,30 @@ export default function AdvancedSignificantFiguresCalculator() {
   const calculateWithSigFigs = (n1: string, n2: string, op: string): any => {
     const num1 = parseFloat(n1);
     const num2 = parseFloat(n2);
-    
+
     if (isNaN(num1) || isNaN(num2)) {
       return { error: 'Please enter valid numbers' };
     }
-    
+
     const sigFigs1 = countSigFigs(n1);
     const sigFigs2 = countSigFigs(n2);
-    
+
     const steps: string[] = [];
     steps.push('Step 1: Count significant figures in each number');
     steps.push(`   Number 1: ${n1} has ${sigFigs1.count} sig figs`);
     steps.push(`   Number 2: ${n2} has ${sigFigs2.count} sig figs`);
     steps.push('');
-    
+
     let rawResult: number;
     let resultSigFigs: number;
-    
+
     if (op === 'multiply' || op === 'divide') {
       steps.push('Step 2: For multiplication/division:');
       steps.push('   → Result has sig figs = MINIMUM of input sig figs');
       resultSigFigs = Math.min(sigFigs1.count, sigFigs2.count);
       steps.push(`   → Result should have ${resultSigFigs} sig figs`);
       steps.push('');
-      
+
       if (op === 'multiply') {
         steps.push(`Step 3: Multiply: ${num1} × ${num2}`);
         rawResult = num1 * num2;
@@ -185,16 +185,16 @@ export default function AdvancedSignificantFiguresCalculator() {
     } else {
       steps.push('Step 2: For addition/subtraction:');
       steps.push('   → Result has decimal places = MINIMUM decimal places');
-      
+
       const decimals1 = n1.includes('.') ? n1.split('.')[1].length : 0;
       const decimals2 = n2.includes('.') ? n2.split('.')[1].length : 0;
       const minDecimals = Math.min(decimals1, decimals2);
-      
+
       steps.push(`   → Number 1 has ${decimals1} decimal places`);
       steps.push(`   → Number 2 has ${decimals2} decimal places`);
       steps.push(`   → Result should have ${minDecimals} decimal places`);
       steps.push('');
-      
+
       if (op === 'add') {
         steps.push(`Step 3: Add: ${num1} + ${num2}`);
         rawResult = num1 + num2;
@@ -202,17 +202,17 @@ export default function AdvancedSignificantFiguresCalculator() {
         steps.push(`Step 3: Subtract: ${num1} - ${num2}`);
         rawResult = num1 - num2;
       }
-      
+
       resultSigFigs = minDecimals;
     }
-    
+
     steps.push(`   = ${rawResult}`);
     steps.push('');
-    
+
     const rounded = roundToSigFigs(rawResult, resultSigFigs);
     steps.push('Step 4: Round to appropriate significant figures');
     steps.push(...rounded.steps.slice(1).map(s => '   ' + s));
-    
+
     return {
       rawResult,
       finalResult: rounded.rounded,
@@ -229,7 +229,7 @@ export default function AdvancedSignificantFiguresCalculator() {
         setResult({ error: 'Please enter a number' });
         return;
       }
-      
+
       const sigFigData = countSigFigs(inputNumber);
       setResult({
         type: 'count',
@@ -245,11 +245,11 @@ export default function AdvancedSignificantFiguresCalculator() {
         setResult({ error: 'Please enter a valid number' });
         return;
       }
-      
+
       const target = parseInt(targetSigFigs);
       const rounded = roundToSigFigs(num, target);
       const originalSigFigs = countSigFigs(inputNumber);
-      
+
       setResult({
         type: 'round',
         original: inputNumber,
@@ -469,7 +469,7 @@ export default function AdvancedSignificantFiguresCalculator() {
                 <CardContent className="space-y-4">
                   <div className="text-center">
                     <p className="text-sm text-gray-600 mb-2">Visual Highlighting:</p>
-                    <div 
+                    <div
                       className="text-3xl font-mono p-4 bg-white rounded-lg border-2 border-green-300"
                       dangerouslySetInnerHTML={{ __html: result.highlighted }}
                     />
@@ -646,13 +646,13 @@ export default function AdvancedSignificantFiguresCalculator() {
                 <div className="space-y-2 ml-4">
                   <p className="text-gray-700"><strong>1. All non-zero digits</strong></p>
                   <p className="text-sm text-gray-600 ml-4">Example: 123.45 has 5 sig figs</p>
-                  
+
                   <p className="text-gray-700"><strong>2. Zeros between non-zero digits (captive zeros)</strong></p>
                   <p className="text-sm text-gray-600 ml-4">Example: 1002 has 4 sig figs</p>
-                  
+
                   <p className="text-gray-700"><strong>3. Trailing zeros after decimal point</strong></p>
                   <p className="text-sm text-gray-600 ml-4">Example: 1.200 has 4 sig figs</p>
-                  
+
                   <p className="text-gray-700"><strong>4. Leading zeros after decimal (if after non-zero)</strong></p>
                   <p className="text-sm text-gray-600 ml-4">Example: 0.00450 has 3 sig figs (4, 5, 0)</p>
                 </div>
@@ -663,7 +663,7 @@ export default function AdvancedSignificantFiguresCalculator() {
                 <div className="space-y-2 ml-4">
                   <p className="text-gray-700"><strong>1. Leading zeros before non-zero digits</strong></p>
                   <p className="text-sm text-gray-600 ml-4">Example: 0.0045 has 2 sig figs (leading zeros don't count)</p>
-                  
+
                   <p className="text-gray-700"><strong>2. Trailing zeros without decimal point</strong></p>
                   <p className="text-sm text-gray-600 ml-4">Example: 1500 has 2 sig figs (unless written as 1500.)</p>
                 </div>
@@ -677,7 +677,7 @@ export default function AdvancedSignificantFiguresCalculator() {
                     <p className="text-sm text-gray-600 ml-4">Result has the FEWEST sig figs from inputs</p>
                     <p className="text-sm text-green-700 ml-4">Example: 12.5 (3 sf) × 3.42 (3 sf) = 42.8 (3 sf)</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-gray-700 font-medium">Addition & Subtraction:</p>
                     <p className="text-sm text-gray-600 ml-4">Result has the FEWEST DECIMAL PLACES from inputs</p>

@@ -11,7 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info, CheckCircle2, Calculator, Download, History as HistoryIcon } from 'lucide-react';
 import { CopyButton, CopyIconButton } from '@/components/ui/CopyButton';
 import { CalculationHistory, CalculationHistorySidebar, type CalculationEntry } from '@/components/ui/CalculationHistory';
-import { useCalculatorShortcuts, KeyboardShortcutsHelp } from '@/hooks/useKeyboardShortcuts';
+import { useCalculatorShortcuts, KeyboardShortcutsHelp } from '@/hooks/useCalculatorShortcuts';
 import { exportCalculationResult } from '@/lib/exportToPDF';
 import { FractionBar, FractionCircle } from '@/components/ui/FractionVisuals';
 import { NumberLine, ComparisonNumberLine } from '@/components/ui/NumberLine';
@@ -420,8 +420,8 @@ export default function AdvancedDecimalCalculator() {
                     {decimal1 && decimal2 && (
                       <div className="space-y-3">
                         <h4 className="font-semibold text-md">Number Comparison</h4>
-                        <ComparisonNumberLine 
-                          value1={parseFloat(decimal1)} 
+                        <ComparisonNumberLine
+                          value1={parseFloat(decimal1)}
                           value2={parseFloat(decimal2)}
                           label1="First Number"
                           label2="Second Number"

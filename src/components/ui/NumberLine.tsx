@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 interface NumberLineProps {
   value: number;
@@ -25,7 +25,7 @@ export function NumberLine({
 }: NumberLineProps) {
   const range = max - min;
   const position = ((value - min) / range) * (width - 40) + 20;
-  
+
   // Generate tick marks
   const ticks = showTicks ? Array.from({ length: 11 }, (_, i) => {
     const tickValue = min + (range * i / 10);
@@ -45,7 +45,7 @@ export function NumberLine({
           stroke="#d1d5db"
           strokeWidth="3"
         />
-        
+
         {/* Tick marks */}
         {ticks.map((tick, index) => (
           <g key={index}>
@@ -67,7 +67,7 @@ export function NumberLine({
             </text>
           </g>
         ))}
-        
+
         {/* Value marker */}
         <g className="transition-transform duration-300" style={{ transform: `translateX(${position - 20}px)` }}>
           <circle
@@ -144,7 +144,7 @@ export function ComparisonNumberLine({
           stroke="#d1d5db"
           strokeWidth="3"
         />
-        
+
         {/* Start and end markers */}
         <text x={20} y={height / 2 + 20} textAnchor="middle" className="text-xs fill-gray-500">
           {min}
@@ -152,7 +152,7 @@ export function ComparisonNumberLine({
         <text x={width - 20} y={height / 2 + 20} textAnchor="middle" className="text-xs fill-gray-500">
           {max}
         </text>
-        
+
         {/* Value 1 marker */}
         <g className="transition-transform duration-300" style={{ transform: `translateX(${position1 - 20}px)` }}>
           <circle cx={20} cy={height / 2 - 10} r="6" fill={color1} className="drop-shadow-lg" />
@@ -161,7 +161,7 @@ export function ComparisonNumberLine({
             {value1.toFixed(2)}
           </text>
         </g>
-        
+
         {/* Value 2 marker */}
         <g className="transition-transform duration-300" style={{ transform: `translateX(${position2 - 20}px)` }}>
           <circle cx={20} cy={height / 2 + 10} r="6" fill={color2} className="drop-shadow-lg" />
@@ -171,7 +171,7 @@ export function ComparisonNumberLine({
           </text>
         </g>
       </svg>
-      
+
       <div className="flex gap-4 mt-3">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color1 }} />
@@ -225,7 +225,7 @@ export function RangeNumberLine({
           stroke="#d1d5db"
           strokeWidth="3"
         />
-        
+
         {/* Range highlight */}
         <line
           x1={rangeStart}
@@ -236,7 +236,7 @@ export function RangeNumberLine({
           strokeWidth="6"
           className="transition-all duration-300"
         />
-        
+
         {/* Start marker */}
         <circle cx={position1} cy={height / 2} r="6" fill={color} className="drop-shadow-lg" />
         <text
@@ -248,7 +248,7 @@ export function RangeNumberLine({
         >
           {startValue.toFixed(1)}
         </text>
-        
+
         {/* End marker */}
         <circle cx={position2} cy={height / 2} r="6" fill={color} className="drop-shadow-lg" />
         <text
@@ -260,7 +260,7 @@ export function RangeNumberLine({
         >
           {endValue.toFixed(1)}
         </text>
-        
+
         {/* Range label */}
         <text
           x={(position1 + position2) / 2}
